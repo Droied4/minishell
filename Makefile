@@ -6,7 +6,7 @@
 #    By: carmeno <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/02/13 10:25:22 by deordone         ###   ########.fr        #
+#    Updated: 2024/02/14 18:35:59 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
 
 HEADER = $(INCLUDE_PATH)/minishell.h
-SOURCES = minishell.c
+SOURCES = minishell.c aprender.c
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #
@@ -58,7 +58,7 @@ NC=\033[0m # No color
 #                               RULES                                          #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
-all: header make_libs $(NAME)
+all: header $(NAME)
 
 make_libs:
 	@make -C $(LIBFT_PATH) > /dev/null

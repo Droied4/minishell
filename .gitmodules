@@ -1,6 +1,0 @@
-[submodule "library/Libft"]
-	path = library/Libft
-	url = git@github.com:Droied4/Libft.git
-[submodule "library/ft_dprintf"]
-	path = library/ft_dprintf
-	url = git@github.com:Droied4/ft_dprintf.git
