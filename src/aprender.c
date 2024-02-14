@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 10:56:19 by carmeno           #+#    #+#             */
-/*   Updated: 2024/02/11 16:27:44 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/02/14 18:42:29 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
@@ -19,7 +19,7 @@
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
+/*
 PARSER
 	INPUT
 		[hola_como < cat hola ls -la > adios]
@@ -32,7 +32,7 @@ PARSER
 		[cat][input: fd(hola_como)][output: PIPE]
 		[ls -la][input: PIPE][output: fd(file)]
 EXECUTOR
-	INTERPRETA SI ES UN CMD o UNA PALABRA RESERVADA O UNA FLAG O LO QUE SEA Y ACTUA EN CONSECUENCIA
+	INTERPRETA SI ES UN CMD o UNA PALABRA RESERVADA O UNA FLAG O LO QUE SEA Y ACTUA EN CONSECUENCIA*/
 /*
 //ejemplo de como usar getenv 
 int main (int argc, char **argv)

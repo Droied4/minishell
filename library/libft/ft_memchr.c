@@ -1,18 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/14 18:42:07 by deordone         ###   ########.fr       */
+/*   Created: 2023/09/10 12:22:53 by deordone          #+#    #+#             */
+/*   Updated: 2023/11/09 13:28:31 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "../library/libft/libft.h"
-# include "../library/dprintf/ft_dprintf.h"
+#include <stdio.h>
 
-#endif
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	size_t			i;
+	unsigned char	*str;
+	unsigned char	character;
+
+	i = 0;
+	str = (unsigned char *)s;
+	character = (unsigned char)c;
+	while (i < n)
+	{
+		if (*str == character)
+			return (str);
+		i++;
+		str++;
+	}
+	return (NULL);
+}

@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/14 18:42:07 by deordone         ###   ########.fr       */
+/*   Created: 2023/09/15 16:17:59 by deordone          #+#    #+#             */
+/*   Updated: 2023/11/09 13:07:49 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "../library/libft/libft.h"
-# include "../library/dprintf/ft_dprintf.h"
+#include <stdio.h>
 
-#endif
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	size_t		i;
+
+	i = -1;
+	if (!dst && !src)
+		return (0);
+	while (n > ++i)
+		((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
+	return (dst);
+}

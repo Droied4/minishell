@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/14 18:42:07 by deordone         ###   ########.fr       */
+/*   Created: 2023/09/29 20:04:05 by deordone          #+#    #+#             */
+/*   Updated: 2023/09/29 20:31:47 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "../library/libft/libft.h"
-# include "../library/dprintf/ft_dprintf.h"
+#include "libft.h"
 
-#endif
+t_list	*ft_lstlast(t_list *lst)
+{
+	t_list	*temp;
+
+	temp = lst;
+	if (temp == NULL)
+		return (temp);
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
+	return (temp);
+}

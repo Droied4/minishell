@@ -6,7 +6,7 @@
 #    By: carmeno <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/02/14 18:35:59 by deordone         ###   ########.fr        #
+#    Updated: 2024/02/14 18:41:47 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ SOURCES_PATH    = ./src
 OBJECTS_PATH    = ./obj
 INCLUDE_PATH    = ./inc
 LIBRARY_PATH	= ./library
-LIBFT_PATH	= $(LIBRARY_PATH)/Libft
-DPRINTF_PATH	= $(LIBRARY_PATH)/ft_dprintf
+LIBFT_PATH	= $(LIBRARY_PATH)/libft
+DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
 
 LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
@@ -58,7 +58,7 @@ NC=\033[0m # No color
 #                               RULES                                          #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
-all: header $(NAME)
+all: make_libs $(NAME)
 
 make_libs:
 	@make -C $(LIBFT_PATH) > /dev/null

@@ -1,18 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/14 18:42:07 by deordone         ###   ########.fr       */
+/*   Created: 2023/09/07 17:37:39 by deordone          #+#    #+#             */
+/*   Updated: 2023/11/09 13:05:02 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "../library/libft/libft.h"
-# include "../library/dprintf/ft_dprintf.h"
+#include <stdio.h>
 
-#endif
+void	*ft_memset(void *str, int c, size_t len)
+{
+	int		i;
+	char	*s;
+
+	i = 0;
+	s = (char *)str;
+	while (i < (int) len)
+		s[i++] = c;
+	return ((char *)str);
+}
+/*
+int	main(void)
+{
+	char str3[] = "hola";
+
+	ft_memset(str3, 'a', 2);
+	return (0);
+}*/
