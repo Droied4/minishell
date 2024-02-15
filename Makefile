@@ -6,7 +6,7 @@
 #    By: carmeno <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/02/15 16:57:51 by deordone         ###   ########.fr        #
+#    Updated: 2024/02/15 17:08:58 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ make_libs:
 -include $(DEPS)
 $(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF) 
 	@printf "$(CYAN)$@ Compiled$(NC)\n";
-	@$(CC) $(CFLAGS) $^ -o $(NAME) -leditline
+	@$(CC) $(CFLAGS) $^ -o $(NAME)
 
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
 		@printf "$(CYAN)Compiling $@$(NC)\n";
