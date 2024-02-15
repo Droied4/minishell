@@ -1,25 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   lst_sh.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/15 18:23:21 by deordone         ###   ########.fr       */
+/*   Created: 2024/02/15 17:57:24 by deordone          #+#    #+#             */
+/*   Updated: 2024/02/15 18:32:43 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
-int	main(int ac, char **av)
+t_token	*create_node(char *content)
 {
-	char	*line;
+	t_token	*new;
 
-	(void)av;
-	if (ac != 1)
-		exit(1);
-	line = readline(RED "🏓 PongShell ► " NC);
-	generate_tokens(line);
-	free(line);
-	return (0);
+	new = (t_token *)malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
+	new->content = content;
+	new->next = NULL;
+	return (new);
+}
+
+void	generate_tokens(char *line)
+{
+	char **input;
+	input = ft_split(line, ' ');
+
+	int i = -1;
+	while (input[++i])
+	{
+		new = create_node(input[i]);
+		
+		create_lst(lst, new);
+		printf("%s\n", input[i]);
+	}
+	return ;
 }

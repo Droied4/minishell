@@ -6,7 +6,7 @@
 #    By: carmeno <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/02/15 17:10:25 by deordone         ###   ########.fr        #
+#    Updated: 2024/02/15 18:21:40 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,13 +27,20 @@ OBJECTS_PATH    = ./obj
 INCLUDE_PATH    = ./inc
 LIBRARY_PATH	= ./library
 LIBFT_PATH	= $(LIBRARY_PATH)/Libft
-DPRINTF_PATH	= $(LIBRARY_PATH)/ft_dprintf
-
+DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
 LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
+ifeq ($(USER), deordone)
+	READLINE_PATH = /Users/deordone/.brew/opt/readline/
+else ifeq ($(USER), avolcy)
+	READLINE_PATH = /Users/avolcy/.brew/opt/readline/
+endif
 
 HEADER = $(INCLUDE_PATH)/minishell.h
-SOURCES = minishell.c
+HEADER += $(INCLUDE_PATH)/struct.h
+HEADER += $(INCLUDE_PATH)/macros.h
+
+SOURCES = minishell.c lst_sh.c
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #
@@ -62,14 +69,14 @@ all: header make_libs $(NAME)
 
 make_libs:
 	@make -C $(LIBFT_PATH) > /dev/null
-#	@printf "$(CYAN)Compiling $(LIBFT_PATH)$(NC)\n";
+	@printf "$(CYAN)Compiling $(LIBFT_PATH)$(NC)\n";
 	@make -C $(DPRINTF_PATH) > /dev/null
-#	@printf "$(CYAN)Compiling $(DPRINTF_PATH)$(NC)\n";
+	@printf "$(CYAN)Compiling $(DPRINTF_PATH)$(NC)\n";
 
 -include $(DEPS)
 $(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF) 
 	@printf "$(CYAN)$@ Compiled$(NC)\n";
-	@$(CC) $(CFLAGS) $^ -o $(NAME)
+	@$(CC) $(CFLAGS) $^ -o $(NAME) -lreadline -L $(READLINE_PATH)lib -I $(READLINE_PATH)include
 
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
 		@printf "$(CYAN)Compiling $@$(NC)\n";
@@ -113,7 +120,7 @@ header:
 	@printf "	     	              ▒▒▒▒▒▒▒▒▒                  ▒▒▒▒▒▒▒▒\n";
 	@printf "	     	            ▒▒▒▒▒▒▒▒                  ▒▒▒▒▒▒▒▒\n";
 	@printf "	     	          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒     ▒▒▒▒▒▒▒▒     ▒▒\n";
-	@printf "	     	          ▒▒▒▒▒▒ Droied$(YELLOW) ▒▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒    ▒▒▒▒\n";
+	@printf "	     	          ▒▒▒▒▒▒ Dro y arch$(YELLOW) ▒▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒    ▒▒▒▒\n";
 	@printf "	     	          ▒▒▒▒▒▒▒ Pacman ▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒\n";
 	@printf "	     	          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒   ▒▒ Barcelona ▒▒▒\n";
 	@printf "	     	          ░░░░░ $(BLUE)  ░░░░░ $(YELLOW) ▒▒▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒\n";
