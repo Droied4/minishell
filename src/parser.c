@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: deordone <deordone@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/17 13:49:13 by deordone         ###   ########.fr       */
+/*   Created: 2024/02/17 17:15:32 by deordone          #+#    #+#             */
+/*   Updated: 2024/02/17 17:18:31 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main (int ac, char **av)
-{
-	if (ac == 1)
-		ft_dprintf(2, "hola\n%s\n", av[0]);
-	BUG;
-	return (0);
-}
+//vale tienes que hacer muchas cosas 
+//pero sobre todo hacer algo organizado entonces empecemos
+
+< debe redirigir el input
+> debe redirigir el output
+
+token_parser()
