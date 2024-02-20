@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/16 20:34:33 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/02/19 17:47:13 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,26 @@
 
 typedef struct s_token
 {
-	int	index;
-	char *data;
-	char *type;
+	int		index;
+	char	*data;
+	int		type;
 	struct s_token *next;
+	struct s_token *prev;
 }		t_token;
+
+typedef enum e_type
+{
+	PIPE,
+	GREAT,
+	LESS,
+	DGREAT,
+	DLESS,
+	CMD,
+	FLAG,
+	ARCH,
+	SQUOTE,
+	DQUOTE,
+	EXP
+}		t_type;
 
 #endif

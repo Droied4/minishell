@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_sh.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:57:24 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/16 16:56:30 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/02/20 16:58:05 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,16 @@ t_token	*create_node(char *content)
 		return (NULL);
 	new->data = content;
 	new->next = NULL;
+	new->prev = NULL;
 	return (new);
 }
 
 //to add the new node to the end of the list
 t_token	*add_to_end(t_token *lst)
 {
-	printf("hey end\n");
-	if (!lst)
-		return (0);
+	// if (!lst)
+	// 	return (NULL);
+	//BUG;
 	while (lst->next)
 		lst = lst->next;
 	return (lst);
@@ -40,14 +41,12 @@ t_token	*add_to_end(t_token *lst)
 void	create_lst(t_token **lst, t_token *new)
 {
 	t_token	*last;
-//SEGFAULT HERE ⁉️
-//	printf("hey no lst\n");
-	if (!(*lst))
+	if (!(*lst))	
 	{
 		*lst = new;
+		BUG;
 		return ;
 	}
-	printf("hey no lst\n");
 	last = add_to_end(*lst);
 	last->next = new;
 }
@@ -67,7 +66,7 @@ void	generate_tokens(char *line)
 {
 	int		i;
 	t_token	*new;
-	t_token	**lst;
+	t_token	*lst;
 	char	**input;
 	
 	i = -1;
@@ -76,7 +75,7 @@ void	generate_tokens(char *line)
 	while (input[++i])
 	{
 		new = create_node(input[i]);
-		create_lst(lst, new);
+		create_lst(&lst, new);
 	}
 	printlst(new);
 	return ;
