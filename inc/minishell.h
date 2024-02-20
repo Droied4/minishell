@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/16 20:29:41 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/02/20 20:01:20 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@
  * LST
  */
 
-void	generate_tokens(char *line);
-void	create_lst(t_token **lst, t_token *new);
+void	printlst(t_token *lst);
 
+t_token	*generate_tokens(char *line);
+void	create_lst(t_token **lst, t_token *new);
 t_token	*add_to_end(t_token *lst);
 t_token	*create_node(char *content);
+
 #endif

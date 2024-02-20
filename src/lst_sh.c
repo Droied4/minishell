@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:57:24 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/20 16:58:05 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/02/20 20:03:33 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ t_token	*create_node(char *content)
 //to add the new node to the end of the list
 t_token	*add_to_end(t_token *lst)
 {
-	// if (!lst)
-	// 	return (NULL);
-	//BUG;
+	if (!lst)
+	 	return (NULL);
 	while (lst->next)
 		lst = lst->next;
 	return (lst);
@@ -44,25 +43,39 @@ void	create_lst(t_token **lst, t_token *new)
 	if (!(*lst))	
 	{
 		*lst = new;
-		BUG;
 		return ;
 	}
 	last = add_to_end(*lst);
 	last->next = new;
+	new->prev = last;
 }
 
-//to print the list of tokens
-static void	printlst(t_token *lst)
+void	token_type(t_token *lst)
 {
-	while (lst)
-	{
-		printf("%s\n", lst->data);
-		lst = lst->next;
-	}
+	 if (ft_strncmp(lst->data, "<<", 2) == 0)
+		lst->type = DLESS;
+	else if (ft_strncmp(lst->data, ">>", 2) == 0)
+		lst->type = DGREAT;
+	else if (ft_strncmp(lst->data, "<", 1) == 0)
+		lst->type = LESS;
+	else if (ft_strncmp(lst->data, ">", 1) == 0)
+		lst->type = GREAT;
+	else if (ft_strncmp(lst->data, "|", 1) == 0)
+		lst->type = PIPE;
+	else if (ft_strncmp(lst->data, "\'", 1) == 0)
+		lst->type = SQUOTE;
+	else if (ft_strncmp(lst->data, "\"", 1) == 0)
+		lst->type = DQUOTE;
+	else if (ft_strncmp(lst->data, "-", 1) == 0)
+		lst->type = FLAG;
+	else if (ft_strncmp(lst->data, "$", 1) == 0)
+		lst->type = EXP;
+	else 
+		lst->type = CMD;
 }
 
 //trying to create the tokens 
-void	generate_tokens(char *line)
+t_token	*generate_tokens(char *line)
 {
 	int		i;
 	t_token	*new;
@@ -75,8 +88,12 @@ void	generate_tokens(char *line)
 	while (input[++i])
 	{
 		new = create_node(input[i]);
+		if (!new)
+			BUG;//limpiar la lista
+		new->index = i;
 		create_lst(&lst, new);
+		token_type(new);
 	}
-	printlst(new);
-	return ;
+	printlst(lst);
+	return (lst);
 }
