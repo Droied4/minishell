@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 10:56:19 by carmeno           #+#    #+#             */
-/*   Updated: 2024/02/14 18:42:29 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:06:30 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
@@ -99,4 +99,45 @@ int main (int argc, char **argv)
 	return (0);
 }
 */
+#include <stdio.h>
+
+// Definimos una función que suma dos números enteros
+int sumar(int a, int b) {
+    return a + b;
+}
+
+// Definimos otra función que resta dos números enteros
+int restar(int a, int b) {
+    return a - b;
+}
+
+// Función que retorna un puntero a función
+int (*seleccionar_operacion(char op))(int, int) {
+    if (op == '+') {
+        return sumar;  // Retornamos un puntero a la función 'sumar'
+    } else if (op == '-') {
+        return restar;  // Retornamos un puntero a la función 'restar'
+    } else {
+        printf("Operador no válido.\n");
+        return NULL;
+    }
+}
+
+int main() {
+    char operador = '-';
+    int resultado;
+    int (*operacion)(int, int); // Declaración del puntero a función
+
+    // Asignamos el resultado de la función 'seleccionar_operacion' al puntero 'operacion'
+    operacion = seleccionar_operacion(operador);
+
+    // Verificamos si se seleccionó una operación válida
+    if (operacion != NULL) {
+        // Llamamos a la función seleccionada a través del puntero 'operacion'
+        resultado = operacion(10, 5);
+        printf("Resultado: %d\n", resultado);
+    }
+
+    return 0;
+}
 
