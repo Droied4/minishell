@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/20 20:01:20 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/21 11:17:20 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,26 @@
 # include <readline/history.h>
 
 /*
- * LST
+ * LEXER
+ */
+
+t_token	*create_node(char *content);
+t_token	*add_to_end(t_token *lst);
+void	create_lst(t_token **lst, t_token *new);
+void	token_type(t_token *lst);
+t_token	*generate_tokens(char *line);
+
+/*
+ * PARSER
+ */
+
+
+
+/*
+ * AUX
  */
 
 void	printlst(t_token *lst);
-
-t_token	*generate_tokens(char *line);
-void	create_lst(t_token **lst, t_token *new);
-t_token	*add_to_end(t_token *lst);
-t_token	*create_node(char *content);
+int		ft_del(t_token **lst);
 
 #endif

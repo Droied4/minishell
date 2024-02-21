@@ -6,28 +6,31 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 10:03:07 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/21 11:42:57 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **env)
 {
 	char	*line;
-	t_token *tokens;
+	t_shell sh;
 
 	(void)av;
+	(void)env;
 	if (ac != 1)
 		exit(1);
 	while (1)
 	{
 		line = readline(RED"🏓 PongShell ► "NC);
-		//free tokens
 		add_history(line);
-		tokens = generate_tokens(line);
+		sh.tokens = generate_tokens(line);
+		ft_del(&sh.tokens);
 		free(line);
+		if (ft_strncmp(line, "EXIT", 4) == 0)
+			exit(0);
 	}
 	return (0);
 }

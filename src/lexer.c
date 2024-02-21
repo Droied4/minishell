@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 10:03:13 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/21 11:42:47 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,12 @@ t_token	*generate_tokens(char *line)
 	{
 		new = create_node(input[i]);
 		if (!new)
-			BUG; // limpiar la lista
+			ft_del(&lst);
 		new->index = i;
 		create_lst(&lst, new);
 		token_type(new);
 	}
+	free(input);
 	printlst(lst);
 	return (lst);
 }

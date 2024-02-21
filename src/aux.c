@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/20 20:01:23 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/21 11:42:51 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,21 @@ void	printlst(t_token *lst)
 		printf("next----%p\n", tmp->next);
 		tmp = tmp->next;
 	}
+}
+
+int	ft_del(t_token **lst)
+{
+	t_token	*temp;
+
+	if (!lst)
+		return (-1);
+	while (*lst)
+	{
+		temp = (*lst)->next;
+		free((*lst)->data);
+		free(*lst);
+		*lst = temp;
+	}
+	*lst = NULL;
+	return (0);
 }
