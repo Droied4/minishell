@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 11:17:20 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/21 12:33:59 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ t_token	*generate_tokens(char *line);
  * PARSER
  */
 
-
+void	total_pipes(t_shell *sh, t_token **tokens);
+void	parse_all(t_shell *sh);
 
 /*
  * AUX

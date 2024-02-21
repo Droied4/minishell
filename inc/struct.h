@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 11:42:56 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/21 11:57:20 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ typedef struct s_cmds
 	int	in;
 	int	out;
 	int err;
-	int pipes;
 	struct s_cmds *next;
 }	t_cmds;
 /*LA RAZON POR LA QUE CREE ESTO ES PARA TENER UNA ESTRUCTURA 
  * GENERAL EN LA QUE LLEVEMOS TODO COMO LA LISTA DE LAS TOKENS Y LA LISTA DE
  * LOS COMANDOS Y EN UN FUTURO SABER LA CANTIDAD DE PIPES TOTAL O EL EXPANSOR
- * O COSAS ASI
+ * O EL ENV COSAS ASI
  * */
 
 typedef struct s_shell
 {
 	struct s_token	*tokens;
 	struct s_cmds	*cmds;
+	int pipes;
 }	t_shell;
 
 typedef enum e_type

@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/02/21 10:02:47 by deordone         ###   ########.fr        #
+#    Updated: 2024/02/21 12:24:39 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ HEADER = $(INCLUDE_PATH)/minishell.h
 HEADER += $(INCLUDE_PATH)/struct.h
 HEADER += $(INCLUDE_PATH)/macros.h
 
-SOURCES = minishell.c lexer.c aux.c
+SOURCES = minishell.c lexer.c aux.c parser.c
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #
@@ -121,24 +121,13 @@ header:
 	@printf	"|   avolcy /|\ deordone                    ⚬     | \n";
 	@printf	" \______________________________________________/   \n";
 	@printf	"          !____________________________! \n";
-
 	@echo
- 
-help: 
-	@printf "\n";  
-	@printf "	▂▃▅▆█▆▅▃▂ Commands ▂▃▅▆█▆▅▃▂\n";
-	@printf "$(BLUE)		  ► help \n";
-	@printf "		  ► clean \n";
-	@printf "		  ► fclean \n";
-	@printf "		  ► re \n";
-	@printf "		  ► author $(NC)  \n";
-	@printf "\n"; 
 
 author: 
-	@printf "\n";
-	@printf "$(CYAN)	 	         	Created by 𝗗𝗿𝗼𝗶e𝗱 -大卫\n";
+	@echo;
+	@printf "$(WHITE)	 	         	https://github.com/ZenitsuTHB\n";
 	@printf "$(RED)		  ══════════════════════════「₪」══════════════════════════\n";
-	@printf "$(CYAN)		        	https://github.com/Droied4 \n";
-	@printf "\n";
+	@printf "$(WHITE)		        	https://github.com/Droied4 \n";
+	@echo;
 
 .PHONY: all clean fclean re
