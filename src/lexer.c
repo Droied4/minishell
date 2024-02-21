@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_sh.c                                           :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 17:57:24 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/20 20:03:33 by deordone         ###   ########.fr       */
+/*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
+/*   Updated: 2024/02/21 10:03:13 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//to create each new node
+// to create each new node
 t_token	*create_node(char *content)
 {
 	t_token	*new;
@@ -26,21 +26,22 @@ t_token	*create_node(char *content)
 	return (new);
 }
 
-//to add the new node to the end of the list
+// to add the new node to the end of the list
 t_token	*add_to_end(t_token *lst)
 {
 	if (!lst)
-	 	return (NULL);
+		return (NULL);
 	while (lst->next)
 		lst = lst->next;
 	return (lst);
 }
 
-//trying to create the list of tokens 
+// trying to create the list of tokens
 void	create_lst(t_token **lst, t_token *new)
 {
 	t_token	*last;
-	if (!(*lst))	
+
+	if (!(*lst))
 	{
 		*lst = new;
 		return ;
@@ -52,7 +53,7 @@ void	create_lst(t_token **lst, t_token *new)
 
 void	token_type(t_token *lst)
 {
-	 if (ft_strncmp(lst->data, "<<", 2) == 0)
+	if (ft_strncmp(lst->data, "<<", 2) == 0)
 		lst->type = DLESS;
 	else if (ft_strncmp(lst->data, ">>", 2) == 0)
 		lst->type = DGREAT;
@@ -70,18 +71,18 @@ void	token_type(t_token *lst)
 		lst->type = FLAG;
 	else if (ft_strncmp(lst->data, "$", 1) == 0)
 		lst->type = EXP;
-	else 
+	else
 		lst->type = CMD;
 }
 
-//trying to create the tokens 
+// trying to create the tokens
 t_token	*generate_tokens(char *line)
 {
 	int		i;
 	t_token	*new;
 	t_token	*lst;
 	char	**input;
-	
+
 	i = -1;
 	lst = NULL;
 	input = ft_split(line, ' ');
@@ -89,7 +90,7 @@ t_token	*generate_tokens(char *line)
 	{
 		new = create_node(input[i]);
 		if (!new)
-			BUG;//limpiar la lista
+			BUG; // limpiar la lista
 		new->index = i;
 		create_lst(&lst, new);
 		token_type(new);
