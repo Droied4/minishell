@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 12:43:12 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:42:50 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ typedef struct s_token
 
 typedef struct s_cmds
 {
+	int index_pipe;
 	char **cmd;
 	char *path;
+	char *in_file;
 	int	in;
+	char *out_file;
 	int	out;
-	int err;
 	struct s_cmds *next;
 }	t_cmds;
 /*LA RAZON POR LA QUE CREE ESTO ES PARA TENER UNA ESTRUCTURA 
