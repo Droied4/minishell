@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 22:54:49 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/02/22 19:52:03 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	main(int ac, char **av, char **env)
 	char	*line;
 	t_shell sh;
 
-	(void)av;
 	(void)env;
 	if (ac != 1)
 		exit(1);
@@ -26,7 +25,7 @@ int	main(int ac, char **av, char **env)
 		line = readline(RED"🏓 PongShell ► "NC);
 		add_history(line);
 		sh.tokens = generate_tokens(line);
-		//display_env(env);
+		display_env(sh.tokens, av, env);
 		//parse_all(&sh);
 		ft_del(&sh.tokens);
 		free(line);

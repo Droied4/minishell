@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 22:49:45 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/02/22 19:40:22 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ typedef struct s_shell
 
 typedef struct s_env
 {
-	char	*var_name;
-	char	*content;
-	struct s_env *next;
-	//❓struct s_token	*tokens;
-}	t_env;
+    char    *line;//for test purpose
+    char    *var_name;
+    char    *var_content;
+    struct s_env *next;
+}   t_env;
 
 typedef enum e_type
 {

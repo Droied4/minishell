@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/22 16:34:12 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/02/22 20:26:49 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,22 @@ void	printlst(t_token *lst)
 	}
 }
 
+void    print_lst_env(t_env *lst)
+{
+    t_env *tmp;
+    
+    tmp = lst;
+    int i = 0;
+    while (tmp) {
+        printf("\t\nline --[%i]--- is [%s]\n",i , tmp->line);
+        printf("\tNAME ------------ is[%s]\n", tmp->var_name);
+        printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
+        //printf("next----%p\n", (void *)tmp->next);
+        i++;
+        tmp = tmp->next;
+    }
+}
+
 int	ft_del(t_token **lst)
 {
 	t_token	*temp;
@@ -47,32 +63,21 @@ int	ft_del(t_token **lst)
 	return (0);
 }
 
-// int	ft_del_env(t_env **lst)
-// {
-// 	t_env	*temp;
+int	ft_del_env(t_env **lst)
+{
+	t_env	*temp;
 
-// 	if (!lst)
-// 		return (-1);
-// 	while (*lst)
-// 	{
-// 		temp = (*lst)->next;
-// 		free((*lst)->line);
-// 		free((*lst)->var_name);
-// 		free((*lst)->var_content);
-// 		free(*lst);
-// 		*lst = temp;
-// 	}
-// 	*lst = NULL;
-// 	return (0);
-// }
-
-// void init_env(char **envp)
-// {
-// 	int i = 0;
-// 	t_node *new_node;
-
-// 	while (envp[i])
-// 	{
-// 		create_node
-// 	}
-// }
+	if (!lst)
+		return (-1);
+	while (*lst)
+	{
+		temp = (*lst)->next;
+		free((*lst)->line);
+		free((*lst)->var_name);
+		free((*lst)->var_content);
+		free(*lst);
+		*lst = temp;
+	}
+	*lst = NULL;
+	return (0);
+}

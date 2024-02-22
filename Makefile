@@ -6,12 +6,12 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/02/22 12:24:09 by avolcy           ###   ########.fr        #
+#    Updated: 2024/02/22 20:31:28 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
-#                               SO_LONG                                        #
+#                               MINISHELL                                      #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
 NAME        = minishell
 OS = $(shell uname)
@@ -40,7 +40,7 @@ HEADER = $(INCLUDE_PATH)/minishell.h
 HEADER += $(INCLUDE_PATH)/struct.h
 HEADER += $(INCLUDE_PATH)/macros.h
 
-SOURCES = minishell.c lexer.c aux.c parser.c
+SOURCES = minishell.c lexer.c aux.c parser.c environ.c builtins.c
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #
@@ -61,7 +61,7 @@ BLUE=\033[0;34m
 NC=\033[0m # No color
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
-#                               RULES                                          #
+#                                RULES                                         #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
 all: header $(NAME) author
@@ -125,9 +125,9 @@ header:
 
 author: 
 	@echo;
-	@printf "$(WHITE)	 	        https://github.com/ZenitsuTHB\n";
+	@printf "$(WHITE)			   https://github.com/Droied4 \n";
 	@printf "$(RED)	    ══════════════════════════「₪」══════════════════════════\n";
-	@printf "$(WHITE)		        https://github.com/Droied4 \n";
+	@printf "$(WHITE)			  https://github.com/ZenitsuTHB\n";
 	@echo;
 
 .PHONY: all clean fclean re
