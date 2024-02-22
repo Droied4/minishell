@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/02/21 12:24:39 by deordone         ###   ########.fr        #
+#    Updated: 2024/02/21 19:01:10 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ NC=\033[0m # No color
 #                               RULES                                          #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
-all: header make_libs $(NAME)
+all: header $(NAME) author
 
 make_libs:
 	@make -C $(LIBFT_PATH) > /dev/null
@@ -108,26 +108,26 @@ re: fclean all
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
 header: 
 	@echo
-	@printf	"  _____________________________________________\n";
-	@printf	" /                                              \\ \n";
-	@printf	"|   _________________________________________    | \n";
-	@printf	"|  /                                         \   | \n";
-	@printf	"| |$(GREEN)           _       _     _          _ _ $(NC) |   | \n";
-	@printf	"| |$(GREEN)     /\/\ (_)_ __ (_)___| |__   ___| | |$(NC) |   | \n";
-	@printf	"| |$(GREEN)    /    \| | '_ \| / __| '_ \ / _ \ | |$(NC) |   | \n";
-	@printf	"| |$(GREEN)   / /\/\ \ | | | | \__ \ | | |  __/ | |$(NC) |   | \n";
-	@printf "| |$(GREEN)   \/    \/_|_| |_|_|___/_| |_|\___|_|_|$(NC) |   | \n";
-	@printf	"|  \_________________________________________/   | \n";
-	@printf	"|   avolcy /|\ deordone                    ⚬     | \n";
-	@printf	" \______________________________________________/   \n";
-	@printf	"          !____________________________! \n";
+	@printf	"  \t\t  _____________________________________________\n";
+	@printf	"  \t\t/                                               \\ \n";
+	@printf	" \t\t|   _________________________________________    | \n";
+	@printf	" \t\t|  /                                         \   | \n";
+	@printf	" \t\t| |$(GREEN)           _       _     _          _ _ $(NC) |   | \n";
+	@printf	" \t\t| |$(GREEN)     /\/\ (_)_ __ (_)___| |__   ___| | |$(NC) |   | \n";
+	@printf	" \t\t| |$(GREEN)    /    \| | '_ \| / __| '_ \ / _ \ | |$(NC) |   | \n";
+	@printf	" \t\t| |$(GREEN)   / /\/\ \ | | | | \__ \ | | |  __/ | |$(NC) |   | \n";
+	@printf " \t\t| |$(GREEN)   \/    \/_|_| |_|_|___/_| |_|\___|_|_|$(NC) |   | \n";
+	@printf	" \t\t|  \_________________________________________/   | \n";
+	@printf	" \t\t|     avolcy /|\ deordone                    ⚬   | \n";
+	@printf	"  \t\t\______________________________________________/   \n";
+	@printf	"  \t\t         !____________________________! \n";
 	@echo
 
 author: 
 	@echo;
-	@printf "$(WHITE)	 	         	https://github.com/ZenitsuTHB\n";
-	@printf "$(RED)		  ══════════════════════════「₪」══════════════════════════\n";
-	@printf "$(WHITE)		        	https://github.com/Droied4 \n";
+	@printf "$(WHITE)	 	        https://github.com/ZenitsuTHB\n";
+	@printf "$(RED)	    ══════════════════════════「₪」══════════════════════════\n";
+	@printf "$(WHITE)		        https://github.com/Droied4 \n";
 	@echo;
 
 .PHONY: all clean fclean re

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 12:43:20 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/21 22:54:07 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,3 +46,14 @@ int	ft_del(t_token **lst)
 	*lst = NULL;
 	return (0);
 }
+
+// void init_env(char **envp)
+// {
+// 	int i = 0;
+// 	t_node *new_node;
+
+// 	while (envp[i])
+// 	{
+// 		create_node
+// 	}
+// }

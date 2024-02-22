@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 16:42:49 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/21 22:53:51 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,10 @@ void	parse_all(t_shell *sh);
 
 void	printlst(t_token *lst);
 int		ft_del(t_token **lst);
+
+/*
+ *  ENV
+ */
+//void    display_env(env);
 
 #endif

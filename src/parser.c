@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 17:50:31 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:05:50 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ t_cmds	*parse_cmd(t_shell *sh)
 void parse_all(t_shell *sh)
 {
 	
-//	parse_input(tokens);//redifinir cosas y verificar cosas crear la copia del env
+//	parse_input(tokens); redifinir cosas y verificar cosas crear la copia del env
 	total_pipes(sh, &sh->tokens);//buscar la ruta de los comandos y prepararlos para el executor
-//	sh.cmds = parse_cmd(sh);
+//🦊❗️	sh.cmds = parse_cmd(sh);
 	//parse_expansor; supongo que toca parsearlo xd
 }

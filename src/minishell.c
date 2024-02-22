@@ -6,12 +6,11 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 16:42:48 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/21 22:54:49 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	main(int ac, char **av, char **env)
 {
@@ -27,10 +26,11 @@ int	main(int ac, char **av, char **env)
 		line = readline(RED"🏓 PongShell ► "NC);
 		add_history(line);
 		sh.tokens = generate_tokens(line);
-		parse_all(&sh);
+		//display_env(env);
+		//parse_all(&sh);
 		ft_del(&sh.tokens);
 		free(line);
-		if (ft_strncmp(line, "EXIT", 4) == 0)
+		if (ft_strncmp(line, "exit", 4) == 0)
 			exit(0);
 	}
 	return (0);
