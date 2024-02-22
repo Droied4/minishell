@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 22:53:51 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/02/22 15:22:52 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int		ft_del(t_token **lst);
 /*
  *  ENV
  */
+
+int	ft_del_env(t_env **lst);
 //void    display_env(env);
 
 #endif
