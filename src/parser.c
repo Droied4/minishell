@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 18:05:50 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/02/23 15:46:53 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,53 +35,74 @@ void	total_pipes(t_shell *sh , t_token **tokens)
 	}
 	sh->pipes = total_pipes;
 }
-/* el parse cmd esta muy desordenado cuando vuelva lo arreglo
+
+void	fill_cmd(t_shell *sh, t_cmds **cmd)
+{
+		t_token *tmp_tok;
+		char *new_cmd;
+		char **final_cmd = NULL;
+	
+		tmp_tok = sh->tokens;
+		char *cosita;
+		cosita = ft_strdup(tmp_tok->data);//si voy a utilizar el valor de las tokens necesito duplicarlo
+			if (tmp_tok->type == CMD)
+			{	
+				new_cmd = ft_strjoin(cosita, "=");//para despues hacer un split
+			    free(cosita);
+				tmp_tok = tmp_tok->next; 
+				if (tmp_tok && (tmp_tok->type == CMD || tmp_tok->type == FLAG || tmp_tok->type == ARCH)) //avanzo y miro si el siguiente es un cmd flag o arch
+				{
+					cosita = ft_strdup(tmp_tok->data);
+					new_cmd = ft_imp_strjoin(new_cmd, cosita); // si lo es lo concateno 
+				}
+				final_cmd = ft_split(new_cmd, '='); //al final hago un split
+				free(new_cmd);	
+				(*cmd)->cmd = final_cmd; // y guardo el comando en el cmd->cmd
+			}
+}
+
+/*
+// el parse cmd esta muy desordenado cuando vuelva lo arreglo
 t_cmds	*parse_cmd(t_shell *sh)
 {
 	t_cmds *cmd;
 	t_token *tmp;
-	t_token *tmp2;
 
 	tmp = sh->tokens;
-	tmp2 = sh->tokens;
-	while (tmp)	
-	{	
-		if (tmp->type == PIPE)
-			break ;
-		tmp = tmp->next;
-	}
-	while (tmp2 == tmp)
+	while (tmp->type != PIPE && cmd->in_file == NULL && cmd->out_file == NULL)
 	{
-		if (temp2->type == LESS)
+		if (tmp->type == LESS && cmd->in_file == IN_DFLT)
 		{
-			tmp2 = tmp2->next;
-			cmd->in_file = temp2->data;
+			tmp = tmp->next;
+			cmd->in_file = tmp->data;
 		}
-		else if (temp2->type == CMD)
+		else if (tmp->type == CMD)
 		{
-			if (temp2->next->type == FLAG || temp2->next->type == CMD)
+			if (tmp->next->type == FLAG || tmp->next->type == CMD)
 				//hacer un char ** con el cmd y el cmd o el cmd y el flag
 			else 
 //				hacer un char ** pero solo con el cmd
 		}
-		else if (temp2->type == GREAT)
+		else if (tmp->type == GREAT)
 		{
-			tmp2 = tmp2->next;
-			cmd->out_file = temp2->data;
+			tmp = tmp->next;
+			cmd->out_file = tmp->data;
 		}
-		else if (temp2->type == PIPE)
+		else if (tmp->type == PIPE)
 		{
 			//esto es lo mas complicado buscate la vida deivid del futuro
 		}
-		tmp2 = tmp2->next;
+		tmp = tmp->next;
 	}
-}
-*/
+}*/
+
 void parse_all(t_shell *sh)
 {
 	
 //	parse_input(tokens); redifinir cosas y verificar cosas crear la copia del env
 	total_pipes(sh, &sh->tokens);//buscar la ruta de los comandos y prepararlos para el executor
-//🦊❗️	sh.cmds = parse_cmd(sh);
+	fill_cmd(sh, &sh->cmds);
+	print_tablecmd(sh->cmds);
+//🦊❗️	sh->cmds = parse_cmd(sh);
 	//parse_expansor; supongo que toca parsearlo xd
 }

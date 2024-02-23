@@ -6,14 +6,14 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 22:56:26 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/02/23 13:20:15 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // to create each new node
-t_token	*create_node(char *content)
+static t_token	*create_node(char *content)
 {
 	t_token	*new;
 
@@ -27,7 +27,7 @@ t_token	*create_node(char *content)
 }
 
 // to add the new node to the end of the list
-t_token	*add_to_end(t_token *lst)
+static t_token	*add_to_end(t_token *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -37,7 +37,7 @@ t_token	*add_to_end(t_token *lst)
 }
 
 // trying to create the list of tokens
-void	create_lst(t_token **lst, t_token *new)
+static void	create_lst(t_token **lst, t_token *new)
 {
 	t_token	*last;
 
@@ -51,7 +51,7 @@ void	create_lst(t_token **lst, t_token *new)
 	new->prev = last;
 }
 
-void	token_type(t_token *lst)
+static void	token_type(t_token *lst)
 {
 	if (ft_strncmp(lst->data, "<<", 2) == 0)
 		lst->type = DLESS;
@@ -90,7 +90,7 @@ t_token	*generate_tokens(char *line)
 	{
 		new = create_node(input[i]);
 		if (!new)
-			ft_del(&lst);
+			ft_deltoken(&lst);
 		new->index = i;
 		token_type(new);
 		create_lst(&lst, new);

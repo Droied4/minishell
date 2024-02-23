@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 22:53:51 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/02/23 14:39:41 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,6 @@
  * LEXER
  */
 
-t_token	*create_node(char *content);
-t_token	*add_to_end(t_token *lst);
-void	create_lst(t_token **lst, t_token *new);
-void	token_type(t_token *lst);
 t_token	*generate_tokens(char *line);
 
 /*
@@ -39,13 +35,24 @@ t_token	*generate_tokens(char *line);
 
 void	total_pipes(t_shell *sh, t_token **tokens);
 void	parse_all(t_shell *sh);
+void	fill_cmd(t_shell *sh, t_cmds **cmd);
 
 /*
  * AUX
  */
 
-void	printlst(t_token *lst);
-int		ft_del(t_token **lst);
+void	print_tokens(t_token *lst);
+void	print_tablecmd(t_cmds *lst);
+int		ft_deltoken(t_token **lst);
+int		ft_delcmds(t_cmds **lst);
+void	ft_free_array(char **res);
+char *ft_imp_strjoin(char const *s1, char const *s2);
+
+/*
+ * LST PARSER
+ */
+
+t_cmds *generate_tablecmd(t_token *tokens);
 
 /*
  *  ENV

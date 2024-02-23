@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 15:34:42 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/23 10:49:47 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@
 		dprintf(2, "En la funcion -> %s\n", __func__);\
 		dprintf(2, "En la linea -> %d\n", __LINE__);\
 	      }
+
+# define STD_IN 0 
+# define STD_OUT 1
+
 /*
  * TOKEN TYPE 
  * */

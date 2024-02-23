@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/02/21 19:01:10 by avolcy           ###   ########.fr        #
+#    Updated: 2024/02/23 14:26:40 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) 
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               SOURCES                                        #
@@ -40,7 +40,9 @@ HEADER = $(INCLUDE_PATH)/minishell.h
 HEADER += $(INCLUDE_PATH)/struct.h
 HEADER += $(INCLUDE_PATH)/macros.h
 
-SOURCES = minishell.c lexer.c aux.c parser.c
+SOURCES = minishell.c aux.c \
+		  lexer.c \
+		  parser.c lst_parser.c 
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #
@@ -112,11 +114,11 @@ header:
 	@printf	"  \t\t/                                               \\ \n";
 	@printf	" \t\t|   _________________________________________    | \n";
 	@printf	" \t\t|  /                                         \   | \n";
-	@printf	" \t\t| |$(GREEN)           _       _     _          _ _ $(NC) |   | \n";
-	@printf	" \t\t| |$(GREEN)     /\/\ (_)_ __ (_)___| |__   ___| | |$(NC) |   | \n";
-	@printf	" \t\t| |$(GREEN)    /    \| | '_ \| / __| '_ \ / _ \ | |$(NC) |   | \n";
-	@printf	" \t\t| |$(GREEN)   / /\/\ \ | | | | \__ \ | | |  __/ | |$(NC) |   | \n";
-	@printf " \t\t| |$(GREEN)   \/    \/_|_| |_|_|___/_| |_|\___|_|_|$(NC) |   | \n";
+	@printf	" \t\t| |$(YELLOW)           _       _     _          _ _ $(NC) |   | \n";
+	@printf	" \t\t| |$(YELLOW)     /\/\ (_)_ __ (_)___| |__   ___| | |$(NC) |   | \n";
+	@printf	" \t\t| |$(YELLOW)    /    \| | '_ \| / __| '_ \ / _ \ | |$(NC) |   | \n";
+	@printf	" \t\t| |$(BLUE)   / /\/\ \ | | | | \__ \ | | |  __/ | |$(NC) |   | \n";
+	@printf " \t\t| |$(RED)   \/    \/_|_| |_|_|___/_| |_|\___|_|_|$(NC) |   | \n";
 	@printf	" \t\t|  \_________________________________________/   | \n";
 	@printf	" \t\t|     avolcy /|\ deordone                    ⚬   | \n";
 	@printf	"  \t\t\______________________________________________/   \n";

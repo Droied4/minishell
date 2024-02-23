@@ -1,0 +1,95 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lst_parser.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/23 10:44:41 by deordone          #+#    #+#             */
+/*   Updated: 2024/02/23 15:53:48 by deordone         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static t_cmds *create_cmd(int i)
+{
+	t_cmds *new;
+
+	new = (t_cmds *)malloc(sizeof (t_cmds));
+	if (!new)
+		return (NULL);
+	new->index = i;
+	new->cmd = NULL;
+	new->in = STD_IN;
+	new->out = STD_OUT;
+	new->next = NULL;
+	return (new);
+}
+
+static t_cmds *add_cmd2_end(t_cmds *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
+static void	create_cmdlst(t_cmds **lst, t_cmds *new)
+{	
+	t_cmds	*last;
+
+	if (!(*lst))
+	{
+		*lst = new;
+		return ;
+	}
+	last = add_cmd2_end(*lst);
+	last->next = new;
+}
+
+static int	new_table (t_token *tokens, int **redir)
+{
+	if (tokens->type == LESS || tokens->type == DLESS)
+		++redir[0];
+	else if (tokens->type == GREAT || tokens->type == DGREAT)
+		++redir[1];
+	if (tokens->prev && tokens->prev->type == tokens->type)
+		return (-1);
+	if (tokens->type == CMD || tokens->type == PIPE || *redir[0] <= 1 || *redir[1] <= 1)
+		return (1);
+	else
+		return (-1);
+}
+
+t_cmds *generate_tablecmd(t_token *tokens)
+{
+	int i;
+	int *redir;
+	t_cmds *lst;
+	t_cmds *new;
+	t_token *tmp;
+
+	redir = (int *)malloc(sizeof(int) * 2);
+	if (!redir)
+		return (NULL);
+	redir[0] = 0;
+	redir[1] = 0;
+	i = -1;
+	tmp = tokens;
+	lst = NULL;
+	while (tmp)
+	{
+		if (new_table(tmp, &redir) > 0)
+		{
+			new = create_cmd(++i);
+			if (!new)
+				ft_delcmds(&lst);
+			create_cmdlst(&lst, new);
+		}
+		tmp = tmp->next;
+	}
+	free(redir);
+	return (lst);
+}
