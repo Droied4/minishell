@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 10:44:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/23 15:53:48 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/23 17:20:51 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	new_table (t_token *tokens, int **redir)
 		++redir[0];
 	else if (tokens->type == GREAT || tokens->type == DGREAT)
 		++redir[1];
-	if (tokens->prev && tokens->prev->type == tokens->type)
+	if (tokens->prev && tokens->prev->type == CMD && tokens->type == CMD)
 		return (-1);
 	if (tokens->type == CMD || tokens->type == PIPE || *redir[0] <= 1 || *redir[1] <= 1)
 		return (1);

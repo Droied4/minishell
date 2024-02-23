@@ -6,13 +6,12 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/23 15:55:50 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/23 17:20:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//to print the list of tokens
 void	print_tokens(t_token *lst)
 {
 	t_token *tmp;
