@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/23 17:20:34 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:22:08 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <readline/readline.h>
-# include <editline/readline.h>
+//# include <editline/readline.h>
 # include <readline/history.h>
 
 /*

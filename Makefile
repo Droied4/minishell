@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/02/23 14:26:40 by deordone         ###   ########.fr        #
+#    Updated: 2024/02/28 12:24:01 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SOURCES_PATH    = ./src
 OBJECTS_PATH    = ./obj
 INCLUDE_PATH    = ./inc
 LIBRARY_PATH	= ./library
-LIBFT_PATH	= $(LIBRARY_PATH)/Libft
+LIBFT_PATH	= $(LIBRARY_PATH)/libft
 DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
 LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
@@ -34,6 +34,8 @@ ifeq ($(USER), deordone)
 	READLINE_PATH = /Users/deordone/.brew/opt/readline/
 else ifeq ($(USER), avolcy)
 	READLINE_PATH = /Users/avolcy/.brew/opt/readline/
+else ifeq ($(USER), carmeno)
+	READLINE_PATH = /home/linuxbrew/.linuxbrew/opt/readline/
 endif
 
 HEADER = $(INCLUDE_PATH)/minishell.h
