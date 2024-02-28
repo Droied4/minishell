@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/23 17:20:35 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:02:05 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	print_tablecmd(t_cmds *lst)
 {
 	int i;
 
-	i = -1;
 	t_cmds *tmp;
 
 	tmp = lst;
 	while (tmp)
 	{
+		i = -1;
 		printf(GREEN "\n-----------------------\n");
 		printf(GREEN "| Table of Commands %i |\n", tmp->index);
 		printf(GREEN "-----------------------\n");
@@ -70,7 +70,8 @@ int	ft_deltoken(t_token **lst)
 	while (*lst)
 	{
 		temp = (*lst)->next;
-		free((*lst)->data);
+		if (!(*lst)->data)
+			free((*lst)->data);
 		free(*lst);
 		*lst = temp;
 	}

@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 10:44:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/23 17:20:51 by deordone         ###   ########.fr       */
+/*   Updated: 2024/02/28 19:22:58 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ static t_cmds *create_cmd(int i)
 	if (!new)
 		return (NULL);
 	new->index = i;
+	new->path = NULL;
 	new->cmd = NULL;
+	new->in_file = NULL;
 	new->in = STD_IN;
+	new->out_file = NULL;
 	new->out = STD_OUT;
 	new->next = NULL;
 	return (new);
@@ -57,7 +60,7 @@ static int	new_table (t_token *tokens, int **redir)
 		++redir[1];
 	if (tokens->prev && tokens->prev->type == CMD && tokens->type == CMD)
 		return (-1);
-	if (tokens->type == CMD || tokens->type == PIPE || *redir[0] <= 1 || *redir[1] <= 1)
+	if (tokens->type == CMD || tokens->type == PIPE) //|| *redir[0] <= 1 || *redir[1] <= 1)
 		return (1);
 	else
 		return (-1);
