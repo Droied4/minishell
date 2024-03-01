@@ -6,17 +6,17 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 10:44:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/01 15:47:36 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:58:16 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_cmds *create_cmd(int i)
+static t_cmds	*create_cmd(int i)
 {
-	t_cmds *new;
+	t_cmds	*new;
 
-	new = (t_cmds *)malloc(sizeof (t_cmds));
+	new = (t_cmds *)malloc(sizeof(t_cmds));
 	if (!new)
 		return (NULL);
 	new->index = i;
@@ -30,7 +30,7 @@ static t_cmds *create_cmd(int i)
 	return (new);
 }
 
-static t_cmds *add_cmd2_end(t_cmds *lst)
+static t_cmds	*add_cmd2_end(t_cmds *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -40,7 +40,7 @@ static t_cmds *add_cmd2_end(t_cmds *lst)
 }
 
 static void	create_cmdlst(t_cmds **lst, t_cmds *new)
-{	
+{
 	t_cmds	*last;
 
 	if (!(*lst))
@@ -52,28 +52,28 @@ static void	create_cmdlst(t_cmds **lst, t_cmds *new)
 	last->next = new;
 }
 
-static int	new_table (t_token *tokens)
+static int	new_table(t_token *tokens)
 {
-	int i;
-    int miArray[] = redir;
-	i = -1;
+	static int	meta_char[] = META;
+	int			i;
 
+	i = 8;
 	if (tokens->prev && tokens->prev->type == CMD && tokens->type == CMD)
 		return (-1);
-	while (redir[++i])
+	while (--i >= -1)
 	{
-		if (tokens->type == CMD || tokens->type == redir[i])
+		if (tokens->type == CMD || tokens->type == meta_char[i])
 			return (1);
 	}
 	return (-1);
 }
 
-t_cmds *generate_tablecmd(t_token *tokens)
+t_cmds	*generate_tablecmd(t_token *tokens)
 {
-	int i;
-	t_cmds *lst;
-	t_cmds *new;
-	t_token *tmp;
+	int		i;
+	t_cmds	*lst;
+	t_cmds	*new;
+	t_token	*tmp;
 
 	i = -1;
 	tmp = tokens;
