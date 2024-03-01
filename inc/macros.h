@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/23 10:49:47 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:47:37 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 
 # define STD_IN 0 
 # define STD_OUT 1
+# define REDIR (PIPE, GREAT, LESS, DGREAT, DLESS)
+# define META (PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE, EXP)
 
 /*
  * TOKEN TYPE 

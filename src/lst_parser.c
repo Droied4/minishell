@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 10:44:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/28 19:22:58 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:47:36 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,39 +52,35 @@ static void	create_cmdlst(t_cmds **lst, t_cmds *new)
 	last->next = new;
 }
 
-static int	new_table (t_token *tokens, int **redir)
+static int	new_table (t_token *tokens)
 {
-	if (tokens->type == LESS || tokens->type == DLESS)
-		++redir[0];
-	else if (tokens->type == GREAT || tokens->type == DGREAT)
-		++redir[1];
+	int i;
+    int miArray[] = redir;
+	i = -1;
+
 	if (tokens->prev && tokens->prev->type == CMD && tokens->type == CMD)
 		return (-1);
-	if (tokens->type == CMD || tokens->type == PIPE) //|| *redir[0] <= 1 || *redir[1] <= 1)
-		return (1);
-	else
-		return (-1);
+	while (redir[++i])
+	{
+		if (tokens->type == CMD || tokens->type == redir[i])
+			return (1);
+	}
+	return (-1);
 }
 
 t_cmds *generate_tablecmd(t_token *tokens)
 {
 	int i;
-	int *redir;
 	t_cmds *lst;
 	t_cmds *new;
 	t_token *tmp;
 
-	redir = (int *)malloc(sizeof(int) * 2);
-	if (!redir)
-		return (NULL);
-	redir[0] = 0;
-	redir[1] = 0;
 	i = -1;
 	tmp = tokens;
 	lst = NULL;
 	while (tmp)
 	{
-		if (new_table(tmp, &redir) > 0)
+		if (new_table(tmp) > 0)
 		{
 			new = create_cmd(++i);
 			if (!new)
@@ -93,6 +89,5 @@ t_cmds *generate_tablecmd(t_token *tokens)
 		}
 		tmp = tmp->next;
 	}
-	free(redir);
 	return (lst);
 }

@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/02/28 12:24:01 by deordone         ###   ########.fr        #
+#    Updated: 2024/03/01 15:28:15 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ HEADER += $(INCLUDE_PATH)/macros.h
 
 SOURCES = minishell.c aux.c \
 		  lexer.c \
-		  parser.c lst_parser.c 
+		  parser.c lst_parser.c parser_aux.c 
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #
@@ -116,11 +116,11 @@ header:
 	@printf	"  \t\t/                                               \\ \n";
 	@printf	" \t\t|   _________________________________________    | \n";
 	@printf	" \t\t|  /                                         \   | \n";
-	@printf	" \t\t| |$(YELLOW)           _       _     _          _ _ $(NC) |   | \n";
-	@printf	" \t\t| |$(YELLOW)     /\/\ (_)_ __ (_)___| |__   ___| | |$(NC) |   | \n";
-	@printf	" \t\t| |$(YELLOW)    /    \| | '_ \| / __| '_ \ / _ \ | |$(NC) |   | \n";
-	@printf	" \t\t| |$(BLUE)   / /\/\ \ | | | | \__ \ | | |  __/ | |$(NC) |   | \n";
-	@printf " \t\t| |$(RED)   \/    \/_|_| |_|_|___/_| |_|\___|_|_|$(NC) |   | \n";
+	@printf	" \t\t| |$(RED)           _       _     _          _ _ $(NC) |   | \n";
+	@printf	" \t\t| |$(RED)     /\/\ (_)_ __ (_)___| |__   ___| | |$(NC) |   | \n";
+	@printf	" \t\t| |$(RED)    /    \| | '_ \| / __| '_ \ / _ \ | |$(NC) |   | \n";
+	@printf	" \t\t| |$(WHITE)   / /\/\ \ | | | | \__ \ | | |  __/ | |$(NC) |   | \n";
+	@printf " \t\t| |$(GREEN)   \/    \/_|_| |_|_|___/_| |_|\___|_|_|$(NC) |   | \n";
 	@printf	" \t\t|  \_________________________________________/   | \n";
 	@printf	" \t\t|     avolcy /|\ deordone                    ⚬   | \n";
 	@printf	"  \t\t\______________________________________________/   \n";
