@@ -6,17 +6,19 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:50:17 by avolcy            #+#    #+#             */
-/*   Updated: 2024/02/22 20:22:21 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/01 18:54:02 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void create_envlst(t_env **lst, t_env *new) {
+void create_envlst(t_env **lst, t_env *new)
+{
     t_env *last;
     
     last = *lst;
-    if (!(*lst)) {
+    if (!(*lst))
+    {
         *lst = new;
         return;
     }
@@ -43,12 +45,10 @@ t_env *create_envnode(char *envp)
 }
 
 //pass the tokens to it///DONE !7h 56
-int display_env(t_token *tokens, char **argv, char **envp)
+t_env   *create_lst_env(char **envp)
 {
-    (void)tokens;
-    (void)argv;
     t_env  *new;
-    t_env  *list_env;
+    t_env  *list_env; 
     
 
     int i;
@@ -59,10 +59,11 @@ int display_env(t_token *tokens, char **argv, char **envp)
         new = create_envnode(envp[i]);
         if (new)
             create_envlst(&list_env, new);
-            
         i++;
     }
-    print_lst_env(list_env); // Print the linked list
-    ft_del_env(&list_env);
-    return 0;
+    return (list_env);
+    // print_lst_env(list_env); // Print the linked list
+    // ft_del_env(&list_env);
+    // return 0;
 }
+

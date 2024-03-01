@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/22 20:26:49 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/01 18:45:56 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,35 @@ void	printlst(t_token *lst)
 	}
 }
 
-void    print_lst_env(t_env *lst)
+void    print_lst_env(t_env *lst, int i)
 {
     t_env *tmp;
     
     tmp = lst;
-    int i = 0;
-    while (tmp) {
-        printf("\t\nline --[%i]--- is [%s]\n",i , tmp->line);
-        printf("\tNAME ------------ is[%s]\n", tmp->var_name);
-        printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
-        //printf("next----%p\n", (void *)tmp->next);
-        i++;
-        tmp = tmp->next;
-    }
+	if (1 == i)
+	{
+		while (tmp)
+		{
+        	printf("%s\n", tmp->line);
+        	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
+        	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
+        	// printf("next----%p\n", (void *)tmp->next);
+        	i++;
+        	tmp = tmp->next;
+		}
+	}
+	else if (2 == i)
+	{
+		while (tmp)
+		{
+        	printf("declare -x %s\n", tmp->line);
+        	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
+        	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
+        	// printf("next----%p\n", (void *)tmp->next);
+        	i++;
+        	tmp = tmp->next;
+		}
+	}
 }
 
 int	ft_del(t_token **lst)

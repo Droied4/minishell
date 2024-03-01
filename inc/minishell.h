@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/22 20:22:51 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/01 18:40:46 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,15 @@ void	parse_all(t_shell *sh);
 int		ft_del(t_token **lst);
 void	printlst(t_token *lst);
 int     ft_del_env(t_env **lst);
-void    print_lst_env(t_env *lst);
+void    print_lst_env(t_env *lst, int i);
 
 /*
  *  ENV
  */
-int	ft_del_env(t_env **lst);
-int display_env(t_token *tokens, char **argv, char **envp);
+int     ft_del_env(t_env **lst);
+t_env   *create_envnode(char *envp);
+t_env   *create_lst_env(char **envp);
+
+void    exporting_var(t_shell sh, t_env **lst_env);
 
 #endif
