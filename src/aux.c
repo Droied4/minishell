@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/01 12:28:59 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/02 16:33:20 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	print_tokens(t_token *lst)
 	while (tmp)
 	{
 		printf("\nToken %i\n", tmp->index);
-		printf("data----%s\n", tmp->data);
-		printf("type----%i\n", tmp->type);
-		printf("curr----%p\n", tmp);
-		printf("prev----%p\n", tmp->prev);
-		printf("next----%p\n", tmp->next);
+		printf("data -> %s\n", tmp->data);
+		printf("type -> %i\n", tmp->type);
+		printf("curr -> %p\n", tmp);
+		printf("prev -> %p\n", tmp->prev);
+		printf("next -> %p\n", tmp->next);
 		tmp = tmp->next;
 	}
 }
@@ -129,6 +129,34 @@ char	*ft_imp_strjoin(char const *s1, char const *s2)
 	free((void *)s1);
 	free((void *)s2);
 	return ((char *) rsv);
+}
+
+int	is_meta(int type)
+{
+	static int	meta_char[] = META;
+	int i;
+
+	i = 8;
+	while (--i >= -1)
+	{
+		if (type == meta_char[i])
+			return (1);
+	}
+	return (-1);
+}
+
+int	is_redir(int type)
+{
+	static int	redir[] = REDIR;
+	int i;
+
+	i = 5;
+	while (--i >= -1)
+	{
+		if (type == redir[i])
+			return (1);
+	}
+	return (-1);
 }
 
 void	ft_free_array(char **res)

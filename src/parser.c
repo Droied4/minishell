@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/02 14:56:15 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/02 16:45:07 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_token	*fill_cmd(t_cmds **cmd, t_token *token)
 	new_cmd = tmp_tok->data;
 	new_cmd = add_space(new_cmd);
 	final_cmd = build_cmd(tmp_tok, new_cmd); // al final hago un split
-	while (tmp_tok && tmp_tok->type != PIPE)
+	while (tmp_tok && is_redir(tmp_tok->type) == -1)
 		tmp_tok = tmp_tok->next;
 	if (final_cmd == NULL)
 		return (tmp_tok->next);
@@ -67,9 +67,11 @@ void	parse_cmd(t_shell *sh)
 	tmp_tok = sh->tokens;
 	while (tmp_tok != NULL || tmp_cmd != NULL)
 	{
-		tmp_tok = fill_cmd(&tmp_cmd, tmp_tok);
 		if (tmp_cmd)
+		{
+			tmp_tok = fill_cmd(&tmp_cmd, tmp_tok);
 			tmp_cmd = tmp_cmd->next; 
+		}
 		else
 			break ;
 	}
