@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/03/01 17:01:56 by deordone         ###   ########.fr        #
+#    Updated: 2024/03/02 14:54:42 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,13 +30,10 @@ LIBFT_PATH	= $(LIBRARY_PATH)/libft
 DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
 LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
-ifeq ($(USER), deordone)
-	READLINE_PATH = /Users/deordone/.brew/opt/readline/
-else ifeq ($(USER), avolcy)
-	READLINE_PATH = /Users/avolcy/.brew/opt/readline/
-else ifeq ($(USER), carmeno)
-	READLINE_PATH = /home/linuxbrew/.linuxbrew/opt/readline/
-endif
+READLINE_PATH = /Users/$(USER)/.brew/opt/readline/
+#else ifeq ($(USER), carmeno)
+#	READLINE_PATH = /home/linuxbrew/.linuxbrew/opt/readline/
+#endif
 
 HEADER = $(INCLUDE_PATH)/minishell.h
 HEADER += $(INCLUDE_PATH)/struct.h
