@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/02 16:33:20 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/04 16:56:44 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,20 +140,6 @@ int	is_meta(int type)
 	while (--i >= -1)
 	{
 		if (type == meta_char[i])
-			return (1);
-	}
-	return (-1);
-}
-
-int	is_redir(int type)
-{
-	static int	redir[] = REDIR;
-	int i;
-
-	i = 5;
-	while (--i >= -1)
-	{
-		if (type == redir[i])
 			return (1);
 	}
 	return (-1);

@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/03/02 14:54:42 by deordone         ###   ########.fr        #
+#    Updated: 2024/03/04 16:48:09 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g
+CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               SOURCES                                        #
@@ -41,7 +41,8 @@ HEADER += $(INCLUDE_PATH)/macros.h
 
 SOURCES = minishell.c aux.c \
 		  lexer.c \
-		  parser.c lst_parser.c parser_aux.c 
+		  parser.c \
+		  lst_table_cmd.c parser_cmd.c 
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #
