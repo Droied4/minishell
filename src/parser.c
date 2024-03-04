@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/04 17:10:30 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/04 17:42:06 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,14 @@ static int check_redir(t_token *tok)
 {
 	while (tok)
 	{
-		if (is_redir(tok->type) && is_redir(tok->))
-			return (-1)
+		if (is_redir(tok->type) > 0)
+		{
+			if ((tok->next && is_redir(tok->next->type) > 0) || (tok->prev && is_redir(tok->prev->type) > 0))
+			{
+				ft_dprintf(2, "Parse error '%s'\n", tok->data);
+				return (-1);
+			}
+		}
 		tok = tok->next;
 	}
 	return (0);
@@ -31,7 +37,7 @@ int	parse_input(t_shell *sh)
 	
 	if (check_redir(tmp_tok) < 0)
 		return (-1);
-	return ;
+	return (0);
 	//redifinir los tipos
 	//comprobar que los tipos esten bien
 	//es decir que antes de flag haya un comando que delante de pipe y

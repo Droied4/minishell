@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/04 16:45:14 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/04 17:34:51 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_token	*generate_tokens(char *line);
 */
 
 void	parse_all(t_shell *sh);
-void	parse_input(t_shell *sh);
+int	parse_input(t_shell *sh);
 void	parse_cmd(t_shell *sh);
 
 /*
