@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/04 17:42:06 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/05 22:05:34 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,15 @@ static int check_redir(t_token *tok)
 		{
 			if ((tok->next && is_redir(tok->next->type) > 0) || (tok->prev && is_redir(tok->prev->type) > 0))
 			{
-				ft_dprintf(2, "Parse error '%s'\n", tok->data);
+				if (tok->type == PIPE)
+					ft_dprintf(2, "Parse error near '%s'\n", tok->data);
+				else
+					ft_dprintf(2, "Parse error near '%s'\n", tok->next->data);
+				return (-1);
+			}
+			else if (tok->type != PIPE && !tok->next)
+			{
+				ft_dprintf(2, "Parse error near '\\n'\n", tok->data);
 				return (-1);
 			}
 		}
