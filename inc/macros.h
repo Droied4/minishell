@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/02 16:32:57 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/06 00:18:36 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@
 		dprintf(2, "En la funcion -> %s\n", __func__);\
 		dprintf(2, "En la linea -> %d\n", __LINE__);\
 	      }
-
 # define STD_IN 0 
 # define STD_OUT 1
+# define STR_REDIR "| > <"
 # define REDIR {PIPE, GREAT, LESS, DGREAT, DLESS}
+# define STR_META "| > < >> << ' $" ""   
 # define META {PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE, EXP}
 
 /*
