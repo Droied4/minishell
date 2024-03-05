@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:50:17 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/01 18:54:02 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/05 16:04:26 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_env   *create_lst_env(char **envp)
     t_env  *new;
     t_env  *list_env; 
     
-
+    printf("hola environ\n");
     int i;
     i = 0;
     list_env = NULL; // Initialize to NULL
@@ -61,8 +61,8 @@ t_env   *create_lst_env(char **envp)
             create_envlst(&list_env, new);
         i++;
     }
+    print_lst_env(list_env, 1); // Print the linked list
     return (list_env);
-    // print_lst_env(list_env); // Print the linked list
     // ft_del_env(&list_env);
     // return 0;
 }

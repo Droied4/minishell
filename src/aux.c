@@ -6,12 +6,47 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/01 18:45:56 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/05 21:10:18 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int     ft_lstenv_size(t_env *lst)
+{
+        int             count;
+
+        count = 0;
+        if (!lst)
+                return (count);
+        while (lst != NULL)
+        {
+                count++;
+                lst = lst->next;
+        }
+        return (count++);
+}
+
+char	**convert_to_dchar(t_env *lst_env)
+{
+	int	i;
+	char	**new;
+	t_env	*tmp;
+
+	new = (char **)malloc(sizeof(char *) * ((ft_lstenv_size(lst_env))) + 1);
+	if (!new)
+		return (NULL);
+	tmp = lst_env;
+	while (tmp->next)
+	{
+		i = 0;
+		new[i] = ft_strdup(tmp->line);
+		i++;
+		tmp = tmp->next;
+	}
+	new[i] = NULL;
+	return(new);
+}
 //to print the list of tokens
 void	printlst(t_token *lst)
 {
@@ -49,9 +84,16 @@ void    print_lst_env(t_env *lst, int i)
 	}
 	else if (2 == i)
 	{
+		//if var_content is (null) var_content = ""
+		//if "="" don't comes after var_name only show var_name on export
+		//if 
 		while (tmp)
 		{
-        	printf("declare -x %s\n", tmp->line);
+        	printf("declare -x %s=", tmp->var_name);
+			if (!tmp->var_content)
+        		printf("\"%s\"\n", "");
+			else
+				printf("\"%s\"\n", tmp->var_content);
         	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
         	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
         	// printf("next----%p\n", (void *)tmp->next);

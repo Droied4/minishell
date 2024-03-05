@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/01 18:40:46 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/05 15:42:20 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ int     ft_del_env(t_env **lst);
 t_env   *create_envnode(char *envp);
 t_env   *create_lst_env(char **envp);
 
-void    exporting_var(t_shell sh, t_env **lst_env);
+t_env    *exporting_var(t_shell sh, t_env **lst_env);
+char	**convert_to_dchar(t_env *lst_env);
+
+/*
+ *  BUILTINS
+ */
+void    execute_exit(void);
+void    execute_export(t_shell *sh, char **env);
+void    execute_builtins(t_shell *looking, char **env);
 
 #endif
