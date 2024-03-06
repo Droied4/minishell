@@ -6,12 +6,12 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/06 00:23:20 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/06 01:10:09 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
+
 int	main(int ac, char **av, char **env)
 {
 
@@ -40,8 +40,8 @@ int	main(int ac, char **av, char **env)
 		free(line);
 	}
 	return (0);
-}*/
-
+}
+/*
 //estas intentando hacer el lexer que separe tambien los metacaracteres
 static int len_newstr(char *s, char **lim)
 {
@@ -76,4 +76,4 @@ int main(void)
 	input = ft_split(STR_REDIR, ' ');
 	printf("num -> %i\n", len_newstr("<<", input));
 	return (0);	
-}
+}*/

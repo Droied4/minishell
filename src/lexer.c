@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/06 00:18:35 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/06 01:32:45 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,31 +75,23 @@ static void	token_type(t_token *lst)
 		lst->type = CMD;
 }
 
-/*
-static char *adding_spaces(char *s, char *lim)
-{
-	int i;
-
-	i = -1;
-	while(s[++i])
-	{
-		
-	}
-}*/
-
-// trying to create the tokens
 t_token	*generate_tokens(char *line)
 {
 	int		i;
 	t_token	*new;
 	t_token	*lst;
 	char	**input;
-
+	
 	i = -1;
 	lst = NULL;
 	input = ft_split(line, ' ');
 	while (input[++i])
 	{
+		/*while (line[j] && line[j] != ' ')
+		{
+			j++;
+		}
+		input = ft_substr(line, i, j);*/
 		new = create_node(input[i]);
 		if (!new)
 			ft_deltoken(&lst);
@@ -107,7 +99,7 @@ t_token	*generate_tokens(char *line)
 		token_type(new);
 		create_lst(&lst, new);
 	}
-	free(input);
+//	free(input);
 	print_tokens(lst);
 	return (lst);
 }
