@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/04 17:34:51 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:28:49 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,24 @@
 */
 
 t_token	*generate_tokens(char *line);
+int		ft_deltoken(t_token **lst);
+
+/*
+┏━━━━━━━━・▼・━━━━━━━━┓
+	AUX_LEXER - 5
+┗━━━━━━━━・▼・━━━━━━━━┛
+*/
+
+int	is_charredir(char c);
+char *add_between(char *s, char btween);
+int cont_redir(char *s);
+void	token_type(t_token *lst);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
 		PARSER - 3
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
-
 void	parse_all(t_shell *sh);
 int	parse_input(t_shell *sh);
 void	parse_cmd(t_shell *sh);
@@ -65,11 +76,10 @@ char	*add_space(char *info);
 			AUX - 7
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
-
+char *char2str(char c);
 int		is_meta(int type);
 void	print_tokens(t_token *lst);
 void	print_tablecmd(t_cmds *lst);
-int		ft_deltoken(t_token **lst);
 int		ft_delcmds(t_cmds **lst);
 void	ft_free_array(char **res);
 char	*ft_imp_strjoin(char const *s1, char const *s2);

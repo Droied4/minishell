@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/06 17:05:50 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:27:29 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,6 @@ void	print_tablecmd(t_cmds *lst)
 		printf(GREEN "---------------------\n");
 		tmp = tmp->next;
 	}
-}
-
-int	ft_deltoken(t_token **lst)
-{
-	t_token	*temp;
-
-	if (!lst)
-		return (-1);
-	while (*lst)
-	{
-		temp = (*lst)->next;
-		if (!(*lst)->data)
-			free((*lst)->data);
-		free(*lst);
-		*lst = temp;
-	}
-	*lst = NULL;
-	return (0);
 }
 
 int	ft_delcmds(t_cmds **lst)
@@ -143,6 +125,18 @@ int	is_meta(int type)
 			return (1);
 	}
 	return (-1);
+}
+
+char	*char2str(char c)
+{
+	char	*str;
+
+	str = malloc(sizeof(char) * 2);
+	if (!str)
+		return (NULL);
+	str[0] = c;
+	str[1] = '\0';
+	return (str);
 }
 
 void	ft_free_array(char **res)

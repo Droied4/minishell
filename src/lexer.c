@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/06 17:59:14 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:28:51 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,28 +51,22 @@ static void	create_lst(t_token **lst, t_token *new)
 	new->prev = last;
 }
 
-static void	token_type(t_token *lst)
+int	ft_deltoken(t_token **lst)
 {
-	if (ft_strncmp(lst->data, "<<", 2) == 0)
-		lst->type = DLESS;
-	else if (ft_strncmp(lst->data, ">>", 2) == 0)
-		lst->type = DGREAT;
-	else if (ft_strncmp(lst->data, "<", 1) == 0)
-		lst->type = LESS;
-	else if (ft_strncmp(lst->data, ">", 1) == 0)
-		lst->type = GREAT;
-	else if (ft_strncmp(lst->data, "|", 1) == 0)
-		lst->type = PIPE;
-	else if (ft_strncmp(lst->data, "\'", 1) == 0)
-		lst->type = SQUOTE;
-	else if (ft_strncmp(lst->data, "\"", 1) == 0)
-		lst->type = DQUOTE;
-	else if (ft_strncmp(lst->data, "-", 1) == 0)
-		lst->type = FLAG;
-	else if (ft_strncmp(lst->data, "$", 1) == 0)
-		lst->type = EXP;
-	else
-		lst->type = CMD;
+	t_token	*temp;
+
+	if (!lst)
+		return (-1);
+	while (*lst)
+	{
+		temp = (*lst)->next;
+		if (!(*lst)->data)
+			free((*lst)->data);
+		free(*lst);
+		*lst = temp;
+	}
+	*lst = NULL;
+	return (0);
 }
 
 t_token	*generate_tokens(char *line)
@@ -80,53 +74,13 @@ t_token	*generate_tokens(char *line)
 	int		i;
 	t_token	*new;
 	t_token	*lst;
+	char 	*line2;
 	char	**input;
 	
 	i = -1;
 	lst = NULL;
-	input = ft_split(line, ' ');
-	while (input[++i])
-	{
-		if (input[i][0] == '|' && input[i][1] == '|')
-		{
-			new = create_node((char *)input[i][0]);
-			if (!new)
-				ft_deltoken(&lst);
-			new->index = i;
-			token_type(new);
-			create_lst(&lst, new);
-			new = create_node((char *)input[i][1]);
-			if (!new)
-				ft_deltoken(&lst);
-			new->index = i;
-			token_type(new);
-			create_lst(&lst, new);
-		}
-		else
-		{
-			new = create_node(input[i]);
-		if (!new)
-			ft_deltoken(&lst);
-		new->index = i;
-		token_type(new);
-		create_lst(&lst, new);
-		}
-	}
-	free(input);
-	print_tokens(lst);
-	return (lst);
-}
-/*
-t_token	*generate_tokens(char *line)
-{
-	int		i;
-	t_token	*new;
-	t_token	*lst;
-	char	**input;
-	
-	i = -1;
-	lst = NULL;
-	input = ft_split(line, ' ');
+	line2 = add_between(line, ' ');
+	input = ft_split(line2, ' ');
 	while (input[++i])
 	{
 		new = create_node(input[i]);
@@ -139,4 +93,4 @@ t_token	*generate_tokens(char *line)
 	free(input);
 	print_tokens(lst);
 	return (lst);
-}*/
+}

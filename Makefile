@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/03/04 16:48:09 by deordone         ###   ########.fr        #
+#    Updated: 2024/03/06 18:46:10 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ HEADER += $(INCLUDE_PATH)/struct.h
 HEADER += $(INCLUDE_PATH)/macros.h
 
 SOURCES = minishell.c aux.c \
-		  lexer.c \
+		  lexer.c aux_lexer.c \
 		  parser.c \
 		  lst_table_cmd.c parser_cmd.c 
 
