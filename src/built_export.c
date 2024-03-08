@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/05 21:50:27 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/08 21:00:50 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_env    *exporting_var(t_shell sh, t_env **lst_env)
     t_env   *last;
     
     new = create_envnode(sh.tokens->next->data);
+    //check if = is found in new for purposes
     if (new)
     {
         last = *lst_env;
@@ -27,26 +28,39 @@ t_env    *exporting_var(t_shell sh, t_env **lst_env)
     }
     return (*lst_env);
 }
-
-void    execute_export(t_shell *sh, char **env)
+//clean code libro
+void   execute_export(t_shell *sh, char **env)
 {
-    int flag;
-    t_env   *s_env;
-
-    flag = 0;
-    s_env = NULL;
-    if (sh->tokens && sh->tokens->next)
+    printf("hola export\n");
+    //sh->env = create_lst_env(env);
+    // if no params has passed means the 1st time
+    //example shell > export  
+    if (sh->tokens->next == NULL && sh->env == NULL)
+        sh->env = create_lst_env(env);
+    // if theres parameters passing within the export 1st time typing it
+    //example shell > export hola 
+    //2nda vez or N veces
+    else if (sh->tokens->next == NULL && sh->env != NULL)
+        print_lst_env(sh->env, 2);
+    else if (sh->tokens->next != NULL && sh->env == NULL)
     {
-        printf("hola export\n");
-        if (!s_env)
-            s_env = create_lst_env(env);
-        s_env = exporting_var(*sh, &s_env);
-        flag = 1;
-    }
-    else if (!sh->tokens->next && flag > 0)
-        s_env = create_lst_env(convert_to_dchar(s_env));
-    else
-        s_env = create_lst_env(env);
-     print_lst_env(s_env, 2);
-    //to put in alphabetic order function to do
+        //create the list 
+        //exporting the new variable
+        sh->env = create_lst_env(env);
+        sh->env = exporting_var(*sh, &sh->env); 
+    }    
+    else if (sh->tokens->next != NULL && sh->env != NULL)
+    {
+        printf("ooooooook\n");
+        //add the new var
+        sh->env = exporting_var(*sh, &sh->env); 
+    } 
+    //if export has been called before && want to add new vars
+
+    
 }
+// print_lst_env(s_env, 2);
+//to put in alphabetic order function to do
+//while check_order == ko
+//check 1st charact
+//if 1st char == 1st->next char move to 2nd and so one

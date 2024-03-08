@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/08 20:06:25 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/08 21:56:56 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	**convert_to_dchar(t_env *lst_env);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
-void    execute_exit(void);
+void    execute_exit(t_shell *sh);
 void    execute_export(t_shell *sh, char **env);
 void    execute_builtins(t_shell *looking, char **env);
 

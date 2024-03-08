@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/08 20:05:44 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/08 21:58:28 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,4 +243,11 @@ int     ft_lstenv_size(t_env *lst)
                 lst = lst->next;
         }
         return (count++);
+}
+
+void    init_shell(t_shell *sh)
+{
+    sh->env = NULL;
+    sh->st_cmd = NULL;
+    // sh->tokens = generate_tokens(line);
 }
