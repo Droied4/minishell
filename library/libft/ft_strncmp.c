@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42barcelon>         +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 15:33:22 by avolcy            #+#    #+#             */
-/*   Updated: 2023/05/29 16:34:13 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/07 20:45:25 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,3 +23,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return ((*(unsigned char *)s1) - (*(unsigned char *)s2));
 }
+
+// int main ()
+// {
+// 	ft_strncmp(NULL, "hola", 4);
+// }

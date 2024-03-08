@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/01 16:42:31 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/08 20:36:49 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,6 @@ typedef struct s_cmds
 	int	out;
 	struct s_cmds *next;
 }	t_cmds;
-/*LA RAZON POR LA QUE CREE ESTO ES PARA TENER UNA ESTRUCTURA 
- * GENERAL EN LA QUE LLEVEMOS TODO COMO LA LISTA DE LAS TOKENS Y LA LISTA DE
- * LOS COMANDOS Y EN UN FUTURO SABER LA CANTIDAD DE PIPES TOTAL O EL EXPANSOR
- * O EL ENV COSAS ASI
- * */
-
-typedef struct s_shell
-{
-	struct s_token	*tokens;
-	struct s_cmds	*st_cmd;//s_cmd = struct of commands
-	int pipes;
-}	t_shell;
 
 typedef struct s_env
 {
@@ -53,6 +41,21 @@ typedef struct s_env
     char    *var_content;
     struct s_env *next;
 }   t_env;
+
+/*LA RAZON POR LA QUE CREE ESTO ES PARA TENER UNA ESTRUCTURA 
+ * GENERAL EN LA QUE LLEVEMOS TODO COMO LA LISTA DE LAS TOKENS Y LA LISTA DE
+ * LOS COMANDOS Y EN UN FUTURO SABER LA CANTIDAD DE PIPES TOTAL O EL EXPANSOR
+ * O EL ENV COSAS ASI
+ * */
+
+typedef struct s_shell
+{
+	char	*line;
+	struct s_env	*env;
+	struct s_token	*tokens;
+	struct s_cmds	*st_cmd;//s_cmd = struct of commands
+	int pipes;
+}	t_shell;
 
 typedef enum e_type
 {

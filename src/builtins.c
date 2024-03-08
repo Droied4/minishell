@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/05 21:26:49 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/08 21:01:02 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,44 @@
 
 #include "minishell.h"
 
-void    execute_exit(void)
+void    execute_exit(t_shell *sh)
 {
+    (void)sh;
+    if (sh->tokens)
+        ft_del(&sh->tokens);
+    if (sh->env)
+	    ft_del_env(&sh->env);
+    //if (sh->line)
+    //free(sh->line);
+    clear_history();
     printf("hola exit\n");
     printf("exit\n");
     exit(0);
 }
 
+
+
 //    if (!ft_strncmp(looking->st_cmd->cmd, "export", 7))
- void    execute_builtins(t_shell *looking, char **env)
+ void    execute_builtins(t_shell *shell, char **env)
  {
-    printf("hola builtinnnnn\n");
-    if (!ft_strncmp(looking->tokens->data, "export", 7))
-        execute_export(looking, env);
-    else if (!ft_strncmp(looking->tokens->data, "env", 4))
-        create_lst_env(env);
-    else if (!ft_strncmp(looking->tokens->data, "exit", 5))
-        execute_exit();
+    //char **test;
+    if (!ft_strncmp(shell->tokens->data, "export", 7))
+    {
+        execute_export(shell,env);
+        print_lst_env(shell->env, 2);
+    }
+    else if (!ft_strncmp(shell->tokens->data, "env", 4))
+    {
+        if (shell->env == NULL)
+            shell->env = create_lst_env(env);
+        else
+            print_lst_env(shell->env, 1); 
+        print_lst_env(shell->env, 1); 
+    }
+    else if (!ft_strncmp(shell->tokens->data, "exit", 5))
+        execute_exit(shell);
      else
-         printf(RED"🏓 PongShell: "NC"%s: command not found", looking->st_cmd->cmd);
+         printf(BLUE"🏓 PongShell: "NC"%s: command not found\n", shell->tokens->data);
 //     if (!ft_strncmp(looking->cmd, "pwd", ft_strlen(looking->cmd)))
 //         execute_pwd();
 //     if (!ft_strncmp(looking->cmd, "echo", ft_strlen(looking->cmd)))
@@ -49,3 +68,14 @@ void    execute_exit(void)
 //     else if (!ft_strncmp(looking->cmd, "unset", ft_strlen(looking->cmd)))
 //         execute_unset();
  }
+//test = convert_to_dchar(shell->env);
+// int i = 0;
+// while(test[i])
+// {
+//     printf("line---[%i]----[%s]\n",i, test[i]);
+//     i++;
+// }
+// printf("hey where adding new one\n");
+//execute_export(shell, convert_to_dchar(shell->env));
+//printf("------------AFTER CREATE IT-----------\n");
+//print_lst_env(shell->env, 2);

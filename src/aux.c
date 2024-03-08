@@ -6,11 +6,18 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/05 21:10:18 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/08 17:23:04 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void    init_shell(t_shell *sh)
+{
+    sh->env = NULL;
+    sh->st_cmd = NULL;
+    // sh->tokens = generate_tokens(line);
+}
 
 int     ft_lstenv_size(t_env *lst)
 {
@@ -37,11 +44,10 @@ char	**convert_to_dchar(t_env *lst_env)
 	if (!new)
 		return (NULL);
 	tmp = lst_env;
-	while (tmp->next)
+	i = -1;
+	while (tmp)
 	{
-		i = 0;
-		new[i] = ft_strdup(tmp->line);
-		i++;
+		new[++i] = ft_strdup(tmp->line);
 		tmp = tmp->next;
 	}
 	new[i] = NULL;
