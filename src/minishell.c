@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/08 20:24:43 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/08 23:44:44 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = readline(RED"🏓 PongShell ► "NC);
-		if (!ft_strncmp("🏓 PongShell ► ", line, 15))//to solve enter
-			return (1);//not working as expected but will figured it out soon
 		add_history(line);
 		sh.tokens = generate_tokens(line);
 		execute_builtins(&sh, env);

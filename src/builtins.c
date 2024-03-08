@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/08 22:04:40 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/08 23:45:12 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void    execute_exit(t_shell *sh)
     }
     else if (!ft_strncmp(shell->tokens->data, "exit", 5))
         execute_exit(shell);
-     else
-         printf(BLUE"🏓 PongShell: "NC"%s: command not found\n", shell->tokens->data);
 //     if (!ft_strncmp(looking->cmd, "pwd", ft_strlen(looking->cmd)))
 //         execute_pwd();
 //     if (!ft_strncmp(looking->cmd, "echo", ft_strlen(looking->cmd)))
