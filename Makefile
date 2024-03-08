@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/03/06 23:55:56 by deordone         ###   ########.fr        #
+#    Updated: 2024/03/08 19:53:37 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,9 @@ HEADER += $(INCLUDE_PATH)/macros.h
 SOURCES = minishell.c aux.c \
 		  lexer.c aux_lexer.c \
 		  parser.c \
-		  lst_table_cmd.c parser_cmd.c 
+		  lst_table_cmd.c parser_cmd.c \
+		  builtins.c built_export.c built_pwd.c \
+		  environ.c
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #

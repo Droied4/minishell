@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/08 17:57:30 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/08 20:06:25 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-//# include <editline/readline.h>
 # include <readline/history.h>
+//# include <editline/readline.h>
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
@@ -76,6 +76,9 @@ char	*add_space(char *info);
 			AUX - 7
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+int     ft_lstenv_size(t_env *lst);
+int     ft_del_env(t_env **lst);
+void    print_lst_env(t_env *lst, int i);
 char *char2str(char c);
 int		is_meta(int type);
 void	print_tokens(t_token *lst);
@@ -83,11 +86,27 @@ void	print_tablecmd(t_cmds *lst);
 int		ft_delcmds(t_cmds **lst);
 void	ft_free_array(char **res);
 char	*ft_imp_strjoin(char const *s1, char const *s2);
+
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
 		ENV
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+int     ft_del_env(t_env **lst);
+t_env   *create_envnode(char *envp);
+t_env   *create_lst_env(char **envp);
+t_env    *exporting_var(t_shell sh, t_env **lst_env);
+char	**convert_to_dchar(t_env *lst_env);
+
+/*
+┏━━━━━━━━・▼・━━━━━━━━┓
+		BUILTINS
+┗━━━━━━━━・▼・━━━━━━━━┛
+*/
+
+void    execute_exit(void);
+void    execute_export(t_shell *sh, char **env);
+void    execute_builtins(t_shell *looking, char **env);
 
 // void    display_env(env);
 

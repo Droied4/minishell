@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/06 23:58:18 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/08 20:05:44 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,13 +154,93 @@ void	ft_free_array(char **res)
 	}
 }
 
-// void init_env(char **envp)
-// {
-// 	int i = 0;
-// 	t_node *new_node;
+char	**convert_to_dchar(t_env *lst_env)
+{
+	int	i;
+	char	**new;
+	t_env	*tmp;
 
-// 	while (envp[i])
-// 	{
-// 		create_node
-// 	}
-// }
+	new = (char **)malloc(sizeof(char *) * ((ft_lstenv_size(lst_env))) + 1);
+	if (!new)
+		return (NULL);
+	tmp = lst_env;
+	while (tmp->next)
+	{
+		i = 0;
+		new[i] = ft_strdup(tmp->line);
+		i++;
+		tmp = tmp->next;
+	}
+	new[i] = NULL;
+	return(new);
+}
+
+void    print_lst_env(t_env *lst, int i)
+{
+    t_env *tmp;
+
+    tmp = lst;
+	if (1 == i)
+	{
+		while (tmp)
+		{
+        	printf("%s\n", tmp->line);
+        	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
+        	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
+        	// printf("next----%p\n", (void *)tmp->next);
+        	i++;
+        	tmp = tmp->next;
+		}
+	}
+	else if (2 == i)
+	{
+		//if var_content is (null) var_content = ""
+		//if "="" don't comes after var_name only show var_name on export
+		//if
+		while (tmp)
+		{
+        	printf("declare -x %s=", tmp->var_name);
+			if (!tmp->var_content)
+        		printf("\"%s\"\n", "");
+			else
+				printf("\"%s\"\n", tmp->var_content);
+        	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
+        	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
+        	// printf("next----%p\n", (void *)tmp->next);
+        	i++;
+        	tmp = tmp->next;
+		}
+	}
+}
+int	ft_del_env(t_env **lst)
+{
+	t_env	*temp;
+
+	if (!lst)
+		return (-1);
+	while (*lst)
+	{
+		temp = (*lst)->next;
+		free((*lst)->line);
+		free((*lst)->var_name);
+		free((*lst)->var_content);
+		free(*lst);
+		*lst = temp;
+	}
+	*lst = NULL;
+	return (0);
+}
+int     ft_lstenv_size(t_env *lst)
+{
+        int             count;
+
+        count = 0;
+        if (!lst)
+                return (count);
+        while (lst != NULL)
+        {
+                count++;
+                lst = lst->next;
+        }
+        return (count++);
+}
