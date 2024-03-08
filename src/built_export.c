@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/08 21:00:50 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/09 00:00:57 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,35 @@
 
 t_env    *exporting_var(t_shell sh, t_env **lst_env)
 {
+    int flag;
+    int len;
     t_env   *new;
     t_env   *last;
     
     new = create_envnode(sh.tokens->next->data);
-    //check if = is found in new for purposes
+    //check if = is found in new
+    //if true we add it to the env variables when env is passed
+    //if not we just keep it in the export environment 
+    //check if the new var_name is equal to the current var_name
+    //if it s true we do a ft_strdup of the new content to the current 
+    //and we return the list with the changed value
+    //if not, we attach the new node at the end of the list
+    len = 0; 
+    flag = 0;
     if (new)
     {
         last = *lst_env;
         while(last->next)
+        {
+            len = ft_strlen(last->var_name) + 1;
+            if (ft_strncmp(last->var_name, new->var_name, len))
+                flag = 1;
             last = last->next;
+        }
+        if (flag == 1)
+        {
+
+        }
         last->next = new;
     }
     return (*lst_env);
