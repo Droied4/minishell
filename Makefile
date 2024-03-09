@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/03/07 14:52:53 by avolcy           ###   ########.fr        #
+#    Updated: 2024/03/09 03:01:43 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,21 +26,24 @@ SOURCES_PATH    = ./src
 OBJECTS_PATH    = ./obj
 INCLUDE_PATH    = ./inc
 LIBRARY_PATH	= ./library
-LIBFT_PATH	= $(LIBRARY_PATH)/Libft
+LIBFT_PATH	= $(LIBRARY_PATH)/libft
 DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
 LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
-ifeq ($(USER), deordone)
-	READLINE_PATH = /Users/deordone/.brew/opt/readline/
-else ifeq ($(USER), avolcy)
-	READLINE_PATH = /Users/avolcy/.brew/opt/readline/
+ifeq ($(USER), carmeno)
+	READLINE_PATH = /home/linuxbrew/.linuxbrew/opt/readline/
+else
+	READLINE_PATH = /Users/$(USER)/.brew/opt/readline/
 endif
 
 HEADER = $(INCLUDE_PATH)/minishell.h
 HEADER += $(INCLUDE_PATH)/struct.h
 HEADER += $(INCLUDE_PATH)/macros.h
 
-SOURCES = minishell.c lexer.c aux.c parser.c environ.c builtins.c built_export.c built_pwd.c
+SOURCES = minishell.c aux.c \
+		  lexer.c aux_lexer.c \
+		  parser.c \
+		  lst_table_cmd.c parser_cmd.c  environ.c builtins.c built_export.c built_pwd.c
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #

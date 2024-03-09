@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/08 20:36:49 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/09 03:00:26 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ typedef struct s_token
 
 typedef struct s_cmds
 {
-	int index_pipe;
-	char *cmd;
+	int index;
+	char **cmd;
 	char *path;
 	char *in_file;
 	int	in;
@@ -53,7 +53,7 @@ typedef struct s_shell
 	char	*line;
 	struct s_env	*env;
 	struct s_token	*tokens;
-	struct s_cmds	*st_cmd;//s_cmd = struct of commands
+	struct s_cmds	*cmds;
 	int pipes;
 }	t_shell;
 

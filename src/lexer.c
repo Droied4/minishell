@@ -6,14 +6,14 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/02/21 22:56:26 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/08 17:55:08 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // to create each new node
-t_token	*create_node(char *content)
+static t_token	*create_node(char *content)
 {
 	t_token	*new;
 
@@ -27,7 +27,7 @@ t_token	*create_node(char *content)
 }
 
 // to add the new node to the end of the list
-t_token	*add_to_end(t_token *lst)
+static t_token	*add_to_end(t_token *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -37,7 +37,7 @@ t_token	*add_to_end(t_token *lst)
 }
 
 // trying to create the list of tokens
-void	create_lst(t_token **lst, t_token *new)
+static void	create_lst(t_token **lst, t_token *new)
 {
 	t_token	*last;
 
@@ -51,51 +51,46 @@ void	create_lst(t_token **lst, t_token *new)
 	new->prev = last;
 }
 
-void	token_type(t_token *lst)
+int	ft_deltoken(t_token **lst)
 {
-	if (ft_strncmp(lst->data, "<<", 2) == 0)
-		lst->type = DLESS;
-	else if (ft_strncmp(lst->data, ">>", 2) == 0)
-		lst->type = DGREAT;
-	else if (ft_strncmp(lst->data, "<", 1) == 0)
-		lst->type = LESS;
-	else if (ft_strncmp(lst->data, ">", 1) == 0)
-		lst->type = GREAT;
-	else if (ft_strncmp(lst->data, "|", 1) == 0)
-		lst->type = PIPE;
-	else if (ft_strncmp(lst->data, "\'", 1) == 0)
-		lst->type = SQUOTE;
-	else if (ft_strncmp(lst->data, "\"", 1) == 0)
-		lst->type = DQUOTE;
-	else if (ft_strncmp(lst->data, "-", 1) == 0)
-		lst->type = FLAG;
-	else if (ft_strncmp(lst->data, "$", 1) == 0)
-		lst->type = EXP;
-	else
-		lst->type = CMD;
+	t_token	*temp;
+
+	if (!lst)
+		return (-1);
+	while (*lst)
+	{
+		temp = (*lst)->next;
+		if (!(*lst)->data)
+			free((*lst)->data);
+		free(*lst);
+		*lst = temp;
+	}
+	*lst = NULL;
+	return (0);
 }
 
-// trying to create the tokens
 t_token	*generate_tokens(char *line)
 {
 	int		i;
 	t_token	*new;
 	t_token	*lst;
+	char 	*line2;
 	char	**input;
-
+	
 	i = -1;
 	lst = NULL;
-	input = ft_split(line, ' ');
+	line2 = add_between(line, ' ');
+	input = ft_split(line2, ' ');
 	while (input[++i])
 	{
 		new = create_node(input[i]);
 		if (!new)
-			ft_del(&lst);
+			ft_deltoken(&lst);
 		new->index = i;
 		token_type(new);
 		create_lst(&lst, new);
 	}
 	free(input);
-	//printlst(lst);
+	print_tokens(lst);
 	return (lst);
 }
