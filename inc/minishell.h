@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/08 21:56:56 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/09 03:14:25 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ void	total_pipes(t_shell *sh, t_token **tokens);
 t_token *fill_cmd(t_cmds **cmd, t_token *token);
 int		is_redir(int type);
 char	*add_space(char *info);
+
+/*
+┏━━━━━━━━・▼ ・━━━━━━━━┓
+	 PARSER INPUT - 5
+┗━━━━━━━━・▼ ・━━━━━━━━┛
+*/
+
+int	check_redir(t_token *tok);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

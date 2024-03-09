@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/08 23:44:44 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/09 03:28:37 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@ int	main(int ac, char **av, char **env)
 		parse_all(&sh);
 		ft_deltoken(&sh.tokens);
 		ft_delcmds(&sh.cmds);
-		if (ft_strncmp(line, "exit", 4) == 0)
-		{
-			free(line);
-			exit(0);
-		}
 		free(line);
 	}
 	return (0);

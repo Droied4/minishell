@@ -6,36 +6,11 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/05 23:49:38 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/09 04:02:36 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int check_redir(t_token *tok)
-{
-	while (tok)
-	{
-		if (is_redir(tok->type) > 0)
-		{
-			if ((tok->next && is_redir(tok->next->type) > 0) || (tok->prev && is_redir(tok->prev->type) > 0))
-			{
-				if (tok->type == PIPE)
-					ft_dprintf(2, "Parse error near '%s'\n", tok->data);
-				else
-					ft_dprintf(2, "Parse error near '%s'\n", tok->next->data);
-				return (-1);
-			}
-			else if (tok->type != PIPE && !tok->next)
-			{
-				ft_dprintf(2, "Parse error near '\\n'\n", tok->data);
-				return (-1);
-			}
-		}
-		tok = tok->next;
-	}
-	return (0);
-}
 
 int	parse_input(t_shell *sh)
 {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   aux_lexer.c                                        :+:      :+:    :+:   */
+/*   lexer_aux.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:42:37 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/08 17:53:39 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/09 04:08:26 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,24 @@ static char	*cpy_space(char *final_s, char *s, char btween)
 {
 	int	i;
 	int	j;
+	int h;
 
-	if (!final_s)
-		return (NULL);
 	i = -1;
 	j = 0;
 	while (s[++i])
 	{
 		if (is_charedir(s[i]) > 0)
 		{
-			final_s[j++] = btween;
-			final_s[j++] = s[i];
-			final_s[j++] = btween;
+			h = 0;
+			while (++h)
+			{
+				final_s[j++] = btween;
+				if (h >= 2)
+					break ;
+				final_s[j++] = s[i];
+				if (s[i] == s[i + 1])
+					final_s[j++] = s[++i];
+			}
 		}
 		else
 			final_s[j++] = s[i];
@@ -103,11 +109,14 @@ char	*add_between(char *s, char btween)
 
 	if (!s)
 		return (NULL);
+	//❗ in some cases appers a random P wtf ft_dprintf(2, "str -> %s\n", s);
 	len_str = ft_strlen(s);
 	len_str += cont_redir(s) * 2;
 	final_str = malloc(sizeof(char) * len_str);
 	if (!final_str)
 		return (NULL);
 	final_str = cpy_space(final_str, s, btween);
+	final_str[len_str] = '\0';
+//	ft_dprintf(2, "line -> %s\n", final_str);
 	return (final_str);
 }

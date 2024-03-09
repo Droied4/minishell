@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/08 17:55:08 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/09 04:08:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ t_token	*generate_tokens(char *line)
 		token_type(new);
 		create_lst(&lst, new);
 	}
-	free(input);
+	free(line2);
+	// ❗ here is the leak ft_free_array(input);
 	print_tokens(lst);
 	return (lst);
 }
