@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/08 23:45:12 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/10 15:19:34 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@ void    execute_exit(t_shell *sh)
         ft_deltoken(&sh->tokens);
     if (sh->env)
 	    ft_del_env(&sh->env);
-    //if (sh->line)
-    //free(sh->line);
+    if (sh->line)
+    	free(sh->line);
     clear_history();
-    printf("hola exit\n");
     printf("exit\n");
     exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:42:37 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/09 04:08:26 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/10 16:24:00 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ char	*add_between(char *s, char btween)
 
 	if (!s)
 		return (NULL);
-	//❗ in some cases appers a random P wtf ft_dprintf(2, "str -> %s\n", s);
 	len_str = ft_strlen(s);
 	len_str += cont_redir(s) * 2;
 	final_str = malloc(sizeof(char) * len_str);
@@ -117,6 +116,5 @@ char	*add_between(char *s, char btween)
 		return (NULL);
 	final_str = cpy_space(final_str, s, btween);
 	final_str[len_str] = '\0';
-//	ft_dprintf(2, "line -> %s\n", final_str);
 	return (final_str);
 }

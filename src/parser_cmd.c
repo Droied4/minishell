@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/09 04:02:04 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/10 16:24:18 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char	*add_space(char *info)
 	{
 		s = ft_strdup(info);
 		new_s = ft_strjoin(s, " ");
-		free(info);
 		free(s);
 		return (new_s);
 	}
@@ -93,8 +92,7 @@ t_token	*fill_cmd(t_cmds **cmd, t_token *token)
 	tmp_tok = token;
 	if (!tmp_tok)
 		return (NULL);
-	new_cmd = tmp_tok->data;
-	new_cmd = add_space(new_cmd);
+	new_cmd = add_space(tmp_tok->data);
 	final_cmd = build_cmd(tmp_tok, new_cmd);
 	while (tmp_tok && is_redir(tmp_tok->type) == -1)
 		tmp_tok = tmp_tok->next;

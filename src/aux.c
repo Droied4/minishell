@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/08 21:58:28 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/10 16:17:31 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,29 +61,7 @@ void	print_tablecmd(t_cmds *lst)
 	}
 }
 
-int	ft_delcmds(t_cmds **lst)
-{
-	t_cmds *temp;
 
-	if (!lst)
-		return (-1);
-	while (*lst)
-	{
-		temp = (*lst)->next;
-		if ((*lst)->cmd)
-			ft_free_array((*lst)->cmd);
-		if ((*lst)->path)
-			free((*lst)->path);
-		if ((*lst)->in_file)
-			free((*lst)->in_file);
-		if ((*lst)->out_file)
-			free((*lst)->out_file);
-		free(*lst);
-		*lst = temp;
-	}
-	*lst = NULL;
-	return (0);
-}
 
 char	*ft_imp_strjoin(char const *s1, char const *s2)
 {
@@ -144,13 +122,14 @@ void	ft_free_array(char **res)
 	int	i;
 
 	i = 0;
-	if (*res)
+	if (res)
 	{
 		while (res[i])
 			++i;
-		while (i--)
+		while (--i >= 0)
 			free(res[i]);
 		free(res);
+		res = NULL;
 	}
 }
 

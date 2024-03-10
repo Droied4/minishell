@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/09 04:08:35 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/10 16:20:19 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ int	ft_deltoken(t_token **lst)
 	while (*lst)
 	{
 		temp = (*lst)->next;
-		if (!(*lst)->data)
-			free((*lst)->data);
+		free((*lst)->data);
 		free(*lst);
 		*lst = temp;
 	}
@@ -91,7 +90,7 @@ t_token	*generate_tokens(char *line)
 		create_lst(&lst, new);
 	}
 	free(line2);
-	// ❗ here is the leak ft_free_array(input);
+	//free(input);
 	print_tokens(lst);
 	return (lst);
 }

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/09 03:14:25 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/10 15:49:16 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	parse_cmd(t_shell *sh);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
+int		ft_delcmds(t_cmds **lst);
 t_cmds	*generate_tablecmd(t_token *tokens);
 
 /*
@@ -91,7 +92,6 @@ char *char2str(char c);
 int		is_meta(int type);
 void	print_tokens(t_token *lst);
 void	print_tablecmd(t_cmds *lst);
-int		ft_delcmds(t_cmds **lst);
 void	ft_free_array(char **res);
 char	*ft_imp_strjoin(char const *s1, char const *s2);
 

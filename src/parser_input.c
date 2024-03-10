@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 17:15:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/10 14:49:36 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/10 15:43:32 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	check_pipe_case(t_token *tok)
 			ft_dprintf(2, "Parse error near '%s'\n", tok->data);
 			return (-1);
 		}
-		else if (!tok->prev)
+		else if (!tok->prev || tok->data[0] == tok->data[1])
 		{
 			ft_dprintf(2, "Parse error near '%c%c'\n", tok->data[0], tok->data[1]);
 			return (-1);
