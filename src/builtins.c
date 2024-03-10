@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/10 15:19:34 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/10 18:26:44 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void    execute_exit(t_shell *sh)
  void    execute_builtins(t_shell *shell, char **env)
  {
     //char **test;
+	if (shell->tokens->data)
+	{
     if (!ft_strncmp(shell->tokens->data, "export", 7))
     {
         execute_export(shell,env);
@@ -56,6 +58,7 @@ void    execute_exit(t_shell *sh)
     }
     else if (!ft_strncmp(shell->tokens->data, "exit", 5))
         execute_exit(shell);
+	}
 //     if (!ft_strncmp(looking->cmd, "pwd", ft_strlen(looking->cmd)))
 //         execute_pwd();
 //     if (!ft_strncmp(looking->cmd, "echo", ft_strlen(looking->cmd)))
