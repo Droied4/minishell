@@ -1,58 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   aux.c                                              :+:      :+:    :+:   */
+/*   aux_dei.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 16:38:03 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/11 18:14:48 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    init_shell(t_shell *sh)
-{
-    sh->env = NULL;
-    sh->cmds = NULL;
-    // sh->tokens = generate_tokens(line);
-}
-
-int     ft_lstenv_size(t_env *lst)
-{
-        int             count;
-
-        count = 0;
-        if (!lst)
-                return (count);
-        while (lst != NULL)
-        {
-                count++;
-                lst = lst->next;
-        }
-        return (count++);
-}
-
-char	**convert_to_dchar(t_env *lst_env)
-{
-	int	i;
-	char	**new;
-	t_env	*tmp;
-
-	new = (char **)malloc(sizeof(char *) * ((ft_lstenv_size(lst_env))) + 1);
-	if (!new)
-		return (NULL);
-	tmp = lst_env;
-	i = -1;
-	while (tmp)
-	{
-		new[++i] = ft_strdup(tmp->line);
-		tmp = tmp->next;
-	}
-	new[i] = NULL;
-	return(new);
-}
 void	print_tokens(t_token *lst)
 {
 	t_token *tmp;
@@ -102,70 +61,7 @@ void	print_tablecmd(t_cmds *lst)
 	}
 }
 
-void    print_lst_env(t_env *lst, int i)
-{
-    t_env *tmp;
-    
-    tmp = lst;
-	if (1 == i)
-	{
-		while (tmp)
-		{
-			if (tmp->var_content != NULL)
-				printf("%s\n", tmp->line);
-        	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
-        	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
-        	// printf("next----%p\n", (void *)tmp->next);
-        	//i++;
-        	tmp = tmp->next;
-		}
-	}
-	else if (2 == i)
-	{
-		//if var_content is (null) var_content = ""
-		//if "="" don't comes after var_name only show var_name on export
-		while (tmp)
-		{
-			if (ft_strchr(tmp->line, (int)'=') != NULL)
-			{
-				if (tmp->var_content)
-				{
-					printf("declare -x %s=", tmp->var_name);
-					printf("\"%s\"\n", tmp->var_content);
-				}
-				else
-					printf("declare -x %s=", tmp->var_name);
-			}
-			else
-				ft_dprintf(2, "declare -x %s \n", tmp->var_name);
-        	tmp = tmp->next;
-		}
-	}
-}
 
-int	ft_delcmds(t_cmds **lst)
-{
-	t_cmds *temp;
-
-	if (!lst)
-		return (-1);
-	while (*lst)
-	{
-		temp = (*lst)->next;
-		if ((*lst)->cmd)
-			ft_free_array((*lst)->cmd);
-		if ((*lst)->path)
-			free((*lst)->path);
-		if ((*lst)->in_file)
-			free((*lst)->in_file);
-		if ((*lst)->out_file)
-			free((*lst)->out_file);
-		free(*lst);
-		*lst = temp;
-	}
-	*lst = NULL;
-	return (0);
-}
 
 char	*ft_imp_strjoin(char const *s1, char const *s2)
 {
@@ -197,7 +93,7 @@ char	*ft_imp_strjoin(char const *s1, char const *s2)
 
 int	is_meta(int type)
 {
-	static int	meta_char[] = META;
+	static int	meta_char[] = METACHAR;
 	int i;
 
 	i = 8;
@@ -226,16 +122,75 @@ void	ft_free_array(char **res)
 	int	i;
 
 	i = 0;
-	if (*res)
+	if (res)
 	{
 		while (res[i])
 			++i;
-		while (i--)
+		while (--i >= 0)
 			free(res[i]);
 		free(res);
+		res = NULL;
 	}
 }
 
+char	**convert_to_dchar(t_env *lst_env)
+{
+	int	i;
+	char	**new;
+	t_env	*tmp;
+
+	new = (char **)malloc(sizeof(char *) * ((ft_lstenv_size(lst_env))) + 1);
+	if (!new)
+		return (NULL);
+	tmp = lst_env;
+	while (tmp->next)
+	{
+		i = 0;
+		new[i] = ft_strdup(tmp->line);
+		i++;
+		tmp = tmp->next;
+	}
+	new[i] = NULL;
+	return(new);
+}
+
+void    print_lst_env(t_env *lst, int i)
+{
+    t_env *tmp;
+
+	if(!lst)
+		return ;
+    tmp = lst;
+	if (1 == i)
+	{
+		while (tmp)
+		{
+        	printf("%s\n", tmp->line);
+        	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
+        	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
+        	// printf("next----%p\n", (void *)tmp->next);
+        	tmp = tmp->next;
+		}
+	}
+	else if (2 == i)
+	{
+		//if var_content is (null) var_content = ""
+		//if "="" don't comes after var_name only show var_name on export
+		//if
+		while (tmp)
+		{
+        	printf("declare -x %s=", tmp->var_name);
+			if (!tmp->var_content)
+        		printf("\"%s\"\n", "");
+			else
+				printf("\"%s\"\n", tmp->var_content);
+        	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
+        	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
+        	// printf("next----%p\n", (void *)tmp->next);
+        	tmp = tmp->next;
+		}
+	}
+}
 int	ft_del_env(t_env **lst)
 {
 	t_env	*temp;
@@ -253,4 +208,26 @@ int	ft_del_env(t_env **lst)
 	}
 	*lst = NULL;
 	return (0);
+}
+
+int     ft_lstenv_size(t_env *lst)
+{
+        int             count;
+
+        count = 0;
+        if (!lst)
+                return (count);
+        while (lst != NULL)
+        {
+                count++;
+                lst = lst->next;
+        }
+        return (count++);
+}
+
+void    init_shell(t_shell *sh)
+{
+    sh->env = NULL;
+    sh->st_cmd = NULL;
+    // sh->tokens = generate_tokens(line);
 }

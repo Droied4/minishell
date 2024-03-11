@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/03/11 17:07:40 by avolcy           ###   ########.fr        #
+#    Updated: 2024/03/11 18:09:12 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -fsanitize=address 
+CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g -fsanitize=address
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               SOURCES                                        #
@@ -40,12 +40,12 @@ HEADER = $(INCLUDE_PATH)/minishell.h
 HEADER += $(INCLUDE_PATH)/struct.h
 HEADER += $(INCLUDE_PATH)/macros.h
 
-SOURCES = minishell.c aux.c \
-		  lexer.c aux_lexer.c \
+SOURCES = minishell.c aux_dei.c \
+		  lexer.c lexer_aux.c \
 		  parser.c parser_input.c \
 		  lst_table_cmd.c parser_cmd.c \
-		  environ.c \
-		  builtins.c built_export.c built_pwd.c
+		  builtins.c built_export.c built_pwd.c \
+		  environ.c
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #
@@ -115,16 +115,16 @@ header:
 	@echo
 	@printf	"  \t\t  _____________________________________________\n";
 	@printf	"  \t\t/                                               \\ \n";
-	@printf	"\t\t|   _________________________________________    | \n";
-	@printf	"\t\t|  /                                         \   | \n";
-	@printf	"\t\t| |$(GREEN)           _       _     _          _ _ $(NC) |   | \n";
-	@printf	"\t\t| |$(GREEN)     /\/\ (_)_ __ (_)___| |__   ___| | |$(NC) |   | \n";
-	@printf	"\t\t| |$(YELLOW)    /    \| | '_ \| / __| '_ \ / _ \ | |$(NC) |   | \n";
-	@printf	"\t\t| |$(YELLOW)   / /\/\ \ | | | | \__ \ | | |  __/ | |$(NC) |   | \n";
-	@printf "\t\t| |$(RED)   \/    \/_|_| |_|_|___/_| |_|\___|_|_|$(NC) |   | \n";
-	@printf	"\t\t|  \_________________________________________/   | \n";
-	@printf	"\t\t|     avolcy /|\ deordone                    ⚬   | \n";
-	@printf	"  \t\t \______________________________________________/   \n";
+	@printf	" \t\t|   _________________________________________    | \n";
+	@printf	" \t\t|  /                                         \   | \n";
+	@printf	" \t\t| |$(WHITE)           _       _     _          _ _ $(NC) |   | \n";
+	@printf	" \t\t| |$(WHITE)     /\/\ (_)_ __ (_)___| |__   ___| | |$(NC) |   | \n";
+	@printf	" \t\t| |$(WHITE)    /    \| | '_ \| / __| '_ \ / _ \ | |$(NC) |   | \n";
+	@printf	" \t\t| |$(RED)   / /\/\ \ | | | | \__ \ | | |  __/ | |$(NC) |   | \n";
+	@printf " \t\t| |$(RED)   \/    \/_|_| |_|_|___/_| |_|\___|_|_|$(NC) |   | \n";
+	@printf	" \t\t|  \_________________________________________/   | \n";
+	@printf	" \t\t|     avolcy /|\ deordone                    ⚬   | \n";
+	@printf	"  \t\t\______________________________________________/   \n";
 	@printf	"  \t\t         !____________________________! \n";
 	@echo
 

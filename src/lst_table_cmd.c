@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/23 10:44:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/09 03:15:46 by avolcy           ###   ########.fr       */
+/*   Created: 2024/03/10 16:24:59 by deordone          #+#    #+#             */
+/*   Updated: 2024/03/11 18:20:59 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,6 @@ static t_cmds	*create_cmd(int i)
 	return (new);
 }
 
-static t_cmds	*add_cmd2_end(t_cmds *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
-}
-
 static void	create_cmdlst(t_cmds **lst, t_cmds *new)
 {
 	t_cmds	*last;
@@ -46,26 +37,60 @@ static void	create_cmdlst(t_cmds **lst, t_cmds *new)
 	if (!(*lst))
 	{
 		*lst = new;
-		return ;
+		return;
 	}
-	last = add_cmd2_end(*lst);
+	last = *lst;
+	while (last->next)
+		last = last->next;
 	last->next = new;
 }
 
 static int	new_table(t_token *tokens)
 {
-	static int	meta_char[] = META;
+	int	*meta_char;
 	int			i;
 
-	i = 8;
-	if (tokens->prev && tokens->prev->type == CMD && tokens->type == CMD)
+	meta_char = malloc(sizeof(int) * 8);
+	if (!meta_char)
 		return (-1);
+	i = -1;
+	while(++i <= 7)
+		meta_char[i] = i;
+	if (tokens->prev && tokens->prev->type == CMD && tokens->type == CMD)
+	{
+		free(meta_char);
+		return (-1);
+	}
 	while (--i >= -1)
 	{
 		if (tokens->type == CMD || tokens->type == meta_char[i])
+		{
+			free(meta_char);
 			return (1);
+		}
 	}
+	free(meta_char);
 	return (-1);
+}
+
+int	ft_delcmds(t_cmds **lst)
+{
+	t_cmds	*temp;
+
+	if (!lst)
+		return (-1);
+	while (*lst)
+	{
+		temp = (*lst)->next;
+		ft_free_array((*lst)->cmd);
+		free((*lst)->path);
+		free((*lst)->in_file);
+		free((*lst)->out_file);
+		free(*lst);
+		*lst = temp;
+	}
+	*lst = NULL;
+	return (0);
 }
 
 t_cmds	*generate_tablecmd(t_token *tokens)
