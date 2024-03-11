@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 01:40:34 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 15:37:28 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	is_redir(int type)
 		redir[i] = i;
 	while (--i > -1)
 	{
-		if (type == redir[i])
+		if (type == redir[i] || type == DGREAT || type == DLESS)
 		{
 			free(redir);
 			return (1);
