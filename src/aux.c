@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/10 16:26:29 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 00:59:50 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*ft_imp_strjoin(char const *s1, char const *s2)
 
 int	is_meta(int type)
 {
-	static int	meta_char[] = META;
+	static int	meta_char[] = METACHAR;
 	int i;
 
 	i = 8;

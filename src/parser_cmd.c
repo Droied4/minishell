@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/10 16:24:18 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 01:40:34 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,24 @@ void	total_pipes(t_shell *sh, t_token **tokens)
 
 int	is_redir(int type)
 {
-	static int	redir[] = REDIR;
+	int	*redir;
 	int			i;
-
-	i = 5;
-	while (--i >= -1)
+	
+	redir = malloc(sizeof(int) * 3);
+	if (!redir)
+		return (-1);
+	i = -1;
+	while (++i <= 2)
+		redir[i] = i;
+	while (--i > -1)
 	{
 		if (type == redir[i])
+		{
+			free(redir);
 			return (1);
+		}
 	}
+	free(redir);
 	return (-1);
 }
 

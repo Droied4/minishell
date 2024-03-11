@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:42:37 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/10 17:52:51 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 01:49:30 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,10 @@ static char	*cpy_space(char *final_s, char *s, char btween)
 			}
 		}
 		else
-			final_s[j++] = s[i];
+		{
+			final_s[j] = s[i];
+			j++;
+		}
 	}
 	return (final_s);
 }
@@ -110,11 +113,13 @@ char	*add_between(char *s, char btween)
 	if (!s)
 		return (NULL);
 	len_str = ft_strlen(s);
+	ft_dprintf(2, "%i\n", len_str);
 	len_str += cont_redir(s) * 2;
-	final_str = malloc(sizeof(char) * len_str);
+	final_str = malloc(sizeof(char) * len_str + 1);
 	if (!final_str)
 		return (NULL);
 	final_str = cpy_space(final_str, s, btween);
 	final_str[len_str] = '\0';
+	free(s);
 	return (final_str);
 }

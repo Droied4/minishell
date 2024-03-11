@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 16:24:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/10 16:26:27 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 01:40:06 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,26 @@ static void	create_cmdlst(t_cmds **lst, t_cmds *new)
 
 static int	new_table(t_token *tokens)
 {
-	static int	meta_char[] = META;
+	int	*meta_char;
 	int			i;
 
-	i = 8;
+	meta_char = malloc(sizeof(int) * 8);
+	if (!meta_char)
+		return (-1);
+	i = -1;
+	while(++i <= 7)
+		meta_char[i] = i;
 	if (tokens->prev && tokens->prev->type == CMD && tokens->type == CMD)
 		return (-1);
 	while (--i >= -1)
 	{
 		if (tokens->type == CMD || tokens->type == meta_char[i])
+		{
+			free(meta_char);
 			return (1);
+		}
 	}
+	free(meta_char);
 	return (-1);
 }
 

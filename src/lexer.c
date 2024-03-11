@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/10 17:52:50 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 01:49:03 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ t_token	*generate_tokens(char *line)
 	
 	i = -1;
 	lst = NULL;
-	line2 = add_between(line, ' ');
+	line2 = ft_strtrim(line, " ");
+	line2 = add_between(line2, ' ');
 	input = ft_split(line2, ' ');
 	while (input[++i])
 	{
