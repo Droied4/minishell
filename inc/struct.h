@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 18:16:28 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/11 18:32:40 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,6 @@ typedef struct s_shell
 	int				pipes;
 }					t_shell;
 
-typedef struct s_env
-{
-	char *line; // for test purpose
-	char			*var_name;
-	char			*var_content;
-	struct s_env	*next;
-}					t_env;
 
 typedef enum e_type
 {

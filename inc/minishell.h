@@ -6,13 +6,14 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 18:10:22 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/11 18:28:22 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
+# include "macros.h"
+# include "struct.h"
 # include "../library/dprintf/ft_dprintf.h"
 # include "../library/libft/libft.h"
 # include <readline/readline.h>
