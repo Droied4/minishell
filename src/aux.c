@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/09 02:58:26 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/11 16:38:03 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void    init_shell(t_shell *sh)
 {
     sh->env = NULL;
-    sh->st_cmd = NULL;
+    sh->cmds = NULL;
     // sh->tokens = generate_tokens(line);
 }
 
@@ -111,11 +111,12 @@ void    print_lst_env(t_env *lst, int i)
 	{
 		while (tmp)
 		{
-        	printf("%s\n", tmp->line);
+			if (tmp->var_content != NULL)
+				printf("%s\n", tmp->line);
         	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
         	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
         	// printf("next----%p\n", (void *)tmp->next);
-        	i++;
+        	//i++;
         	tmp = tmp->next;
 		}
 	}
@@ -123,24 +124,26 @@ void    print_lst_env(t_env *lst, int i)
 	{
 		//if var_content is (null) var_content = ""
 		//if "="" don't comes after var_name only show var_name on export
-		//if 
 		while (tmp)
 		{
-        	printf("declare -x %s=", tmp->var_name);
-			if (!tmp->var_content)
-        		printf("\"%s\"\n", "");
+			if (ft_strchr(tmp->line, (int)'=') != NULL)
+			{
+				if (tmp->var_content)
+				{
+					printf("declare -x %s=", tmp->var_name);
+					printf("\"%s\"\n", tmp->var_content);
+				}
+				else
+					printf("declare -x %s=", tmp->var_name);
+			}
 			else
-				printf("\"%s\"\n", tmp->var_content);
-        	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
-        	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
-        	// printf("next----%p\n", (void *)tmp->next);
-        	i++;
+				ft_dprintf(2, "declare -x %s \n", tmp->var_name);
         	tmp = tmp->next;
 		}
 	}
 }
 
-int	ft_delcmd(t_cmds **lst)
+int	ft_delcmds(t_cmds **lst)
 {
 	t_cmds *temp;
 

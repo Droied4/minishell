@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/03/09 03:01:43 by avolcy           ###   ########.fr        #
+#    Updated: 2024/03/11 15:55:48 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) 
+CFLAGS = -Wall -Wextra -Werror -g -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -fsanitize=address 
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               SOURCES                                        #
@@ -42,8 +42,10 @@ HEADER += $(INCLUDE_PATH)/macros.h
 
 SOURCES = minishell.c aux.c \
 		  lexer.c aux_lexer.c \
-		  parser.c \
-		  lst_table_cmd.c parser_cmd.c  environ.c builtins.c built_export.c built_pwd.c
+		  parser.c parser_input.c \
+		  lst_table_cmd.c parser_cmd.c \
+		  environ.c \
+		  builtins.c built_export.c built_pwd.c
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #

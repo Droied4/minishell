@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/09 00:00:57 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/09 18:28:18 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_env    *exporting_var(t_shell sh, t_env **lst_env)
 {
     int flag;
-    int len;
+    size_t len;
     t_env   *new;
     t_env   *last;
     
@@ -34,52 +34,66 @@ t_env    *exporting_var(t_shell sh, t_env **lst_env)
         last = *lst_env;
         while(last->next)
         {
-            len = ft_strlen(last->var_name) + 1;
-            if (ft_strncmp(last->var_name, new->var_name, len))
+            len = ft_strlen(new->var_name);
+            if (!ft_strncmp(last->var_name, new->var_name, len + 1))
+            {
                 flag = 1;
+                last->var_content = ft_strdup(new->var_content);
+                // if (last->next == NULL)
+                //     break ;
+            }
             last = last->next;
         }
         if (flag == 1)
         {
-
+            free(new);
+            return (*lst_env);
         }
-        last->next = new;
+        else
+            last->next = new;
     }
     return (*lst_env);
 }
 //clean code libro
 void   execute_export(t_shell *sh, char **env)
 {
+    int flag;
     printf("hola export\n");
     //sh->env = create_lst_env(env);
     // if no params has passed means the 1st time
-    //example shell > export  
+    //example shell > export
+    flag = 0;  
     if (sh->tokens->next == NULL && sh->env == NULL)
         sh->env = create_lst_env(env);
     // if theres parameters passing within the export 1st time typing it
     //example shell > export hola 
     //2nda vez or N veces
-    else if (sh->tokens->next == NULL && sh->env != NULL)
+     else if (sh->tokens->next == NULL && sh->env != NULL)
+    {
+        //to put in alphabetic order function to do
         print_lst_env(sh->env, 2);
+        flag = 1;
+    }
+    //if env command never passed before
+    //means we just start with shell > export algo
     else if (sh->tokens->next != NULL && sh->env == NULL)
     {
         //create the list 
         //exporting the new variable
         sh->env = create_lst_env(env);
         sh->env = exporting_var(*sh, &sh->env); 
-    }    
+    }        
     else if (sh->tokens->next != NULL && sh->env != NULL)
     {
+        //if export has been called before && want to add new vars
         printf("ooooooook\n");
         //add the new var
         sh->env = exporting_var(*sh, &sh->env); 
-    } 
-    //if export has been called before && want to add new vars
-
-    
+    }
+    //to put in alphabetic order function to do
+    if (flag == 0)
+        print_lst_env(sh->env, 2);
 }
-// print_lst_env(s_env, 2);
-//to put in alphabetic order function to do
 //while check_order == ko
 //check 1st charact
 //if 1st char == 1st->next char move to 2nd and so one

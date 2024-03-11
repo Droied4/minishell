@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/08 21:01:02 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/09 18:27:36 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,27 @@ void    execute_exit(t_shell *sh)
 {
     (void)sh;
     if (sh->tokens)
-        ft_del(&sh->tokens);
+        ft_deltoken(&sh->tokens);
     if (sh->env)
 	    ft_del_env(&sh->env);
+    //ft_delcmds(&sh.cmds);
     //if (sh->line)
     //free(sh->line);
-    clear_history();
+    //clear_history();
     printf("hola exit\n");
     printf("exit\n");
     exit(0);
 }
 
-
-
 //    if (!ft_strncmp(looking->st_cmd->cmd, "export", 7))
  void    execute_builtins(t_shell *shell, char **env)
  {
-    //char **test;
     if (!ft_strncmp(shell->tokens->data, "export", 7))
-    {
-        execute_export(shell,env);
-        print_lst_env(shell->env, 2);
-    }
+        execute_export(shell, env);
     else if (!ft_strncmp(shell->tokens->data, "env", 4))
     {
         if (shell->env == NULL)
             shell->env = create_lst_env(env);
-        else
-            print_lst_env(shell->env, 1); 
         print_lst_env(shell->env, 1); 
     }
     else if (!ft_strncmp(shell->tokens->data, "exit", 5))

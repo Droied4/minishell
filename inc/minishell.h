@@ -6,12 +6,13 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/09 02:47:20 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/09 03:22:43 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 # include "../library/dprintf/ft_dprintf.h"
 # include "../library/libft/libft.h"
 # include "macros.h"
@@ -66,6 +67,8 @@ t_cmds	*generate_tablecmd(t_token *tokens);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
+t_token	*fill_cmd(t_cmds **cmd, t_token *token);
+int	is_redir(int type);
 void	total_pipes(t_shell *sh, t_token **tokens);
 void	parse_all(t_shell *sh);
 
@@ -88,7 +91,6 @@ char	*ft_imp_strjoin(char const *s1, char const *s2);
 */
 
 // void    display_env(env);
-int		ft_del(t_token **lst);
 void	printlst(t_token *lst);
 int     ft_del_env(t_env **lst);
 void    print_lst_env(t_env *lst, int i);
@@ -96,7 +98,6 @@ void    print_lst_env(t_env *lst, int i);
 /*
  *  ENV
  */
-int     ft_del_env(t_env **lst);
 t_env   *create_envnode(char *envp);
 t_env   *create_lst_env(char **envp);
 
