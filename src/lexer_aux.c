@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:42:37 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 02:25:52 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 16:48:27 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	*add_between(char *s, char btween)
 	if (!s)
 		return (NULL);
 	len_str = ft_strlen(s);
-	len_str += cont_redir(s);
+	len_str += cont_redir(s) * 2;
 	ft_dprintf(2, "len_str -> %i\n", len_str);
 	final_str = ft_calloc(sizeof(char),  len_str + 1);
 	if (!final_str)
