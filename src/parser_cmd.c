@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/06 00:06:32 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 15:57:51 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,24 @@ void	total_pipes(t_shell *sh, t_token **tokens)
 
 int	is_redir(int type)
 {
-	static int	redir[] = REDIR;
+	int	*redir;
 	int			i;
-
-	i = 5;
-	while (--i >= -1)
+	
+	redir = malloc(sizeof(int) * 3);
+	if (!redir)
+		return (-1);
+	i = -1;
+	while (++i <= 2)
+		redir[i] = i;
+	while (--i > -1)
 	{
-		if (type == redir[i])
+		if (type == redir[i] || type == DGREAT || type == DLESS)
+		{
+			free(redir);
 			return (1);
+		}
 	}
+	free(redir);
 	return (-1);
 }
 
@@ -51,7 +60,6 @@ char	*add_space(char *info)
 	{
 		s = ft_strdup(info);
 		new_s = ft_strjoin(s, " ");
-		free(info);
 		free(s);
 		return (new_s);
 	}
@@ -93,8 +101,7 @@ t_token	*fill_cmd(t_cmds **cmd, t_token *token)
 	tmp_tok = token;
 	if (!tmp_tok)
 		return (NULL);
-	new_cmd = tmp_tok->data;
-	new_cmd = add_space(new_cmd);
+	new_cmd = add_space(tmp_tok->data);
 	final_cmd = build_cmd(tmp_tok, new_cmd);
 	while (tmp_tok && is_redir(tmp_tok->type) == -1)
 		tmp_tok = tmp_tok->next;

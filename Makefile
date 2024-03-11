@@ -16,7 +16,7 @@
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g
+CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g -fsanitize=address
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               SOURCES                                        #
@@ -40,10 +40,12 @@ HEADER = $(INCLUDE_PATH)/minishell.h
 HEADER += $(INCLUDE_PATH)/struct.h
 HEADER += $(INCLUDE_PATH)/macros.h
 
-SOURCES = minishell.c aux.c \
-		  lexer.c aux_lexer.c \
-		  parser.c \
-		  lst_table_cmd.c parser_cmd.c 
+SOURCES = minishell.c aux_dei.c \
+		  lexer.c lexer_aux.c \
+		  parser.c parser_input.c \
+		  lst_table_cmd.c parser_cmd.c \
+		  builtins.c built_export.c built_pwd.c \
+		  environ.c
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #
@@ -115,11 +117,11 @@ header:
 	@printf	"  \t\t/                                               \\ \n";
 	@printf	" \t\t|   _________________________________________    | \n";
 	@printf	" \t\t|  /                                         \   | \n";
-	@printf	" \t\t| |$(BLUE)           _       _     _          _ _ $(NC) |   | \n";
-	@printf	" \t\t| |$(BLUE)     /\/\ (_)_ __ (_)___| |__   ___| | |$(NC) |   | \n";
+	@printf	" \t\t| |$(WHITE)           _       _     _          _ _ $(NC) |   | \n";
+	@printf	" \t\t| |$(WHITE)     /\/\ (_)_ __ (_)___| |__   ___| | |$(NC) |   | \n";
 	@printf	" \t\t| |$(WHITE)    /    \| | '_ \| / __| '_ \ / _ \ | |$(NC) |   | \n";
-	@printf	" \t\t| |$(WHITE)   / /\/\ \ | | | | \__ \ | | |  __/ | |$(NC) |   | \n";
-	@printf " \t\t| |$(BLUE)   \/    \/_|_| |_|_|___/_| |_|\___|_|_|$(NC) |   | \n";
+	@printf	" \t\t| |$(RED)   / /\/\ \ | | | | \__ \ | | |  __/ | |$(NC) |   | \n";
+	@printf " \t\t| |$(RED)   \/    \/_|_| |_|_|___/_| |_|\___|_|_|$(NC) |   | \n";
 	@printf	" \t\t|  \_________________________________________/   | \n";
 	@printf	" \t\t|     avolcy /|\ deordone                    ⚬   | \n";
 	@printf	"  \t\t\______________________________________________/   \n";

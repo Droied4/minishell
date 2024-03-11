@@ -6,22 +6,22 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/08 17:57:30 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 00:58:04 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include "../library/dprintf/ft_dprintf.h"
-# include "../library/libft/libft.h"
 # include "macros.h"
 # include "struct.h"
+# include "../library/dprintf/ft_dprintf.h"
+# include "../library/libft/libft.h"
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-//# include <editline/readline.h>
 # include <readline/history.h>
+//# include <editline/readline.h>
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
@@ -58,6 +58,7 @@ void	parse_cmd(t_shell *sh);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
+int		ft_delcmds(t_cmds **lst);
 t_cmds	*generate_tablecmd(t_token *tokens);
 
 /*
@@ -72,22 +73,48 @@ int		is_redir(int type);
 char	*add_space(char *info);
 
 /*
+┏━━━━━━━━・▼ ・━━━━━━━━┓
+	 PARSER INPUT - 5
+┗━━━━━━━━・▼ ・━━━━━━━━┛
+*/
+
+int	check_redir(t_token *tok);
+
+/*
 ┏━━━━━━━━・▼・━━━━━━━━┓
 			AUX - 7
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+int     ft_lstenv_size(t_env *lst);
+int     ft_del_env(t_env **lst);
+void    print_lst_env(t_env *lst, int i);
 char *char2str(char c);
 int		is_meta(int type);
 void	print_tokens(t_token *lst);
 void	print_tablecmd(t_cmds *lst);
-int		ft_delcmds(t_cmds **lst);
 void	ft_free_array(char **res);
 char	*ft_imp_strjoin(char const *s1, char const *s2);
+
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
 		ENV
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+int     ft_del_env(t_env **lst);
+t_env   *create_envnode(char *envp);
+t_env   *create_lst_env(char **envp);
+t_env    *exporting_var(t_shell sh, t_env **lst_env);
+char	**convert_to_dchar(t_env *lst_env);
+
+/*
+┏━━━━━━━━・▼・━━━━━━━━┓
+		BUILTINS
+┗━━━━━━━━・▼・━━━━━━━━┛
+*/
+
+void    execute_exit(t_shell *sh);
+void    execute_export(t_shell *sh, char **env);
+void    execute_builtins(t_shell *looking, char **env);
 
 // void    display_env(env);
 

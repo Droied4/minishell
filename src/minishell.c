@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/06 01:10:09 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:12:04 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int ac, char **av, char **env)
 {
 
-	char	*line;
 	t_shell sh;
 
 	(void)av;
@@ -24,20 +23,15 @@ int	main(int ac, char **av, char **env)
 		exit(1);
 	while (1)
 	{
-		line = readline(RED"🏓 PongShell ► "NC);
-		add_history(line);
-		sh.tokens = generate_tokens(line);
-		//display_env(env);
+		sh.line = readline(RED"🏓 PongShell ► "NC);
+		add_history(sh.line);
+		sh.tokens = generate_tokens(sh.line);
 		sh.cmds = generate_tablecmd(sh.tokens);
 		parse_all(&sh);
+		execute_builtins(&sh, env);
 		ft_deltoken(&sh.tokens);
 		ft_delcmds(&sh.cmds);
-		if (ft_strncmp(line, "exit", 4) == 0)
-		{
-			free(line);
-			exit(0);
-		}
-		free(line);
+		free(sh.line);
 	}
 	return (0);
 }

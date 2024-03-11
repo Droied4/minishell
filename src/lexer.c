@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/08 17:55:08 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 16:48:28 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ int	ft_deltoken(t_token **lst)
 	while (*lst)
 	{
 		temp = (*lst)->next;
-		if (!(*lst)->data)
-			free((*lst)->data);
+		free((*lst)->data);
 		free(*lst);
 		*lst = temp;
 	}
@@ -79,7 +78,8 @@ t_token	*generate_tokens(char *line)
 	
 	i = -1;
 	lst = NULL;
-	line2 = add_between(line, ' ');
+	line2 = ft_strtrim(line, " ");
+	line2 = add_between(line2, ' ');
 	input = ft_split(line2, ' ');
 	while (input[++i])
 	{
@@ -90,6 +90,7 @@ t_token	*generate_tokens(char *line)
 		token_type(new);
 		create_lst(&lst, new);
 	}
+	free(line2);
 	free(input);
 	print_tokens(lst);
 	return (lst);
