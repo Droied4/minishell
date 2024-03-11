@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 14:22:04 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 19:09:22 by avolcy           ###   ########.fr       */
+/*   Created: 2023/05/29 16:39:23 by avolcy            #+#    #+#             */
+/*   Updated: 2024/03/11 19:08:56 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+int	ft_atoi(const char *str)
 {
-	int		count;
+	int	i;
+	int	res;
+	int	sign;
 
-	count = 0;
-	if (!lst)
-		return (count);
-	while (lst != NULL)
+	i = 0;
+	res = 0;
+	sign = 1;
+	while (str[i] && (str[i] == ' ' || str[i] == '\n' || str[i] == '\t'
+			|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r'))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		count++;
-		lst = lst->next;
+		if (str[i++] == '-')
+			sign = -1;
 	}
-	return (count++);
+	while (str[i] && str[i] >= '0' && str[i] <= '9')
+	{
+		res = res * 10 + str[i++] - '0';
+	}
+	return (res * sign);
 }

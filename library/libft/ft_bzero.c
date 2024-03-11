@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 14:22:04 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 19:09:22 by avolcy           ###   ########.fr       */
+/*   Created: 2023/05/09 15:09:59 by avolcy            #+#    #+#             */
+/*   Updated: 2024/03/11 19:08:58 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+void	ft_bzero(void *s, size_t n)
 {
-	int		count;
+	size_t	i;
 
-	count = 0;
-	if (!lst)
-		return (count);
-	while (lst != NULL)
+	i = 0;
+	while (i < n)
 	{
-		count++;
-		lst = lst->next;
+		((unsigned char *)s)[i] = 0;
+		++i;
 	}
-	return (count++);
 }

@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 14:22:04 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 19:09:22 by avolcy           ###   ########.fr       */
+/*   Created: 2023/05/03 20:26:22 by avolcy            #+#    #+#             */
+/*   Updated: 2024/03/11 19:09:07 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_lstsize(t_list *lst)
+int	ft_isprint(int v)
 {
-	int		count;
-
-	count = 0;
-	if (!lst)
-		return (count);
-	while (lst != NULL)
-	{
-		count++;
-		lst = lst->next;
-	}
-	return (count++);
+	if (v >= 32 && v <= 126)
+		return (1);
+	return (0);
 }

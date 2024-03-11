@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 14:22:04 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 19:09:22 by avolcy           ###   ########.fr       */
+/*   Created: 2023/05/12 11:39:18 by avolcy            #+#    #+#             */
+/*   Updated: 2024/03/11 19:09:06 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_lstsize(t_list *lst)
+int	ft_isdigit(int v)
 {
-	int		count;
-
-	count = 0;
-	if (!lst)
-		return (count);
-	while (lst != NULL)
-	{
-		count++;
-		lst = lst->next;
-	}
-	return (count++);
+	if (v >= 48 && v <= 57)
+		return (1);
+	return (0);
 }

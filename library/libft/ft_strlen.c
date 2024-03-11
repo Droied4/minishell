@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 14:22:04 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 19:09:22 by avolcy           ###   ########.fr       */
+/*   Created: 2023/05/03 18:08:53 by avolcy            #+#    #+#             */
+/*   Updated: 2024/03/11 19:09:47 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+//#include <stdio.h>
 
-int	ft_lstsize(t_list *lst)
+size_t	ft_strlen(const char *x)
 {
-	int		count;
+	int	i;
 
-	count = 0;
-	if (!lst)
-		return (count);
-	while (lst != NULL)
-	{
-		count++;
-		lst = lst->next;
-	}
-	return (count++);
+	if (*x == '\0' || x == NULL)
+		return (0);
+	i = 0;
+	while (x[i] != '\0')
+		++i;
+	return (i);
 }
+/*int	main(void)
+{
+	char *v;
+
+	v ="Imma Geek";
+	printf("The lenght is :%d\n", ft_strlen(v));
+	return (0);
+}*/

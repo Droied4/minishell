@@ -1,28 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 14:22:04 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 19:09:22 by avolcy           ###   ########.fr       */
+/*   Created: 2023/05/11 18:11:48 by avolcy            #+#    #+#             */
+/*   Updated: 2024/03/11 19:09:27 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	int		count;
+	size_t		i;
+	char		*d_st;
+	const char	*s_rc;
 
-	count = 0;
-	if (!lst)
-		return (count);
-	while (lst != NULL)
+	d_st = (char *)dst;
+	s_rc = (const char *)src;
+	i = 0;
+	if (!src && !dst)
+		return (NULL);
+	if (src < dst)
 	{
-		count++;
-		lst = lst->next;
+		while (len--)
+		{
+			d_st[len] = s_rc[len];
+		}
 	}
-	return (count++);
+	else
+	{
+		while (i < len)
+		{
+			d_st[i] = s_rc[i];
+			i++;
+		}
+	}
+	return (dst);
 }

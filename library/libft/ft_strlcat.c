@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 14:22:04 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 19:09:22 by avolcy           ###   ########.fr       */
+/*   Created: 2023/05/09 15:35:12 by avolcy            #+#    #+#             */
+/*   Updated: 2024/03/11 19:09:45 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	int		count;
+	size_t	i;
+	size_t	s_ln;
+	size_t	d_ln;
 
-	count = 0;
-	if (!lst)
-		return (count);
-	while (lst != NULL)
+	s_ln = ft_strlen(src);
+	d_ln = ft_strlen(dst);
+	if (d_ln > dstsize || !dstsize)
+		return (dstsize + s_ln);
+	i = 0;
+	while (src[i] != '\0' && d_ln + i < dstsize - 1)
 	{
-		count++;
-		lst = lst->next;
+		dst[d_ln + i] = src[i];
+		++i;
 	}
-	return (count++);
+	dst[d_ln + i] = '\0';
+	return (s_ln + d_ln);
 }
