@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 15:27:55 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:10:31 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,8 @@ void    print_lst_env(t_env *lst, int i)
 {
     t_env *tmp;
 
+	if(!lst)
+		return ;
     tmp = lst;
 	if (1 == i)
 	{
@@ -167,7 +169,6 @@ void    print_lst_env(t_env *lst, int i)
         	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
         	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
         	// printf("next----%p\n", (void *)tmp->next);
-        	i++;
         	tmp = tmp->next;
 		}
 	}
@@ -186,7 +187,6 @@ void    print_lst_env(t_env *lst, int i)
         	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
         	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
         	// printf("next----%p\n", (void *)tmp->next);
-        	i++;
         	tmp = tmp->next;
 		}
 	}
