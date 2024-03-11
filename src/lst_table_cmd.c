@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 16:24:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 01:40:06 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 01:55:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ static int	new_table(t_token *tokens)
 	while(++i <= 7)
 		meta_char[i] = i;
 	if (tokens->prev && tokens->prev->type == CMD && tokens->type == CMD)
+	{
+		free(meta_char);
 		return (-1);
+	}
 	while (--i >= -1)
 	{
 		if (tokens->type == CMD || tokens->type == meta_char[i])

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 00:59:30 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/11 02:03:29 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 	      }
 # define STD_IN 0 
 # define STD_OUT 1
-# define STR_REDIR "| > <"
+# define STR_REDIR "|><"
 # define REDIR {PIPE, GREAT, LESS, DGREAT, DLESS}
 # define STR_META "| > < >> << ' $" ""   
 # define METACHAR {PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE, EXP}
