@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 18:55:24 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/12 01:24:16 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ static char	**build_cmd(t_token *tmp_tok, char *new_cmd)
 	while (tmp_tok && is_redir(tmp_tok->type) == -1)
 	{
 		tmp_tok = tmp_tok->next;
-		if (tmp_tok && (tmp_tok->type == FLAG || tmp_tok->type == CMD
-				|| tmp_tok->type == ARCH))
+		if (tmp_tok && tmp_tok->type == CMD)
 		{
 			flag = add_space(tmp_tok->data);
 			new_cmd = ft_imp_strjoin(new_cmd, flag);

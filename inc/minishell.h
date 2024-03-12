@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 19:03:30 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/12 01:34:00 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int		ft_deltoken(t_token **lst);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
-int	is_charredir(char c);
+int	is_charmeta(char c);
 char *add_between(char *s, char btween);
-int cont_redir(char *s);
+int cont_meta(char *s);
 void	token_type(t_token *lst);
 
 /*
