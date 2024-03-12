@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 17:15:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 18:55:26 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/12 16:18:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	check_great_less_case(t_token *tok)
 	return (0);
 }
 
-int	check_redir(t_token *tok)
+int	syntax_error(t_token *tok)
 {
 	while (tok)
 	{
@@ -65,4 +65,42 @@ int	check_redir(t_token *tok)
 		tok = tok->next;
 	}
 	return (0);
+}
+
+int	input_incomplete(t_shell *sh)
+{
+	t_token *tmp_tok;
+	int squotes;
+	int dquotes;
+	
+	tmp_tok = sh->tokens;
+	squotes = 0;	
+	dquotes = 0;
+	while (tmp_tok)
+	{
+		if (tmp_tok->type == SQUOTE && ft_strlen(tmp_tok->data) == 1)
+			squotes++;
+		else if (tmp_tok->type == DQUOTE && ft_strlen(tmp_tok->data) == 1)
+			dquotes++;
+		tmp_tok = tmp_tok->next;
+	}
+	if ((squotes % 2) != 0)
+		return (-1);
+	else if ((dquotes % 2) != 0)
+		return (-1);
+	else
+		return (0);	
+}
+
+void	new_entry(t_shell *sh)
+{
+	char *new_input;
+	char *new_line;
+
+	new_input = readline(GREEN"\n> "NC);
+	new_line = ft_strdup("\n");
+	new_input = ft_imp_strjoin(new_line, new_input);
+	sh->line = ft_imp_strjoin(sh->line, new_input);
+	ft_deltoken(&sh->tokens);
+	sh->tokens = generate_tokens(sh->line);
 }
