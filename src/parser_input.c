@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 17:15:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/12 21:20:13 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/12 22:32:59 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	input_unclosed(t_shell *sh)
 		return (0);	
 }
 
-void	new_entry(t_shell *sh)
+void	unclosed_entry(t_shell *sh)
 {
 	char *new_line;
 	char *new_input;

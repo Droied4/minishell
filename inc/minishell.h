@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/12 21:20:34 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/12 22:32:17 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*add_space(char *info);
 
 int	syntax_error(t_token *tok);
 int	input_unclosed(t_shell *sh);
-void	new_entry(t_shell *sh);
+void	unclosed_entry(t_shell *sh);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
