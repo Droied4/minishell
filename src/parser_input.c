@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 17:15:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/12 17:34:23 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/12 21:20:13 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	syntax_error(t_token *tok)
 	return (0);
 }
 
-int	input_incomplete(t_shell *sh)
+int	input_unclosed(t_shell *sh)
 {
 	t_token *tmp_tok;
 	int squotes;
