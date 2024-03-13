@@ -6,39 +6,11 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/12 22:43:34 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/13 13:48:57 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void   incomplete_entry(t_shell *sh)
-{
-        char *new_input;
-        char *last_input;
-
-        new_input = readline(GREEN"\n> "NC);
-        last_input = add_space(new_input);
-        free(new_input);
-        sh->line = ft_imp_strjoin(sh->line, last_input);
-        ft_deltoken(&sh->tokens);
-        sh->tokens = generate_tokens(sh->line);
-}
-
-
-static int input_incomplete(t_shell *sh)
-{
-	t_token *tmp_tok;
-
-	tmp_tok = sh->tokens;
-	while (tmp_tok)
-	{
-		if (tmp_tok->type == PIPE && !tmp_tok->next)
-			return (-1);
-		tmp_tok = tmp_tok->next;
-	}
-	return (0);
-}
 
 int	parse_input(t_shell *sh)
 {
