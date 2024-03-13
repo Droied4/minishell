@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/13 16:52:28 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/13 17:41:14 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,20 @@
 int	parse_input(t_shell *sh)
 {
 	t_token *tmp_tok;
-	int flag;
 
 	tmp_tok = sh->tokens;
-	flag = 0;
-	if (syntax_error(tmp_tok) < 0)
-		return (-1);
-	while (input_unclosed(sh) < 0 && ++flag)
+	while (input_unclosed(sh) < 0)
+	{
 		unclosed_entry(sh);
-	while (input_incomplete(sh) < 0 && ++flag)
+		if (syntax_error(tmp_tok) < 0)
+			return (-1);
+	}
+	while (input_incomplete(sh) < 0)
 	{
 		incomplete_entry(sh);
 		tmp_tok = sh->tokens;
 		if (syntax_error(tmp_tok) < 0)
 			return (-1);
-	}
-	if (flag > 2)
-	{
-		if (parse_input(sh) < 0)
-			return(-1);
 	}
 	return (0);
 }
@@ -60,6 +55,8 @@ void	parse_cmd(t_shell *sh)
 
 void	parse_all(t_shell *sh)
 {
+	if (syntax_error(sh->tokens) < 0)
+		return ;
 	if (parse_input(sh) < 0)
 	   return ;
 	// parse_expansor; supongo que toca parsearlo xd
