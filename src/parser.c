@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/14 16:01:26 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/14 17:50:48 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	parse_input(t_shell *sh)
 void	parse_cmd(t_shell *sh)
 {
 	t_token *tmp_tok;
-	t_cmds *tmp_cmd;
+	t_block *tmp_cmd;
 
 	tmp_cmd = sh->cmds;
 	tmp_tok = sh->tokens;

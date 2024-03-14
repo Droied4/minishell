@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 19:47:05 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/14 16:29:17 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	print_tokens(t_token *lst)
 	}
 }
 
-void	print_tablecmd(t_cmds *lst)
+void	print_tablecmd(t_block *lst)
 {
 	int i;
 
-	t_cmds *tmp;
+	t_block *tmp;
 
 	tmp = lst;
 	while (tmp)

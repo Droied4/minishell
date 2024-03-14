@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/12 01:24:16 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/14 17:50:46 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static char	**build_cmd(t_token *tmp_tok, char *new_cmd)
 	return (NULL);
 }
 
-t_token	*fill_cmd(t_cmds **cmd, t_token *token)
+t_token	*fill_cmd(t_block **cmd, t_token *token)
 {
 	t_token	*tmp_tok;
 	char	*new_cmd;
