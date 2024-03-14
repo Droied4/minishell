@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/13 17:41:14 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/14 15:50:33 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	parse_input(t_shell *sh)
 	while (input_unclosed(sh) < 0)
 	{
 		unclosed_entry(sh);
+		tmp_tok = sh->tokens;
 		if (syntax_error(tmp_tok) < 0)
 			return (-1);
 	}
