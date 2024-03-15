@@ -6,11 +6,33 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/14 16:29:17 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/15 00:49:59 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int is_builtin(char *data)
+{
+	int i;
+	int len_data;
+	char **builtins;
+	
+	builtins = ft_split(STR_BUILTINS, ' ');
+	len_data = ft_strlen(data);
+	
+	i = -1;
+	while (builtins[++i])
+	{
+		if (ft_strncmp(data, builtins[i], len_data) == 0)
+		{
+			ft_free_array(builtins);
+			return (1);
+		}
+	}
+	ft_free_array(builtins);
+	return (0);
+}
 
 void	print_tokens(t_token *lst)
 {
@@ -29,7 +51,7 @@ void	print_tokens(t_token *lst)
 	}
 }
 
-void	print_tablecmd(t_block *lst)
+void	print_blocks(t_block *lst)
 {
 	int i;
 
@@ -40,8 +62,22 @@ void	print_tablecmd(t_block *lst)
 	{
 		i = -1;
 		printf(GREEN "\n-----------------------\n");
-		printf(GREEN "| Table of Commands %i |\n", tmp->index);
+		printf(GREEN "| Block Of Execution %i |\n", tmp->index);
 		printf(GREEN "-----------------------\n");
+		if (tmp->type == 0)
+			printf(NC "\ntype -> %s\n", "PIPE");
+		else if (tmp->type == 1)
+			printf(NC "\ntype -> %s\n", "REDIR");
+		else if (tmp->type == 2)
+			printf(NC "\ntype -> %s\n", "BUILT");
+		else if (tmp->type == 3)
+			printf(NC "\ntype -> %s\n", "SQUOTES");
+		else if (tmp->type == 4)
+			printf(NC "\ntype -> %s\n", "DQUOTES");
+		else if (tmp->type == 5)
+			printf(NC "\ntype -> %s\n", "COMMAND");
+		else if (tmp->type == 6)
+			printf(NC "\ntype -> %s\n", "FILE");
 		if (tmp->cmd)
 		{
 			printf(NC "cmd ->");
@@ -50,13 +86,13 @@ void	print_tablecmd(t_block *lst)
 		}
 		else 
 			printf(RED "cmd -> NULL");
-		printf(NC "\npath -> %s\n", tmp->path);
+		printf("\npath -> %s\n", tmp->path);
 		printf("in_fd -> %i\n", tmp->in);
 		printf("out_fd -> %i\n", tmp->out);
 		printf(GREEN "---------------------\n");
 		printf(NC "curr -> %p\n", tmp);
 		printf(NC "next -> %p\n", tmp->next);
-		printf(GREEN "---------------------\n");
+		printf(GREEN "---------------------\n"NC);
 		tmp = tmp->next;
 	}
 }

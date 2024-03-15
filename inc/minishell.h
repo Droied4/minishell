@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/14 16:11:54 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/15 00:50:15 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ void	token_type(t_token *lst);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
-		PARSER - 3
+		PARSER - 4
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+
+int is_builtin(char *data);
 void	parse_all(t_shell *sh);
 int	parse_input(t_shell *sh);
 void	parse_cmd(t_shell *sh);
@@ -63,9 +65,13 @@ t_block	*generate_blocks(t_token *tokens);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
-		PARSER CMD - 5
+		PARSER BLOCK - 5
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
+
+void	parse_block(t_shell *sh);
+
+//-------------------parsercmd
 
 t_token	*fill_cmd(t_block **cmd, t_token *token);
 int	is_redir(int type);
@@ -88,7 +94,7 @@ void	incomplete_entry(t_shell *sh);
 	 PARSER QUOTES - 4
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
-
+int	first_quotes(t_shell *sh);
 int	input_unclosed(t_shell *sh);
 void	unclosed_entry(t_shell *sh);
 
@@ -101,10 +107,14 @@ void	unclosed_entry(t_shell *sh);
 int     ft_lstenv_size(t_env *lst);
 int     ft_del_env(t_env **lst);
 void    print_lst_env(t_env *lst, int i);
+
+
+
+//---------------------aux dei
 char *char2str(char c);
 int		is_meta(int type);
 void	print_tokens(t_token *lst);
-void	print_tablecmd(t_block *lst);
+void	print_blocks(t_block *lst);
 void	ft_free_array(char **res);
 char	*ft_imp_strjoin(char const *s1, char const *s2);
 

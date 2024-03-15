@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/14 18:02:18 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/14 23:47:59 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_shell
 {
 	char						*line;
 	struct s_token				*tokens;
-	struct s_execution_block	*cmds;
+	struct s_execution_block		*block;
 	struct s_env				*env;
 	struct s_cmds				*st_cmd;
 	int							pipes;
@@ -63,5 +63,16 @@ typedef enum e_type
 	EXP,    // 7
 	CMD     // 8
 }								t_type;
+
+typedef enum e_block_type
+{
+	B_PIPE,    //0
+	B_REDIR,   //1
+	B_BUILT,   //2
+	B_SQUOTES, //3
+	B_DQUOTES, //4
+	B_CMD,	   //5
+	B_FILE     //6
+}				t_block_type;
 
 #endif

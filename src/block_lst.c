@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_table_cmd.c                                    :+:      :+:    :+:   */
+/*   block_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 16:24:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/14 16:11:57 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/15 00:52:59 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static t_block	*create_block(int i)
 	if (!new)
 		return (NULL);
 	new->index = i;
+	new->type = -1;
 	new->path = NULL;
 	new->cmd = NULL;
 	new->in = STD_IN;
@@ -54,11 +55,11 @@ static int	new_table(t_token *tokens)
 	i = -1;
 	while(++i <= 7)
 		meta_char[i] = i;
-	if (tokens->prev && tokens->prev->type == CMD && tokens->type == CMD)
+/*	if (tokens->prev && tokens->prev->type == CMD && tokens->type == CMD)
 	{
 		free(meta_char);
 		return (-1);
-	}
+	}*/
 	while (--i >= -1)
 	{
 		if (tokens->type == CMD || tokens->type == meta_char[i])

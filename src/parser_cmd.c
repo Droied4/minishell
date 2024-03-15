@@ -6,11 +6,20 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/14 17:50:46 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/15 00:51:54 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*
+static t_token *fill_block(t_block **block, t_token *token)
+{
+	t_token *tmp_tok;
+	char	*new_cmd;
+	char	**final_cmd;
+}
+*/
+
 
 void	total_pipes(t_shell *sh, t_token **tokens)
 {
