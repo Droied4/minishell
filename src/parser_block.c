@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 23:05:31 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/15 00:51:50 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/15 14:16:55 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,16 @@ static void redifine_block_type(t_shell *sh)
 	{
 		if (tmp->next && tmp->type == B_REDIR)
 			tmp->next->type = B_FILE;	
-		while (tmp->next && tmp->type == quotes)
+		if (tmp->next && tmp->type == quotes)
 		{
-
-			if (tmp->type != CMD && tmp->type != quotes)
-				tmp->type = B_CMD;
 			tmp = tmp->next;	
-			if (tmp->type == quotes)
-				break ;
+			while (tmp->type != quotes)
+			{
+				if (tmp->type != B_CMD)
+					tmp->type = B_CMD;
+				tmp = tmp->next;	
+			}
 		}
-			
 		tmp = tmp->next;
 	}
 }
