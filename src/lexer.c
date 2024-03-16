@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/16 01:32:07 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/16 01:34:14 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	token_file(t_token *tok)
 		if (tmp->next && (tmp->type == GREAT || tmp->type == LESS || tmp->type == DGREAT
 			|| tmp->type == DLESS))
 		{
-			if (tmp->next && is_redir(tmp->next->type) < 0)
+			if (tmp->next && is_meta(tmp->next->type) < 0)
 				tmp->next->type = FILES;
 		}
 		tmp = tmp->next;

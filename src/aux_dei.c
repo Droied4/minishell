@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/15 00:49:59 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/16 01:55:53 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,15 +129,24 @@ char	*ft_imp_strjoin(char const *s1, char const *s2)
 
 int	is_meta(int type)
 {
-	static int	meta_char[] = METACHAR;
-	int i;
-
-	i = 8;
-	while (--i >= -1)
+	int	*meta;
+	int			i;
+	
+	meta = malloc(sizeof(int) * 6);
+	if (!meta)
+		return (-1);
+	i = -1;
+	while (++i <= 5)
+		meta[i] = i;
+	while (--i > -1)
 	{
-		if (type == meta_char[i])
+		if (type == meta[i] || type == DGREAT || type == DLESS)
+		{
+			free(meta);
 			return (1);
+		}
 	}
+	free(meta);
 	return (-1);
 }
 
