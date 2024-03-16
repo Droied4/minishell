@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/15 14:11:02 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/16 00:41:26 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ typedef enum e_type
 	SQUOTE, // 5
 	DQUOTE, // 6
 	EXP,    // 7
-	CMD     // 8
+	FILES,	// 8
+	CMD     // 9
 }								t_type;
 
 typedef enum e_block_type

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/14 15:59:33 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/16 00:59:55 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,28 @@ int	ft_deltoken(t_token **lst)
 	return (0);
 }
 
+static void	token_file(t_token *tok)
+{
+	t_token	*tmp;
+
+	tmp = tok;
+	while (tmp)
+	{
+		if (tmp->type == GREAT || tmp->type == LESS || tmp->type == DGREAT
+			|| tmp->type == DLESS)
+			tmp->next->type = FILES;
+		tmp = tmp->next;
+	}
+}
+
 t_token	*generate_tokens(char *line)
 {
 	int		i;
 	t_token	*new;
 	t_token	*lst;
-	char 	*line2;
+	char	*line2;
 	char	**input;
-	
+
 	i = -1;
 	lst = NULL;
 	line2 = ft_strtrim(line, " ");
@@ -92,6 +106,7 @@ t_token	*generate_tokens(char *line)
 	}
 	free(line2);
 	free(input);
+	token_file(lst);
 	print_tokens(lst);
 	return (lst);
 }

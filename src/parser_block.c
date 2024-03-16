@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 23:05:31 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/15 14:16:55 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/16 00:42:09 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,11 @@ static void block_type(t_block **block, t_token *tok)
 		(*block)->type = B_CMD;
 }
 
-static int s_or_d_quotes(t_shell *sh)
+static int s_or_d_quotes(t_block *tmp)
 {
-	int quotes;
-
-	quotes = first_quotes(sh);
-	if (quotes == 1)
+	if (tmp->type == B_SQUOTES)
 		 return(B_SQUOTES);
-	else if (quotes == 2)
+	else if (tmp->type == B_DQUOTES)
 		 return(B_DQUOTES);
 	else
 		 return(-1);
@@ -46,23 +43,24 @@ static void redifine_block_type(t_shell *sh)
 	t_block *tmp;
 	int quotes;
 
-	quotes = s_or_d_quotes(sh);
 	tmp = sh->block;
 	while (tmp)
 	{
 		if (tmp->next && tmp->type == B_REDIR)
 			tmp->next->type = B_FILE;	
-		if (tmp->next && tmp->type == quotes)
+		if (tmp->next && (tmp->type == B_SQUOTES || tmp->type == B_DQUOTES))
 		{
-			tmp = tmp->next;	
-			while (tmp->type != quotes)
+			quotes = s_or_d_quotes(tmp);
+			tmp = tmp->next;
+			while (tmp && tmp->type != quotes)
 			{
 				if (tmp->type != B_CMD)
 					tmp->type = B_CMD;
 				tmp = tmp->next;	
 			}
 		}
-		tmp = tmp->next;
+		if (tmp)
+			tmp = tmp->next;
 	}
 }
 
