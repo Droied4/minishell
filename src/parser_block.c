@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 23:05:31 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/16 00:42:09 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/16 01:19:36 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,13 @@ static void establish_block_type(t_shell *sh)
 		if (tmp_block)
 		{
 			block_type(&tmp_block, tmp_tok);
-			tmp_tok = tmp_tok->next;
+			if (tmp_tok->type == CMD)
+			{
+				while (tmp_tok && tmp_tok->type == CMD)
+					tmp_tok = tmp_tok->next;
+			}
+			else 
+				tmp_tok = tmp_tok->next;
 			tmp_block = tmp_block->next;
 		}
 		else
