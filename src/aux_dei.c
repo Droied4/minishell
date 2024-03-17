@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/16 01:55:53 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/17 22:28:47 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,11 +132,11 @@ int	is_meta(int type)
 	int	*meta;
 	int			i;
 	
-	meta = malloc(sizeof(int) * 6);
+	meta = malloc(sizeof(int) * 8);
 	if (!meta)
 		return (-1);
 	i = -1;
-	while (++i <= 5)
+	while (++i <= 7)
 		meta[i] = i;
 	while (--i > -1)
 	{
