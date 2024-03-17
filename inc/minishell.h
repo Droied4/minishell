@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/15 00:50:15 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/17 23:18:52 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,10 @@ void	parse_block(t_shell *sh);
 
 //-------------------parsercmd
 
+int consecutive_type(t_token *tok, int type);
 t_token	*fill_cmd(t_block **cmd, t_token *token);
 int	is_redir(int type);
-void	total_pipes(t_shell *sh, t_token **tokens);
+int	total_type(t_token *tokens, int type);
 t_token *fill_cmd(t_block **cmd, t_token *token);
 char	*add_space(char *info);
 

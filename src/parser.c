@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/15 14:16:51 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/17 23:17:38 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	parse_cmd(t_shell *sh)
 
 	tmp_cmd = sh->block;
 	tmp_tok = sh->tokens;
-	total_pipes(sh, &sh->tokens);
+	sh->pipes = total_type(sh->tokens, PIPE);
 	while (tmp_tok != NULL || tmp_cmd != NULL)
 	{
 		if (tmp_cmd)

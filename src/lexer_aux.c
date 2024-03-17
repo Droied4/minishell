@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:42:37 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/14 18:47:22 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/18 00:03:40 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	token_type(t_token *lst)
 {
-	if (ft_strncmp(lst->data, "<<", 2) == 0)
+	if (ft_strncmp(lst->data, "<<", 3) == 0)
 		lst->type = DLESS;
 	else if (ft_strncmp(lst->data, ">>", 2) == 0)
 		lst->type = DGREAT;
-	else if (ft_strncmp(lst->data, "<", 1) == 0)
+	else if (ft_strncmp(lst->data, "<", 1) == 0 || ft_strncmp(lst->data, "<<<", 3) == 0)
 		lst->type = LESS;
 	else if (ft_strncmp(lst->data, ">", 1) == 0)
 		lst->type = GREAT;
@@ -92,7 +92,9 @@ static char	*cpy_space(char *final_s, char *s, char btween)
 				if (h >= 2)
 					break ;
 				final_s[j++] = s[i];
-				if (s[i] == s[i + 1] && is_charmeta(s[i + 1]) > 0 && s[i] != '$') 
+				if (s[i + 1] && s[i] == s[i + 1] && is_charmeta(s[i + 1]) > 0 && s[i] != '$') 
+					final_s[j++] = s[++i];
+				if (s[i + 1] && s[i] == s[i + 1]  && s[i] == '<') 
 					final_s[j++] = s[++i];
 				else if (s[i] == '$')
 				{

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/16 01:56:52 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/17 23:33:15 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,37 @@ static t_token *fill_block(t_block **block, t_token *token)
 	char	**final_cmd;
 }
 */
-
-
-void	total_pipes(t_shell *sh, t_token **tokens)
+/*
+int consecutive_type(t_token *tok, int type)
 {
-	t_token	*tmp;
-	int		total_pipes;
-
-	tmp = *tokens;
-	total_pipes = 0;
+	t_token *tmp;
+	int consec_max;
+	
+	tmp = tok;
+	consec_max = 0;
 	while (tmp)
 	{
-		if (tmp->type == PIPE)
-			++total_pipes;
+		if (tmp->next && tmp->type == type && tmp->next->type == type)
+			consec_max++;
 		tmp = tmp->next;
 	}
-	sh->pipes = total_pipes;
+	return (consec_max);
+}*/
+
+int	total_type(t_token *tokens, int type)
+{
+	t_token	*tmp;
+	int		total_char;
+
+	tmp = tokens;
+	total_char = 0;
+	while (tmp)
+	{
+		if (tmp->type == type)
+			++total_char;
+		tmp = tmp->next;
+	}
+	return (total_char);
 }
 
 int	is_redir(int type)
