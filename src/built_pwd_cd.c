@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_pwd.c                                        :+:      :+:    :+:   */
+/*   built_pwd_cd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:13:30 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 18:55:13 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/19 20:44:15 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-// pwd
-void    execute_pwd()
+
+int	execute_pwd(void)
 {
-    char *s;
+	char	s[PATH_MAX];
 
-    s = NULL;
-    s = getcwd(s, 50);
-    printf("%s\n", s);
+	if (getcwd(s, sizeof(s)) != NULL)
+	{
+		ft_dprintf(STDOUT_FILENO, "%s\n", s);
+		return (EXIT_SUCCESS);
+	}
+	return (EXIT_FAILURE);
+}
 
-    // return 0;
+int	execute_cd(t_shell *sh)
+{
 }

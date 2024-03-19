@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 19:03:23 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/19 20:15:20 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 # define REDIR {PIPE, GREAT, LESS, DGREAT, DLESS}
 # define STR_META "| > < >> << ' $" ""   
 # define METACHAR {PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE, EXP}
-
 /*
  * TOKEN TYPE 
  * */

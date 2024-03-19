@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 19:03:28 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/14 22:35:32 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_env
     char    *var_name;
     char    *var_content;
     struct s_env *next;
+    struct s_env *prev;
 }   t_env;
 
 /*LA RAZON POR LA QUE CREE ESTO ES PARA TENER UNA ESTRUCTURA 

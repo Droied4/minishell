@@ -6,94 +6,128 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 18:55:12 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/19 20:44:25 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env    *exporting_var(t_shell sh, t_env **lst_env)
+int	found_var(char *var, t_env *lst, int *i)
 {
-    int flag;
-    size_t len;
-    t_env   *new;
-    t_env   *last;
-    
-    new = create_envnode(sh.tokens->next->data);
-    //check if = is found in new
-    //if true we add it to the env variables when env is passed
-    //if not we just keep it in the export environment 
-    //check if the new var_name is equal to the current var_name
-    //if it s true we do a ft_strdup of the new content to the current 
-    //and we return the list with the changed value
-    //if not, we attach the new node at the end of the list
-    len = 0; 
-    flag = 0;
-    if (new)
-    {
-        last = *lst_env;
-        while(last->next)
-        {
-            len = ft_strlen(new->var_name);
-            if (!ft_strncmp(last->var_name, new->var_name, len + 1))
-            {
-                flag = 1;
-                last->var_content = ft_strdup(new->var_content);
-                // if (last->next == NULL)
-                //     break ;
-            }
-            last = last->next;
-        }
-        if (flag == 1)
-        {
-            free(new);
-            return (*lst_env);
-        }
-        else
-            last->next = new;
-    }
-    return (*lst_env);
+	size_t	len;
+	t_env	*tmp;
+	char	**line;
+
+	len = 0;
+	line = ft_split(var, '=');
+	tmp = lst;
+	while (tmp)
+	{
+		if (ft_strlen(line[0]) > ft_strlen(tmp->var_name))
+			len = ft_strlen(line[0]);
+		else
+			len = ft_strlen(tmp->var_name);
+		if (ft_strncmp(line[0], tmp->var_name, len) == 0)
+		{
+			*i += 1;
+			return (1);
+		}
+		else
+		{
+			*i += 1;
+			tmp = tmp->next;
+		}
+	}
+	free(line);
+	return (0);
 }
-//clean code libro
-void   execute_export(t_shell *sh, char **env)
+
+static t_env	*update_var(char *s, t_env **lst, int pos)
 {
-    int flag;
-    printf("hola export\n");
-    //sh->env = create_lst_env(env);
-    // if no params has passed means the 1st time
-    //example shell > export
-    flag = 0;  
-    if (sh->tokens->next == NULL && sh->env == NULL)
-        sh->env = create_lst_env(env);
-    // if theres parameters passing within the export 1st time typing it
-    //example shell > export hola 
-    //2nda vez or N veces
-     else if (sh->tokens->next == NULL && sh->env != NULL)
-    {
-        //to put in alphabetic order function to do
-        print_lst_env(sh->env, 2);
-        flag = 1;
-    }
-    //if env command never passed before
-    //means we just start with shell > export algo
-    else if (sh->tokens->next != NULL && sh->env == NULL)
-    {
-        //create the list 
-        //exporting the new variable
-        sh->env = create_lst_env(env);
-        sh->env = exporting_var(*sh, &sh->env); 
-    }        
-    else if (sh->tokens->next != NULL && sh->env != NULL)
-    {
-        //if export has been called before && want to add new vars
-        printf("ooooooook\n");
-        //add the new var
-        sh->env = exporting_var(*sh, &sh->env); 
-    }
-    //to put in alphabetic order function to do
-    if (flag == 0)
-        print_lst_env(sh->env, 2);
+	int		i;
+	char	**split;
+	t_env	*newlst;
+
+	i = 0;
+	newlst = *lst;
+	while (++i < pos && newlst)
+		newlst = newlst->next;
+	newlst->line = ft_strdup(s);
+	split = ft_split(newlst->line, '=');
+	newlst->var_name = split[0];
+	newlst->var_content = split[1];
+	free(split);
+	return (*lst);
 }
-//while check_order == ko
-//check 1st charact
-//if 1st char == 1st->next char move to 2nd and so one
+
+t_env	*exporting_var(t_shell sh, t_env **lst_env)
+{
+	int		i;
+	size_t	len;
+	int		flag;
+	t_env	*last;
+	t_env	*new;
+
+	new = NULL;
+	i = 0;
+	if (!found_var(sh.tokens->next->data, *lst_env, &i))
+		new = create_envnode(sh.tokens->next->data);
+	else
+		return (update_var(sh.tokens->next->data, lst_env, i));
+	len = 0;
+	flag = 0;
+	if (new)
+	{
+		last = *lst_env;
+		while (last->next)
+			last = last->next;
+		last->next = new;
+        new->prev = last;
+	}
+	return (*lst_env);
+}
+// case export hola="como estas" que tal como="vamos"
+// static void    check_tokens(t_token *tok)
+// {
+//     t_token *tmp;
+//     int     count;
+
+//     count = 0;
+//     tmp = tok;
+//     while (tmp)
+//     {
+//         printf("this is the token[%d]--->[%d]", count, tmp->index);
+//         count++;
+//         tmp = tmp->next;
+//     }
+
+// }
+
+void	execute_export(t_shell *sh, char **env)
+{
+	int	flag;
+
+	flag = 0;
+	if (sh->tokens->next == NULL && sh->env == NULL)
+		sh->env = create_lst_env(env);
+	else if (sh->tokens->next == NULL && sh->env != NULL)
+	{
+		// to put in alphabetic order function to do
+		print_lst_env(sh->env, 2);
+		flag = 1;
+	}
+	else if (sh->tokens->next != NULL && sh->env == NULL)
+	{
+		sh->env = create_lst_env(env);
+		sh->env = exporting_var(*sh, &sh->env);
+	}
+	else if (sh->tokens->next != NULL && sh->env != NULL)
+	{
+		sh->env = exporting_var(*sh, &sh->env);
+	}
+	if (flag == 0)
+		print_lst_env(sh->env, 2);
+}
+// while check_order == ko
+// check 1st charact
+// if 1st char == 1st->next char move to 2nd and so one

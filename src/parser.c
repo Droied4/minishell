@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 18:55:27 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/14 18:00:40 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ void	parse_all(t_shell *sh)
 	if (parse_input(sh) < 0)
 	   return ;	/*redifinir cosas y verificar cosas crear la copia del env*/
 	parse_cmd(sh);//🦊❗️
-	print_tablecmd(sh->cmds);
+	//print_tablecmd(sh->cmds);
 	// parse_expansor; supongo que toca parsearlo xd
 }

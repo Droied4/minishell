@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:50:17 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 18:55:19 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/19 20:44:23 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void create_envlst(t_env **lst, t_env *new)
     while (last->next)
         last = last->next;
     last->next = new;
+    new->prev = last;
 }
 
 t_env *create_envnode(char *envp)

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 18:55:22 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/19 16:05:22 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ t_token	*generate_tokens(char *line)
 	line2 = ft_strtrim(line, " ");
 	line2 = add_between(line2, ' ');
 	input = ft_split(line2, ' ');
+	//input = prepare_tokens(input);export hola="com estas" qu tal hol="asd"
+	//process that is gonna join 2 char * if 
 	while (input[++i])
 	{
 		new = create_node(input[i]);
@@ -92,6 +94,6 @@ t_token	*generate_tokens(char *line)
 	}
 	free(line2);
 	free(input);
-	//print_tokens(lst);
+	print_tokens(lst);
 	return (lst);
 }

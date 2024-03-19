@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 19:03:30 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/19 20:44:18 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <limits.h>
 # include <unistd.h>
 # include <readline/history.h>
 //# include <editline/readline.h>
@@ -113,12 +114,13 @@ char	**convert_to_dchar(t_env *lst_env);
 		BUILTINS
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
-
+int		execute_pwd(void);
+int		execute_cd(t_shell *sh);
 void    execute_exit(t_shell *sh);
 void    execute_export(t_shell *sh, char **env);
 void    execute_builtins(t_shell *looking, char **env);
-
-// void    display_env(env);
+int		found_var(char *var, t_env *lst, int *i);
+void	execute_unset(t_shell **sh, char **env);
 void	printlst(t_token *lst);
 int     ft_del_env(t_env **lst);
 void    print_lst_env(t_env *lst, int i);
@@ -135,10 +137,6 @@ char	**convert_to_dchar(t_env *lst_env);
 /*
  *  BUILTINS
  */
-
 void    init_shell(t_shell *sh);
-void    execute_exit(t_shell *sh);
-void    execute_export(t_shell *sh, char **env);
-void    execute_builtins(t_shell *looking, char **env);
 
 #endif
