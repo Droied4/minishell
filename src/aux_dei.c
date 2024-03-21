@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 13:16:40 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:48:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void	print_blocks(t_block *lst)
 		printf(GREEN "---------------------\n");
 		printf(NC "curr -> %p\n", tmp);
 		printf(NC "next -> %p\n", tmp->next);
-		printf(GREEN "---------------------\n" NC);
+		printf(GREEN "---------------------");
+		printf(NC"\n");
 		tmp = tmp->next;
 	}
 }
