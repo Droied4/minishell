@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/17 23:18:52 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:21:53 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ void	token_type(t_token *lst);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
-int is_builtin(char *data);
 void	parse_all(t_shell *sh);
 int	parse_input(t_shell *sh);
 void	parse_cmd(t_shell *sh);
+void	parse_block(t_shell *sh);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
@@ -68,13 +68,15 @@ t_block	*generate_blocks(t_token *tokens);
 		PARSER BLOCK - 5
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
+void	establish_block_type(t_shell *sh);
 
-void	parse_block(t_shell *sh);
+/*
+┏━━━━━━━━・▼ ・━━━━━━━━┓
+		PARSER CMD - 5
+┗━━━━━━━━・▼ ・━━━━━━━━┛
+*/
 
-//-------------------parsercmd
-
-int consecutive_type(t_token *tok, int type);
-t_token	*fill_cmd(t_block **cmd, t_token *token);
+t_token	*fill_block(t_block **cmd, t_token *token);
 int	is_redir(int type);
 int	total_type(t_token *tokens, int type);
 t_token *fill_cmd(t_block **cmd, t_token *token);
@@ -113,6 +115,7 @@ void    print_lst_env(t_env *lst, int i);
 
 //---------------------aux dei
 char *char2str(char c);
+int is_builtin(char *data);
 int		is_meta(int type);
 void	print_tokens(t_token *lst);
 void	print_blocks(t_block *lst);

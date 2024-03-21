@@ -6,35 +6,11 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/17 23:33:15 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:21:54 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-static t_token *fill_block(t_block **block, t_token *token)
-{
-	t_token *tmp_tok;
-	char	*new_cmd;
-	char	**final_cmd;
-}
-*/
-/*
-int consecutive_type(t_token *tok, int type)
-{
-	t_token *tmp;
-	int consec_max;
-	
-	tmp = tok;
-	consec_max = 0;
-	while (tmp)
-	{
-		if (tmp->next && tmp->type == type && tmp->next->type == type)
-			consec_max++;
-		tmp = tmp->next;
-	}
-	return (consec_max);
-}*/
 
 int	total_type(t_token *tokens, int type)
 {
@@ -91,17 +67,17 @@ char	*add_space(char *info)
 		return (NULL);
 }
 
-static char	**build_cmd(t_token *tmp_tok, char *new_cmd)
+static char	**build_cmd(t_token *tok, char *new_cmd)
 {
 	char	**final_cmd;
 	char	*flag;
 
-	while (tmp_tok && is_redir(tmp_tok->type) == -1)
+	while (tok && is_meta(tok->type) < 0)
 	{
-		tmp_tok = tmp_tok->next;
-		if (tmp_tok && tmp_tok->type == CMD)
+		tok = tok->next;
+		if (tok && tok->type == CMD)
 		{
-			flag = add_space(tmp_tok->data);
+			flag = add_space(tok->data);
 			new_cmd = ft_imp_strjoin(new_cmd, flag);
 		}
 		else
@@ -115,6 +91,29 @@ static char	**build_cmd(t_token *tmp_tok, char *new_cmd)
 	return (NULL);
 }
 
+
+t_token *fill_block(t_block **block, t_token *token)
+{
+	t_token *tok;
+	char	*new_cmd;
+	char	**final_cmd;
+	
+	tok = token;
+	if (!tok)
+		return (NULL);
+	new_cmd = add_space(tok->data);
+	final_cmd = build_cmd(tok, new_cmd);
+	while (tok && is_meta(tok->type) < 0)
+		tok = tok->next;
+	if (final_cmd == NULL)
+		return (tok->next);
+	else
+		(*block)->cmd = final_cmd;
+	return (tok);
+
+}
+
+/*
 t_token	*fill_cmd(t_block **cmd, t_token *token)
 {
 	t_token	*tmp_tok;
@@ -133,4 +132,4 @@ t_token	*fill_cmd(t_block **cmd, t_token *token)
 	else
 		(*cmd)->cmd = final_cmd;
 	return (tmp_tok);
-}
+}*/

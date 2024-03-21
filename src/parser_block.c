@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 23:05:31 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/20 15:58:27 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:07:00 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static void	redir_file_case(t_block *block)
 			{
 				tmp->type = B_FILE;
 				tmp = tmp->next;
-			
 			}
 		}
 		else
@@ -87,7 +86,7 @@ static void	redifine_block_type(t_shell *sh)
 	}
 }
 
-static void	establish_block_type(t_shell *sh)
+void	establish_block_type(t_shell *sh)
 {
 	t_token	*tmp_tok;
 	t_block	*tmp_block;
@@ -112,24 +111,4 @@ static void	establish_block_type(t_shell *sh)
 			break ;
 	}
 	redifine_block_type(sh);
-}
-
-void	parse_block(t_shell *sh)
-{
-	t_token	*tmp_tok;
-	t_block	*tmp_block;
-
-	tmp_block = sh->block;
-	tmp_tok = sh->tokens;
-	establish_block_type(sh);
-	while (tmp_tok != NULL || tmp_block != NULL)
-	{
-		if (tmp_block)
-		{
-			//	tmp_tok = fill_block(&tmp_block, tmp_tok);
-			tmp_block = tmp_block->next;
-		}
-		else
-			break ;
-	}
 }
