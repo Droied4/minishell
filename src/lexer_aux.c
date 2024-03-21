@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:42:37 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 10:51:16 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:40:10 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,7 @@ int	cont_meta(char *s)
 	return (count);
 }
 
-int	is_charmeta(char c)
-{
-	char	*meta;
-	int		i;
 
-	i = -1;
-	meta = STR_META;
-	while (meta[++i])
-	{
-		if (c == meta[i])
-			return (1);
-	}
-	return (-1);
-}
 
 static char	*cpy_space(char *final_s, char *s, char btween)
 {
@@ -100,8 +87,8 @@ static char	*cpy_space(char *final_s, char *s, char btween)
 					final_s[j++] = s[++i];
 				else if (s[i] == '$')
 				{
-					while (s[i + 1] != '\0' && s[i + 1] != ' ' && s[i + 1] != '\''
-						&& s[i + 1] != '\"')
+					while (s[i + 1] != '\0' && s[i + 1] != ' ' && s[i
+						+ 1] != '\'' && s[i + 1] != '\"')
 					{
 						final_s[j++] = s[++i];
 					}

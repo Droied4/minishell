@@ -6,32 +6,11 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 10:45:47 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:17:18 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_builtin(char *data)
-{
-	int		i;
-	int		len_data;
-	char	**builtins;
-
-	builtins = ft_split(STR_BUILTINS, ' ');
-	len_data = ft_strlen(data);
-	i = -1;
-	while (builtins[++i])
-	{
-		if (ft_strncmp(data, builtins[i], len_data) == 0)
-		{
-			ft_free_array(builtins);
-			return (1);
-		}
-	}
-	ft_free_array(builtins);
-	return (0);
-}
 
 void	print_tokens(t_token *lst)
 {
@@ -123,29 +102,6 @@ char	*ft_imp_strjoin(char const *s1, char const *s2)
 	return ((char *)rsv);
 }
 
-int	is_meta(int type)
-{
-	int	*meta;
-	int	i;
-
-	meta = malloc(sizeof(int) * 8);
-	if (!meta)
-		return (-1);
-	i = -1;
-	while (++i <= 7)
-		meta[i] = i;
-	while (--i > -1)
-	{
-		if (type == meta[i] || type == DGREAT || type == DLESS)
-		{
-			free(meta);
-			return (1);
-		}
-	}
-	free(meta);
-	return (-1);
-}
-
 char	*char2str(char c)
 {
 	char	*str;
@@ -172,34 +128,4 @@ void	ft_free_array(char **res)
 		free(res);
 		res = NULL;
 	}
-}
-
-int is_quoted_before(t_token *tok)
-{
-	if (tok->prev)
-		tok = tok->prev;
-	else
-		return (0);
-		while (tok)
-		{
-			if (tok->type == SQUOTE || tok->type == DQUOTE)
-				return (1);
-			tok = tok->prev;
-		}
-	return (0);
-}
-
-int is_quoted_after(t_token *tok)
-{
-	if (tok->next)
-		tok = tok->next;
-	else
-		return (0);
-	while (tok)
-	{
-		if (tok->type == SQUOTE || tok->type == DQUOTE)
-			return (1);
-		tok = tok->next;
-	}
-	return (0);
 }
