@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 19:03:28 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/12 01:46:21 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,6 @@ typedef struct s_env
     struct s_env *next;
 }   t_env;
 
-/*LA RAZON POR LA QUE CREE ESTO ES PARA TENER UNA ESTRUCTURA 
- * GENERAL EN LA QUE LLEVEMOS TODO COMO LA LISTA DE LAS TOKENS Y LA LISTA DE
- * LOS COMANDOS Y EN UN FUTURO SABER LA CANTIDAD DE PIPES TOTAL O EL EXPANSOR
- * O EL ENV COSAS ASI
- * */
-
 typedef struct s_shell
 {
 	char			*line;
@@ -66,12 +60,10 @@ typedef enum e_type
 	LESS,   // 2
 	DGREAT, // 3
 	DLESS,  // 4
-	CMD,    // 5
-	FLAG,   // 6
-	ARCH,   // 7
-	SQUOTE, // 8
-	DQUOTE, // 9
-	EXP     // 10
+	SQUOTE, // 5
+	DQUOTE, // 6
+	EXP,     // 7
+	CMD    // 8
 }					t_type;
 
 #endif
