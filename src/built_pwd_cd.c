@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:13:30 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/19 20:44:15 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/21 21:04:24 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,53 @@ int	execute_pwd(void)
 	return (EXIT_FAILURE);
 }
 
-int	execute_cd(t_shell *sh)
+static char *found_path(t_shell *sh, char *var)
 {
+	int i;
+	int pos;
+	char *path;
+	t_env *tmplst;
+
+	i = 0;
+	pos = 0;
+	tmplst = sh->env;
+	found_var(var, sh->env, &pos);
+	while(++i < pos && tmplst)
+		tmplst = tmplst->next;
+	path = ft_strdup(tmplst->var_content);
+	return (path);
+}
+
+// static void update_current_pwd(t_env *lst)
+// {
+// 	//iterate through lst and change pwd content 
+// 	//calling the getwd function
+// }
+
+// static void update_current_oldpwd(t_env *lst)
+// {
+// 	//iterate through lst and change oldpwd content 
+// 	//to the last one
+	
+// }
+
+int	execute_cd(t_shell *sh, char **env)
+{
+	const char	*path;
+	
+	if (sh->env == NULL)
+		sh->env = create_lst_env(env);
+	if (sh->tokens->next == NULL)
+		path = found_path(sh, "HOME");
+	else
+		path = (sh->tokens->next->data);
+	//OLDPWD = current PWD
+	//update_current_oldpwd(sh->env);	
+	if (chdir(path) == -1)
+	{
+		ft_dprintf(STDERR_FILENO, "hola its ok\n");
+	}
+	//update de PWD with getcwd; 
+	//update_current_pwd(sh->env);	
+	return (0);
 }

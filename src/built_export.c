@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/19 20:44:25 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/21 21:04:30 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static t_env	*update_var(char *s, t_env **lst, int pos)
 	newlst->var_name = split[0];
 	newlst->var_content = split[1];
 	free(split);
+	//free line necesarry ?
 	return (*lst);
 }
 
