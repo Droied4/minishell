@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 09:26:21 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:45:47 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,4 +172,34 @@ void	ft_free_array(char **res)
 		free(res);
 		res = NULL;
 	}
+}
+
+int is_quoted_before(t_token *tok)
+{
+	if (tok->prev)
+		tok = tok->prev;
+	else
+		return (0);
+		while (tok)
+		{
+			if (tok->type == SQUOTE || tok->type == DQUOTE)
+				return (1);
+			tok = tok->prev;
+		}
+	return (0);
+}
+
+int is_quoted_after(t_token *tok)
+{
+	if (tok->next)
+		tok = tok->next;
+	else
+		return (0);
+	while (tok)
+	{
+		if (tok->type == SQUOTE || tok->type == DQUOTE)
+			return (1);
+		tok = tok->next;
+	}
+	return (0);
 }

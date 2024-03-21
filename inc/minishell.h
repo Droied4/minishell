@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 09:21:53 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:07:25 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ void    print_lst_env(t_env *lst, int i);
 
 //---------------------aux dei
 char *char2str(char c);
+int is_quoted_before(t_token *token);
+int is_quoted_after(t_token *token);
 int is_builtin(char *data);
 int		is_meta(int type);
 void	print_tokens(t_token *lst);

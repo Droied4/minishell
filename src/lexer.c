@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 09:25:33 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:55:01 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_deltoken(t_token **lst)
 	return (0);
 }
 
-static void	token_file(t_token *tok)
+static void	redifine_token(t_token *tok)
 {
 	t_token	*tmp;
 
@@ -78,7 +78,36 @@ static void	token_file(t_token *tok)
 			if (tmp->next && is_meta(tmp->next->type) < 0)
 				tmp->next->type = FILES;
 		}
-		tmp = tmp->next;
+		else if (tmp->type == SQUOTE)
+		{
+			tmp = tmp->next;
+			while (tmp)
+			{
+				if (tmp->type != SQUOTE && tmp->type != EXP)
+					tmp->type = CMD;
+				else if (tmp->type == EXP)
+					tmp->type = EXP;
+				else
+					break ;
+				tmp = tmp->next;
+			}
+		}
+		else if (tmp->type == DQUOTE)
+		{
+			tmp = tmp->next;
+			while (tmp)
+			{
+				if (tmp->type != DQUOTE && tmp->type != EXP)
+					tmp->type = CMD;
+				else if (tmp->type == EXP)
+					tmp->type = EXP;
+				else
+					break ;
+				tmp = tmp->next;
+			}
+		}
+		if (tmp)
+			tmp = tmp->next;
 	}
 }
 
@@ -106,7 +135,7 @@ t_token	*generate_tokens(char *line)
 	}
 	free(line2);
 	free(input);
-	token_file(lst);
+	redifine_token(lst);
 	print_tokens(lst);
 	return (lst);
 }
