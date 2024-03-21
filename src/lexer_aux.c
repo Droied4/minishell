@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:42:37 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/18 00:03:40 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:59:31 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static char	*cpy_space(char *final_s, char *s, char btween)
 				if (h >= 2)
 					break ;
 				final_s[j++] = s[i];
-				if (s[i + 1] && s[i] == s[i + 1] && is_charmeta(s[i + 1]) > 0 && s[i] != '$') 
+				if (s[i + 1] && s[i] == s[i + 1] && is_charmeta(s[i + 1]) > 0 && s[i] != '$' && s[i] != '\'' && s[i] != '\"') 
 					final_s[j++] = s[++i];
 				if (s[i + 1] && s[i] == s[i + 1]  && s[i] == '<') 
 					final_s[j++] = s[++i];
