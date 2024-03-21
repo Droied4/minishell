@@ -6,50 +6,11 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/12 01:24:16 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:22:22 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	total_pipes(t_shell *sh, t_token **tokens)
-{
-	t_token	*tmp;
-	int		total_pipes;
-
-	tmp = *tokens;
-	total_pipes = 0;
-	while (tmp)
-	{
-		if (tmp->type == PIPE)
-			++total_pipes;
-		tmp = tmp->next;
-	}
-	sh->pipes = total_pipes;
-}
-
-int	is_redir(int type)
-{
-	int	*redir;
-	int			i;
-	
-	redir = malloc(sizeof(int) * 3);
-	if (!redir)
-		return (-1);
-	i = -1;
-	while (++i <= 2)
-		redir[i] = i;
-	while (--i > -1)
-	{
-		if (type == redir[i] || type == DGREAT || type == DLESS)
-		{
-			free(redir);
-			return (1);
-		}
-	}
-	free(redir);
-	return (-1);
-}
 
 char	*add_space(char *info)
 {
@@ -67,17 +28,17 @@ char	*add_space(char *info)
 		return (NULL);
 }
 
-static char	**build_cmd(t_token *tmp_tok, char *new_cmd)
+static char	**build_cmd(t_token *tok, char *new_cmd)
 {
 	char	**final_cmd;
 	char	*flag;
 
-	while (tmp_tok && is_redir(tmp_tok->type) == -1)
+	while (tok && is_meta(tok->type) < 0)
 	{
-		tmp_tok = tmp_tok->next;
-		if (tmp_tok && tmp_tok->type == CMD)
+		tok = tok->next;
+		if (tok && tok->type == CMD)
 		{
-			flag = add_space(tmp_tok->data);
+			flag = add_space(tok->data);
 			new_cmd = ft_imp_strjoin(new_cmd, flag);
 		}
 		else
@@ -91,22 +52,22 @@ static char	**build_cmd(t_token *tmp_tok, char *new_cmd)
 	return (NULL);
 }
 
-t_token	*fill_cmd(t_cmds **cmd, t_token *token)
+t_token	*fill_block(t_block **block, t_token *token)
 {
-	t_token	*tmp_tok;
+	t_token	*tok;
 	char	*new_cmd;
 	char	**final_cmd;
 
-	tmp_tok = token;
-	if (!tmp_tok)
+	tok = token;
+	if (!tok)
 		return (NULL);
-	new_cmd = add_space(tmp_tok->data);
-	final_cmd = build_cmd(tmp_tok, new_cmd);
-	while (tmp_tok && is_redir(tmp_tok->type) == -1)
-		tmp_tok = tmp_tok->next;
+	new_cmd = add_space(tok->data);
+	final_cmd = build_cmd(tok, new_cmd);
+	while (tok && is_meta(tok->type) < 0)
+		tok = tok->next;
 	if (final_cmd == NULL)
-		return (tmp_tok->next);
+		return (tok->next);
 	else
-		(*cmd)->cmd = final_cmd;
-	return (tmp_tok);
+		(*block)->cmd = final_cmd;
+	return (tok);
 }

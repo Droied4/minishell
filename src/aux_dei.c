@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 19:47:05 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:17:18 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_tokens(t_token *lst)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = lst;
 	while (tmp)
@@ -29,39 +29,50 @@ void	print_tokens(t_token *lst)
 	}
 }
 
-void	print_tablecmd(t_cmds *lst)
+void	print_blocks(t_block *lst)
 {
-	int i;
-
-	t_cmds *tmp;
+	int		i;
+	t_block	*tmp;
 
 	tmp = lst;
 	while (tmp)
 	{
 		i = -1;
 		printf(GREEN "\n-----------------------\n");
-		printf(GREEN "| Table of Commands %i |\n", tmp->index);
+		printf(GREEN "| Block Of Execution %i |\n", tmp->index);
 		printf(GREEN "-----------------------\n");
+		if (tmp->type == 0)
+			printf(NC "\ntype -> %s\n", "PIPE");
+		else if (tmp->type == 1)
+			printf(NC "\ntype -> %s\n", "REDIR");
+		else if (tmp->type == 2)
+			printf(NC "\ntype -> %s\n", "BUILT");
+		else if (tmp->type == 3)
+			printf(NC "\ntype -> %s\n", "SQUOTES");
+		else if (tmp->type == 4)
+			printf(NC "\ntype -> %s\n", "DQUOTES");
+		else if (tmp->type == 5)
+			printf(NC "\ntype -> %s\n", "COMMAND");
+		else if (tmp->type == 6)
+			printf(NC "\ntype -> %s\n", "FILE");
 		if (tmp->cmd)
 		{
 			printf(NC "cmd ->");
 			while (tmp->cmd[++i])
 				printf(NC " %s ", tmp->cmd[i]);
 		}
-		else 
+		else
 			printf(RED "cmd -> NULL");
-		printf(NC "\npath -> %s\n", tmp->path);
+		printf("\npath -> %s\n", tmp->path);
 		printf("in_fd -> %i\n", tmp->in);
 		printf("out_fd -> %i\n", tmp->out);
 		printf(GREEN "---------------------\n");
 		printf(NC "curr -> %p\n", tmp);
 		printf(NC "next -> %p\n", tmp->next);
-		printf(GREEN "---------------------\n");
+		printf(GREEN "---------------------\n" NC);
 		tmp = tmp->next;
 	}
 }
-
-
 
 char	*ft_imp_strjoin(char const *s1, char const *s2)
 {
@@ -71,7 +82,7 @@ char	*ft_imp_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	i2 = 0;
-	rsv = malloc ((sizeof(char)) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	rsv = malloc((sizeof(char)) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!rsv)
 		return (NULL);
 	while (s1[i])
@@ -88,21 +99,7 @@ char	*ft_imp_strjoin(char const *s1, char const *s2)
 	rsv[i] = '\0';
 	free((void *)s1);
 	free((void *)s2);
-	return ((char *) rsv);
-}
-
-int	is_meta(int type)
-{
-	static int	meta_char[] = METACHAR;
-	int i;
-
-	i = 8;
-	while (--i >= -1)
-	{
-		if (type == meta_char[i])
-			return (1);
-	}
-	return (-1);
+	return ((char *)rsv);
 }
 
 char	*char2str(char c)
