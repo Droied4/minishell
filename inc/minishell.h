@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 11:40:08 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:32:31 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,14 @@ int		input_unclosed(t_shell *sh);
 void	unclosed_entry(t_shell *sh);
 int		input_incomplete(t_shell *sh);
 void	incomplete_entry(t_shell *sh);
+/*
+┏━━━━━━━━・▼ ・━━━━━━━━┓
+		EXECUTOR - 5
+┗━━━━━━━━・▼ ・━━━━━━━━┛
+*/
+
+void executor(t_shell *sh, char **env);
+void execute_cmd(t_block *block);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   executor2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 12:55:14 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 17:57:21 by deordone         ###   ########.fr       */
+/*   Created: 2024/03/21 17:33:30 by deordone          #+#    #+#             */
+/*   Updated: 2024/03/21 18:44:26 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.c"
-/*
-static int child_process(t_block *block)
+#include "minishell.h"
+
+
+static void child_process(t_block *block)
 {
-	if (block->in != STDIN)
-		printf("hacer redireccion de la entrada");
-	if (block->out != STDOUT)	
-		printf("hacer redireccion de la salida");
-	execve(path, cmd, env);
-}*/
+	if (block->in != STD_IN)
+	{
+		printf("hacer redireccion de la entrada\n");
+	}
+	if (block->out != STD_OUT)
+	{
+		printf("hacer redireccion de la salida\n");
+	}
+	if (execve(block->path, block->cmd, NULL) < 0)
+		printf("cagaste\n");
+}
 
 static char	*ft_aux_check(char *new_path, char *new_cmd)
 {
@@ -67,52 +73,47 @@ static char	*ft_check_path(char **paths, char **cmd)
 	return (NULL);
 }
 
-static void find_path(t_block *block)
+static char **find_path(t_block *block)
 {
 	char **paths;
 	char *path;
 	int i;
 	
 	i = -1;
-	path = "PATH:g";
+	path = getenv("PATH");
 	paths = ft_split(path, ':');
-	
- /*	por si sale mal el get_env
-	  while (sh->env[++i] != NULL)
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			paths = ft_split(envp[i], ':');
-			break ;
-		}
-	}*/
 	block->path = ft_check_path(paths, block->cmd);
 	print_blocks(block);
+	return (paths);
 }
 
 void	execute_cmd(t_block *block)
 {
 	find_path(block);
-/*	pid_t pid;
+	pid_t pid;
+	//int parent_aux;
 
 	pid = fork();
-	if (!fork)
-		exit (1);
-	if (pid == 0)
+	if (pid == -1)
+		exit(1);
+	if (pid > 0)
 	{
+		printf("Proceso Padre\n");
 		child_process(block);
 	}
 	else
 	{
-		//esperar al hijo
-	}*/
+		printf("Proceso hijo\n");
+	}
+		//waitpid(0, &parent_aux, 0);
 }
+
 
 void	executor(t_shell *sh, char **env)
 {
 	t_block *block;
-
 	(void)env;
+
 	block = sh->block;
 	while (block)
 	{
@@ -125,5 +126,6 @@ void	executor(t_shell *sh, char **env)
 			execute_cmd(block);
 		//if (block->type == B_FILE)	
 		block = block->next;
-	}	
+	}
+
 }

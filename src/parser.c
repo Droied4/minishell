@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 11:19:14 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:44:29 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,5 @@ void	parse_all(t_shell *sh)
 		return ;
 	sh->block = generate_blocks(sh->tokens);
 	parse_block(sh);
-	print_blocks(sh->block);
-	ft_del_blocks(&sh->block);
 }
 	/* parse_expansor; supongo que toca parsearlo xd*/
