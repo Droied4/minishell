@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 23:05:31 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 11:19:53 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:01:40 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ static void	redir_file_case(t_block *block)
 {
 	t_block	*tmp;
 
-	tmp = block;
-	tmp = tmp->next;
+	tmp = block->next;
 	if (tmp)
 	{
 		if (tmp->type == B_SQUOTES || tmp->type == B_DQUOTES)
@@ -74,7 +73,7 @@ static void	redifine_block_type(t_shell *sh)
 			tmp = tmp->next;
 			while (tmp && tmp->type != quotes)
 			{
-				if (tmp->type != B_CMD && tmp->type != quotes)
+				if (tmp->type != B_CMD && tmp->type != quotes && tmp->type != B_FILE)
 					tmp->type = B_CMD;
 				tmp = tmp->next;
 			}
