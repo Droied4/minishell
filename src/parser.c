@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 09:21:56 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:24:37 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,35 +53,16 @@ void	parse_block(t_shell *sh)
 			break ;
 	}
 }
-/*
-void	parse_cmd(t_shell *sh)
-{
-	t_token	*tmp_tok;
-	t_block	*tmp_cmd;
 
-	tmp_cmd = sh->block;
-	tmp_tok = sh->tokens;
-	sh->pipes = total_type(sh->tokens, PIPE);
-	while (tmp_tok != NULL || tmp_cmd != NULL)
-	{
-		if (tmp_cmd)
-		{
-			tmp_tok = fill_cmd(&tmp_cmd, tmp_tok);
-			tmp_cmd = tmp_cmd->next;
-		}
-		else
-			break ;
-	}
-}*/
 void	parse_all(t_shell *sh)
 {
 	if (syntax_error(sh->tokens) < 0)
 		return ;
 	if (parse_input(sh) < 0)
 		return ;
-	// parse_expansor; supongo que toca parsearlo xd
 	sh->block = generate_blocks(sh->tokens);
 	parse_block(sh);
 	print_blocks(sh->block);
 	ft_del_blocks(&sh->block);
 }
+	/* parse_expansor; supongo que toca parsearlo xd*/

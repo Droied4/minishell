@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 16:24:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/16 01:05:59 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:23:12 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	create_block_lst(t_block **lst, t_block *new)
 	if (!(*lst))
 	{
 		*lst = new;
-		return;
+		return ;
 	}
 	last = *lst;
 	while (last->next)
@@ -47,13 +47,13 @@ static void	create_block_lst(t_block **lst, t_block *new)
 static int	new_table(t_token *tokens)
 {
 	int	*meta_char;
-	int			i;
+	int	i;
 
 	meta_char = malloc(sizeof(int) * 9);
 	if (!meta_char)
 		return (-1);
 	i = -1;
-	while(++i <= 8)
+	while (++i <= 8)
 		meta_char[i] = i;
 	if (tokens->prev && tokens->prev->type == CMD && tokens->type == CMD)
 	{

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 09:21:54 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:23:51 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	total_type(t_token *tokens, int type)
 int	is_redir(int type)
 {
 	int	*redir;
-	int			i;
-	
+	int	i;
+
 	redir = malloc(sizeof(int) * 3);
 	if (!redir)
 		return (-1);
@@ -91,13 +91,12 @@ static char	**build_cmd(t_token *tok, char *new_cmd)
 	return (NULL);
 }
 
-
-t_token *fill_block(t_block **block, t_token *token)
+t_token	*fill_block(t_block **block, t_token *token)
 {
-	t_token *tok;
+	t_token	*tok;
 	char	*new_cmd;
 	char	**final_cmd;
-	
+
 	tok = token;
 	if (!tok)
 		return (NULL);
@@ -110,7 +109,6 @@ t_token *fill_block(t_block **block, t_token *token)
 	else
 		(*block)->cmd = final_cmd;
 	return (tok);
-
 }
 
 /*

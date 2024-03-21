@@ -6,13 +6,12 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/16 01:34:14 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:25:33 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// to create each new node
 static t_token	*create_node(char *content)
 {
 	t_token	*new;
@@ -26,7 +25,6 @@ static t_token	*create_node(char *content)
 	return (new);
 }
 
-// to add the new node to the end of the list
 static t_token	*add_to_end(t_token *lst)
 {
 	if (!lst)
@@ -36,7 +34,6 @@ static t_token	*add_to_end(t_token *lst)
 	return (lst);
 }
 
-// trying to create the list of tokens
 static void	create_lst(t_token **lst, t_token *new)
 {
 	t_token	*last;
@@ -75,8 +72,8 @@ static void	token_file(t_token *tok)
 	tmp = tok;
 	while (tmp)
 	{
-		if (tmp->next && (tmp->type == GREAT || tmp->type == LESS || tmp->type == DGREAT
-			|| tmp->type == DLESS))
+		if (tmp->next && (tmp->type == GREAT || tmp->type == LESS
+				|| tmp->type == DGREAT || tmp->type == DLESS))
 		{
 			if (tmp->next && is_meta(tmp->next->type) < 0)
 				tmp->next->type = FILES;

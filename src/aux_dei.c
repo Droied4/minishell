@@ -6,21 +6,20 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/17 22:28:47 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:26:21 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_builtin(char *data)
+int	is_builtin(char *data)
 {
-	int i;
-	int len_data;
-	char **builtins;
-	
+	int		i;
+	int		len_data;
+	char	**builtins;
+
 	builtins = ft_split(STR_BUILTINS, ' ');
 	len_data = ft_strlen(data);
-	
 	i = -1;
 	while (builtins[++i])
 	{
@@ -36,7 +35,7 @@ int is_builtin(char *data)
 
 void	print_tokens(t_token *lst)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = lst;
 	while (tmp)
@@ -53,9 +52,8 @@ void	print_tokens(t_token *lst)
 
 void	print_blocks(t_block *lst)
 {
-	int i;
-
-	t_block *tmp;
+	int		i;
+	t_block	*tmp;
 
 	tmp = lst;
 	while (tmp)
@@ -84,7 +82,7 @@ void	print_blocks(t_block *lst)
 			while (tmp->cmd[++i])
 				printf(NC " %s ", tmp->cmd[i]);
 		}
-		else 
+		else
 			printf(RED "cmd -> NULL");
 		printf("\npath -> %s\n", tmp->path);
 		printf("in_fd -> %i\n", tmp->in);
@@ -92,12 +90,10 @@ void	print_blocks(t_block *lst)
 		printf(GREEN "---------------------\n");
 		printf(NC "curr -> %p\n", tmp);
 		printf(NC "next -> %p\n", tmp->next);
-		printf(GREEN "---------------------\n"NC);
+		printf(GREEN "---------------------\n" NC);
 		tmp = tmp->next;
 	}
 }
-
-
 
 char	*ft_imp_strjoin(char const *s1, char const *s2)
 {
@@ -107,7 +103,7 @@ char	*ft_imp_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	i2 = 0;
-	rsv = malloc ((sizeof(char)) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	rsv = malloc((sizeof(char)) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!rsv)
 		return (NULL);
 	while (s1[i])
@@ -124,14 +120,14 @@ char	*ft_imp_strjoin(char const *s1, char const *s2)
 	rsv[i] = '\0';
 	free((void *)s1);
 	free((void *)s2);
-	return ((char *) rsv);
+	return ((char *)rsv);
 }
 
 int	is_meta(int type)
 {
 	int	*meta;
-	int			i;
-	
+	int	i;
+
 	meta = malloc(sizeof(int) * 8);
 	if (!meta)
 		return (-1);
