@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 19:18:11 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/22 14:24:09 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ char	**convert_to_dchar(t_env *lst_env);
 		BUILTINS
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+void	free_split(char **sh);
 int		execute_pwd(void);
 int		execute_cd(t_shell *sh, char **env);
 void    execute_exit(t_shell *sh);
@@ -133,10 +134,5 @@ t_env   *create_lst_env(char **envp);
 
 t_env    *exporting_var(t_shell sh, t_env **lst_env);
 char	**convert_to_dchar(t_env *lst_env);
-
-/*
- *  BUILTINS
- */
-void    init_shell(t_shell *sh);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:38:57 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 19:09:41 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/22 14:26:31 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*ft_strdup(const char *s1)
 		++i;
 	}
 	ptr[i] = '\0';
+	printf("SDUP: ptr: [%p]\n", ptr);
 	return (ptr);
 }
 //	ft_strlcpy(ptr, s1, (ft_strlen(s1) + 1) * sizeof(char));

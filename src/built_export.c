@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/21 21:04:30 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/22 14:53:50 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	found_var(char *var, t_env *lst, int *i)
 		if (ft_strncmp(line[0], tmp->var_name, len) == 0)
 		{
 			*i += 1;
+			free_split(line);
 			return (1);
 		}
 		else
@@ -38,7 +39,7 @@ int	found_var(char *var, t_env *lst, int *i)
 			tmp = tmp->next;
 		}
 	}
-	free(line);
+	free_split(line);
 	return (0);
 }
 
@@ -53,6 +54,7 @@ static t_env	*update_var(char *s, t_env **lst, int pos)
 	while (++i < pos && newlst)
 		newlst = newlst->next;
 	newlst->line = ft_strdup(s);
+	//leaks in tsplit y strdup
 	split = ft_split(newlst->line, '=');
 	newlst->var_name = split[0];
 	newlst->var_content = split[1];

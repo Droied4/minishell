@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:17:12 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/19 19:18:40 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/22 14:22:25 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,17 @@ int	ft_lstenv_size(t_env *lst)
 	return (count++);
 }
 
-void	init_shell(t_shell *sh)
+void	free_split(char **sh)
 {
-	sh->env = NULL;
-	sh->st_cmd = NULL;
+	int i;
+
+	i = 0;
+	while (sh[i])
+	{
+		free(sh[i]);
+		i++;
+	} 
+	free(sh);
+	sh = NULL;
+
 }

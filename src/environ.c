@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:50:17 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/19 20:44:23 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/22 14:03:41 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,18 @@ t_env *create_envnode(char *envp)
     new->line = ft_strdup(envp); // Allocate memory and copy the string cause the 
     new->next = NULL;//new->line = envp only copy the pointer
     splitting = ft_split(new->line, '=');
-    new->var_name = splitting[0];
-    new->var_content = splitting[1];
+    if (splitting)
+    {
+        new->var_name = splitting[0];
+        new->var_content = splitting[1];
+    }
+    // if (splitting)
+    // {
+    //     free(splitting[0]);
+    //     free(splitting[1]);
+    // }
     free(splitting);
-    return new;
+    return (new);
 }
 
 //pass the tokens to it///DONE !7h 56
