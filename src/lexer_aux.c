@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:01:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/23 15:06:13 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/23 15:17:52 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,21 @@ void	token_type(t_token *lst)
 char	**montage_tokens(char *line)
 {
 	char	**tokens;
+	char 	*words;
 	int		len;
+	int 	i;
 
-	tokens = NULL;
 	len = len_matriz(line);
+	tokens = malloc(sizeof(char *) * len + 1);
+	tokens[len] = NULL;
+	while (token[i] != NULL)
+	{
+		//len of words
+		words = malloc(sizeof(char) * len_word + 1);
+		//cpy words
+		token[i] = words;
+		i++;
+	}
 	dprintf(2, "len ->%d\n", len);
 	return (tokens);
 }
