@@ -3,10 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_aux.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/23 15:01:28 by deordone          #+#    #+#             */
+/*   Updated: 2024/03/23 15:06:13 by deordone         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_aux.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:42:37 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 16:41:08 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/23 15:01:16 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +47,19 @@ void	token_type(t_token *lst)
 		lst->type = CMD;
 }
 
+char	**montage_tokens(char *line)
+{
+	char	**tokens;
+	int		len;
+
+	tokens = NULL;
+	len = len_matriz(line);
+	dprintf(2, "len ->%d\n", len);
+	return (tokens);
+}
+
+//#########################################
+
 int	cont_meta(char *s)
 {
 	int		i;
@@ -50,7 +75,7 @@ int	cont_meta(char *s)
 		j = -1;
 		while (meta[++j])
 		{
-			if (s[i] == meta[j])
+			if (s[i] == meta[j] && s[i] != '\'' && s[i] != '\"')
 				count++;
 		}
 	}
@@ -58,8 +83,6 @@ int	cont_meta(char *s)
 		return (++count);
 	return (count);
 }
-
-
 
 static char	*cpy_space(char *final_s, char *s, char btween)
 {
@@ -71,7 +94,7 @@ static char	*cpy_space(char *final_s, char *s, char btween)
 	j = 0;
 	while (s[i])
 	{
-		if (is_charmeta(s[i]) > 0)
+		if (is_charmeta(s[i]) > 0 && s[i] != '\'' && s[i] != '\"')
 		{
 			h = 0;
 			while (++h)

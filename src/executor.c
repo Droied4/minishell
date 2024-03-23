@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:33:30 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 19:48:07 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/23 12:39:19 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,10 @@ static char **find_path(t_block *block)
 
 void	execute_cmd(t_block *block)
 {
-	find_path(block);
 	pid_t pid;
 	int parent_aux;
+
+	find_path(block);
 
 	pid = fork();
 	if (pid == -1)
@@ -112,7 +113,7 @@ void	executor(t_shell *sh, char **env)
 	while (block)
 	{
 		//if (block->type == B_PIPE)	
-		//if (block->type == B_REDIR)	
+//		if (block->type == B_REDIR)
 		//if (block->type == B_BUILT)	
 		//if (block->type == B_SQUOTES)	
 		//if (block->type == B_DQUOTES)	

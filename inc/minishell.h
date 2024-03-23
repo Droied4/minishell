@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 17:32:31 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/23 15:06:14 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,19 @@ int		ft_deltoken(t_token **lst);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
+		NEW_LEXER - 5
+┗━━━━━━━━・▼・━━━━━━━━┛
+*/
+
+int len_matriz(char *line);
+
+/*
+┏━━━━━━━━・▼・━━━━━━━━┓
 	LEXER_AUX - 4
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
+char **montage_tokens(char *line);
 char	*add_between(char *s, char btween);
 int		cont_meta(char *s);
 void	token_type(t_token *lst);
