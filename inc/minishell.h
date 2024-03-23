@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/23 15:06:14 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/23 16:28:22 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ int		ft_deltoken(t_token **lst);
 */
 
 int len_matriz(char *line);
+int	lex_redir_case(char *s, char redir);
+int	lex_word_case(char *s);
+int	lex_quotes_case(char *s, char quote);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
@@ -144,14 +147,15 @@ void	ft_free_array(char **res);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
-	IS SOMETHING - 4
+	IS SOMETHING - 5
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
 int		is_builtin(char *data);
-int		is_charmeta(char c);
 int		is_meta(int type);
+int		is_charmeta(char c);
 int		is_redir(int type);
+int		is_char_redir(char c);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

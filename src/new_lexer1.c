@@ -6,13 +6,13 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:03:05 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/23 15:06:11 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/23 17:36:03 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	redir_case(char *s, char redir)
+int	lex_redir_case(char *s, char redir)
 {
 	int	max;
 	int	i;
@@ -32,7 +32,7 @@ static int	redir_case(char *s, char redir)
 	return (i);
 }
 
-static int	word_case(char *s)
+int	lex_word_case(char *s)
 {
 	int	i;
 
@@ -43,7 +43,7 @@ static int	word_case(char *s)
 	return (i);
 }
 
-static int	quotes_case(char *s, char quote)
+int	lex_quotes_case(char *s, char quote)
 {
 	int	i;
 
@@ -61,11 +61,11 @@ static int	quotes_case(char *s, char quote)
 static int	*meta_case(char *line, int count, int i, int *res)
 {
 	res = malloc(sizeof(int) * 2);
-	if ((line[i] == '<' || line[i] == '>' || line[i] == '|') && ++count)
-		i += redir_case(&line[i], line[i]);
+	if (is_char_redir(line[i]) > 0 && ++count)
+		i += lex_redir_case(&line[i], line[i]);
 	else if ((line[i] == '\'' || line[i] == '\"') && ++count)
 	{
-		i += quotes_case(&line[i], line[i]);
+		i += lex_quotes_case(&line[i], line[i]);
 		if (line[i] == '\0')
 		{
 			res[0] = i;
@@ -98,7 +98,7 @@ int	len_matriz(char *line)
 		}
 		else if (line[i] != ' ' && (is_charmeta(line[i]) < 0 || line[i] == '$')
 			&& ++count)
-			i += word_case(&line[i]);
+			i += lex_word_case(&line[i]);
 		else
 			i++;
 	}

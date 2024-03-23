@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:06:19 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 11:36:05 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/23 16:28:24 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,21 @@ int	is_builtin(char *data)
 	}
 	ft_free_array(builtins);
 	return (0);
+}
+
+int	is_char_redir(char c)
+{
+	char	*redir;
+	int		i;
+
+	i = -1;
+	redir = STR_REDIR;
+	while (redir[++i])
+	{
+		if (c == redir[i])
+			return (1);
+	}
+	return (-1);
 }
 
 int	is_charmeta(char c)
