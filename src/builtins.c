@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/21 19:18:25 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/25 18:01:22 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,7 @@ void	execute_builtins(t_shell *shell, char **env)
 		if (!ft_strncmp(shell->tokens->data, "export", 7))
 			execute_export(shell, env);
 		else if (!ft_strncmp(shell->tokens->data, "env", 4))
-		{
-			if (shell->env == NULL)
-			{
-				shell->env = create_lst_env(env);
-				print_lst_env(shell->env, 1);
-			}
-			else
-				print_lst_env(shell->env, 1);
-		}
+			execute_env(shell, env);
 		else if (!ft_strncmp(shell->tokens->data, "pwd", 4))
 			execute_pwd();
 		else if (!ft_strncmp(shell->tokens->data, "exit", 5))
@@ -63,7 +55,7 @@ void	execute_builtins(t_shell *shell, char **env)
 		}
 		else if (!ft_strncmp(shell->tokens->data, "cd", 3))
 			execute_cd(shell, env);
-		//     if (!ft_strncmp(looking->cmd, "echo", ft_strlen(looking->cmd)))
-		//         execute_echo();
+		else if (!ft_strncmp(shell->tokens->data, "echo", 5))
+			execute_echo(shell);
 	}
 }

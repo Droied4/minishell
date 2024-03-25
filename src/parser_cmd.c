@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 18:55:24 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/22 18:30:49 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ static char	**build_cmd(t_token *tmp_tok, char *new_cmd)
 		}
 		else
 		{
+			printf("###SPlt buitl cmd: ptr###\n");	//BORRAR
 			final_cmd = ft_split(new_cmd, ' ');
+			printf("###EndEsplit\n###");
 			free(new_cmd);
 			return (final_cmd);
 		}

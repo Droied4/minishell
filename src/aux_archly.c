@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:17:12 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/22 14:22:25 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/25 17:40:12 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	print_lst_env(t_env *lst, int i)
 		while (tmp)
 		{
 			if (ft_strchr(tmp->line, (int) '='))
-				printf("%s\n", tmp->line);
+				printf("%s=%s\n", tmp->var_name, tmp->var_content);
 			tmp = tmp->next;
 		}
 	}
@@ -96,17 +96,16 @@ int	ft_lstenv_size(t_env *lst)
 	return (count++);
 }
 
-void	free_split(char **sh)
+void	free_split(char **allsplit)
 {
 	int i;
 
 	i = 0;
-	while (sh[i])
+	while (allsplit[i])
 	{
-		free(sh[i]);
+		free(allsplit[i]);
 		i++;
 	} 
-	free(sh);
-	sh = NULL;
-
+	free(allsplit);
+	allsplit = NULL;
 }

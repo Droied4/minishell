@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/22 14:53:50 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/24 21:13:11 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	found_var(char *var, t_env *lst, int *i)
 	char	**line;
 
 	len = 0;
+	// printf("###SPlt founds var: ptr###\n");
 	line = ft_split(var, '=');
+	// printf("###EndEsplit\n###");
 	tmp = lst;
 	while (tmp)
 	{
@@ -53,9 +55,12 @@ static t_env	*update_var(char *s, t_env **lst, int pos)
 	newlst = *lst;
 	while (++i < pos && newlst)
 		newlst = newlst->next;
+	printf("###SDUP update var: ptr###\n");	//BORRAR
 	newlst->line = ft_strdup(s);
 	//leaks in tsplit y strdup
+	printf("###SPlt update var: ptr###\n");	//BORRAR
 	split = ft_split(newlst->line, '=');
+	printf("###EndEsplit\n###");
 	newlst->var_name = split[0];
 	newlst->var_content = split[1];
 	free(split);
@@ -71,8 +76,8 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env)
 	t_env	*last;
 	t_env	*new;
 
-	new = NULL;
 	i = 0;
+	new = NULL;
 	if (!found_var(sh.tokens->next->data, *lst_env, &i))
 		new = create_envnode(sh.tokens->next->data);
 	else

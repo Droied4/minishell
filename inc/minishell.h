@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/22 14:24:09 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/25 17:58:26 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ char	**convert_to_dchar(t_env *lst_env);
 */
 void	free_split(char **sh);
 int		execute_pwd(void);
+void    execute_echo(t_shell *shell);
+void    execute_env(t_shell *sh, char **env);
 int		execute_cd(t_shell *sh, char **env);
 void    execute_exit(t_shell *sh);
 void    execute_export(t_shell *sh, char **env);
@@ -125,14 +127,5 @@ void	execute_unset(t_shell **sh, char **env);
 void	printlst(t_token *lst);
 int     ft_del_env(t_env **lst);
 void    print_lst_env(t_env *lst, int i);
-
-/*
- *  ENV
- */
-t_env   *create_envnode(char *envp);
-t_env   *create_lst_env(char **envp);
-
-t_env    *exporting_var(t_shell sh, t_env **lst_env);
-char	**convert_to_dchar(t_env *lst_env);
 
 #endif

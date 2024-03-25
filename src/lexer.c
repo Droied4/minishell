@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/22 14:40:42 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/22 18:25:06 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ t_token	*generate_tokens(char *line)
 	lst = NULL;
 	line2 = ft_strtrim(line, " ");
 	line2 = add_between(line2, ' ');
+	printf("###SPlt generate tok: ptr###\n");	//BORRAR
 	input = ft_split(line2, ' ');
 	//input = prepare_tokens(input);export hola="com estas" qu tal hol="asd"
 	//process that is gonna join 2 char * if 

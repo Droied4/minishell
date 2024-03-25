@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 21:28:30 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/22 14:50:54 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/24 21:14:22 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char	**ft_create(char const *s, char c, char **res)
 		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
 		{
 			res[j] = ft_substr(s, start, i - start + 1);
-			printf("SPlt: ptr%d: [%p]: '%s'\n", j, res[j], res[j]);	//BORRAR
+			//printf("SPlt: ptr%d: [%p]: '%s'\n", j, res[j], res[j]);	//BORRAR
 			if (!res[j])
 			{
 				ft_free_array(res, j);

@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   built_echo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/30 16:38:57 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/24 21:14:24 by avolcy           ###   ########.fr       */
+/*   Created: 2024/03/25 17:41:07 by avolcy            #+#    #+#             */
+/*   Updated: 2024/03/25 18:00:05 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s1)
+//echo without nothing or -nnnn -n prints a \n
+//echo with -n or -nnnnnnnnnnnnn or -nnnnnnnnnn n prints the prompt back
+//echo with -nnnnnnnnnn n n prints : "n nbash", -nnnn nn n n : nn n nbash
+//echo with  -nnnnn- || -nnn-n prints : -nnnnn- \n, -nnn-n \n
+//echo with -nnnn -n
+void    execute_echo(t_shell *shell)
 {
-	char	*ptr;
-	size_t	i;
-
-	ptr = (char *)malloc((ft_strlen(s1) + 1) * sizeof(char));
-	if (!ptr)
-		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		ptr[i] = s1[i];
-		++i;
-	}
-	ptr[i] = '\0';
-	//printf("SDUP: ptr: [%p]\n", ptr);//del;
-	return (ptr);
+    (void)shell;
+    printf("Hola echo o o o o \n");
 }
-//	ft_strlcpy(ptr, s1, (ft_strlen(s1) + 1) * sizeof(char));

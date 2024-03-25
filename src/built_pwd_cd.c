@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:13:30 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/22 13:33:28 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/25 17:29:17 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,41 +43,56 @@ static char *found_path(t_shell *sh, char *var)
 	return (path);
 }
 
-// static void update_current_pwd(t_env *lst)
-// {
-// 	//iterate through lst and change pwd content 
-// 	//calling the getwd function
-// }
+static void update_currentpwd_cd(t_env *lst)
+{
+	int i;
+	int pos;
+	char	path[PATH_MAX];
 
-// static void update_current_oldpwd(t_env *lst)
-// {
-// 	//iterate through lst and change oldpwd content 
-// 	//to the last one
-	
-// }
+	i = 0;
+	pos = 0;
+	path[0] = '\0';
+	getcwd(path, sizeof(path));
+	found_var("PWD", lst, &pos);
+	while (++i < pos && lst)
+		lst = lst->next;
+	free(lst->var_content);
+	lst->var_content = ft_strdup(path);
+}
+
+static void update_oldpwd_cd(t_env *lst, char *old)
+{
+	int i;
+	int pos;
+
+	i = 0;
+	pos = 0;
+	found_var("OLDPWD", lst, &pos);
+	while (++i < pos && lst)
+		lst = lst->next;
+	free(lst->var_content);
+	lst->var_content = ft_strdup(old);
+}
 
 int	execute_cd(t_shell *sh, char **env)
 {
-	// static	char *defpath;
-	const char	*path;
+	char	*path;
+	char	oldpath[PATH_MAX];
 	
-	// if (!defpath)
-	// 	defpath = ft_strdup("HOME");
-	// printf("\t\n\nthe home add [%p]\n\n", defpath);
 	if (sh->env == NULL)
 		sh->env = create_lst_env(env);
 	if (sh->tokens->next == NULL)
 		path = found_path(sh, "HOME");
 	else
 		path = (sh->tokens->next->data);
-	//OLDPWD = current PWD
-	//update_current_oldpwd(sh->env);	
+	oldpath[0] = '\0';
+	getcwd(oldpath, sizeof(oldpath));
 	if (chdir(path) == -1)
+		ft_dprintf(STDERR_FILENO, "path did not found bro\n");
+	else 
 	{
-		free(&path);
-		ft_dprintf(STDERR_FILENO, "hola its ok\n");
-	}
-	//update de PWD with getcwd; 
-	//update_current_pwd(sh->env);
+		update_oldpwd_cd(sh->env, oldpath);
+		update_currentpwd_cd(sh->env);
+	}	
 	return (0);
 }

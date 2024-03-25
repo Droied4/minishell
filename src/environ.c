@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:50:17 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/22 14:03:41 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/25 17:36:25 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,14 @@ t_env *create_envnode(char *envp)
         return NULL;
     new->line = ft_strdup(envp); // Allocate memory and copy the string cause the 
     new->next = NULL;//new->line = envp only copy the pointer
+	//printf("###SPlt update var: ptr###\n");	//BORRAR
     splitting = ft_split(new->line, '=');
+	//printf("###EndEsplit\n###");
     if (splitting)
     {
         new->var_name = splitting[0];
         new->var_content = splitting[1];
     }
-    // if (splitting)
-    // {
-    //     free(splitting[0]);
-    //     free(splitting[1]);
-    // }
     free(splitting);
     return (new);
 }
@@ -59,7 +56,6 @@ t_env   *create_lst_env(char **envp)
     t_env  *new;
     t_env  *list_env; 
     
-    printf("hola environ\n");
     int i;
     i = 0;
     list_env = NULL; // Initialize to NULL
@@ -76,3 +72,13 @@ t_env   *create_lst_env(char **envp)
     // return 0;
 }
 
+void    execute_env(t_shell *shell, char **env)
+{
+    if (shell->env == NULL)
+	{
+        shell->env = create_lst_env(env);
+		print_lst_env(shell->env, 1);
+	}
+    else
+		print_lst_env(shell->env, 1);
+}

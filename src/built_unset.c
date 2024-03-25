@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 18:36:44 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/19 19:35:48 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/25 14:53:30 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,8 @@ void	execute_unset(t_shell **sh, char **env)
 		if (lstenv->next)
 			lstenv->next->prev = lstenv->prev;
 	}
+	free(lstenv->line);
+	free(lstenv->var_name);
+	free(lstenv->line);
 	return ;
 }
