@@ -16,11 +16,12 @@
 # include "../library/libft/libft.h"
 # include "macros.h"
 # include "struct.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 //# include <editline/readline.h>
 
 /*

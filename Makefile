@@ -30,7 +30,7 @@ LIBFT_PATH	= $(LIBRARY_PATH)/libft
 DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
 LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
-ifeq ($(USER), carmeno)
+ifeq ($(USER), droied)
 	READLINE_PATH = /home/linuxbrew/.linuxbrew/opt/readline/
 else
 	READLINE_PATH = /Users/$(USER)/.brew/opt/readline/
@@ -85,7 +85,8 @@ $(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF)
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
 		@printf "$(CYAN)Compiling $@$(NC)\n";
 		@mkdir -p $(dir $@)
-		@$(CC) $(CFLAGS) -c $< -o $@ 
+		@$(CC) $(CFLAGS) -c $< -o $@ -lreadline -L $(READLINE_PATH)lib -I $(READLINE_PATH)include
+
 
 $(LIBFT) :
 	@printf "$(CYAN)Compiling $@$(NC)\n";

@@ -77,9 +77,7 @@ static char **find_path(t_block *block)
 {
 	char **paths;
 	char *path;
-	int i;
 	
-	i = -1;
 	path = getenv("PATH");
 	paths = ft_split(path, ':');
 	block->path = ft_check_path(paths, block->cmd);
