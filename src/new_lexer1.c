@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:03:05 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/23 17:36:03 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:05:33 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,15 @@ int	lex_word_case(char *s)
 
 	i = 0;
 	while (s[i] != ' ' && s[i] != '\0' && (is_charmeta(s[i]) < 0
-			|| s[i] == '$'))
-		i++;
+			|| s[i] == '$' || s[i] == '\'' || s[i] == '\"'))
+	{
+		if (s[i] == '\'' || s[i] == '\"')
+			i += lex_quotes_case(&s[i], s[i]);
+		if (s[i] != '\0')
+			i++;
+		else
+			break ;
+	}
 	return (i);
 }
 
