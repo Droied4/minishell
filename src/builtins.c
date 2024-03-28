@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/25 18:01:22 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/26 15:11:10 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,24 @@ void	execute_builtins(t_shell *shell, char **env)
 {
 	if (shell->tokens && shell->tokens->data)
 	{
-		if (!ft_strncmp(shell->tokens->data, "export", 7))
-			execute_export(shell, env);
+		if (!ft_strncmp(shell->tokens->data, "cd", 3))
+			execute_cd(shell, env);
+		else if (!ft_strncmp(shell->tokens->data, "echo", 5))
+			execute_echo(shell);
 		else if (!ft_strncmp(shell->tokens->data, "env", 4))
 			execute_env(shell, env);
-		else if (!ft_strncmp(shell->tokens->data, "pwd", 4))
-			execute_pwd();
 		else if (!ft_strncmp(shell->tokens->data, "exit", 5))
 			execute_exit(shell);
+		else if (!ft_strncmp(shell->tokens->data, "export", 7))
+			execute_export(shell, env);
+		else if (!ft_strncmp(shell->tokens->data, "pwd", 4))
+			execute_pwd();
 		else if (!ft_strncmp(shell->tokens->data, "unset", 7))
 		{
 			if (shell->tokens->next == NULL)
 				return ;
 			execute_unset(&shell, env);
-			print_lst_env(shell->env, 1);
+			print_lst_env(shell->env, 1);//test puurposes;
 		}
-		else if (!ft_strncmp(shell->tokens->data, "cd", 3))
-			execute_cd(shell, env);
-		else if (!ft_strncmp(shell->tokens->data, "echo", 5))
-			execute_echo(shell);
 	}
 }

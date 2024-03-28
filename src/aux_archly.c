@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:17:12 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/25 17:40:12 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/28 20:28:26 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	print_lst_env(t_env *lst, int i)
 		while (tmp)
 		{
 			if (ft_strchr(tmp->line, (int) '='))
-				printf("%s=%s\n", tmp->var_name, tmp->var_content);
+				ft_dprintf(STDOUT_FILENO,"%s=%s\n", tmp->var_name, tmp->var_content);
 			tmp = tmp->next;
 		}
 	}
@@ -55,9 +55,9 @@ void	print_lst_env(t_env *lst, int i)
 		{
 			printf("declare -x %s=", tmp->var_name);
 			if (!tmp->var_content)
-				printf("\"%s\"\n", "");
+				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", "");
 			else
-				printf("\"%s\"\n", tmp->var_content);
+				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", tmp->var_content);
 			tmp = tmp->next;
 		}
 	}
@@ -96,7 +96,7 @@ int	ft_lstenv_size(t_env *lst)
 	return (count++);
 }
 
-void	free_split(char **allsplit)
+void	free_matrix(char **allsplit)
 {
 	int i;
 

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/25 17:58:26 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/28 20:00:07 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../library/dprintf/ft_dprintf.h"
 # include "../library/libft/libft.h"
 # include <readline/readline.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
@@ -91,7 +92,7 @@ int	check_redir(t_token *tok);
 int     ft_lstenv_size(t_env *lst);
 int     ft_del_env(t_env **lst);
 void    print_lst_env(t_env *lst, int i);
-char *char2str(char c);
+char	*char2str(char c);
 int		is_meta(int type);
 void	print_tokens(t_token *lst);
 void	print_tablecmd(t_cmds *lst);
@@ -114,9 +115,9 @@ char	**convert_to_dchar(t_env *lst_env);
 		BUILTINS
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
-void	free_split(char **sh);
+void	free_matrix(char **sh);
 int		execute_pwd(void);
-void    execute_echo(t_shell *shell);
+void	execute_echo(t_shell *shell);
 void    execute_env(t_shell *sh, char **env);
 int		execute_cd(t_shell *sh, char **env);
 void    execute_exit(t_shell *sh);

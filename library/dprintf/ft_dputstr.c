@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 07:55:37 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 19:03:10 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/27 18:39:39 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_dputstr(int fd, const char *str)
 
 	i = 0;
 	if (!str)
-		return (ft_dputstr(fd, "(null)"));
+		return (ft_dputstr(fd, ""));
 	while (str[i])
 	{
 		if (write(fd, &str[i], 1) < 0)

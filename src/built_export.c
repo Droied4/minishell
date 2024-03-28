@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/24 21:13:11 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/28 20:01:21 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	found_var(char *var, t_env *lst, int *i)
 		if (ft_strncmp(line[0], tmp->var_name, len) == 0)
 		{
 			*i += 1;
-			free_split(line);
+			free_matrix(line);
 			return (1);
 		}
 		else
@@ -41,10 +41,13 @@ int	found_var(char *var, t_env *lst, int *i)
 			tmp = tmp->next;
 		}
 	}
-	free_split(line);
+	free_matrix(line);
 	return (0);
 }
-
+//variable name has to be one of those alphanum && digit, _
+// check if var_name is ?NULL
+// export test=hola -> export test+=same export ="holasame"
+// a function that fix the tokens correctly for the export to export all passed variable
 static t_env	*update_var(char *s, t_env **lst, int pos)
 {
 	int		i;
@@ -78,6 +81,8 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env)
 
 	i = 0;
 	new = NULL;
+	//a function that updates the tokens meanwhile adding them to lst;
+	//while(sh.tokens) add the tokens to the list
 	if (!found_var(sh.tokens->next->data, *lst_env, &i))
 		new = create_envnode(sh.tokens->next->data);
 	else

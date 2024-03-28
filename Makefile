@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/03/25 17:42:20 by avolcy           ###   ########.fr        #
+#    Updated: 2024/03/28 19:42:35 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,6 @@ NC=\033[0m # No color
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
 all: header $(NAME) author
-
 make_libs:
 	@make -C $(LIBFT_PATH) > /dev/null
 	@printf "$(CYAN)Compiling $(LIBFT_PATH)$(NC)\n";
@@ -77,6 +76,7 @@ make_libs:
 	@printf "$(CYAN)Compiling $(DPRINTF_PATH)$(NC)\n";
 
 -include $(DEPS)
+
 $(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF) 
 	@printf "$(CYAN)$@ Compiled$(NC)\n";
 	@$(CC) $(CFLAGS) $^ -o $(NAME) -lreadline -L $(READLINE_PATH)lib -I $(READLINE_PATH)include
