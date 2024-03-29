@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/28 20:01:21 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/29 21:08:02 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ int	found_var(char *var, t_env *lst, int *i)
 	char	**line;
 
 	len = 0;
-	// printf("###SPlt founds var: ptr###\n");
 	line = ft_split(var, '=');
-	// printf("###EndEsplit\n###");
 	tmp = lst;
 	while (tmp)
 	{
@@ -44,10 +42,7 @@ int	found_var(char *var, t_env *lst, int *i)
 	free_matrix(line);
 	return (0);
 }
-//variable name has to be one of those alphanum && digit, _
-// check if var_name is ?NULL
-// export test=hola -> export test+=same export ="holasame"
-// a function that fix the tokens correctly for the export to export all passed variable
+
 static t_env	*update_var(char *s, t_env **lst, int pos)
 {
 	int		i;
@@ -58,44 +53,41 @@ static t_env	*update_var(char *s, t_env **lst, int pos)
 	newlst = *lst;
 	while (++i < pos && newlst)
 		newlst = newlst->next;
-	printf("###SDUP update var: ptr###\n");	//BORRAR
 	newlst->line = ft_strdup(s);
-	//leaks in tsplit y strdup
-	printf("###SPlt update var: ptr###\n");	//BORRAR
 	split = ft_split(newlst->line, '=');
-	printf("###EndEsplit\n###");
 	newlst->var_name = split[0];
 	newlst->var_content = split[1];
 	free(split);
-	//free line necesarry ?
 	return (*lst);
 }
 
 t_env	*exporting_var(t_shell sh, t_env **lst_env)
 {
 	int		i;
-	size_t	len;
-	int		flag;
 	t_env	*last;
 	t_env	*new;
 
-	i = 0;
 	new = NULL;
-	//a function that updates the tokens meanwhile adding them to lst;
-	//while(sh.tokens) add the tokens to the list
-	if (!found_var(sh.tokens->next->data, *lst_env, &i))
-		new = create_envnode(sh.tokens->next->data);
-	else
-		return (update_var(sh.tokens->next->data, lst_env, i));
-	len = 0;
-	flag = 0;
-	if (new)
+	// check_exp_variable(sh.tokens);
+	while (sh.tokens)
 	{
-		last = *lst_env;
-		while (last->next)
-			last = last->next;
-		last->next = new;
-        new->prev = last;
+		i = 0;
+		sh.tokens = sh.tokens->next;
+		if (sh.tokens && is_correct(sh.tokens->data))
+		{
+			if (!found_var(sh.tokens->data, *lst_env, &i))
+				new = create_envnode(sh.tokens->data);
+			else
+				*lst_env = update_var(sh.tokens->data, lst_env, i);
+			if (new)
+			{
+				last = *lst_env;
+				while (last->next)
+					last = last->next;
+				last->next = new;
+				new->prev = last;
+			}
+		}
 	}
 	return (*lst_env);
 }
@@ -121,6 +113,8 @@ void	execute_export(t_shell *sh, char **env)
 	int	flag;
 
 	flag = 0;
+	// ❗️fix token function
+	// = is found, next char is " || next char is null  but tok->next[0] is "
 	if (sh->tokens->next == NULL && sh->env == NULL)
 		sh->env = create_lst_env(env);
 	else if (sh->tokens->next == NULL && sh->env != NULL)

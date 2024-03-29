@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:17:12 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/28 20:28:26 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/29 12:32:14 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	print_lst_env(t_env *lst, int i)
 	{
 		while (tmp)
 		{
-			printf("declare -x %s=", tmp->var_name);
+			ft_dprintf(STDOUT_FILENO, "declare -x %s=", tmp->var_name);
 			if (!tmp->var_content)
 				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", "");
 			else

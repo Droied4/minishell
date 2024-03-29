@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 18:36:44 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/25 19:16:20 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/29 18:45:14 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	execute_unset(t_shell **sh, char **env)
 			++i;
 			lstenv = lstenv->next;
 		}
+		//check if it's the first element of the list
+		//lstenv->prev = NULL;
 		lstenv->prev->next = lstenv->next;
 		if (lstenv->next)
 			lstenv->next->prev = lstenv->prev;

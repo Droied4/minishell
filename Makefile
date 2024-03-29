@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/03/28 19:42:35 by avolcy           ###   ########.fr        #
+#    Updated: 2024/03/29 12:38:07 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g -fsanitize=address
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               SOURCES                                        #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
@@ -39,7 +39,7 @@ HEADER = $(INCLUDE_PATH)/minishell.h
 HEADER += $(INCLUDE_PATH)/struct.h
 HEADER += $(INCLUDE_PATH)/macros.h
 
-SOURCES = minishell.c aux_dei.c aux_archly.c \
+SOURCES = minishell.c aux_dei.c aux_archly.c aux_arch.c \
 		  lexer.c lexer_aux.c \
 		  parser.c parser_input.c \
 		  lst_table_cmd.c parser_cmd.c \

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:56 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/28 20:30:11 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/29 12:12:04 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int is_flag(char *str)
     return (0);
 }
 
-void   execute_echo(t_shell *sh) 
+void   execute_echo(t_shell *sh)
 {
     int i;
     char **matrix;
@@ -99,9 +99,14 @@ void   execute_echo(t_shell *sh)
     }
     while (matrix[i])
     {
-        ft_dprintf(STDOUT_FILENO,"%s",matrix[i]);
-        if (matrix[i + 1])   
-            printf(" ");
+        if (matrix[i + 1])
+            ft_dprintf(STDOUT_FILENO,"%s ",matrix[i]);
+        else
+            ft_dprintf(STDOUT_FILENO,"%s",matrix[i]);
+        // ft_dprintf(STDOUT_FILENO,"%s",matrix[i]);
+        // if (matrix[i + 1])   
+        //     printf(" ");
+        //bug case echo -n h-kka aaf -nhola
         i++;
     }
     if (!flags)
