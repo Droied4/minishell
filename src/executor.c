@@ -6,13 +6,13 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:33:30 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/23 12:39:19 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:52:49 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
+/*
 static void child_process(t_block *block)
 {
 	if (block->in != STD_IN)
@@ -121,4 +121,4 @@ void	executor(t_shell *sh, char **env)
 		block = block->next;
 	}
 
-}
+}*/

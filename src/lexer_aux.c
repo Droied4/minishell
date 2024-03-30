@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:01:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/27 15:05:35 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/30 01:43:41 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ char	**montage_tokens(char *line)
 	keeper = line;
 	len = len_matriz(line);
 	tokens = ft_calloc(sizeof(char *), len + 1);
+	if (!tokens)
+		exit(1);
 	while (len--)
 	{
 		words = aux_montage(&line);

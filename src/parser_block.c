@@ -6,12 +6,12 @@
 /*   By: deordone <deordone@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 23:05:31 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/23 15:06:19 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/30 07:17:29 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static void	block_type(t_block **block, t_token *tok)
 {
 	if (tok->type == PIPE)
@@ -110,4 +110,4 @@ void	establish_block_type(t_shell *sh)
 			break ;
 	}
 	redifine_block_type(sh);
-}
+}*/

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/27 14:53:00 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/30 03:49:08 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,19 @@ int	parse_input(t_shell *sh)
 	return (0);
 }
 
-void	parse_block(t_shell *sh)
+void	parse_words(t_shell *sh)
 {
 	t_token	*tmp_tok;
-	t_block	*tmp_block;
+	t_words	*tmp_words;
 
-	tmp_block = sh->block;
+	tmp_words = sh->block->words;
 	tmp_tok = sh->tokens;
-	establish_block_type(sh);
-	while (tmp_tok != NULL || tmp_block != NULL)
+	while (tmp_tok != NULL || tmp_words != NULL)
 	{
-		if (tmp_block)
+		if (tmp_words)
 		{
-			tmp_tok = fill_block(&tmp_block, tmp_tok);
-			tmp_block = tmp_block->next;
+			tmp_tok = fill_block(&tmp_words, tmp_tok);
+			tmp_words = tmp_words->next;
 		}
 		else
 			break ;
@@ -60,7 +59,8 @@ void	parse_all(t_shell *sh)
 		return ;
 	if (parse_input(sh) < 0)
 		return ;
-	sh->block = generate_blocks(sh->tokens);
-	parse_block(sh);
+	//parse_expansor(); 
+	//remove_quotes();
+	sh->block->words = generate_words(sh->tokens);
+	parse_words(sh);
 }
-	/* parse_expansor; supongo que toca parsearlo xd*/

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/22 23:36:52 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/30 01:22:58 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ void	print_tokens(t_token *lst)
 	}
 }
 
-void	print_blocks(t_block *lst)
+void	print_words(t_words *lst)
 {
 	int		i;
-	t_block	*tmp;
+	t_words	*tmp;
 
 	tmp = lst;
 	while (tmp)
 	{
 		i = -1;
 		printf(GREEN "\n-----------------------\n");
-		printf(GREEN "| Block Of Execution %i |\n", tmp->index);
+		printf(GREEN "|    Block Of Words   %i |\n", tmp->index);
 		printf(GREEN "-----------------------\n");
-		if (tmp->type == 0)
+	/*	if (tmp->type == 0)
 			printf(NC "\ntype -> %s\n", "PIPE");
 		else if (tmp->type == 1)
 			printf(NC "\ntype -> %s\n", "REDIR");
@@ -54,7 +54,7 @@ void	print_blocks(t_block *lst)
 		else if (tmp->type == 5)
 			printf(NC "\ntype -> %s\n", "COMMAND");
 		else if (tmp->type == 6)
-			printf(NC "\ntype -> %s\n", "FILE");
+			printf(NC "\ntype -> %s\n", "FILE");*/
 		if (tmp->cmd)
 		{
 			printf(NC "cmd ->");

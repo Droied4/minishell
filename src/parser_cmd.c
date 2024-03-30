@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/23 15:06:18 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/30 07:17:48 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,46 +28,48 @@ char	*add_space(char *info)
 		return (NULL);
 }
 
-static char	**build_cmd(t_token *tok, char *new_cmd)
+static void	new_cmd(char **final, t_token *tok)
 {
-	char	**final_cmd;
-	char	*flag;
+	char *word;
+	int len;
+	int i;
 
-	while (tok && is_meta(tok->type) < 0)
+	i = -1;
+	len = 0;
+	while (tok && tok->type != PIPE)
 	{
+		if (tok->type == CMD || tok->type == SQUOTE || tok->type == DQUOTE)
+		{
+			len = ft_strlen(tok->data);	
+			word = malloc(sizeof(char) * len + 1);
+			if (!word)
+				exit(1);
+			ft_strlcpy(word, tok->data, len + 1);
+			final[++i] = word;
+		}
 		tok = tok->next;
-		if (tok && tok->type == CMD)
-		{
-			flag = add_space(tok->data);
-			new_cmd = ft_imp_strjoin(new_cmd, flag);
-		}
-		else
-		{
-			final_cmd = ft_split(new_cmd, ' ');
-			free(new_cmd);
-			return (final_cmd);
-		}
-	}
-	free(new_cmd);
-	return (NULL);
+	}	
 }
 
-t_token	*fill_block(t_block **block, t_token *token)
+t_token	*fill_block(t_words **word, t_token *tok)
 {
-	t_token	*tok;
-	char	*new_cmd;
-	char	**final_cmd;
-
-	tok = token;
-	if (!tok)
-		return (NULL);
-	new_cmd = add_space(tok->data);
-	final_cmd = build_cmd(tok, new_cmd);
-	while (tok && is_meta(tok->type) < 0)
+	t_token *tok2;
+	int count;
+	
+	if (tok && tok->type == PIPE)
 		tok = tok->next;
-	if (final_cmd == NULL)
-		return (tok->next);
-	else
-		(*block)->cmd = final_cmd;
+	count = 0;
+	tok2 = tok;
+	while (tok && tok->type != PIPE)
+	{
+		if (tok->type == CMD || tok->type == SQUOTE || tok->type == DQUOTE)
+				count++;
+		tok = tok->next;
+	}
+	(*word)->cmd = ft_calloc(sizeof(char *),  count + 1);
+	if (!(*word)->cmd)
+		exit(1);
+	new_cmd((*word)->cmd, tok2);
+	(*word)->cmd[count] = NULL;
 	return (tok);
 }

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/22 21:59:57 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/30 01:49:36 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,29 @@ typedef struct s_token
 	struct s_token				*prev;
 }								t_token;
 
-typedef struct s_execution_block
+typedef struct s_words
 {
 	int							index;
-	int							type;
 	char						**cmd;
 	char						*path;
 	int							in;
 	int							out;
-	struct s_execution_block	*next;
+	struct s_words				*next;
+}								t_words;
+
+typedef struct s_redir
+{
+	int							index;
+	int							type;
+	char						*file;
+	int							fd;
+	struct s_redir				*next;
+}								t_redir;
+
+typedef struct s_execution_block
+{
+	struct s_words				*words;
+	struct s_redir				*redir;
 }								t_block;
 
 typedef struct s_env
@@ -45,7 +59,7 @@ typedef struct s_shell
 {
 	char						*line;
 	struct s_token				*tokens;
-	struct s_execution_block		*block;
+	struct s_execution_block	*block;
 	struct s_env				*env;
 	struct s_cmds				*st_cmd;
 	int							pipes;
@@ -61,19 +75,19 @@ typedef enum e_type
 	SQUOTE, // 5
 	DQUOTE, // 6
 	EXP,    // 7
-	FILES,	// 8
+	FILES,  // 8
 	CMD     // 9
 }								t_type;
 
 typedef enum e_block_type
 {
-	B_PIPE,    //0
-	B_REDIR,   //1
-	B_BUILT,   //2
-	B_SQUOTES, //3
-	B_DQUOTES, //4
-	B_CMD,	   //5
-	B_FILE     //6
-}				t_block_type;
+	B_PIPE,    // 0
+	B_REDIR,   // 1
+	B_BUILT,   // 2
+	B_SQUOTES, // 3
+	B_DQUOTES, // 4
+	B_CMD,     // 5
+	B_FILE     // 6
+}								t_block_type;
 
 #endif

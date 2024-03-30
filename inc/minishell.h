@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/23 16:28:22 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/27 16:10:23 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	redifine_token(t_token *tok);
 
 void	parse_all(t_shell *sh);
 int		parse_input(t_shell *sh);
-void	parse_block(t_shell *sh);
+void	parse_words(t_shell *sh);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
@@ -79,8 +79,8 @@ void	parse_block(t_shell *sh);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
-int		ft_del_blocks(t_block **lst);
-t_block	*generate_blocks(t_token *tokens);
+int		ft_del_words(t_words **lst);
+t_words	*generate_words(t_token *tokens);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
@@ -95,8 +95,8 @@ void	establish_block_type(t_shell *sh);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-t_token	*fill_block(t_block **cmd, t_token *token);
-t_token	*fill_cmd(t_block **cmd, t_token *token);
+t_token	*fill_block(t_words **cmd, t_token *token);
+t_token	*fill_cmd(t_words **cmd, t_token *token);
 char	*add_space(char *info);
 
 /*
@@ -141,7 +141,7 @@ void	print_lst_env(t_env *lst, int i);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 void	print_tokens(t_token *lst);
-void	print_blocks(t_block *lst);
+void	print_words(t_words *lst);
 char	*ft_imp_strjoin(char const *s1, char const *s2);
 char	*char2str(char c);
 void	ft_free_array(char **res);
