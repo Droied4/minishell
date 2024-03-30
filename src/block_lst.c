@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 16:24:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/30 07:20:56 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/30 07:22:19 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,9 @@ static int	new_table(t_token *tok, int aux)
 		return (-2);
 	else if (tok->type == PIPE)
 		return (0);
-	//Hola Deivid del muy proximo futuro 
+	return (-1);
 	//un besitoooooo
 	//<3
-	////Tienes que hallar la forma de que los bloques de palabras se generen bien
-	//< infile echo 
-	//no genera un bloque de palabra
-	//y la solucion de contar antes no te sirve por el bucle que funciona a la vez de la comprobacion
-	//
-	//else if ((tok->next && (tok->next->type == CMD || tok->next->type == SQUOTE || tok->next->type == DQUOTE)) || tok->type == PIPE)
-	return (-1);
 }
 
 int	ft_del_words(t_words **lst)
