@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 01:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 03:23:57 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 03:54:12 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,15 @@ static int define_type(t_token *tok)
 	else if (tok->type == DLESS)
 		return (DLESS);
 	else
-	{
-		write(2, "\nhi\n", 4);
-		return (-2);
-	}
+		return (-1);
 }
 
 void montage_redirections(t_token *tok, t_redir *redir)
 {
-	while(tok != NULL || redir != NULL)
+	while(tok && redir)
 	{
-		write(2, "\nhi\n", 4);
 		redir->type = define_type(tok);
-		if (redir->type > 0)
+		if (redir->type >= 0)
 			redir = redir->next;
 		tok = tok->next;
 	}

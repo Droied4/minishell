@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 03:14:35 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 04:03:55 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ void	parse_redirections(t_shell *sh)
 	t_redir *tmp_redir;
 
 	tmp_tok = sh->tokens;
-	tmp_redir = sh->block->redir;
+	tmp_redir = sh->redir;
+	if (!tmp_tok || !tmp_redir)
+		return ;
 	montage_redirections(tmp_tok, tmp_redir);
 }
 
@@ -50,16 +52,12 @@ void	parse_words(t_shell *sh)
 	t_words	*tmp_words;
 
 	tmp_tok = sh->tokens;
-	tmp_words = sh->block->words;
-	while (tmp_tok != NULL || tmp_words != NULL)
+	tmp_words = sh->words;
+	while (tmp_tok != NULL && tmp_words != NULL)
 	{
-		if (tmp_words)
-		{
-			tmp_tok = fill_block(&tmp_words, tmp_tok);
+		tmp_tok = fill_block(&tmp_words, tmp_tok);
+		if (tmp_words->cmd)
 			tmp_words = tmp_words->next;
-		}
-		else
-			break ;
 	}
 }
 
@@ -71,8 +69,8 @@ void	parse_all(t_shell *sh)
 		return ;
 	//parse_expansor(); 
 	//remove_quotes();
-	sh->block->words = generate_words(sh->tokens);
+	sh->words = generate_words(sh->tokens);
 	parse_words(sh);
-	sh->block->redir = generate_redirs(sh->tokens);
+	sh->redir = generate_redirs(sh->tokens);
 	parse_redirections(sh);
 }

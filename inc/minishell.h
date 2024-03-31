@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 03:05:30 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 03:33:24 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	incomplete_entry(t_shell *sh);
 */
 
 void executor(t_shell *sh, char **env);
-void execute_cmd(t_block *block);
+//void execute_cmd(t_block *block);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 03:11:29 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 03:43:27 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,6 @@ typedef struct s_redir
 	struct s_redir				*next;
 }								t_redir;
 
-typedef struct s_execution_block
-{
-	struct s_words				*words;
-	struct s_redir				*redir;
-}								t_block;
-
 typedef struct s_env
 {
 	char *line; // for test purpose
@@ -59,7 +53,8 @@ typedef struct s_shell
 {
 	char						*line;
 	struct s_token				*tokens;
-	struct s_execution_block	*block;
+	struct s_words				*words;
+	struct s_redir				*redir;
 	struct s_env				*env;
 	struct s_cmds				*st_cmd;
 	int							pipes;
