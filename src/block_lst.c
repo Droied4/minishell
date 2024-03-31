@@ -6,12 +6,14 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 16:24:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/30 07:22:19 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 01:13:26 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+	//un besitoooooo
+	//<3
 static t_words	*create_block(int i)
 {
 	t_words	*new;
@@ -52,8 +54,6 @@ static int	new_table(t_token *tok, int aux)
 	else if (tok->type == PIPE)
 		return (0);
 	return (-1);
-	//un besitoooooo
-	//<3
 }
 
 int	ft_del_words(t_words **lst)
