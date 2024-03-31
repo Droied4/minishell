@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 03:33:24 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 05:16:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include "../library/libft/libft.h"
 # include "macros.h"
 # include "struct.h"
+# include <stdio.h>
+# include <string.h>
+# include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <stdlib.h>
@@ -136,6 +139,14 @@ void	incomplete_entry(t_shell *sh);
 
 void executor(t_shell *sh, char **env);
 //void execute_cmd(t_block *block);
+
+/*
+┏━━━━━━━━・▼ ・━━━━━━━━┓
+		EXEC REDIR  - 5
+┗━━━━━━━━・▼ ・━━━━━━━━┛
+*/
+
+void threat_redir(t_redir *redir);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

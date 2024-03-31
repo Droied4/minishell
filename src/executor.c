@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:33:30 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 03:33:07 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 05:16:34 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,24 +101,18 @@ void	execute_cmd(t_block *block)
 		child_process(block);
 }
 
+*/
 
 void	executor(t_shell *sh, char **env)
 {
-	t_block *block;
 	(void)env;
+	t_redir *redir;
+	t_words *word;
 
-	block = sh->block;
-	while (block)
-	{
-		//if (block->type == B_PIPE)	
-//		if (block->type == B_REDIR)
-		//if (block->type == B_BUILT)	
-		//if (block->type == B_SQUOTES)	
-		//if (block->type == B_DQUOTES)	
-		if (block->type == B_CMD)	
-			execute_cmd(block);
-		//if (block->type == B_FILE)	
-		block = block->next;
-	}
-
-}*/
+	redir = sh->redir;
+	word = sh->words;
+	threat_redir(redir);
+//	threat_words(sh, words);
+		//if (block->type == B_CMD)	
+		//	execute_cmd(block);
+}
