@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/27 16:10:23 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 01:35:24 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,23 @@ void	parse_words(t_shell *sh);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
-	BLOCK_LST - 5
+	WORD_LST - 5
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
 int		ft_del_words(t_words **lst);
 t_words	*generate_words(t_token *tokens);
+
+
+/*
+┏━━━━━━━━・▼・━━━━━━━━┓
+	REDIR_LST - 5
+┗━━━━━━━━・▼・━━━━━━━━┛
+*/
+
+int		ft_del_redirs(t_redir **lst);
+t_redir	*generate_redirs(t_token *tokens);
+
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
@@ -142,6 +153,7 @@ void	print_lst_env(t_env *lst, int i);
 */
 void	print_tokens(t_token *lst);
 void	print_words(t_words *lst);
+void	print_redir(t_redir *lst);
 char	*ft_imp_strjoin(char const *s1, char const *s2);
 char	*char2str(char c);
 void	ft_free_array(char **res);
