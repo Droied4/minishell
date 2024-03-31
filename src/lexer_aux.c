@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_aux.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/06 18:42:37 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 11:40:10 by deordone         ###   ########.fr       */
+/*   Created: 2024/03/23 15:01:28 by deordone          #+#    #+#             */
+/*   Updated: 2024/03/31 03:13:43 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,87 +35,74 @@ void	token_type(t_token *lst)
 		lst->type = CMD;
 }
 
-int	cont_meta(char *s)
+static int len_of_words(char *line)
 {
-	int		i;
-	int		j;
-	int		count;
-	char	*meta;
-
-	i = -1;
-	count = 0;
-	meta = STR_META;
-	while (s[++i])
+	while (*line && *line == ' ')
+		line++;
+	if (is_charmeta(*line) > 0)
 	{
-		j = -1;
-		while (meta[++j])
-		{
-			if (s[i] == meta[j])
-				count++;
-		}
+		if (is_char_redir(*line) > 0)
+			return (lex_redir_case(line, *line));
+		else if (*line == '\'' || *line == '\"')
+			return (lex_quotes_case(line, *line) + 1);
 	}
-	if (count != 0)
-		return (++count);
-	return (count);
+	return (lex_word_case(line));
 }
 
-
-
-static char	*cpy_space(char *final_s, char *s, char btween)
+static char *cpy_words(char **line, char *words, int len_word)
 {
-	int	i;
-	int	j;
-	int	h;
+	int i;
 
 	i = 0;
-	j = 0;
-	while (s[i])
+	if (*(*line) != '\'' || *(*line) != '\"')
 	{
-		if (is_charmeta(s[i]) > 0)
-		{
-			h = 0;
-			while (++h)
-			{
-				final_s[j++] = btween;
-				if (h >= 2)
-					break ;
-				final_s[j++] = s[i];
-				if (s[i + 1] && s[i] == s[i + 1] && is_charmeta(s[i + 1]) > 0
-					&& s[i] != '$' && s[i] != '\'' && s[i] != '\"')
-					final_s[j++] = s[++i];
-				if (s[i + 1] && s[i] == s[i + 1] && s[i] == '<')
-					final_s[j++] = s[++i];
-				else if (s[i] == '$')
-				{
-					while (s[i + 1] != '\0' && s[i + 1] != ' ' && s[i
-						+ 1] != '\'' && s[i + 1] != '\"')
-					{
-						final_s[j++] = s[++i];
-					}
-				}
-			}
-		}
-		else
-			final_s[j++] = s[i];
+		while (*(*line)&& *(*line) == ' ')
+			(*line)++;
+	}
+	while (i < len_word)
+	{
+		words[i] = (*line)[i];
 		i++;
 	}
-	return (final_s);
+	words[i] = '\0';
+	return (words);
 }
 
-char	*add_between(char *s, char btween)
+static char *aux_montage(char **line)
 {
-	int		len_str;
-	char	*final_str;
+	char *words;
 
-	if (!s)
-		return (NULL);
-	len_str = ft_strlen(s);
-	len_str += cont_meta(s) * 2;
-	final_str = ft_calloc(sizeof(char), len_str + 1);
-	if (!final_str)
-		return (NULL);
-	final_str = cpy_space(final_str, s, btween);
-	final_str[len_str] = '\0';
-	free(s);
-	return (final_str);
+	int len_word;
+
+	len_word = len_of_words(*line);
+	words = malloc(sizeof(char) * len_word + 1);
+	if (!words)
+		exit(1);
+	words = cpy_words(line, words, len_word);
+	*line += len_word;
+	return (words);
+}
+
+char	**montage_tokens(char *line)
+{
+	char	**tokens = NULL;
+	char 	*words;
+	int		len;
+	int 	i;
+	char	*keeper;
+	
+	i = 0;
+	keeper = line;
+	len = len_matriz(line);
+	tokens = ft_calloc(sizeof(char *), len + 1);
+	if (!tokens)
+		exit(1);
+	while (len--)
+	{
+		words = aux_montage(&line);
+		tokens[i] = words;
+		i++;
+	}
+	line = keeper;
+	return (tokens);
 }

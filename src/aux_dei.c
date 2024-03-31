@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 11:17:18 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 03:52:34 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,18 @@ void	print_tokens(t_token *lst)
 	}
 }
 
-void	print_blocks(t_block *lst)
+void	print_words(t_words *lst)
 {
 	int		i;
-	t_block	*tmp;
+	t_words	*tmp;
 
 	tmp = lst;
 	while (tmp)
 	{
 		i = -1;
 		printf(GREEN "\n-----------------------\n");
-		printf(GREEN "| Block Of Execution %i |\n", tmp->index);
+		printf(GREEN "|    Block Of Words   %i |\n", tmp->index);
 		printf(GREEN "-----------------------\n");
-		if (tmp->type == 0)
-			printf(NC "\ntype -> %s\n", "PIPE");
-		else if (tmp->type == 1)
-			printf(NC "\ntype -> %s\n", "REDIR");
-		else if (tmp->type == 2)
-			printf(NC "\ntype -> %s\n", "BUILT");
-		else if (tmp->type == 3)
-			printf(NC "\ntype -> %s\n", "SQUOTES");
-		else if (tmp->type == 4)
-			printf(NC "\ntype -> %s\n", "DQUOTES");
-		else if (tmp->type == 5)
-			printf(NC "\ntype -> %s\n", "COMMAND");
-		else if (tmp->type == 6)
-			printf(NC "\ntype -> %s\n", "FILE");
 		if (tmp->cmd)
 		{
 			printf(NC "cmd ->");
@@ -69,7 +55,43 @@ void	print_blocks(t_block *lst)
 		printf(GREEN "---------------------\n");
 		printf(NC "curr -> %p\n", tmp);
 		printf(NC "next -> %p\n", tmp->next);
-		printf(GREEN "---------------------\n" NC);
+		printf(GREEN "---------------------");
+		printf(NC"\n");
+		tmp = tmp->next;
+	}
+}
+
+void	print_redir(t_redir *lst)
+{
+	int		i;
+	t_redir	*tmp;
+
+	tmp = lst;
+	while (tmp)
+	{
+		i = -1;
+		printf(CYAN "\n-----------------------\n");
+		printf(CYAN "|Block Of Redirections %i|\n", tmp->index);
+		printf(CYAN "-----------------------\n");
+		if (tmp->type == 0)
+			printf(NC "\ntype -> %s\n", "PIPE");
+		else if (tmp->type == 1)
+			printf(NC "\ntype -> %s\n", "GREAT");
+		else if (tmp->type == 2)
+			printf(NC "\ntype -> %s\n", "LESS");
+		else if (tmp->type == 3)
+			printf(NC "\ntype -> %s\n", "DGREAT");
+		else if (tmp->type == 4)
+			printf(NC "\ntype -> %s\n", "DLESS");
+		if (tmp->file)
+			printf(NC "file -> %s\n", tmp->file);
+		else
+			printf(RED "file -> NULL\n");
+		printf(CYAN "---------------------\n");
+		printf(NC "curr -> %p\n", tmp);
+		printf(NC "next -> %p\n", tmp->next);
+		printf(CYAN "---------------------");
+		printf(NC"\n");
 		tmp = tmp->next;
 	}
 }
@@ -84,7 +106,7 @@ char	*ft_imp_strjoin(char const *s1, char const *s2)
 	i2 = 0;
 	rsv = malloc((sizeof(char)) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!rsv)
-		return (NULL);
+		exit(1);
 	while (s1[i])
 	{
 		rsv[i] = s1[i];
@@ -108,7 +130,7 @@ char	*char2str(char c)
 
 	str = malloc(sizeof(char) * 2);
 	if (!str)
-		return (NULL);
+		exit(1);
 	str[0] = c;
 	str[1] = '\0';
 	return (str);

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 11:19:14 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 04:12:29 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,30 @@ int	parse_input(t_shell *sh)
 	return (0);
 }
 
-void	parse_block(t_shell *sh)
+void	parse_redirections(t_shell *sh)
 {
 	t_token	*tmp_tok;
-	t_block	*tmp_block;
+	t_redir *tmp_redir;
 
-	tmp_block = sh->block;
 	tmp_tok = sh->tokens;
-	establish_block_type(sh);
-	while (tmp_tok != NULL || tmp_block != NULL)
+	tmp_redir = sh->redir;
+	if (!tmp_tok || !tmp_redir)
+		return ;
+	montage_redirections(tmp_tok, tmp_redir);
+}
+
+void	parse_words(t_shell *sh)
+{
+	t_token	*tmp_tok;
+	t_words	*tmp_words;
+
+	tmp_tok = sh->tokens;
+	tmp_words = sh->words;
+	while (tmp_tok != NULL && tmp_words != NULL)
 	{
-		if (tmp_block)
-		{
-			tmp_tok = fill_block(&tmp_block, tmp_tok);
-			tmp_block = tmp_block->next;
-		}
-		else
-			break ;
+		tmp_tok = fill_block(&tmp_words, tmp_tok);
+		if (tmp_words->cmd)
+			tmp_words = tmp_words->next;
 	}
 }
 
@@ -60,9 +67,10 @@ void	parse_all(t_shell *sh)
 		return ;
 	if (parse_input(sh) < 0)
 		return ;
-	sh->block = generate_blocks(sh->tokens);
-	parse_block(sh);
-	print_blocks(sh->block);
-	ft_del_blocks(&sh->block);
+	//parse_expansor(); 
+	//remove_quotes();
+	sh->words = generate_words(sh->tokens);
+	parse_words(sh);
+	sh->redir = generate_redirs(sh->tokens);
+	parse_redirections(sh);
 }
-	/* parse_expansor; supongo que toca parsearlo xd*/

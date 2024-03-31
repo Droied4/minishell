@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   block_lst.c                                        :+:      :+:    :+:   */
+/*   word_lst.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/10 16:24:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 11:56:22 by deordone         ###   ########.fr       */
+/*   Created: 2024/03/31 01:19:42 by deordone          #+#    #+#             */
+/*   Updated: 2024/03/31 03:14:59 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_block	*create_block(int i)
+static t_words	*create_block(int i)
 {
-	t_block	*new;
+	t_words	*new;
 
-	new = (t_block *)malloc(sizeof(t_block));
+	new = (t_words *)malloc(sizeof(t_words));
 	if (!new)
 		return (NULL);
 	new->index = i;
-	new->type = -1;
 	new->path = NULL;
 	new->cmd = NULL;
 	new->in = STD_IN;
@@ -29,9 +28,9 @@ static t_block	*create_block(int i)
 	return (new);
 }
 
-static void	create_block_lst(t_block **lst, t_block *new)
+static void	create_block_lst(t_words **lst, t_words *new)
 {
-	t_block	*last;
+	t_words *last;
 
 	if (!(*lst))
 	{
@@ -44,18 +43,22 @@ static void	create_block_lst(t_block **lst, t_block *new)
 	last->next = new;
 }
 
-static int	new_table(t_token *tok)
+static int	new_table(t_token *tok, int aux)
 {
-	if (tok->prev && tok->prev->type == CMD && tok->type == CMD)
-		return (-1);
-	if (tok->type == CMD || is_meta(tok->type) > 0 || tok->type == FILES)
+	if ((aux == 0 || aux == -2) && (tok->type == CMD || tok->type == SQUOTE || tok->type == DQUOTE))
 		return (1);
+	else if (aux == -2)
+		return (-2);
+	else if (tok->type == PIPE)
+		return (0);
 	return (-1);
+	//un besitoooooo
+	//<3
 }
 
-int	ft_del_blocks(t_block **lst)
+int	ft_del_words(t_words **lst)
 {
-	t_block	*temp;
+	t_words	*temp;
 
 	if (!lst)
 		return (-1);
@@ -71,23 +74,26 @@ int	ft_del_blocks(t_block **lst)
 	return (0);
 }
 
-t_block	*generate_blocks(t_token *tokens)
+t_words	*generate_words(t_token *tokens)
 {
 	int		i;
-	t_block	*lst;
-	t_block	*new;
+	int		aux;
+	t_words	*lst;
+	t_words	*new;
 	t_token	*tmp;
 
 	i = -1;
+	aux = -2;
 	tmp = tokens;
 	lst = NULL;
 	while (tmp)
 	{
-		if (new_table(tmp) > 0)
+		aux = new_table(tmp, aux);
+		if (aux > 0)
 		{
 			new = create_block(++i);
 			if (!new)
-				ft_del_blocks(&lst);
+				ft_del_words(&lst);
 			create_block_lst(&lst, new);
 		}
 		tmp = tmp->next;

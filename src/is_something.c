@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:06:19 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/21 11:36:05 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 03:13:00 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,21 @@ int	is_builtin(char *data)
 	return (0);
 }
 
+int	is_char_redir(char c)
+{
+	char	*redir;
+	int		i;
+
+	i = -1;
+	redir = STR_REDIR;
+	while (redir[++i])
+	{
+		if (c == redir[i])
+			return (1);
+	}
+	return (-1);
+}
+
 int	is_charmeta(char c)
 {
 	char	*meta;
@@ -53,7 +68,7 @@ int	is_meta(int type)
 
 	meta = malloc(sizeof(int) * 8);
 	if (!meta)
-		return (-1);
+		exit(1);
 	i = -1;
 	while (++i <= 7)
 		meta[i] = i;
@@ -76,7 +91,7 @@ int	is_redir(int type)
 
 	redir = malloc(sizeof(int) * 3);
 	if (!redir)
-		return (-1);
+		exit(1);
 	i = -1;
 	while (++i <= 2)
 		redir[i] = i;
