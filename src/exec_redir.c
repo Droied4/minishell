@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 06:29:52 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 16:20:45 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int *process_redir(t_redir *redir, int *fds)
 	last_out = 1;
 	while (redir && redir->type != PIPE)
 	{
+		printf("redir address: %p\n", redir);
 		if (redir->type == LESS)
 			last_in = less_case(redir, last_in);
 		//else if (redir->type == DLESS)
@@ -73,6 +74,7 @@ int *process_redir(t_redir *redir, int *fds)
 			last_out = great_case(redir, last_out);
 		else if (redir->type == DGREAT)
 			last_out = append_case(redir, last_out);
+		printf("redir next address: %p\n", redir->next);
 		redir = redir->next;
 	}
 	fds[0] = last_in;

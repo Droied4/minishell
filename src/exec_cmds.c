@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 06:29:51 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 16:14:18 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ void	process_word(t_words *word, int *fds)
 	find_path(word);
 	word->in = fds[0];
 	word->out = fds[1];
-	printf("fds 0 -> %i\n", fds[0]);
-	printf("fds 1 -> %i\n", fds[1]);
 	pid = fork();
 	if (pid == -1)
 		exit(1);

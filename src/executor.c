@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 06:19:24 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 16:31:30 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	executor(t_shell *sh, char **env)
 		exit(-1);
 	redir = sh->redir;
 	word = sh->words;
-	while (redir || word)
-	{
+//	while (redir || word)
+//	{
 		if (redir)
 		{
 			fds = process_redir(redir, fds);
@@ -43,7 +43,7 @@ void	executor(t_shell *sh, char **env)
 			process_word(word, fds);
 			word = word->next;
 		}
-	}
+//	}
 		//if (block->type == B_CMD)	
 		//	execute_cmd(block);
 }
