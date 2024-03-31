@@ -6,11 +6,21 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 01:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 03:54:12 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 04:12:39 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char *define_file(t_token *tok)
+{
+	if (tok->type > PIPE && tok->type < SQUOTE)
+	{
+		if (tok->next)
+			return(ft_strdup(tok->next->data));	
+	}
+	return (NULL);
+}
 
 static int define_type(t_token *tok)
 {
@@ -33,6 +43,7 @@ void montage_redirections(t_token *tok, t_redir *redir)
 	while(tok && redir)
 	{
 		redir->type = define_type(tok);
+		redir->file = define_file(tok);
 		if (redir->type >= 0)
 			redir = redir->next;
 		tok = tok->next;
