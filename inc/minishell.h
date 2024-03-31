@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 05:16:35 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 05:59:12 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,15 @@ void executor(t_shell *sh, char **env);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-void threat_redir(t_redir *redir);
+int *process_redir(t_redir *redir, int *fds);
+
+/*
+┏━━━━━━━━・▼ ・━━━━━━━━┓
+		EXEC CMDS  - 5
+┗━━━━━━━━・▼ ・━━━━━━━━┛
+*/
+
+void process_word(t_words *word, int *fds);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

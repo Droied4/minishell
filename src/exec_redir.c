@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 05:16:00 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 06:29:52 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int less_case(t_redir *redir, int last_in)
 */
 static int great_case(t_redir *redir, int last_out)
 {		
-		if (last_out != 0)
+		if (last_out != 1)
 			close(last_out);
 		last_out = open(redir->file, O_TRUNC | O_CREAT | O_RDWR, 0666);
 		if (last_out == -1)
@@ -45,7 +45,7 @@ static int great_case(t_redir *redir, int last_out)
 
 static int append_case(t_redir *redir, int last_out)
 {
-		if (last_out != 0)
+		if (last_out != 1)
 			close(last_out);
 		last_out = open(redir->file, O_APPEND | O_CREAT | O_RDWR, 0666);
 		if (last_out == -1)
@@ -56,14 +56,14 @@ static int append_case(t_redir *redir, int last_out)
 		return (last_out);
 }
 
-void threat_redir(t_redir *redir)
+int *process_redir(t_redir *redir, int *fds)
 {
 	int last_in;
 	int last_out;
 
 	last_in = 0;
-	last_out = 0;
-	while (redir)
+	last_out = 1;
+	while (redir && redir->type != PIPE)
 	{
 		if (redir->type == LESS)
 			last_in = less_case(redir, last_in);
@@ -75,7 +75,7 @@ void threat_redir(t_redir *redir)
 			last_out = append_case(redir, last_out);
 		redir = redir->next;
 	}
+	fds[0] = last_in;
+	fds[1] = last_out;
+	return (fds);
 }
-
-
-
