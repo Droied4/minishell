@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 01:43:19 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 03:14:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,23 @@ int	parse_input(t_shell *sh)
 	return (0);
 }
 
+void	parse_redirections(t_shell *sh)
+{
+	t_token	*tmp_tok;
+	t_redir *tmp_redir;
+
+	tmp_tok = sh->tokens;
+	tmp_redir = sh->block->redir;
+	montage_redirections(tmp_tok, tmp_redir);
+}
+
 void	parse_words(t_shell *sh)
 {
 	t_token	*tmp_tok;
 	t_words	*tmp_words;
 
-	tmp_words = sh->block->words;
 	tmp_tok = sh->tokens;
+	tmp_words = sh->block->words;
 	while (tmp_tok != NULL || tmp_words != NULL)
 	{
 		if (tmp_words)
@@ -64,5 +74,5 @@ void	parse_all(t_shell *sh)
 	sh->block->words = generate_words(sh->tokens);
 	parse_words(sh);
 	sh->block->redir = generate_redirs(sh->tokens);
-//	parse_tokens(sh);
+	parse_redirections(sh);
 }

@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:03:05 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 01:18:51 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 03:14:26 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	lex_quotes_case(char *s, char quote)
 static int	*meta_case(char *line, int count, int i, int *res)
 {
 	res = malloc(sizeof(int) * 2);
+	if (!res)
+		exit(1);
 	if (is_char_redir(line[i]) > 0 && ++count)
 		i += lex_redir_case(&line[i], line[i]);
 	else if ((line[i] == '\'' || line[i] == '\"') && ++count)

@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:06:19 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/23 16:28:24 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 03:13:00 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	is_meta(int type)
 
 	meta = malloc(sizeof(int) * 8);
 	if (!meta)
-		return (-1);
+		exit(1);
 	i = -1;
 	while (++i <= 7)
 		meta[i] = i;
@@ -91,7 +91,7 @@ int	is_redir(int type)
 
 	redir = malloc(sizeof(int) * 3);
 	if (!redir)
-		return (-1);
+		exit(1);
 	i = -1;
 	while (++i <= 2)
 		redir[i] = i;

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 01:35:24 by deordone         ###   ########.fr       */
+/*   Updated: 2024/03/31 03:05:30 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_redir	*generate_redirs(t_token *tokens);
 		PARSER BLOCK - 5
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
-void	establish_block_type(t_shell *sh);
+void	montage_redirections(t_token *tok, t_redir *redir);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
