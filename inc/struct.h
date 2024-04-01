@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/14 22:35:32 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/01 13:01:36 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,50 +15,51 @@
 
 typedef struct s_token
 {
-	int				index;
-	char			*data;
-	int				type;
-	struct s_token	*next;
-	struct s_token	*prev;
-}					t_token;
+	int							index;
+	char						*data;
+	int							type;
+	struct s_token				*next;
+	struct s_token				*prev;
+}								t_token;
 
-typedef struct s_cmds
+typedef struct s_words
 {
-	int index;
-	char **cmd;
-	char *path;
-	char *in_file;
-	int	in;
-	char *out_file;
-	int	out;
-	struct s_cmds *next;
-}	t_cmds;
+	int							index;
+	char						**cmd;
+	char						*path;
+	int							in;
+	int							out;
+	struct s_words				*next;
+}								t_words;
+
+typedef struct s_redir
+{
+	int							index;
+	int							type;
+	char						*file;
+	int							fd;
+	struct s_redir				*next;
+}								t_redir;
 
 typedef struct s_env
 {
-    char    *line;//for test purpose
-    char    *var_name;
-    char    *var_content;
-    struct s_env *next;
+	char *line; // for test purpose
+	char						*var_name;
+	char						*var_content;
+	struct s_env				*next;
     struct s_env *prev;
-}   t_env;
-
-/*LA RAZON POR LA QUE CREE ESTO ES PARA TENER UNA ESTRUCTURA 
- * GENERAL EN LA QUE LLEVEMOS TODO COMO LA LISTA DE LAS TOKENS Y LA LISTA DE
- * LOS COMANDOS Y EN UN FUTURO SABER LA CANTIDAD DE PIPES TOTAL O EL EXPANSOR
- * O EL ENV COSAS ASI
- * */
+}								t_env;
 
 typedef struct s_shell
 {
-	char			*line;
-	struct s_token	*tokens;
-	struct s_cmds	*cmds;
-	struct s_env	*env;
-	struct s_cmds	*st_cmd;
-	int				pipes;
-}					t_shell;
-
+	char						*line;
+	struct s_token				*tokens;
+	struct s_words				*words;
+	struct s_redir				*redir;
+	struct s_env				*env;
+	struct s_cmds				*st_cmd;
+	int							pipes;
+}								t_shell;
 
 typedef enum e_type
 {
@@ -67,12 +68,22 @@ typedef enum e_type
 	LESS,   // 2
 	DGREAT, // 3
 	DLESS,  // 4
-	CMD,    // 5
-	FLAG,   // 6
-	ARCH,   // 7
-	SQUOTE, // 8
-	DQUOTE, // 9
-	EXP     // 10
-}					t_type;
+	SQUOTE, // 5
+	DQUOTE, // 6
+	EXP,    // 7
+	FILES,  // 8
+	CMD     // 9
+}								t_type;
+
+typedef enum e_block_type
+{
+	B_PIPE,    // 0
+	B_REDIR,   // 1
+	B_BUILT,   // 2
+	B_SQUOTES, // 3
+	B_DQUOTES, // 4
+	B_CMD,     // 5
+	B_FILE     // 6
+}								t_block_type;
 
 #endif

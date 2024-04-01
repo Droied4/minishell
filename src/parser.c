@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/14 18:00:40 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/01 13:03:29 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,63 @@
 
 int	parse_input(t_shell *sh)
 {
-	t_token *tmp_tok;
+	t_token	*tmp_tok;
 
 	tmp_tok = sh->tokens;
-	
-	if (check_redir(tmp_tok) < 0)
+	while (input_unclosed(sh) < 0)
+		unclosed_entry(sh);
+	tmp_tok = sh->tokens;
+	if (syntax_error(tmp_tok) < 0)
 		return (-1);
+	while (input_incomplete(sh) < 0)
+	{
+		incomplete_entry(sh);
+		while (input_unclosed(sh) < 0)
+			unclosed_entry(sh);
+		tmp_tok = sh->tokens;
+		if (syntax_error(tmp_tok) < 0)
+			return (-1);
+	}
 	return (0);
-	//redifinir los tipos
-	//comprobar que los tipos esten bien
-	//es decir que antes de flag haya un comando que delante de pipe y
-	//delante de < or > no haya otra redireccion
 }
 
-void	parse_cmd(t_shell *sh)
+void	parse_redirections(t_shell *sh)
 {
-	t_token *tmp_tok;
-	t_cmds *tmp_cmd;
+	t_token	*tmp_tok;
+	t_redir *tmp_redir;
 
-	tmp_cmd = sh->cmds;
 	tmp_tok = sh->tokens;
-	total_pipes(sh, &sh->tokens);
-	while (tmp_tok != NULL || tmp_cmd != NULL)
+	tmp_redir = sh->redir;
+	if (!tmp_tok || !tmp_redir)
+		return ;
+	montage_redirections(tmp_tok, tmp_redir);
+}
+
+void	parse_words(t_shell *sh)
+{
+	t_token	*tmp_tok;
+	t_words	*tmp_words;
+
+	tmp_tok = sh->tokens;
+	tmp_words = sh->words;
+	while (tmp_tok != NULL && tmp_words != NULL)
 	{
-		if (tmp_cmd)
-		{
-			tmp_tok = fill_cmd(&tmp_cmd, tmp_tok);
-			tmp_cmd = tmp_cmd->next; 
-		}
-		else
-			break ;
+		tmp_tok = fill_block(&tmp_words, tmp_tok);
+		if (tmp_words->cmd)
+			tmp_words = tmp_words->next;
 	}
 }
 
 void	parse_all(t_shell *sh)
 {
+	if (syntax_error(sh->tokens) < 0)
+		return ;
 	if (parse_input(sh) < 0)
-	   return ;	/*redifinir cosas y verificar cosas crear la copia del env*/
-	parse_cmd(sh);//🦊❗️
-	//print_tablecmd(sh->cmds);
-	// parse_expansor; supongo que toca parsearlo xd
+		return ;
+	//parse_expansor(); 
+	//remove_quotes();
+	sh->words = generate_words(sh->tokens);
+	parse_words(sh);
+	sh->redir = generate_redirs(sh->tokens);
+	parse_redirections(sh);
 }

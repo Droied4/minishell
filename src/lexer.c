@@ -6,13 +6,12 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/26 18:29:30 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/01 13:01:13 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// to create each new node
 static t_token	*create_node(char *content)
 {
 	t_token	*new;
@@ -26,7 +25,6 @@ static t_token	*create_node(char *content)
 	return (new);
 }
 
-// to add the new node to the end of the list
 static t_token	*add_to_end(t_token *lst)
 {
 	if (!lst)
@@ -36,7 +34,6 @@ static t_token	*add_to_end(t_token *lst)
 	return (lst);
 }
 
-// trying to create the list of tokens
 static void	create_lst(t_token **lst, t_token *new)
 {
 	t_token	*last;
@@ -73,17 +70,11 @@ t_token	*generate_tokens(char *line)
 	int		i;
 	t_token	*new;
 	t_token	*lst;
-	char 	*line2;
 	char	**input;
-	
+
 	i = -1;
 	lst = NULL;
-	line2 = ft_strtrim(line, " ");
-	line2 = add_between(line2, ' ');
-	printf("###SPlt generate tok: ptr###\n");	//BORRAR
-	input = ft_split(line2, ' ');
-	//input = prepare_tokens(input);export hola="com estas" qu tal hol="asd"
-	//process that is gonna join 2 char * if 
+	input = montage_tokens(line);
 	while (input[++i])
 	{
 		new = create_node(input[i]);
@@ -93,8 +84,8 @@ t_token	*generate_tokens(char *line)
 		token_type(new);
 		create_lst(&lst, new);
 	}
-	free(line2);
 	free(input);
-	//print_tokens(lst);
+	redifine_token(lst);
+	print_tokens(lst);
 	return (lst);
 }

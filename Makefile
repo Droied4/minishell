@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/03/29 12:38:07 by avolcy           ###   ########.fr        #
+#    Updated: 2024/04/01 12:57:11 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ LIBFT_PATH	= $(LIBRARY_PATH)/libft
 DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
 LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
-ifeq ($(USER), carmeno)
+ifeq ($(USER), droied)
 	READLINE_PATH = /home/linuxbrew/.linuxbrew/opt/readline/
 else
 	READLINE_PATH = /Users/$(USER)/.brew/opt/readline/
@@ -39,12 +39,13 @@ HEADER = $(INCLUDE_PATH)/minishell.h
 HEADER += $(INCLUDE_PATH)/struct.h
 HEADER += $(INCLUDE_PATH)/macros.h
 
-SOURCES = minishell.c aux_dei.c aux_archly.c aux_arch.c \
-		  lexer.c lexer_aux.c \
-		  parser.c parser_input.c \
-		  lst_table_cmd.c parser_cmd.c \
+SOURCES = minishell.c aux_dei.c aux_archly.c is_something.c aux_arch.c \
+		  lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c \
+		  parser.c parser_input.c parser_entry.c \
+		  word_lst.c parser_cmd.c redir_lst.c parser_redir.c \
+		  executor.c \
 		  builtins.c built_export.c built_pwd_cd.c built_unset.c built_echo.c\
-		  environ.c
+		  environ.c \
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #
@@ -84,7 +85,8 @@ $(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF)
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
 		@printf "$(CYAN)Compiling $@$(NC)\n";
 		@mkdir -p $(dir $@)
-		@$(CC) $(CFLAGS) -c $< -o $@ 
+		@$(CC) $(CFLAGS) -c $< -o $@
+
 
 $(LIBFT) :
 	@printf "$(CYAN)Compiling $@$(NC)\n";
