@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/02 15:23:10 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:41:08 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define WHITE "\033[0;97m"
 # define BLUE "\033[0;34m"
 # define NC "\033[0m"
+# define EXIT_STATUS "127"
 
 # define BUG {\
 		dprintf(2, "Ha entrado en -> %s\n", __FILE__);\

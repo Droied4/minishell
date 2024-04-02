@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/02 17:27:38 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:37:27 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ static void child_process(t_words *word, char **env)
 		close(word->out);
 	}
 	if (execve(word->path, word->cmd, env) < 0)
+	{
 		printf("Error: %s: %s\n", word->cmd[0], strerror(errno));
+		exit(127);
+	}
 }
 
 static char	*ft_aux_check(char *new_path, char *new_cmd)
@@ -85,11 +88,13 @@ static void find_path(t_words *word)
 	ft_free_array(paths);
 }
 
-void	process_word(t_words *word, int *fds, char **env)
+int process_word(t_words *word, int *fds, char **env)
 {
 	pid_t pid;
 	int parent_aux;
+	int exit_status;
 
+	exit_status = 0;
 	find_path(word);
 	word->in = fds[0];
 	word->out = fds[1];
@@ -100,4 +105,7 @@ void	process_word(t_words *word, int *fds, char **env)
 		waitpid(0, &parent_aux, 0);
 	else
 		child_process(word, env);
+	if (WIFEXITED(parent_aux))
+		exit_status = WEXITSTATUS(parent_aux);
+	return (exit_status);
 }
