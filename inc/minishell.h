@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 05:59:12 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:22:49 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,8 @@ void	print_lst_env(t_env *lst, int i);
 		AUX DEI - 5
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+void	soft_exit(t_shell *sh);
+void	hard_exit(t_shell *sh);
 void	print_tokens(t_token *lst);
 void	print_words(t_words *lst);
 void	print_redir(t_redir *lst);

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 04:31:55 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:36:49 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,24 @@ void	print_tokens(t_token *lst)
 		printf("next -> %p\n", tmp->next);
 		tmp = tmp->next;
 	}
+}
+
+void	soft_exit(t_shell *sh)
+{	
+		ft_deltoken(&sh->tokens);
+		ft_del_redirs(&sh->redir);
+		ft_del_words(&sh->words);
+		free(sh->line);
+}
+
+void	hard_exit(t_shell *sh)
+{
+		ft_deltoken(&sh->tokens);
+		ft_del_redirs(&sh->redir);
+		ft_del_words(&sh->words);
+		clear_history();
+		free(sh->line);
+		exit(1);
 }
 
 void	print_words(t_words *lst)
