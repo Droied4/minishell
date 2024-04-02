@@ -6,12 +6,12 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 16:39:43 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:27:38 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-static void child_process(t_words *word)
+static void child_process(t_words *word, char **env)
 {
 	if (word->in != STD_IN && word->in > 0)
 	{
@@ -24,10 +24,8 @@ static void child_process(t_words *word)
 			exit(1);
 		close(word->out);
 	}
-	if (execve(word->path, word->cmd, NULL) < 0)
+	if (execve(word->path, word->cmd, env) < 0)
 		printf("Error: %s: %s\n", word->cmd[0], strerror(errno));
-	//deivid del futuro una funcion aqui para gestionar el fallo
-	//tambien pa manana arregla lo de ls > out > out2
 }
 
 static char	*ft_aux_check(char *new_path, char *new_cmd)
@@ -76,7 +74,7 @@ static char	*ft_check_path(char **paths, char **cmd)
 	return (NULL);
 }
 
-static char **find_path(t_words *word)
+static void find_path(t_words *word)
 {
 	char **paths;
 	char *path;
@@ -84,10 +82,10 @@ static char **find_path(t_words *word)
 	path = getenv("PATH");
 	paths = ft_split(path, ':');
 	word->path = ft_check_path(paths, word->cmd);
-	return (paths);
+	ft_free_array(paths);
 }
 
-void	process_word(t_words *word, int *fds)
+void	process_word(t_words *word, int *fds, char **env)
 {
 	pid_t pid;
 	int parent_aux;
@@ -101,7 +99,5 @@ void	process_word(t_words *word, int *fds)
 	if (pid > 0)
 		waitpid(0, &parent_aux, 0);
 	else
-		child_process(word);
+		child_process(word, env);
 }
-
-
