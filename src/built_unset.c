@@ -6,42 +6,55 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 18:36:44 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/29 18:45:14 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/02 20:45:46 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static	t_env *delete_first(t_env *node)
+{
+	t_env *lst;
+
+	if (!node)
+		return (NULL);
+	lst = node->next;
+	lst->prev = NULL;
+	// free(node->line);
+	// free(node->var_name);
+	// free(node->var_content);
+	// free(node);
+	return (lst);
+}
 
 void	execute_unset(t_shell **sh, char **env)
 {
 	int     i;
 	int     pos;
 	t_env   *lstenv;
-	t_env   *lsttmp;
 
 	i = 0;
 	pos = 0;
 	if ((*sh)->env == NULL)
 		(*sh)->env = create_lst_env(env);
 	lstenv = (*sh)->env;
-	lsttmp = (*sh)->env;
 	if (found_var((*sh)->tokens->next->data, lstenv, &pos))
 	{
-		while (i < pos && lstenv)
+		if (pos == 1)
+			lstenv = delete_first(lstenv);
+		else
 		{
-			if (i + 1 == pos)
-				break ;
-			++i;
-			lstenv = lstenv->next;
+			while (i < pos && lstenv)
+			{
+				if (i + 1 == pos)
+					break ;
+				++i;
+				lstenv = lstenv->next;
+			}
+			lstenv->prev->next = lstenv->next;
+			if (lstenv->next)
+				lstenv->next->prev = lstenv->prev;
 		}
-		//check if it's the first element of the list
-		//lstenv->prev = NULL;
-		lstenv->prev->next = lstenv->next;
-		if (lstenv->next)
-			lstenv->next->prev = lstenv->prev;
 	}
-	// free(lstenv->line);
-	// free(lstenv->var_name);
-	// free(lstenv->line);
 	return ;
 }

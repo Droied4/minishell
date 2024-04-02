@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/29 21:08:02 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/01 13:16:39 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env)
 	{
 		i = 0;
 		sh.tokens = sh.tokens->next;
-		if (sh.tokens && is_correct(sh.tokens->data))
+		if (sh.tokens)// && is_correct(sh.tokens->data))
 		{
 			if (!found_var(sh.tokens->data, *lst_env, &i))
 				new = create_envnode(sh.tokens->data);

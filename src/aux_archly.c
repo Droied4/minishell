@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:17:12 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/29 12:32:14 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/01 21:33:51 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,15 @@ void	print_lst_env(t_env *lst, int i)
 			ft_dprintf(STDOUT_FILENO, "declare -x %s=", tmp->var_name);
 			if (!tmp->var_content)
 				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", "");
+			else if (tmp->var_content && tmp->var_content[0] == '\"')
+				ft_dprintf(STDOUT_FILENO, "%s\n", tmp->var_content);
 			else
 				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", tmp->var_content);
 			tmp = tmp->next;
 		}
 	}
 }
+
 int	ft_del_env(t_env **lst)
 {
 	t_env	*temp;

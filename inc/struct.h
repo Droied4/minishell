@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/01 13:01:36 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/01 13:14:46 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_shell
 	struct s_words				*words;
 	struct s_redir				*redir;
 	struct s_env				*env;
-	struct s_cmds				*st_cmd;
+	struct s_cmds				*cmds;
 	int							pipes;
 }								t_shell;
 
