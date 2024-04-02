@@ -81,13 +81,11 @@ void	print_words(t_words *lst)
 
 void	print_redir(t_redir *lst)
 {
-	int		i;
 	t_redir	*tmp;
 
 	tmp = lst;
 	while (tmp)
 	{
-		i = -1;
 		printf(CYAN "\n-----------------------\n");
 		printf(CYAN "|Block Of Redirections %i|\n", tmp->index);
 		printf(CYAN "-----------------------\n");
