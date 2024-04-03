@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/03 15:30:57 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:59:49 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 # include <string.h>
 # include <errno.h>
 # include <sys/types.h>
+# include <stdbool.h>
 # include <sys/wait.h>
 # include <stdlib.h>
+# include <limits.h>
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -208,32 +210,19 @@ char	**convert_to_dchar(t_env *lst_env);
 		BUILTINS
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
-
+int		check_exp_variable(t_env *tok);
+void	free_matrix(char **sh);
+int		execute_pwd(void);
+void	execute_echo(t_shell *shell);
+void    execute_env(t_shell *sh, char **env);
+int		execute_cd(t_shell *sh, char **env);
 void	execute_exit(t_shell *sh);
 void	execute_export(t_shell *sh, char **env);
 void	execute_builtins(t_shell *looking, char **env);
-
-// void    display_env(env);
+int		found_var(char *var, t_env *lst, int *i);
+void	execute_unset(t_shell **sh, char **env);
 void	printlst(t_token *lst);
-int		ft_del_env(t_env **lst);
-void	print_lst_env(t_env *lst, int i);
-
-/*
- *  ENV
- */
-t_env	*create_envnode(char *envp);
-t_env	*create_lst_env(char **envp);
-
-t_env	*exporting_var(t_shell sh, t_env **lst_env);
-char	**convert_to_dchar(t_env *lst_env);
-
-/*
- *  BUILTINS
- */
-
-void	init_shell(t_shell *sh);
-void	execute_exit(t_shell *sh);
-void	execute_export(t_shell *sh, char **env);
-void	execute_builtins(t_shell *looking, char **env);
+int     ft_del_env(t_env **lst);
+void    print_lst_env(t_env *lst, int i);
 
 #endif

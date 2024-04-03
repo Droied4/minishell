@@ -40,8 +40,9 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	(void)ac;
 	(void)env;
-	init_shell(&sh);
 	sh.exit_status = 0;
+	sh.env = NULL;
+	sh.cmds = NULL;
 	while (1)
 	{
 		prompt_str = prompt(sh.exit_status);
@@ -51,6 +52,7 @@ int	main(int ac, char **av, char **env)
 			exit(1);
 		add_history(sh.line);
 		sh.tokens = generate_tokens(sh.line);
+		// sh.cmds = generate_tablecmd(sh.tokens);
 		parse_all(&sh);
 		execute_builtins(&sh, env);
 		//		ft_free_array(env);
@@ -63,3 +65,4 @@ int	main(int ac, char **av, char **env)
 	}
 	return (0);
 }
+

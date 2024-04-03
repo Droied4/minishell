@@ -47,6 +47,7 @@ typedef struct s_env
 	char						*var_name;
 	char						*var_content;
 	struct s_env				*next;
+    struct s_env *prev;
 }								t_env;
 
 typedef struct s_shell
@@ -57,7 +58,7 @@ typedef struct s_shell
 	struct s_words				*words;
 	struct s_redir				*redir;
 	struct s_env				*env;
-	struct s_cmds				*st_cmd;
+	struct s_cmds				*cmds;
 	int							pipes;
 }								t_shell;
 
