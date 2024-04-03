@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/01 13:14:46 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/02 18:28:54 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_env
 typedef struct s_shell
 {
 	char						*line;
+	int							exit_status;
 	struct s_token				*tokens;
 	struct s_words				*words;
 	struct s_redir				*redir;

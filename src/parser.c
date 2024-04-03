@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/01 13:03:29 by avolcy           ###   ########.fr       */
+/*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
+/*   Updated: 2024/04/03 15:52:02 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,12 @@ void	parse_words(t_shell *sh)
 void	parse_all(t_shell *sh)
 {
 	if (syntax_error(sh->tokens) < 0)
-		return ;
+		exit(1);
 	if (parse_input(sh) < 0)
-		return ;
+		exit(1);
 	//parse_expansor(); 
 	//remove_quotes();
+	sh->pipes = stock_of(sh, PIPE);
 	sh->words = generate_words(sh->tokens);
 	parse_words(sh);
 	sh->redir = generate_redirs(sh->tokens);

@@ -29,11 +29,7 @@ LIBFT_PATH	= $(LIBRARY_PATH)/libft
 DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
 LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
-ifeq ($(USER), droied)
-	READLINE_PATH = /home/linuxbrew/.linuxbrew/opt/readline/
-else
-	READLINE_PATH = /Users/$(USER)/.brew/opt/readline/
-endif
+READLINE_PATH = $(LIBRARY_PATH)/readline/
 
 HEADER = $(INCLUDE_PATH)/minishell.h
 HEADER += $(INCLUDE_PATH)/struct.h
@@ -43,7 +39,7 @@ SOURCES = minishell.c aux_dei.c aux_archly.c is_something.c aux_arch.c \
 		  lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c \
 		  parser.c parser_input.c parser_entry.c \
 		  word_lst.c parser_cmd.c redir_lst.c parser_redir.c \
-		  executor.c \
+		  executor.c exec_redir.c exec_cmds.c \
 		  builtins.c built_export.c built_pwd_cd.c built_unset.c built_echo.c\
 		  environ.c \
 
@@ -85,8 +81,7 @@ $(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF)
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
 		@printf "$(CYAN)Compiling $@$(NC)\n";
 		@mkdir -p $(dir $@)
-		@$(CC) $(CFLAGS) -c $< -o $@
-
+		@$(CC) $(CFLAGS) -c $< -o $@ 
 
 $(LIBFT) :
 	@printf "$(CYAN)Compiling $@$(NC)\n";

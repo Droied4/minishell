@@ -16,6 +16,9 @@
 # include "../library/libft/libft.h"
 # include "macros.h"
 # include "struct.h"
+# include <stdio.h>
+# include <string.h>
+# include <errno.h>
 # include <sys/types.h>
 # include <stdbool.h>
 # include <sys/wait.h>
@@ -140,6 +143,22 @@ void executor(t_shell *sh, char **env);
 //void execute_cmd(t_block *block);
 
 /*
+┏━━━━━━━━・▼ ・━━━━━━━━┓
+		EXEC REDIR  - 5
+┗━━━━━━━━・▼ ・━━━━━━━━┛
+*/
+
+int *process_redir(t_redir *redir, int *fds);
+
+/*
+┏━━━━━━━━・▼ ・━━━━━━━━┓
+		EXEC CMDS  - 5
+┗━━━━━━━━・▼ ・━━━━━━━━┛
+*/
+
+int process_word(t_words *word, int *fds, char **env);
+
+/*
 ┏━━━━━━━━・▼・━━━━━━━━┓
 			AUX - 7
 ┗━━━━━━━━・▼・━━━━━━━━┛
@@ -153,12 +172,15 @@ void	print_lst_env(t_env *lst, int i);
 		AUX DEI - 5
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+void	soft_exit(t_shell *sh);
+void	hard_exit(t_shell *sh);
 void	print_tokens(t_token *lst);
 void	print_words(t_words *lst);
 void	print_redir(t_redir *lst);
 char	*ft_imp_strjoin(char const *s1, char const *s2);
 char	*char2str(char c);
 void	ft_free_array(char **res);
+int		stock_of(t_shell *sh, int type);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

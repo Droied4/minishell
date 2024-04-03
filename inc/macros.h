@@ -23,6 +23,7 @@
 # define WHITE "\033[0;97m"
 # define BLUE "\033[0;34m"
 # define NC "\033[0m"
+# define EXIT_STATUS "127"
 
 # define BUG {\
 		dprintf(2, "Ha entrado en -> %s\n", __FILE__);\

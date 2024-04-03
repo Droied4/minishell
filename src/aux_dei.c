@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 03:52:34 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:31:13 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,24 @@ void	print_tokens(t_token *lst)
 		printf("next -> %p\n", tmp->next);
 		tmp = tmp->next;
 	}
+}
+
+void	soft_exit(t_shell *sh)
+{	
+		ft_deltoken(&sh->tokens);
+		ft_del_redirs(&sh->redir);
+		ft_del_words(&sh->words);
+		free(sh->line);
+}
+
+void	hard_exit(t_shell *sh)
+{
+		ft_deltoken(&sh->tokens);
+		ft_del_redirs(&sh->redir);
+		ft_del_words(&sh->words);
+		clear_history();
+		free(sh->line);
+		exit(1);
 }
 
 void	print_words(t_words *lst)
@@ -63,13 +81,11 @@ void	print_words(t_words *lst)
 
 void	print_redir(t_redir *lst)
 {
-	int		i;
 	t_redir	*tmp;
 
 	tmp = lst;
 	while (tmp)
 	{
-		i = -1;
 		printf(CYAN "\n-----------------------\n");
 		printf(CYAN "|Block Of Redirections %i|\n", tmp->index);
 		printf(CYAN "-----------------------\n");
@@ -150,4 +166,20 @@ void	ft_free_array(char **res)
 		free(res);
 		res = NULL;
 	}
+}
+
+int stock_of(t_shell *sh, int type)
+{
+	t_token *tok;
+	int stock;
+
+	stock = 0;
+	tok = sh->tokens;
+	while (tok)
+	{
+		if (tok->type == type)
+			stock++;
+		tok = tok->next;
+	}
+	return (stock);
 }

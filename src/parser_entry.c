@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:46:50 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 03:14:46 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:50:36 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,48 @@ void	unclosed_entry(t_shell *sh)
 	sh->tokens = generate_tokens(sh->line);
 }
 
+static int final_check(int squotes, int dquotes)
+{
+	if ((squotes % 2) != 0)
+		return (-1);
+	if ((dquotes % 2) != 0)
+		return (-1);
+	return (0);
+}
+
 int	input_unclosed(t_shell *sh)
 {
 	t_token	*tmp_tok;
 	int		squotes;
 	int		dquotes;
+	int		i;
 
 	tmp_tok = sh->tokens;
 	squotes = 0;
 	dquotes = 0;
 	while (tmp_tok)
 	{
-		if (tmp_tok->type == SQUOTE && ft_strlen(tmp_tok->data) == 1 && (dquotes
-				% 2) == 0)
-			squotes++;
-		if (tmp_tok->type == DQUOTE && ft_strlen(tmp_tok->data) == 1 && (squotes
-				% 2) == 0)
-			dquotes++;
+		i = -1;
+		if (tmp_tok->type == SQUOTE && (dquotes % 2) == 0)
+		{
+			while(tmp_tok->data[++i])
+			{
+				if (tmp_tok->data[i] == '\'')
+					squotes++;
+			}
+			i = -1;
+		}
+		if (tmp_tok->type == DQUOTE && (squotes % 2) == 0)
+		{
+			while(tmp_tok->data[++i])
+			{
+				if (tmp_tok->data[i] == '\"')
+					dquotes++;
+			}
+		}
 		tmp_tok = tmp_tok->next;
 	}
-	if ((squotes % 2) != 0)
-		return (-1);
-	if ((dquotes % 2) != 0)
-		return (-1);
-	return (0);
+	return (final_check(squotes, dquotes));
 }
 
 void	incomplete_entry(t_shell *sh)
