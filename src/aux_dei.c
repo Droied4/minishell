@@ -34,6 +34,7 @@ void	soft_exit(t_shell *sh)
 		ft_deltoken(&sh->tokens);
 		ft_del_redirs(&sh->redir);
 		ft_del_words(&sh->words);
+
 		free(sh->line);
 }
 

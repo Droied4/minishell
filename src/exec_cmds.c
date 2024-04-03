@@ -27,7 +27,10 @@ static void child_process(t_words *word, char **env)
 	if (execve(word->path, word->cmd, env) < 0)
 	{
 		printf("Error: %s: %s\n", word->cmd[0], strerror(errno));
-		exit(127);
+		if (access(word->path, F_OK) == -1)
+			exit(127);
+		else if (access(word->path, X_OK) == -1)
+			exit(126);
 	}
 }
 
