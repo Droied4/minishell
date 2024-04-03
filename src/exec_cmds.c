@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/02 18:37:27 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:38:22 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void child_process(t_words *word, char **env)
 		if (access(word->path, F_OK) == -1)
 			exit(127);
 		else
-			exit(126);
+			exit(126);//esto hay que cambiarlo
 	}
 }
 

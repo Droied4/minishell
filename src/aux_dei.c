@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/02 17:38:45 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:49:21 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	soft_exit(t_shell *sh)
 		ft_deltoken(&sh->tokens);
 		ft_del_redirs(&sh->redir);
 		ft_del_words(&sh->words);
-
 		free(sh->line);
 }
 

@@ -6,12 +6,18 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/02 18:37:28 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:00:04 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
+
+//hacer funcion simple cmd 
+//static int smpl_cmd();
+
+//hacer funcion connector cmd
+//static int connector();
 
 void	executor(t_shell *sh, char **env)
 {
@@ -25,16 +31,15 @@ void	executor(t_shell *sh, char **env)
 		exit(-1);
 	redir = sh->redir;
 	word = sh->words;
-//	while (redir || word)
-//	{
+//	Estructura smpl cmd
 		if (redir)
 			fds = process_redir(redir, fds);
-		else
+		if (fds[0] == -1 || fds[1] == -1)
 		{
-			fds[0] = STD_IN;
-			fds[1] = STD_OUT;	
+			sh->exit_status = EXIT_FAILURE;
+			free(fds);
+			return ;
 		}
-		//ahora mismo o se ha acabado la ejecucion o hay una pipe
 		if (word)
 			sh->exit_status = process_word(word, fds, env);
 		free(fds);
