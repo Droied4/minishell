@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/03/31 01:45:22 by deordone         ###   ########.fr        #
+#    Updated: 2024/04/02 16:25:29 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,7 @@
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g -fsanitize=address
-
+CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g #-fsanitize=address
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               SOURCES                                        #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
@@ -40,12 +39,12 @@ HEADER = $(INCLUDE_PATH)/minishell.h
 HEADER += $(INCLUDE_PATH)/struct.h
 HEADER += $(INCLUDE_PATH)/macros.h
 
-SOURCES = minishell.c aux_dei.c aux_archly.c is_something.c \
+SOURCES = minishell.c aux_dei.c aux_archly.c is_something.c aux_arch.c \
 		  lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c \
 		  parser.c parser_input.c parser_entry.c \
 		  word_lst.c parser_cmd.c redir_lst.c parser_redir.c \
 		  executor.c \
-		  builtins.c built_export.c built_pwd.c \
+		  builtins.c built_export.c built_pwd_cd.c built_unset.c built_echo.c\
 		  environ.c \
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
@@ -71,7 +70,6 @@ NC=\033[0m # No color
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
 all: header $(NAME) author
-
 make_libs:
 	@make -C $(LIBFT_PATH) > /dev/null
 	@printf "$(CYAN)Compiling $(LIBFT_PATH)$(NC)\n";
@@ -79,6 +77,7 @@ make_libs:
 	@printf "$(CYAN)Compiling $(DPRINTF_PATH)$(NC)\n";
 
 -include $(DEPS)
+
 $(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF) 
 	@printf "$(CYAN)$@ Compiled$(NC)\n";
 	@$(CC) $(CFLAGS) $^ -o $(NAME) -lreadline -L $(READLINE_PATH)lib -I $(READLINE_PATH)include

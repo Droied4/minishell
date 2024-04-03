@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_archly.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:17:12 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/11 19:46:55 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/01 21:33:51 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**convert_to_dchar(t_env *lst_env)
 {
-	int	i;
+	int		i;
 	char	**new;
 	t_env	*tmp;
 
@@ -30,46 +30,41 @@ char	**convert_to_dchar(t_env *lst_env)
 		tmp = tmp->next;
 	}
 	new[i] = NULL;
-	return(new);
+	return (new);
 }
 
-void    print_lst_env(t_env *lst, int i)
+void	print_lst_env(t_env *lst, int i)
 {
-    t_env *tmp;
+	t_env	*tmp;
 
-	if(!lst)
+	if (!lst)
 		return ;
-    tmp = lst;
+	tmp = lst;
 	if (1 == i)
 	{
 		while (tmp)
 		{
-        	printf("%s\n", tmp->line);
-        	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
-        	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
-        	// printf("next----%p\n", (void *)tmp->next);
-        	tmp = tmp->next;
+			if (ft_strchr(tmp->line, (int) '='))
+				ft_dprintf(STDOUT_FILENO,"%s=%s\n", tmp->var_name, tmp->var_content);
+			tmp = tmp->next;
 		}
 	}
 	else if (2 == i)
 	{
-		//if var_content is (null) var_content = ""
-		//if "="" don't comes after var_name only show var_name on export
-		//if
 		while (tmp)
 		{
-        	printf("declare -x %s=", tmp->var_name);
+			ft_dprintf(STDOUT_FILENO, "declare -x %s=", tmp->var_name);
 			if (!tmp->var_content)
-        		printf("\"%s\"\n", "");
+				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", "");
+			else if (tmp->var_content && tmp->var_content[0] == '\"')
+				ft_dprintf(STDOUT_FILENO, "%s\n", tmp->var_content);
 			else
-				printf("\"%s\"\n", tmp->var_content);
-        	// printf("\tNAME ------------ is[%s]\n", tmp->var_name);
-        	// printf("\tCONTENT -------- is [%s]\n", tmp->var_content);
-        	// printf("next----%p\n", (void *)tmp->next);
-        	tmp = tmp->next;
+				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", tmp->var_content);
+			tmp = tmp->next;
 		}
 	}
 }
+
 int	ft_del_env(t_env **lst)
 {
 	t_env	*temp;
@@ -86,26 +81,34 @@ int	ft_del_env(t_env **lst)
 		*lst = temp;
 	}
 	*lst = NULL;
-	return (0);}
-
-int     ft_lstenv_size(t_env *lst)
-{
-        int             count;
-
-        count = 0;
-        if (!lst)
-                return (count);
-        while (lst != NULL)
-        {
-                count++;
-                lst = lst->next;
-        }
-        return (count++);
+	return (0);
 }
 
-void    init_shell(t_shell *sh)
+int	ft_lstenv_size(t_env *lst)
 {
-    sh->env = NULL;
-    sh->st_cmd = NULL;
-    // sh->tokens = generate_tokens(line);
+	int	count;
+
+	count = 0;
+	if (!lst)
+		return (count);
+	while (lst != NULL)
+	{
+		count++;
+		lst = lst->next;
+	}
+	return (count++);
+}
+
+void	free_matrix(char **allsplit)
+{
+	int i;
+
+	i = 0;
+	while (allsplit[i])
+	{
+		free(allsplit[i]);
+		i++;
+	} 
+	free(allsplit);
+	allsplit = NULL;
 }

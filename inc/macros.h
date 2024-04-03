@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 01:54:03 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:57:51 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@
 	      }
 # define STD_IN 0 
 # define STD_OUT 1
+# define DASH_N "-n"
 # define STR_REDIR "|><"
 # define REDIR {PIPE, GREAT, LESS, DGREAT, DLESS}
 # define STR_META "|><\'\"$"
 # define METACHAR {PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE, EXP}
 # define STR_BUILTINS "echo cd pwd export unset env exit"
-
 /*
  * TOKEN TYPE 
  * */

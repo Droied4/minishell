@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:39:23 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 19:08:56 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/03/27 18:38:45 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	ft_atoi(const char *str)
 	int	i;
 	int	res;
 	int	sign;
+	
 
 	i = 0;
 	res = 0;
