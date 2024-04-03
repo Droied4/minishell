@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/03 16:05:52 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/03 18:16:11 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	execute_exit(t_shell *sh)
 	exit(0);
 }
 
+//segv if env -i ./minishell && env passed
 void	execute_builtins(t_shell *shell, char **env)
 {
 	if (shell->tokens && shell->tokens->data)
