@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/02 18:37:27 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:30:57 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ void	print_redir(t_redir *lst);
 char	*ft_imp_strjoin(char const *s1, char const *s2);
 char	*char2str(char c);
 void	ft_free_array(char **res);
+int		stock_of(t_shell *sh, int type);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

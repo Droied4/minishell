@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:02:55 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/02 15:51:59 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:31:26 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	parse_all(t_shell *sh)
 		exit(1);
 	//parse_expansor(); 
 	//remove_quotes();
+	sh->pipes = stock_of(sh, PIPE);
 	sh->words = generate_words(sh->tokens);
 	parse_words(sh);
 	sh->redir = generate_redirs(sh->tokens);

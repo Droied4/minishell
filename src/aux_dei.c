@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/03 13:49:21 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:31:13 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,4 +166,20 @@ void	ft_free_array(char **res)
 		free(res);
 		res = NULL;
 	}
+}
+
+int stock_of(t_shell *sh, int type)
+{
+	t_token *tok;
+	int stock;
+
+	stock = 0;
+	tok = sh->tokens;
+	while (tok)
+	{
+		if (tok->type == type)
+			stock++;
+		tok = tok->next;
+	}
+	return (stock);
 }
