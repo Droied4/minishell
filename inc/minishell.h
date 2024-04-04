@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/04 13:22:14 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/04 15:26:09 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int *process_redir(t_redir *redir, int *fds);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-int process_word(t_words *word, int *fds, char **env);
+int process_word(int pipes, t_words *word, int *fds, char **env);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
