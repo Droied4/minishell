@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/04 16:55:04 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/04 17:51:03 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ int process_word(t_words *word, int *fds, char **env)
 	else
 		word->path = ft_strdup(word->cmd[0]);
 	exit_status = 0;
-	word->in = fds[0];
-	word->out = fds[1];
 	pid = fork();
 	if (pid == -1)
 		exit(1);
