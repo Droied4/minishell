@@ -6,13 +6,13 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/01 13:16:39 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/04 19:12:14 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	found_var(char *var, t_env *lst, int *i)
+t_env	*found_var(char *var, t_env *lst)
 {
 	size_t	len;
 	t_env	*tmp;
@@ -29,41 +29,28 @@ int	found_var(char *var, t_env *lst, int *i)
 			len = ft_strlen(tmp->var_name);
 		if (ft_strncmp(line[0], tmp->var_name, len) == 0)
 		{
-			*i += 1;
 			free_matrix(line);
-			return (1);
+			return (tmp);
 		}
-		else
-		{
-			*i += 1;
-			tmp = tmp->next;
-		}
+		tmp = tmp->next;
 	}
 	free_matrix(line);
-	return (0);
+	return (NULL);
 }
 
-static t_env	*update_var(char *s, t_env **lst, int pos)
+static void	update_var(char *s, t_env *var_node)
 {
-	int		i;
 	char	**split;
-	t_env	*newlst;
 
-	i = 0;
-	newlst = *lst;
-	while (++i < pos && newlst)
-		newlst = newlst->next;
-	newlst->line = ft_strdup(s);
-	split = ft_split(newlst->line, '=');
-	newlst->var_name = split[0];
-	newlst->var_content = split[1];
+	var_node->line = ft_strdup(s);
+	split = ft_split(var_node->line, '=');
+	var_node->var_name = split[0];
+	var_node->var_content = split[1];
 	free(split);
-	return (*lst);
 }
 
 t_env	*exporting_var(t_shell sh, t_env **lst_env)
 {
-	int		i;
 	t_env	*last;
 	t_env	*new;
 
@@ -71,22 +58,23 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env)
 	// check_exp_variable(sh.tokens);
 	while (sh.tokens)
 	{
-		i = 0;
 		sh.tokens = sh.tokens->next;
-		if (sh.tokens)// && is_correct(sh.tokens->data))
+		if (sh.tokens)
 		{
-			if (!found_var(sh.tokens->data, *lst_env, &i))
-				new = create_envnode(sh.tokens->data);
-			else
-				*lst_env = update_var(sh.tokens->data, lst_env, i);
-			if (new)
+			new = found_var(sh.tokens->data, *lst_env);
+			if (!new)
 			{
+				new = create_envnode(sh.tokens->data);
+				if (!new)
+					return (NULL);
 				last = *lst_env;
 				while (last->next)
 					last = last->next;
 				last->next = new;
 				new->prev = last;
 			}
+			else
+				update_var(sh.tokens->data, new);
 		}
 	}
 	return (*lst_env);

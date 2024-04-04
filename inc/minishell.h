@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/01 12:59:49 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/04 19:03:15 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,14 @@ int		is_char_redir(char c);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
+		EPANSOR
+┗━━━━━━━━・▼・━━━━━━━━┛
+*/
+
+void expansor(t_shell *sh, char **env);
+
+/*
+┏━━━━━━━━・▼・━━━━━━━━┓
 		ENV
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
@@ -219,7 +227,7 @@ int		execute_cd(t_shell *sh, char **env);
 void	execute_exit(t_shell *sh);
 void	execute_export(t_shell *sh, char **env);
 void	execute_builtins(t_shell *looking, char **env);
-int		found_var(char *var, t_env *lst, int *i);
+t_env	*found_var(char *var, t_env *lst);
 void	execute_unset(t_shell **sh, char **env);
 void	printlst(t_token *lst);
 int     ft_del_env(t_env **lst);

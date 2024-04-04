@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:13:30 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/25 17:29:17 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/04 19:24:57 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,65 +24,44 @@ int	execute_pwd(void)
 	return (EXIT_FAILURE);
 }
 
-static char *found_path(t_shell *sh, char *var)
-{
-	int i;
-	int pos;
-	char *path;
-	t_env *tmplst;
-
-	i = 0;
-	pos = 0;
-	tmplst = sh->env;
-	found_var(var, sh->env, &pos);
-	while(++i < pos && tmplst)
-		tmplst = tmplst->next;
-	path = tmplst->var_content;// ft_strdup(tmplst->var_content);
-	// printf("var: [%p]\n", var);
-	// free(var);
-	return (path);
-}
-
 static void update_currentpwd_cd(t_env *lst)
 {
-	int i;
-	int pos;
+	t_env *var_node;
 	char	path[PATH_MAX];
 
-	i = 0;
-	pos = 0;
 	path[0] = '\0';
 	getcwd(path, sizeof(path));
-	found_var("PWD", lst, &pos);
-	while (++i < pos && lst)
-		lst = lst->next;
-	free(lst->var_content);
-	lst->var_content = ft_strdup(path);
+	var_node = found_var("PWD", lst);
+	if (!var_node)
+		return ;
+	free(var_node->var_content);
+	var_node->var_content = ft_strdup(path);
 }
 
 static void update_oldpwd_cd(t_env *lst, char *old)
 {
-	int i;
-	int pos;
+	t_env *var_node;
 
-	i = 0;
-	pos = 0;
-	found_var("OLDPWD", lst, &pos);
-	while (++i < pos && lst)
-		lst = lst->next;
-	free(lst->var_content);
-	lst->var_content = ft_strdup(old);
+	var_node = found_var("OLDPWD", lst);
+	if (!var_node)
+		return ;
+	free(var_node->var_content);
+	var_node->var_content = ft_strdup(old);
 }
 
 int	execute_cd(t_shell *sh, char **env)
 {
+	t_env *home;
 	char	*path;
 	char	oldpath[PATH_MAX];
 	
 	if (sh->env == NULL)
 		sh->env = create_lst_env(env);
 	if (sh->tokens->next == NULL)
-		path = found_path(sh, "HOME");
+	{
+		home = found_var("HOME", sh->env);
+		path = home->var_content;
+	}
 	else
 		path = (sh->tokens->next->data);
 	oldpath[0] = '\0';
