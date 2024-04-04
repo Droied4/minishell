@@ -6,14 +6,13 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/04 16:10:56 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:59:41 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-//hacer funcion simple cmd 
 static int smpl_cmd(t_shell *sh, int *fds, char **env)
 {
 	if (sh->redir)
@@ -21,11 +20,11 @@ static int smpl_cmd(t_shell *sh, int *fds, char **env)
 	if (fds[0] == -1 || fds[1] == -1)
 		return (EXIT_FAILURE);
 	if (sh->words)
-			return (process_word(0, sh->words, fds, env));
+			return (process_word(sh->words, fds, env));
 	return (EXIT_SUCCESS);
 }
 
-
+/*
 static int connector(t_shell *sh, int *fds, char **env)
 {
 	int pipes;
@@ -61,7 +60,7 @@ static int connector(t_shell *sh, int *fds, char **env)
 	out = process[i - 1];
 	free(process);
 	return (out);
-}
+}*/
 
 void	executor(t_shell *sh, char **env)
 {
@@ -72,7 +71,7 @@ void	executor(t_shell *sh, char **env)
 		exit(1);
 	if (sh->pipes == 0)
 		sh->exit_status = smpl_cmd(sh, fds, env);
-	else
-		sh->exit_status = connector(sh, fds, env);
+//	else
+//		sh->exit_status = connector(sh, fds, env);
 	free(fds);
 }

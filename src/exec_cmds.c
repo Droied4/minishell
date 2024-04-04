@@ -6,13 +6,13 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/04 16:10:54 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:55:04 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	last_redirection(t_words *word)
+static void child_process(t_words *word, char **env)
 {
 	if (word->in != STD_IN && word->in > 0)
 	{
@@ -25,51 +25,9 @@ static void	last_redirection(t_words *word)
 			exit(1);
 		close(word->out);
 	}
-}
-
-static void pipe_redirection(int *p, t_words *word)
-{	
-/*	pid_t pid;
-	int parent_aux;
-	exit_status = 0;
-	pid = fork();
-	if (pid == -1)
-		exit(1);
-	if (pid > 0)
-		waitpid(0, &parent_aux, 0);
-	else
-		c_process(p, pipes, word, env);
-	if (WIFEXITED(parent_aux))
-		exit_status = WEXITSTATUS(parent_aux);
-	return (exit_status);
-
-	if (dup2(word->in, STD_IN) == -1)
-		exit(1);
-	close(p[0]);
-	if (dup2(p[1], STD_OUT) == -1)
-		exit(1);
-	close(p[1]);*/
-}
-
-static void child_process(int *p, int pipes, t_words *word, char **env)
-{
-	if (pipes <= 0)
-		last_redirection(word);
-	else
-		pipe_redirection(p, word);
-	
 	execve(word->path, word->cmd, env);//cambiar esto
 	if (errno != ENOEXEC)
-	{
-		if (errno == EFAULT)
-		{
-			printf("Error: %s: Command not found\n", word->cmd[0]);
-			exit(127);
-		}
-		open(word->path, O_WRONLY);
-		printf("Error: %s: %s\n", word->cmd[0], strerror(errno));
-		exit(126);
-	}
+		exit(after_exec(word));
 }
 
 static char	*ft_aux_check(char *new_path, char *new_cmd)
@@ -129,16 +87,12 @@ static void find_path(t_words *word)
 	ft_free_array(paths);
 }
 
-int process_word(int pipes, t_words *word, int *fds, char **env)
+int process_word(t_words *word, int *fds, char **env)
 {
 	pid_t pid;
 	int parent_aux;
 	int exit_status;
-	
-	
-	int p[2];
-	if (pipe(p) < 0)
-		exit(1);
+		
 	if (char_is_inside(word->cmd[0], '/') < 0)
 		find_path(word);
 	else
@@ -152,7 +106,7 @@ int process_word(int pipes, t_words *word, int *fds, char **env)
 	if (pid > 0)
 		waitpid(0, &parent_aux, 0);
 	else
-		child_process(p, pipes, word, env);
+		child_process(word, env);
 	if (WIFEXITED(parent_aux))
 		exit_status = WEXITSTATUS(parent_aux);
 	return (exit_status);
