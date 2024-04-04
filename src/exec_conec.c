@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/04 17:50:54 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/04 17:51:47 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	parent_process(t_words *word, int *p, char **env)
 	if (dup2(p[0], STD_IN) == -1)
 		exit(-1);
 	close(p[0]);
+
+	//solo falta el execve
 }
 
 int process_connector(t_words *word, int *fds, char **env)
