@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/03 15:14:46 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:03:02 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,22 @@ static void child_process(t_words *word, char **env)
 			exit(1);
 		close(word->out);
 	}
-	if (execve(word->path, word->cmd, env) < 0)
+	execve(word->path, word->cmd, env);
+	if (errno != ENOEXEC)
 	{
-		printf("Error: %s: %s\n", word->cmd[0], strerror(errno));
-		if (access(word->path, F_OK) == -1)
+		if (errno == EFAULT)
+		{
+			printf("Error: %s: Command not found\n", word->cmd[0]);
 			exit(127);
+		}
 		else
-			exit(126);//esto hay que cambiarlo
+		{
+			open(word->path, O_WRONLY);
+			printf("Error: %s: %s\n", word->cmd[0], strerror(errno));
+			if (char_is_inside(word->path, '/') > 0)
+				exit (127);
+			exit(126);
+		}
 	}
 }
 
@@ -97,8 +106,11 @@ int process_word(t_words *word, int *fds, char **env)
 	int parent_aux;
 	int exit_status;
 
+	if (char_is_inside(word->cmd[0], '/') < 0)
+		find_path(word);
+	else
+		word->path = ft_strdup(word->cmd[0]);
 	exit_status = 0;
-	find_path(word);
 	word->in = fds[0];
 	word->out = fds[1];
 	pid = fork();

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/03 15:31:13 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/04 13:38:18 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,4 +182,20 @@ int stock_of(t_shell *sh, int type)
 		tok = tok->next;
 	}
 	return (stock);
+}
+
+int char_is_inside(char const *str, char c)
+{
+	int i;
+	int stock;
+
+	i = 0;
+	stock = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (-1);
 }
