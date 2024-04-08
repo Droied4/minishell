@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/01 13:03:58 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/04 13:38:52 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	new_cmd(char **final, t_token *tok)
 			final[++i] = word;
 		}
 		tok = tok->next;
-	}	
+	}
 }
 
 t_token	*fill_block(t_words **word, t_token *tok)

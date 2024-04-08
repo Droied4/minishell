@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/03 15:31:13 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:50:06 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,6 @@ void	print_tokens(t_token *lst)
 		printf("next -> %p\n", tmp->next);
 		tmp = tmp->next;
 	}
-}
-
-void	soft_exit(t_shell *sh)
-{	
-		ft_deltoken(&sh->tokens);
-		ft_del_redirs(&sh->redir);
-		ft_del_words(&sh->words);
-		free(sh->line);
-}
-
-void	hard_exit(t_shell *sh)
-{
-		ft_deltoken(&sh->tokens);
-		ft_del_redirs(&sh->redir);
-		ft_del_words(&sh->words);
-		clear_history();
-		free(sh->line);
-		exit(1);
 }
 
 void	print_words(t_words *lst)
@@ -152,22 +134,6 @@ char	*char2str(char c)
 	return (str);
 }
 
-void	ft_free_array(char **res)
-{
-	int	i;
-
-	i = 0;
-	if (res)
-	{
-		while (res[i])
-			++i;
-		while (--i >= 0)
-			free(res[i]);
-		free(res);
-		res = NULL;
-	}
-}
-
 int stock_of(t_shell *sh, int type)
 {
 	t_token *tok;
@@ -182,4 +148,20 @@ int stock_of(t_shell *sh, int type)
 		tok = tok->next;
 	}
 	return (stock);
+}
+
+int char_is_inside(char const *str, char c)
+{
+	int i;
+	int stock;
+
+	i = 0;
+	stock = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (-1);
 }

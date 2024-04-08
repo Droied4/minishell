@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/03 13:59:04 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/04 17:49:34 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,24 @@ static int append_case(t_redir *redir, int last_out)
 		return (last_out);
 }
 
-int *process_redir(t_redir *redir, int *fds)
+int *process_redir(t_redir *r, int *fds)
 {
+	t_redir *redir;
 	int last_in;
 	int last_out;
 
+	redir = r;
 	last_in = 0;
 	last_out = 1;
 	while (redir && redir->type != PIPE)
 	{
-		if (redir->type == LESS && last_in != -1)
+		if (redir->type == LESS && last_in != -1 && last_out != -1)
 			last_in = less_case(redir, last_in);
 		//else if (redir->type == DLESS && last_in != -1)
 		//	last_in = heredoc_case(redir, last_in);
-		else if (redir->type == GREAT && last_out != -1)
+		else if (redir->type == GREAT && last_in != -1 && last_out != -1)
 			last_out = great_case(redir, last_out);
-		else if (redir->type == DGREAT && last_out != -1)
+		else if (redir->type == DGREAT && last_in != -1 && last_out != -1)
 			last_out = append_case(redir, last_out);
 		redir = redir->next;
 	}
