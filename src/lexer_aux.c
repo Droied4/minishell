@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:01:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/02 15:40:41 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/08 21:44:43 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static int len_of_words(char *line)
 	{
 		if (is_char_redir(*line) > 0)
 			return (lex_redir_case(line, *line));
-		else if (*line == '\'' || *line == '\"')
-			return (lex_quotes_case(line, *line) + 1);
+	//	else if (*line == '\'' || *line == '\"')
+	//		return (lex_quotes_case(line, *line) + 1);
 	}
 	return (lex_word_case(line));
 }

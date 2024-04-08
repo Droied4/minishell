@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/04 17:51:03 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/08 20:39:51 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ static void find_path(t_words *word)
 
 int process_word(t_words *word, int *fds, char **env)
 {
+	(void)fds;
 	pid_t pid;
 	int parent_aux;
 	int exit_status;
