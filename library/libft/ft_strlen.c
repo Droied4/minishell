@@ -6,12 +6,11 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 18:08:53 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 19:09:47 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/05 13:17:03 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 size_t	ft_strlen(const char *x)
 {

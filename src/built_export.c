@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/04 19:12:14 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/05 13:05:31 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ t_env	*found_var(char *var, t_env *lst)
 		}
 		tmp = tmp->next;
 	}
-	free_matrix(line);
+	if (line)
+		free_matrix(line);
 	return (NULL);
 }
 

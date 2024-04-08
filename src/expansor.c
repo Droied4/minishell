@@ -6,26 +6,12 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:38:28 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/04 20:46:23 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/05 14:30:53 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// cd $HOME = cd follow by the home content
-// echo $HOME print the HOME content 
-// adsaddas$PWD to type 7
-// “$PWD” to type 7
-// '$PWD' maintain in the SQUOTES TYPE
-// parser expansor change the token and expand the data of the token
-// and later in the parser the remove quotes
-// remove the quotes of the same kind
-// if starts with singles = 'hola'
-// final token will be = hola
-// if starts with  = 'e'ch'o'
-// final token will be = echo
-// 'ho"l"a'
-// ho"l"a
 
 static int found_dollar(char *data)
 {
@@ -45,6 +31,7 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
 {
     int i;
     t_env *var_node;
+    char *cpy_data;
     char *new_data;
     char **data_sp;
 
@@ -52,22 +39,38 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
     data_sp = ft_split(data, '$');
     if (!sh->env)
         sh->env = create_lst_env(env);
+    new_data = NULL;
     while (data_sp[i])
     {
-        printf("this is %d", i);
+        cpy_data = NULL;
         var_node = found_var(data_sp[i], sh->env);
         if (var_node)
         {   
-            printf("this is the value--->[%s]\n", var_node->var_content);
-            new_data = ft_strdup(var_node->var_content);
-            // free(data_sp);
-            // return (NULL);
-        }   
+            cpy_data = ft_strdup(var_node->var_content);
+            new_data = ft_strjoin2(new_data, cpy_data);
+        }
+        else
+            new_data = ft_strdup(data_sp[i]);  
         i++;
     }
-    free(data_sp);
+    if (data_sp)
+        free(data_sp);
     return (new_data);
 }
+// cd $HOME = cd follow by the home content
+// echo $HOME print the HOME content 
+// adsaddas$PWD to type 7
+// “$PWD” to type 7
+// '$PWD' maintain in the SQUOTES TYPE
+// parser expansor change the token and expand the data of the token
+// and later in the parser the remove quotes
+// remove the quotes of the same kind
+// if starts with singles = 'hola'
+// final token will be = hola
+// if starts with  = 'e'ch'o'
+// final token will be = echo
+// 'ho"l"a'
+// ho"l"a
 
 void expansor(t_shell *sh, char **env)
 {
@@ -81,6 +84,7 @@ void expansor(t_shell *sh, char **env)
         // if (is_charmeta(tok->data[0]))
         if (found_dollar(tok->data) == 1)
            tok->data = expansion_var(sh, tok->data, env);
+         printf("this is the value--->[%s]\n", tok->data);
         tok = tok->next;
     }
 }
