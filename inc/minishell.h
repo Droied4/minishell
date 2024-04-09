@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/09 02:05:43 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/09 03:07:32 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ int *process_redir(t_redir *redir, int *fds);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
+void find_path(t_words *word);
 int process_word(t_words *word, int *fds, char **env);
 
 /*
@@ -174,7 +175,7 @@ int process_word(t_words *word, int *fds, char **env);
 		EXEC CONEC  - 5
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
-int process_connector(t_words *word, int *fds, char **env);
+int process_connector(t_words *word, char **env);
 
 
 /*

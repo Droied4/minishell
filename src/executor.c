@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/09 02:05:34 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/09 04:12:18 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ static int connector(t_shell *sh, int *fds, char **env)
 	int process;
 	int final;
 
-	process = sh->pipes + 1;
+	word = sh->words;
+	redir = sh->redir;
+	process = sh->pipes;
 	while (process)
 	{
 		if (redir)
@@ -46,12 +48,14 @@ static int connector(t_shell *sh, int *fds, char **env)
 		}
 		if (fds[0] == -1 || fds[1] == -1)
 			final = EXIT_FAILURE;
-		else
-			word->in = fds[0];
-			word->out = fds[1];
+		else if (sh->words && (fds[0] == 0 || fds[1] == 1))
+		{
+			sh->words->in = fds[0];
+			sh->words->out = fds[1];
+		}
 		if (word)
 		{
-			final = process_connector(word, fds, env);
+			final = process_connector(word, env);
 			word = word->next;
 		}
 		process--;
@@ -67,8 +71,10 @@ void	executor(t_shell *sh, char **env)
 	if (!fds)
 		exit(1);
 	if (sh->pipes == 0)
+	{
 		sh->exit_status = smpl_cmd(sh, fds, env);
+		free(fds);
+	}
 	else
 		sh->exit_status = connector(sh, fds, env);
-	free(fds);
 }

@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/09 02:05:35 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/09 04:12:17 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ static void child_process(t_words *word, char **env)
 		close(word->out);
 	}
 	execve(word->path, word->cmd, env);//cambiar esto
-	if (errno != ENOEXEC)
-		exit(after_exec(word));
+	exit(after_exec(word));
 }
 
 static char	*ft_aux_check(char *new_path, char *new_cmd)
@@ -76,7 +75,7 @@ static char	*ft_check_path(char **paths, char **cmd)
 	return (NULL);
 }
 
-static void find_path(t_words *word)
+void find_path(t_words *word)
 {
 	char **paths;
 	char *path;
