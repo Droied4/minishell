@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:38:28 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/09 13:25:20 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/09 20:33:14 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
     {
         cpy_data = NULL;
         var_node = found_var(data_sp[i], sh->env);
-        if (var_node)//&& is_expandable(data_sp[i]))// cant be there cause split $
+        if (var_node)
         {   
             cpy_data = ft_strdup(var_node->var_content);
             new_data = ft_strjoin2(new_data, cpy_data);
@@ -57,6 +57,36 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
         free(data_sp);
     return (new_data);
 }
+// bash-3.2$ '$PATH'
+// tipo 5 remain
+// bash: $PATH: command not found
+// bash-3.2$ '$USER'
+// bash: $USER: command not found
+// bash-3.2$ $USER
+// bash: avolcy: command not found
+// bash-3.2$ "$USER"
+// bash: avolcy: command not found
+// bash-3.2$ "'$USER'"
+// bash: 'avolcy': command not found
+// bash-3.2$ "''$USER''"
+// bash: ''avolcy'': command not found
+// bash-3.2$ "'"'$USER'"'"
+// bash: '$USER': command not found
+// bash-3.2$ "'''$USER'''"
+// bash: '''avolcy''': command not found
+// bash-3.2$ ""'"'$USER'"'""
+// bash: "avolcy": command not found
+// bash-3.2$ ""'"$USER"'""
+// bash: "$USER": command not found
+// bash-3.2$ "'"$USER"'"
+// bash: 'avolcy': command not found
+// bash-3.2$
+// bash-3.2$ ""'"$USER"'""
+// bash: "$USER": command not found
+// bash-3.2$ """'"$USER"'"""
+// bash: 'avolcy': command not found
+// bash-3.2$
+
 // cd $HOME = cd follow by the home content
 // echo $HOME print the HOME content 
 // adsaddas$PWD to type 7
@@ -72,15 +102,78 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
 // 'ho"l"a'
 // ho"l"a
 
-// static int is_expandable(char *data)
-// {
-//     int len;
+// if (numsingle / 2) % 2 != 0 means impar
+// if impar type  5
 
-//     len = ft_strlen(data);
-//     if (data[0] == '\"' && data[len] == '\"')
-//         return (1);
-//     return (0);
-// }
+static int is_single(char *s)
+{
+    int i;
+
+    i = 0;
+    while (*s)
+    {
+        if (*s == '\'')
+            i++;
+        s++;
+    }
+    return (i);
+}
+
+static char *remove_single_quotes(char *str)
+{
+    int i;
+    int j;
+    char *tmp;
+
+    i = 0;
+    tmp = malloc(sizeof(char) * (ft_strlen(str) - is_single(str)) + 1);
+    if (!tmp)
+        return (NULL);
+    tmp[i] = '\0';
+    j = 0;
+    while (str[i])
+    {
+        if (!(str[i] == '\''))
+            tmp[j++] = str[i];
+        i++;
+    }
+    tmp[j] = '\0';
+    return (tmp);
+}
+
+static bool all_single(char *s)
+{
+    bool all_sgl;
+
+    all_sgl = false;
+    while (*s)
+    {
+        if (*s == '\'' || *s == '$' || ft_isalnum(*s))
+            all_sgl = true;
+        ++s;
+    }
+    return (all_sgl);
+}
+
+static void reasign_tok_type(t_token *tok)
+{
+    while (tok)
+    {
+        printf("\tYour boolean variable is: %s\n",  all_single(tok->data)? "true" : "false");
+        if (all_single(tok->data) == true)
+        {
+            printf("\ttok data {%s} && tok type before [%d]\n", tok->data, tok->type);
+            tok->data = remove_single_quotes(tok->data);
+            if ((is_single(tok->data) / 2) % 2 == 0)
+                tok->type = 7;
+            else
+                tok->type = 5;
+            printf("\ttok data {%s} && tok type after trim singlequote [%d]\n\n", tok->data, tok->type);
+        }
+        tok = tok->next;
+    }
+    
+}
 
 void expansor(t_shell *sh, char **env)
 {
@@ -91,14 +184,14 @@ void expansor(t_shell *sh, char **env)
     tok = sh->tokens;
     while (tok)
     {
-       //reasign_tok_type(&tok);
-        //if (tok->type == 7)
-    //    {
-            // if (is_charmeta(tok->data[0]))
+       reasign_tok_type(tok);
+        if (tok->type == 7)
+       {
+            if (is_charmeta(tok->data[0]))
             if (found_dollar(tok->data) == 1)
                 tok->data = expansion_var(sh, tok->data, env);
          printf("this is the value--->[%s]\n", tok->data);
-      //  }
+       }
         tok = tok->next;
     }
 }
