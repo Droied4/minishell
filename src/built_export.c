@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/05 13:05:31 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/09 12:18:51 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env)
 	t_env	*new;
 
 	new = NULL;
-	// check_exp_variable(sh.tokens);
 	while (sh.tokens)
 	{
 		sh.tokens = sh.tokens->next;
@@ -80,8 +79,8 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env)
 	}
 	return (*lst_env);
 }
-// case export hola="como estas" que tal como="vamos"
-// static void    check_tokens(t_token *tok)
+//from A to Z
+// static void    sort_tokens(t_token *tok)
 // {
 //     t_token *tmp;
 //     int     count;

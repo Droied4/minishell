@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:38:28 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/08 21:54:42 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/09 13:25:20 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
     char *new_data;
     char **data_sp;
 
-    i = 0;
+    i = -1;
     data_sp = ft_split(data, '$');
     if (!sh->env)
         sh->env = create_lst_env(env);
     new_data = NULL;
-    while (data_sp[i])
+    while (data_sp[++i])
     {
         cpy_data = NULL;
         var_node = found_var(data_sp[i], sh->env);
@@ -48,9 +48,10 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
             cpy_data = ft_strdup(var_node->var_content);
             new_data = ft_strjoin2(new_data, cpy_data);
         }
-        else
-            new_data = ft_strdup(data_sp[i]);  
-        i++;
+        else if (!var_node && new_data && data_sp[i])
+            new_data = ft_strdup(new_data);  
+        else 
+            new_data = ft_strjoin2(new_data, data_sp[i]);  
     }
     if (data_sp)
         free(data_sp);
