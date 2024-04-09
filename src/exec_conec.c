@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/09 04:12:20 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:23:15 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int process_connector(t_words *word, char **env)
 	int	p[2];
 	int parent_aux;
 	int exit_status;
-
 
 	exit_status = 0;	
 	if (pipe(p))
