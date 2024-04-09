@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/08 20:39:21 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/09 02:05:34 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@ static int smpl_cmd(t_shell *sh, int *fds, char **env)
 		fds = process_redir(sh->redir, fds);
 	if (fds[0] == -1 || fds[1] == -1)
 		return (EXIT_FAILURE);
-	else
+	else if (sh->words && (fds[0] == 0 || fds[1] == 1))
+	{
 		sh->words->in = fds[0];
 		sh->words->out = fds[1];
+	}
 	if (sh->words)
 			return (process_word(sh->words, fds, env));
 	return (EXIT_SUCCESS);
 }
-/*
+
 static int connector(t_shell *sh, int *fds, char **env)
 {
 	t_words *word;
@@ -55,7 +57,7 @@ static int connector(t_shell *sh, int *fds, char **env)
 		process--;
 	}
 	return (EXIT_SUCCESS);
-}*/
+}
 
 void	executor(t_shell *sh, char **env)
 {
@@ -66,7 +68,7 @@ void	executor(t_shell *sh, char **env)
 		exit(1);
 	if (sh->pipes == 0)
 		sh->exit_status = smpl_cmd(sh, fds, env);
-//	else
-//		sh->exit_status = connector(sh, fds, env);
+	else
+		sh->exit_status = connector(sh, fds, env);
 	free(fds);
 }
