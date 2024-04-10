@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:38:28 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/09 20:48:00 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/10 20:43:36 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,6 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
         free(data_sp);
     return (new_data);
 }
-// bash-3.2$ '$PATH'
-// tipo 5 remain
-// bash: $PATH: command not found
-// bash-3.2$ '$USER'
-// bash: $USER: command not found
-// bash-3.2$ $USER
-// bash: avolcy: command not found
 // bash-3.2$ "$USER"
 // bash: avolcy: command not found
 // bash-3.2$ "'$USER'"
@@ -91,15 +84,14 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
 // echo $HOME print the HOME content 
 // adsaddas$PWD to type 7
 // “$PWD” to type 7
-// '$PWD' maintain in the SQUOTES TYPE
 // parser expansor change the token and expand the data of the token
 // and later in the parser the remove quotes
 // remove the quotes of the same kind
-// if starts with singles = 'hola'
+// if starts with singles = 'hola'✅
 // final token will be = hola
-// if starts with  = 'e'ch'o'
+// if starts with  = 'e'ch'o'✅
 // final token will be = echo
-// 'ho"l"a'
+// 'ho"l"a'✅
 // ho"l"a
 
 // if (numsingle / 2) % 2 != 0 means impar
@@ -145,11 +137,14 @@ static bool all_single(char *s)
 {
     bool all_sgl;
 
-    all_sgl = false;
+    all_sgl = true;
     while (*s)
     {
-        if (*s == '\'' || *s == '$' || ft_isalnum(*s))
-            all_sgl = true;
+        if (*s != '\'' && (*s == '$' && ft_isalnum(*s)))
+        {
+            all_sgl = false;
+            break ;
+        }
         ++s;
     }
     return (all_sgl);
@@ -159,16 +154,14 @@ static void reasign_tok_type(t_token *tok)
 {
     while (tok)
     {
-        printf("\tYour boolean variable is: %s\n",  all_single(tok->data)? "true" : "false");
-        if (all_single(tok->data) == true)
+        if (all_single(tok->data) == true)// && tok->data[0] == '\'')
         {
-            printf("\ttok data {%s} && tok type before [%d]\n", tok->data, tok->type);
-            tok->data = remove_single_quotes(tok->data);
-            if ((is_single(tok->data) / 2) % 2 == 0)
-                tok->type = 5;
-            else
+            if(is_single(tok->data) / 2 % 2 == 0)
                 tok->type = 7;
-            printf("\ttok data {%s} && tok type after trim singlequote [%d]\n\n", tok->data, tok->type);
+            else
+                tok->type = 5;
+            if (tok->data[0] == '\'')
+                tok->data = remove_single_quotes(tok->data);
         }
         tok = tok->next;
     }
@@ -187,7 +180,7 @@ void expansor(t_shell *sh, char **env)
        reasign_tok_type(tok);
         if (tok->type == 7)
        {
-            if (is_charmeta(tok->data[0]))
+            // if (is_charmeta(tok->data[0]))
             if (found_dollar(tok->data) == 1)
                 tok->data = expansion_var(sh, tok->data, env);
          printf("this is the value--->[%s]\n", tok->data);
