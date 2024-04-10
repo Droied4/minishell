@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/04/09 13:14:17 by avolcy           ###   ########.fr        #
+#    Updated: 2024/04/10 13:43:00 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SOURCES = minishell.c aux_dei.c aux_archly.c is_something.c aux_arch.c \
 		  parser.c parser_input.c parser_entry.c \
 		  expansor.c \
 		  word_lst.c parser_cmd.c redir_lst.c parser_redir.c \
-		  executor.c exec_redir.c exec_cmds.c \
+		  executor.c exec_redir.c exec_cmds.c exec_conec.c\
 		  builtins.c built_export.c built_pwd_cd.c built_unset.c built_echo.c\
 		  built_env.c \
 
