@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:38:28 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/09 20:33:14 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/09 20:48:00 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,9 +165,9 @@ static void reasign_tok_type(t_token *tok)
             printf("\ttok data {%s} && tok type before [%d]\n", tok->data, tok->type);
             tok->data = remove_single_quotes(tok->data);
             if ((is_single(tok->data) / 2) % 2 == 0)
-                tok->type = 7;
-            else
                 tok->type = 5;
+            else
+                tok->type = 7;
             printf("\ttok data {%s} && tok type after trim singlequote [%d]\n\n", tok->data, tok->type);
         }
         tok = tok->next;
