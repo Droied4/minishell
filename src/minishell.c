@@ -52,14 +52,14 @@ int	main(int ac, char **av, char **env)
 			exit(1);
 		add_history(sh.line);
 		sh.tokens = generate_tokens(sh.line);
-		parse_all(&sh);
-		execute_builtins(&sh, env);
-		//		ft_free_array(env);
-		//		env = convert_to_dchar(sh.env);
-		executor(&sh, env);
-		print_tokens(sh.tokens);
-		//	print_words(sh.words);
-		//	print_redir(sh.redir);
+		if (parse_all(&sh) != -1)
+		{
+			execute_builtins(&sh, env);
+			executor(&sh, env);
+			print_tokens(sh.tokens);
+			//	print_words(sh.words);
+			//	print_redir(sh.redir);
+		}
 		soft_exit(&sh);
 	}
 	return (0);

@@ -34,7 +34,7 @@ int	parse_input(t_shell *sh)
 	return (0);
 }
 
-void	parse_redirections(t_shell *sh)
+int	parse_redirections(t_shell *sh)
 {
 	t_token	*tmp_tok;
 	t_redir *tmp_redir;
@@ -42,8 +42,14 @@ void	parse_redirections(t_shell *sh)
 	tmp_tok = sh->tokens;
 	tmp_redir = sh->redir;
 	if (!tmp_tok || !tmp_redir)
-		return ;
+		return (1);
 	montage_redirections(tmp_tok, tmp_redir);
+	if (stock_of(sh, DLESS) > 16)
+	{
+		ft_dprintf(2, "Error : maximum here-document count exceeded");
+		return (-1);
+	}
+	return (0);
 }
 
 void	parse_words(t_shell *sh)
@@ -61,17 +67,19 @@ void	parse_words(t_shell *sh)
 	}
 }
 
-void	parse_all(t_shell *sh)
+int	parse_all(t_shell *sh)	
 {
 	if (syntax_error(sh->tokens) < 0)
-		exit(1);
+		return (-1);
 	if (parse_input(sh) < 0)
-		exit(1);
+		return (-1);
 	//parse_expansor(); 
 	//remove_quotes();
 	sh->pipes = stock_of(sh, PIPE);
 	sh->words = generate_words(sh->tokens);
 	parse_words(sh);
 	sh->redir = generate_redirs(sh->tokens);
-	parse_redirections(sh);
+	if (parse_redirections(sh) == -1)
+		return (-1);
+	return (0);
 }

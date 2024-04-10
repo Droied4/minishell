@@ -74,8 +74,9 @@ void	redifine_token(t_token *tok);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
-void	parse_all(t_shell *sh);
+int	parse_all(t_shell *sh);
 int		parse_input(t_shell *sh);
+int	parse_redirections(t_shell *sh);
 void	parse_words(t_shell *sh);
 
 /*
