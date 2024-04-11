@@ -35,7 +35,8 @@ static int connector(t_shell *sh, int *fds, char **env)
 	t_redir *redir;
 	int process;
 	int final;
-
+	
+	final = EXIT_SUCCESS;
 	word = sh->words;
 	redir = sh->redir;
 	process = sh->pipes;
@@ -60,7 +61,7 @@ static int connector(t_shell *sh, int *fds, char **env)
 		}
 		process--;
 	}
-	return (EXIT_SUCCESS);
+	return (final);
 }
 
 void	executor(t_shell *sh, char **env)

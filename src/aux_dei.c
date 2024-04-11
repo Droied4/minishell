@@ -153,10 +153,8 @@ int stock_of(t_shell *sh, int type)
 int char_is_inside(char const *str, char c)
 {
 	int i;
-	int stock;
 
 	i = 0;
-	stock = 0;
 	while (str[i])
 	{
 		if (str[i] == c)
