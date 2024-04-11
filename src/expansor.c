@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:38:28 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/11 20:54:40 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/11 23:14:40 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,26 @@ static char *remove_quotes(char *str, char quote)
     return (tmp);
 }
 
+// CURIOUS WAY OF CALLING FUNCTION
+// result = concat("'", concat(username, "'"));
+// EXPECTEDN RESULT : "'"$USER"'"
+// bash-3.2$ "'"$USER"'"
+// bash: 'avolcy': command not found
+// bash-3.2$ "'"'$USER'"'"
+// bash: '$USER': command not found
+// bash-3.2$ "'"'"'$USER'"'"'"
+// bash: '"avolcy"': command not found
+// bash-3.2$ """'"'"'$USER'"'"'"""
+// bash: '"avolcy"': command not found
+// bash-3.2$ ""'"'"'"'$USER'"'"'"'""
+// bash: "'$USER'": command not found
+// bash-3.2$ "'"'"'"'$USER'"'"'"'"
+// bash: '"'avolcy'"': command not found
+// bash-3.2$ "'"'"'"'"$USER"'"'"'"'"
+// bash: '"'avolcy'"': command not found
+
+
+
 // bash-3.2$ "$USER"
 // bash: avolcy: command not found
 // bash-3.2$ "'$USER'"
@@ -127,12 +147,12 @@ static char *remove_quotes(char *str, char quote)
 // bash: "$USER": command not found
 // bash-3.2$ "'"$USER"'"
 // bash: 'avolcy': command not found
-// bash-3.2$
 // bash-3.2$ ""'"$USER"'""
 // bash: "$USER": command not found
 // bash-3.2$ """'"$USER"'"""
 // bash: 'avolcy': command not found
-// bash-3.2$
+// bash-3.2$ "'"'"'$USER'"'"'"
+// bash: '"avolcy"': command not found
 static void solve_double_quote(t_token *tok)
 {
     int num_squotes;
@@ -143,7 +163,7 @@ static void solve_double_quote(t_token *tok)
         num_squotes = number_of_quotes(tok->data, DQUOT);
         if ((num_squotes % 2) == 0 && found_dollar(tok->data) == 1)
         {
-            remove_quotes(tok->data, DQUOT);
+            tok->data = remove_quotes(tok->data, DQUOT);
             tok->type = 7;
         }
         tok = tok->next;
