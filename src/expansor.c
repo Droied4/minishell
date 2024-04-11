@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:38:28 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/10 20:43:36 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/11 20:54:40 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
             cpy_data = ft_strdup(var_node->var_content);
             new_data = ft_strjoin2(new_data, cpy_data);
         }
-        else if (!var_node && new_data && data_sp[i])
-            new_data = ft_strdup(new_data);  
+        // else if (!var_node && new_data && data_sp[i])
+        //     new_data = ft_strdup(new_data);  
         else 
             new_data = ft_strjoin2(new_data, data_sp[i]);  
     }
@@ -57,6 +57,60 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
         free(data_sp);
     return (new_data);
 }
+
+// cd $HOME = cd follow by the home content
+// echo $HOME print the HOME content 
+// adsaddas$PWD to type 7
+// “$PWD” to type 7
+// parser expansor change the token and expand the data of the token
+// and later in the parser the remove quotes
+// remove the quotes of the same kind
+// if starts with singles = 'hola'✅
+// final token will be = hola
+// if starts with  = 'e'ch'o'✅
+// final token will be = echo
+// 'ho"l"a'✅
+// ho"l"a
+
+// if (numsingle / 2) % 2 != 0 means impar
+// if impar type  5
+
+static int number_of_quotes(char *s, char quotes)
+{
+    int i;
+
+    i = 0;
+    while (*s)
+    {
+        if (*s == quotes)
+            i++;
+        s++;
+    }
+    return (i);
+}
+
+static char *remove_quotes(char *str, char quote)
+{
+    int i;
+    int j;
+    char *tmp;
+
+    i = 0;
+    tmp = malloc(sizeof(char) * (ft_strlen(str) - number_of_quotes(str, quote)) + 1);
+    if (!tmp)
+        return (NULL);
+    tmp[i] = '\0';
+    j = 0;
+    while (str[i])
+    {
+        if (!(str[i] == quote))
+            tmp[j++] = str[i];
+        i++;
+    }
+    tmp[j] = '\0';
+    return (tmp);
+}
+
 // bash-3.2$ "$USER"
 // bash: avolcy: command not found
 // bash-3.2$ "'$USER'"
@@ -79,90 +133,55 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
 // bash-3.2$ """'"$USER"'"""
 // bash: 'avolcy': command not found
 // bash-3.2$
-
-// cd $HOME = cd follow by the home content
-// echo $HOME print the HOME content 
-// adsaddas$PWD to type 7
-// “$PWD” to type 7
-// parser expansor change the token and expand the data of the token
-// and later in the parser the remove quotes
-// remove the quotes of the same kind
-// if starts with singles = 'hola'✅
-// final token will be = hola
-// if starts with  = 'e'ch'o'✅
-// final token will be = echo
-// 'ho"l"a'✅
-// ho"l"a
-
-// if (numsingle / 2) % 2 != 0 means impar
-// if impar type  5
-
-static int is_single(char *s)
+static void solve_double_quote(t_token *tok)
 {
-    int i;
+    int num_squotes;
+    // int num_dquotes;
 
-    i = 0;
-    while (*s)
-    {
-        if (*s == '\'')
-            i++;
-        s++;
-    }
-    return (i);
-}
-
-static char *remove_single_quotes(char *str)
-{
-    int i;
-    int j;
-    char *tmp;
-
-    i = 0;
-    tmp = malloc(sizeof(char) * (ft_strlen(str) - is_single(str)) + 1);
-    if (!tmp)
-        return (NULL);
-    tmp[i] = '\0';
-    j = 0;
-    while (str[i])
-    {
-        if (!(str[i] == '\''))
-            tmp[j++] = str[i];
-        i++;
-    }
-    tmp[j] = '\0';
-    return (tmp);
-}
-
-static bool all_single(char *s)
-{
-    bool all_sgl;
-
-    all_sgl = true;
-    while (*s)
-    {
-        if (*s != '\'' && (*s == '$' && ft_isalnum(*s)))
-        {
-            all_sgl = false;
-            break ;
-        }
-        ++s;
-    }
-    return (all_sgl);
-}
-
-static void reasign_tok_type(t_token *tok)
-{
     while (tok)
     {
-        if (all_single(tok->data) == true)// && tok->data[0] == '\'')
+        num_squotes = number_of_quotes(tok->data, DQUOT);
+        if ((num_squotes % 2) == 0 && found_dollar(tok->data) == 1)
         {
-            if(is_single(tok->data) / 2 % 2 == 0)
-                tok->type = 7;
-            else
-                tok->type = 5;
-            if (tok->data[0] == '\'')
-                tok->data = remove_single_quotes(tok->data);
+            remove_quotes(tok->data, DQUOT);
+            tok->type = 7;
         }
+        tok = tok->next;
+    }
+}
+
+// bash-3.2$ "'"$USER"'"
+// bash: 'avolcy': command not found
+// bash-3.2$ '"'"$USER"'"'
+// bash: "avolcy": command not found
+// bash-3.2$ '"$USER"'
+// bash: "$USER": command not found
+// bash-3.2$ ''"'"$USER"'"''
+// bash: 'avolcy': command not found
+// bash-3.2$ ''""'"$USER"'""''
+// bash: "$USER": command not found
+// bash-3.2$ '"'""'"$USER"'""'"'
+// bash: ""$USER"": command not found
+// bash-3.2$ '""'""'"$USER"'""'""'
+// bash: """$USER""": command not found
+// bash-3.2$ '"'"""'"$USER"'"""'"'
+// bash: "'avolcy'": command not found
+static void solve_single_quote(t_token *tok)
+{
+    int num_quotes;
+    // int num_dquote;
+   
+    while (tok)
+    {
+        // num_dquote = number_of_quotes(tok->data, dquote) / 2;
+        num_quotes = number_of_quotes(tok->data, SQUOT) / 2;
+        if((num_quotes % 2) == 0)
+            tok->type = 7;
+        else
+            tok->type = 5;
+        tok->data = remove_quotes(tok->data, SQUOT);
+        if (tok->data[0] == DQUOT && (num_quotes % 2) == 0)
+            tok->data = remove_quotes(tok->data, DQUOT);
         tok = tok->next;
     }
     
@@ -177,7 +196,11 @@ void expansor(t_shell *sh, char **env)
     tok = sh->tokens;
     while (tok)
     {
-       reasign_tok_type(tok);
+        //CHECK IF TOKEN->DATA[0] IS " OR '
+        if (tok->data[0] == '\'' && ft_strlen(tok->data) > 2)
+            solve_single_quote(tok);
+        else if (tok->data[0] == '\"' && ft_strlen(tok->data) > 2)
+            solve_double_quote(tok);
         if (tok->type == 7)
        {
             // if (is_charmeta(tok->data[0]))
