@@ -173,11 +173,11 @@ int process_word(t_words *word, int *fds, char **env);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
-		EXEC CONEC  - 5
+	EXEC CONEC  - 5
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
-int process_connector(t_words *word, char **env);
 
+int process_connector(t_shell *sh, int process, char **env, int *fds);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
