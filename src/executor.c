@@ -25,8 +25,12 @@ static int smpl_cmd(t_shell *sh, int *fds, char **env)
 		sh->words->out = fds[1];
 	}
 	if (sh->words)
+	{
+		if (is_builtin(sh->words->cmd[0]) > 0)
+			execute_builtins(sh, env);
+		else
 			return (process_word(sh->words, fds, env));
-
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -54,5 +58,8 @@ void	executor(t_shell *sh, char **env)
 		free(fds);
 	}
 	else
+	{
 		sh->exit_status = connector(sh, fds, env);
+		free(fds);
+	}
 }

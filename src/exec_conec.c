@@ -14,6 +14,7 @@
 
 static void	first_kill(t_words *word, int *p, char **env)
 {
+//	ft_dprintf(2, "in -> %d\n", word->in);
 	if (dup2(word->in, STD_IN) == -1)
 		exit(1);
 	close(p[0]);
@@ -26,8 +27,13 @@ static void	first_kill(t_words *word, int *p, char **env)
 
 static void	last_kill(t_words *word, int *p, char **env)
 {
-	if (dup2(word->out, STD_OUT) == -1)
-		exit(1);
+//	ft_dprintf(2, "out -> %d\n", word->out);
+	if (word->out != STD_OUT && word->out > 1)
+	{
+		if (dup2(word->out, STD_OUT) == -1)
+			exit(1);
+		close(word->out);
+	}
 	close(p[1]);
 	if (dup2(p[0], STD_IN) == -1)
 		exit(1);
@@ -38,13 +44,24 @@ static void	last_kill(t_words *word, int *p, char **env)
 
 static void	kill_child(t_shell *sh, int *p, char **env, int process)
 {
+	//pid_t	pid;
 	int which;
 
 	which = sh->pipes;
 	if (process == which)
-		first_kill(sh->words, p, env);
+	{
+	//	pid = fork();
+	//	if (pid == -1)
+	//		exit(1);
+	//	if (pid == 0)
+	//		kill_child(sh, p, env, --process);
+	//	else
+			first_kill(sh->words, p, env);
+	}
 	else if (process == 0)
+	{
 		last_kill(sh->words, p, env);
+	}
 	else
 	{
 		if (dup2(p[1], STD_IN) == -1)
@@ -58,12 +75,8 @@ static void	kill_child(t_shell *sh, int *p, char **env, int process)
 	}	
 }
 
-static void	child_process(t_shell *sh, int *fds, char **env, int process)
+static void	child_process(t_shell *sh, int *fds, char **env, int process, int *p)
 {
-	int	p[2];
-
-	if (pipe(p))
-		exit(1);
 	fds = process_redir(sh->redir, fds);
 	if (fds[0] == -1 || fds[1] == -1)
 		exit(EXIT_FAILURE);
@@ -82,22 +95,33 @@ static void	child_process(t_shell *sh, int *fds, char **env, int process)
 int process_connector(t_shell *sh, int process, char **env, int *fds)
 {
 	pid_t	pid;
-	int	parent_aux;
-	
-	while (process)
+	int	wstatus;
+	int	p[2];
+	t_words *w;
+	t_redir *re;
+
+	w = sh->words;
+	re = sh->redir;
+	if (pipe(p))
+		exit(1);
+	while (process >= 0)
 	{
 		pid = fork();
 		if (pid == -1)
 			exit(1);
 		if (pid == 0)
-			child_process(sh, fds, env, process);
-		while (sh->redir && sh->redir->type != PIPE)
-			sh->redir = sh->redir->next;
-		sh->words = sh->words->next;
+		{
+			sh->words = w;
+			sh->redir = re;	
+			child_process(sh, fds, env, process, p);
+		}
+		while (re && re->type != PIPE)
+			re = re->next;
+		w = w->next;
 		process--;
 	}
-	waitpid(0, &parent_aux, 0);
-	if (WIFEXITED(parent_aux))
-		return (WEXITSTATUS(parent_aux));
+	waitpid(-1, &wstatus, 0);
+	if (WIFEXITED(wstatus))
+		return (WEXITSTATUS(wstatus));
 	return (0);
 }

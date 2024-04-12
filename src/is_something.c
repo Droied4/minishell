@@ -28,7 +28,7 @@ int	is_builtin(char *data)
 		}
 	}
 	ft_free_array(builtins);
-	return (0);
+	return (-1);
 }
 
 int	is_char_redir(char c)
