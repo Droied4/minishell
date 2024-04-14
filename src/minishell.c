@@ -35,7 +35,7 @@ static char	*prompt(int exit_status)
 int	main(int ac, char **av, char **env)
 {
 	t_shell	sh;
-	char	*prompt_str;
+//	char	*prompt_str;
 
 	(void)av;
 	(void)ac;
@@ -46,9 +46,10 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 	//	prompt_str = prompt(sh.exit_status);
-		prompt_str = ft_strdup("pong shell > ");
-		sh.line = readline(prompt_str);
-		free(prompt_str);
+		//prompt_str = ft_strdup("pong shell > ");
+		//sh.line = readline(prompt_str);
+		//free(prompt_str);
+		sh.line = readline("shell -> ");
 		if (!sh.line)
 			exit(1);
 		add_history(sh.line);
@@ -57,7 +58,7 @@ int	main(int ac, char **av, char **env)
 		{
 			executor(&sh, env);
 			//	print_tokens(sh.tokens);
-			print_words(sh.words);
+		//	print_words(sh.words);
 			//	print_redir(sh.redir);
 		}
 		soft_exit(&sh);

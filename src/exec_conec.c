@@ -12,84 +12,53 @@
 
 #include "minishell.h"
 
-static void	first_kill(t_words *word, int *p, char **env)
+static void	kill_child(t_shell *sh, char **env, int *p)
 {
-//	ft_dprintf(2, "in -> %d\n", word->in);
-	if (dup2(word->in, STD_IN) == -1)
+	(void)p;
+//	ft_dprintf(2, "2in -> %d\n", sh->words->in);
+	if (dup2(sh->words->in, STD_IN) == -1)
 		exit(1);
-	close(p[0]);
-	if (dup2(p[1], STD_OUT) == -1)
+	if (sh->words->in > 0)
+		close(sh->words->in);
+//	ft_dprintf(2, "2out -> %d\n", sh->words->out);
+	if (dup2(sh->words->out, STD_OUT) == -1)
 		exit(1);
-	close(p[1]);
-	execve(word->path, word->cmd, env);
-	exit(after_exec(word));
+	if (sh->words->out > 1)
+		close(sh->words->out);
+	ft_dprintf(2, "\n");;
+	execve(sh->words->path, sh->words->cmd, env);
+	exit(after_exec(sh->words));
 }
-
-static void	last_kill(t_words *word, int *p, char **env)
+/*
+static void	redir_pipes(t_shell *sh, int *p, int process)
 {
-//	ft_dprintf(2, "out -> %d\n", word->out);
-	if (word->out != STD_OUT && word->out > 1)
-	{
-		if (dup2(word->out, STD_OUT) == -1)
-			exit(1);
-		close(word->out);
-	}
-	close(p[1]);
-	if (dup2(p[0], STD_IN) == -1)
-		exit(1);
-	close(p[0]);
-	execve(word->path, word->cmd, env);
-	exit(after_exec(word));
-}
-
-static void	kill_child(t_shell *sh, int *p, char **env, int process)
-{
-	//pid_t	pid;
-	int which;
-
-	which = sh->pipes;
-	if (process == which)
-	{
-	//	pid = fork();
-	//	if (pid == -1)
-	//		exit(1);
-	//	if (pid == 0)
-	//		kill_child(sh, p, env, --process);
-	//	else
-			first_kill(sh->words, p, env);
-	}
-	else if (process == 0)
-	{
-		last_kill(sh->words, p, env);
-	}
-	else
-	{
-		if (dup2(p[1], STD_IN) == -1)
-			exit(1);
-		close(p[1]);
-		if (dup2(p[0], STD_OUT) == -1)
-			exit(1);
-		close(p[0]);
-		execve(sh->words->path, sh->words->cmd, env);
-		exit(after_exec(sh->words));
-	}	
-}
+	(void)process;
+//	if ((process % 2) == 0)
+//	{
+//		sh->words->in = p[0];
+//		sh->words->out = p[1];
+//	}
+//	else 
+//	{
+		sh->words->in = p[1];
+		sh->words->out = p[0];
+//	}
+}*/
 
 static void	child_process(t_shell *sh, int *fds, char **env, int process, int *p)
 {
-	fds = process_redir(sh->redir, fds);
+	(void)fds;
+	(void)process;
+/*	fds = process_redir(sh->redir, fds);
 	if (fds[0] == -1 || fds[1] == -1)
 		exit(EXIT_FAILURE);
-	else if (sh->words && (fds[0] == 0 || fds[1] == 1))
-	{
-		sh->words->in = fds[0];
-		sh->words->out = fds[1];
-	}
+	else if (sh->words && (fds[0] == STD_IN || fds[1] == STD_OUT))
+		redir_pipes(sh, p, process);	*/
 	if (char_is_inside(sh->words->cmd[0], '/') < 0)
 		find_path(sh->words);
 	else
 		sh->words->path = ft_strdup(sh->words->cmd[0]);
-	kill_child(sh, p, env, process);
+	kill_child(sh, env, p);
 }
 
 int process_connector(t_shell *sh, int process, char **env, int *fds)
@@ -100,12 +69,33 @@ int process_connector(t_shell *sh, int process, char **env, int *fds)
 	t_words *w;
 	t_redir *re;
 
+	int which_pipe;
+
+	which_pipe = sh->pipes;
 	w = sh->words;
 	re = sh->redir;
-	if (pipe(p))
-		exit(1);
 	while (process >= 0)
 	{
+		if ((process % 2) != 0)
+		{
+			pipe(p);
+		}
+		fds = process_redir(re, fds);
+		if (fds[0] == -1 || fds[1] == -1)
+			exit(EXIT_FAILURE);
+		//else if (sh->words && (fds[0] == STD_IN || fds[1] == STD_OUT))
+		//	//redir_pipes(sh, p, process);
+			w->in = p[0];
+			w->out = p[1];
+		if (process == 0)
+		{
+			close(w->out);
+			w->out = 1;
+		}
+		else if (process == which_pipe)
+		{
+			w->in = 0;
+		}
 		pid = fork();
 		if (pid == -1)
 			exit(1);
@@ -114,7 +104,12 @@ int process_connector(t_shell *sh, int process, char **env, int *fds)
 			sh->words = w;
 			sh->redir = re;	
 			child_process(sh, fds, env, process, p);
+		}	
+		if (process == 0)
+		{
+			close(p[0]);
 		}
+
 		while (re && re->type != PIPE)
 			re = re->next;
 		w = w->next;
