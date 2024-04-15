@@ -25,7 +25,7 @@ static void child_process(t_words *word, char **env)
 			exit(1);
 		close(word->out);
 	}
-	execve(word->path, word->cmd, env);//cambiar esto
+	execve(word->path, word->cmd, env);
 	exit(after_exec(word));
 }
 

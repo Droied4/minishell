@@ -12,65 +12,111 @@
 
 #include "minishell.h"
 
-static void	child_process(t_words *word, int *p, char **env)
+static void	kill_child(t_shell *sh, char **env, int *p)
 {
-	if (char_is_inside(word->cmd[0], '/') < 0)
-		find_path(word);
+	(void)p;
+//	ft_dprintf(2, "2in -> %d\n", sh->words->in);
+	if (dup2(sh->words->in, STD_IN) == -1)
+		exit(1);
+	if (sh->words->in > 0)
+		close(sh->words->in);
+//	ft_dprintf(2, "2out -> %d\n", sh->words->out);
+	if (dup2(sh->words->out, STD_OUT) == -1)
+		exit(1);
+	if (sh->words->out > 1)
+		close(sh->words->out);
+	ft_dprintf(2, "\n");;
+	execve(sh->words->path, sh->words->cmd, env);
+	exit(after_exec(sh->words));
+}
+/*
+static void	redir_pipes(t_shell *sh, int *p, int process)
+{
+	(void)process;
+//	if ((process % 2) == 0)
+//	{
+//		sh->words->in = p[0];
+//		sh->words->out = p[1];
+//	}
+//	else 
+//	{
+		sh->words->in = p[1];
+		sh->words->out = p[0];
+//	}
+}*/
+
+static void	child_process(t_shell *sh, int *fds, char **env, int process, int *p)
+{
+	(void)fds;
+	(void)process;
+/*	fds = process_redir(sh->redir, fds);
+	if (fds[0] == -1 || fds[1] == -1)
+		exit(EXIT_FAILURE);
+	else if (sh->words && (fds[0] == STD_IN || fds[1] == STD_OUT))
+		redir_pipes(sh, p, process);	*/
+	if (char_is_inside(sh->words->cmd[0], '/') < 0)
+		find_path(sh->words);
 	else
-		word->path = ft_strdup(word->cmd[0]);
-	if (dup2(word->in, STD_IN) == -1)
-		exit(-1);
-	close(p[0]);
-	if (dup2(p[1], STD_OUT) == -1)
-		exit(-1);
-	close(p[1]);
-	execve(word->path, word->cmd, env);
-	exit(after_exec(word));
+		sh->words->path = ft_strdup(sh->words->cmd[0]);
+	kill_child(sh, env, p);
 }
 
-static void	parent_process(t_words *word, int *p, char **env)
+int process_connector(t_shell *sh, int process, char **env, int *fds)
 {
-	if (char_is_inside(word->cmd[0], '/') < 0)
-		find_path(word);
-	else
-		word->path = ft_strdup(word->cmd[0]);
-	if (dup2(word->out, STD_OUT) == -1)
-		exit(-1);
-	//close(word->out);
-	close(p[1]);
-	if (dup2(p[0], STD_IN) == -1)
-		exit(-1);
-	close(p[0]);
-	execve(word->path, word->cmd, env);
-	exit(after_exec(word));
-}
-
-int process_connector(t_words *word, char **env)
-{
-	pid_t pid;
+	pid_t	pid;
+	int	wstatus;
 	int	p[2];
-	int parent_aux;
-	int exit_status;
+	t_words *w;
+	t_redir *re;
 
-	exit_status = 0;	
-	if (pipe(p))
-		exit(1);
-	pid = fork();
-	if (pid == -1)
-		exit(1);
-	if (pid > 0)
-		waitpid(0, &parent_aux, 0);
-	else
+	int which_pipe;
+
+	which_pipe = sh->pipes;
+	w = sh->words;
+	re = sh->redir;
+	while (process >= 0)
 	{
+		if ((process % 2) != 0)
+		{
+			pipe(p);
+		}
+		fds = process_redir(re, fds);
+		if (fds[0] == -1 || fds[1] == -1)
+			exit(EXIT_FAILURE);
+		//else if (sh->words && (fds[0] == STD_IN || fds[1] == STD_OUT))
+		//	//redir_pipes(sh, p, process);
+			w->in = p[0];
+			w->out = p[1];
+		if (process == 0)
+		{
+			close(w->out);
+			w->out = 1;
+		}
+		else if (process == which_pipe)
+		{
+			w->in = 0;
+		}
 		pid = fork();
 		if (pid == -1)
-			exit(-1);	
-		if (pid > 0)
-			parent_process(word->next, p, env);
-		else
-			child_process(word, p, env);
+			exit(1);
+		if (pid == 0)
+		{
+			sh->words = w;
+			sh->redir = re;	
+			child_process(sh, fds, env, process, p);
+		}	
+		if (process == 0)
+		{
+			close(p[0]);
+		}
+
+		while (re && re->type != PIPE)
+			re = re->next;
+		w = w->next;
+		process--;
 	}
-	if (WIFEXITED(parent_aux))
-		exit_status = WEXITSTATUS(parent_aux);
-	return (exit_status);
+	waitpid(-1, &wstatus, 0);
+	if (WIFEXITED(wstatus))
+		return (WEXITSTATUS(wstatus));
+	return (0);
 }

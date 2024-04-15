@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static char	*prompt(int exit_status)
 {
 	char	*e_itoa;
@@ -31,11 +31,11 @@ static char	*prompt(int exit_status)
 	free(e_itoa);
 	return (final_str);
 }
-
+*/
 int	main(int ac, char **av, char **env)
 {
 	t_shell	sh;
-	char	*prompt_str;
+//	char	*prompt_str;
 
 	(void)av;
 	(void)ac;
@@ -45,19 +45,20 @@ int	main(int ac, char **av, char **env)
 	sh.cmds = NULL;
 	while (1)
 	{
-		prompt_str = prompt(sh.exit_status);
-		sh.line = readline(prompt_str);
-		free(prompt_str);
+	//	prompt_str = prompt(sh.exit_status);
+		//prompt_str = ft_strdup("pong shell > ");
+		//sh.line = readline(prompt_str);
+		//free(prompt_str);
+		sh.line = readline("shell -> ");
 		if (!sh.line)
 			exit(1);
 		add_history(sh.line);
 		sh.tokens = generate_tokens(sh.line);
 		if (parse_all(&sh) != -1)
 		{
-			execute_builtins(&sh, env);
 			executor(&sh, env);
-			print_tokens(sh.tokens);
-			//	print_words(sh.words);
+			//	print_tokens(sh.tokens);
+		//	print_words(sh.words);
 			//	print_redir(sh.redir);
 		}
 		soft_exit(&sh);
