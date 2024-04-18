@@ -5,21 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 16:38:28 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/11 23:14:40 by avolcy           ###   ########.fr       */
+/*   Created: 2024/04/18 14:04:47 by avolcy            #+#    #+#             */
+/*   Updated: 2024/04/18 22:29:40 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int found_dollar(char *data)
+static int found_char(char *data, char c)
 {
     int i;
 
     i = 0;
     while (data[i])
     {
-        if (data[i] == '$' && data[i + 1])
+        if (data[i] == c && data[i + 1])
             return (1);
         i++;
     }
@@ -114,6 +114,8 @@ static char *remove_quotes(char *str, char quote)
 // CURIOUS WAY OF CALLING FUNCTION
 // result = concat("'", concat(username, "'"));
 // EXPECTEDN RESULT : "'"$USER"'"
+
+//DOUBLE QUOTES TESTS
 // bash-3.2$ "'"$USER"'"
 // bash: 'avolcy': command not found
 // bash-3.2$ "'"'$USER'"'"
@@ -128,9 +130,6 @@ static char *remove_quotes(char *str, char quote)
 // bash: '"'avolcy'"': command not found
 // bash-3.2$ "'"'"'"'"$USER"'"'"'"'"
 // bash: '"'avolcy'"': command not found
-
-
-
 // bash-3.2$ "$USER"
 // bash: avolcy: command not found
 // bash-3.2$ "'$USER'"
@@ -148,30 +147,236 @@ static char *remove_quotes(char *str, char quote)
 // bash-3.2$ "'"$USER"'"
 // bash: 'avolcy': command not found
 // bash-3.2$ ""'"$USER"'""
-// bash: "$USER": command not found
+// bash: "$USER": command not founds
 // bash-3.2$ """'"$USER"'"""
 // bash: 'avolcy': command not found
 // bash-3.2$ "'"'"'$USER'"'"'"
 // bash: '"avolcy"': command not found
-static void solve_double_quote(t_token *tok)
-{
-    int num_squotes;
-    // int num_dquotes;
-
-    while (tok)
-    {
-        num_squotes = number_of_quotes(tok->data, DQUOT);
-        if ((num_squotes % 2) == 0 && found_dollar(tok->data) == 1)
-        {
-            tok->data = remove_quotes(tok->data, DQUOT);
-            tok->type = 7;
-        }
-        tok = tok->next;
-    }
-}
-
 // bash-3.2$ "'"$USER"'"
 // bash: 'avolcy': command not found
+
+
+
+// static void solve_double_quote(t_token *tok)
+// {
+//     int num_squotes;
+//     // int num_dquotes;
+
+//     while (tok)
+//     {
+//         num_squotes = number_of_quotes(tok->data, DQUOT);
+//         if ((num_squotes % 2) == 0 && found_char(tok->data) == 1)
+//         {
+//             tok->data = remove_quotes(tok->data, DQUOT);
+//             tok->type = 7;
+//         }
+//         tok = tok->next;
+//     }
+// }
+
+
+//❌WITH TOKENS ⭕️
+// static void solve_single_quote(t_token *tok)
+// {
+//     int num_quotes;
+//     // int num_dquote;
+   
+//     while (tok)
+//     {
+//         // num_dquote = number_of_quotes(tok->data, dquote) / 2;
+//         num_quotes = number_of_quotes(tok->data, SQUOT) / 2;
+//         if((num_quotes % 2) == 0)
+//             tok->type = 7;
+//         else
+//             tok->type = 5;
+//         tok->data = remove_quotes(tok->data, SQUOT);
+//         if (tok->data[0] == DQUOT && (num_quotes % 2) == 0)
+//             tok->data = remove_quotes(tok->data, DQUOT);
+//         tok = tok->next;
+//     }
+    
+// }
+
+//❌WITH TOKENS ⭕️
+    // t_token *tok;
+
+    // i = -1;
+    // tok = sh->tokens;
+    // while (tok)
+    // {
+    //      printf("this is the tok before EXP--->[%s]\n", tok->data);
+    //     //CHECK IF TOKEN->DATA[0] IS " OR '
+    //     if (tok->data[0] == '\'' && ft_strlen(tok->data) > 2)
+    //         solve_single_quote(tok);
+    //     else if (tok->data[0] == '\"' && ft_strlen(tok->data) > 2)
+    //         solve_double_quote(tok);
+    //    // if (tok->type == 7)
+    //   // {
+    //         // if (is_charmeta(tok->data[0]))
+    //         if (found_char(tok->data) == 1)
+    //             tok->data = expansion_var(sh, tok->data, env);
+    //      printf("this is the tok after EXP--->[%s]\n", tok->data);
+    //    //}
+    //     tok = tok->next;
+    // }
+
+//AFTER PARSER ⭕️❌⭕️
+
+// static char *smart_join(char *s)
+// {}
+
+// static int find_next_quote(char *s)
+// {
+//     int i;
+
+//     i = 0;
+//     if (s[i] == SQUOT)
+//         i++;
+//     while (s[i] && s[i] != SQUOT)
+//         i++;
+//     return (i);    
+// }
+
+// static char *filter_data(t_shell *sh, char *s, char **env)
+// {
+//     int i;
+//     size_t len;
+//     char *new;
+//     char *save;
+
+//     (void)sh;
+//     (void)env;
+//     new = NULL;
+//     len = ft_strlen(s) - (size_t)number_of_quotes(s, SQUOT);
+//     save =  malloc(sizeof(char) * len + 1);
+//     if (!save)
+//         return (NULL);
+//     i = 0;
+//     int pos =0;
+//     while (s[i])
+//     {
+//         if (s[i] == SQUOT)
+//         {
+//             pos = find_next_quote(s);
+//             printf("pos is [%d]\n", pos);
+//             ft_strlcpy(save, s + 1, pos);
+//             printf("pos is [%s]\n", save);
+//             new = ft_strjoin2(new, save);
+//         }
+//         i++;
+//     }
+//     return (new);
+//     // str = '"""'dsdas"$USER"'"""'
+//     // while (str[i]) {
+//     //     if (str[i] == SQUOT || str[i] == DQUOT) {
+//     //         int pos = find_next_quote(str[i + 1]);
+//     //         str[pos] = '\0';
+//     //         char *save = ft_strdup(&str[i + 1]);
+//     //         i = pos;
+//     //     }
+//     //     i++;
+//     // }
+    
+// }
+
+char **smart_split(char *s)
+{
+    int i;
+    int j;
+    int flag;
+    char *updated_s;
+
+
+    i = 0;
+    j = 0;
+    flag = 0;
+    updated_s = (char *)malloc(sizeof(char *) * (ft_strlen(s) * 2));
+    if (!updated_s)
+        return (NULL);
+    updated_s[0] = '\0';
+    while (s[i])
+    {
+        if ((s[i] == SQUOT || s[i] == DQUOT))// && flag == 0)
+        {
+            flag = 1;
+            updated_s[j] = s[i];
+            j++;
+            i++;
+        } 
+        if ((s[i] == SQUOT || s[i] == DQUOT) && flag == 1)
+        {
+            flag = 0;
+            updated_s[j] = ' '; 
+            j++;
+        }
+        updated_s[j] = s[i];
+        i++;
+        j++;
+    }
+    updated_s[i] = '\0';
+    printf("\tupdated_s  [%s]\n", updated_s);
+    return (ft_split(updated_s, ' '));
+}
+
+char *filter_data(t_shell *sh, char *s, char **env)
+{
+    char **str;
+    int i;
+    size_t len;
+    char *new;
+
+    i = 0;
+    len = 0;
+    len = ft_strlen(s) - (size_t)number_of_quotes(s, SQUOT);
+    str = smart_split(s);
+    if (!str)
+        return (NULL);
+
+    while (str[i])
+    {
+        printf("\tthis is the current [%s]\n", str[i]);
+        if (str[i][0] == DQUOT && found_char(str[i], '$'))
+        {
+            str[i] = remove_quotes(str[i], DQUOT);
+            str[i] = expansion_var(sh, str[i], env);
+        }
+        else if (str[i][0] == SQUOT)
+            str[i] = remove_quotes(str[i], SQUOT);
+        i++;
+    }
+    // printf("\\----this is final len [%zu]\n", len);
+    new = malloc(sizeof(char) * len + 1);
+    if (!new)
+        return (NULL);
+    i = 0;
+    new[i] ='\0';
+    while (str[i])
+    {
+        new = ft_strjoin2(new, str[i]);
+        i++;
+    }
+    free_matrix(str);
+    return (new);
+}
+
+void expansor(t_shell *sh, char **env)
+{
+    int i;
+
+    char **data;
+
+    data = sh->words->cmd;
+    i = 0;
+    // bash-3.2$ '"""'dsdas"$USER"'"""'
+    // bash: """dsdasavolcy""": command not found
+    while (data[i]) 
+    {
+        printf("this is the tok before EXP--->[%s]\n", data[i]);
+        data[i] = filter_data(sh, data[i], env);
+        printf("this is the tok before EXP--->[%s]\n", data[i]);
+        i++;
+    }
+}
 // bash-3.2$ '"'"$USER"'"'
 // bash: "avolcy": command not found
 // bash-3.2$ '"$USER"'
@@ -180,54 +385,9 @@ static void solve_double_quote(t_token *tok)
 // bash: 'avolcy': command not found
 // bash-3.2$ ''""'"$USER"'""''
 // bash: "$USER": command not found
-// bash-3.2$ '"'""'"$USER"'""'"'
+// bash-3.2$ ''"'"$USER"'"''
 // bash: ""$USER"": command not found
 // bash-3.2$ '""'""'"$USER"'""'""'
 // bash: """$USER""": command not found
 // bash-3.2$ '"'"""'"$USER"'"""'"'
 // bash: "'avolcy'": command not found
-static void solve_single_quote(t_token *tok)
-{
-    int num_quotes;
-    // int num_dquote;
-   
-    while (tok)
-    {
-        // num_dquote = number_of_quotes(tok->data, dquote) / 2;
-        num_quotes = number_of_quotes(tok->data, SQUOT) / 2;
-        if((num_quotes % 2) == 0)
-            tok->type = 7;
-        else
-            tok->type = 5;
-        tok->data = remove_quotes(tok->data, SQUOT);
-        if (tok->data[0] == DQUOT && (num_quotes % 2) == 0)
-            tok->data = remove_quotes(tok->data, DQUOT);
-        tok = tok->next;
-    }
-    
-}
-
-void expansor(t_shell *sh, char **env)
-{
-    //int i;
-    t_token *tok;
-
-    //i = -1;
-    tok = sh->tokens;
-    while (tok)
-    {
-        //CHECK IF TOKEN->DATA[0] IS " OR '
-        if (tok->data[0] == '\'' && ft_strlen(tok->data) > 2)
-            solve_single_quote(tok);
-        else if (tok->data[0] == '\"' && ft_strlen(tok->data) > 2)
-            solve_double_quote(tok);
-        if (tok->type == 7)
-       {
-            // if (is_charmeta(tok->data[0]))
-            if (found_dollar(tok->data) == 1)
-                tok->data = expansion_var(sh, tok->data, env);
-         printf("this is the value--->[%s]\n", tok->data);
-       }
-        tok = tok->next;
-    }
-}

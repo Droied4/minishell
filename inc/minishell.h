@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/10 13:43:23 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/15 19:30:18 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	lex_quotes_case(char *s, char quote);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
-char **montage_tokens(char *line);
+char	**montage_tokens(char *line);
 char	*add_between(char *s, char btween);
 int		cont_meta(char *s);
 void	token_type(t_token *lst);
@@ -230,7 +230,7 @@ int		ft_del_env(t_env **lst);
 t_env	*create_envnode(char *envp);
 t_env	*create_lst_env(char **envp);
 t_env	*exporting_var(t_shell sh, t_env **lst_env);
-char	**convert_to_dchar(t_env *lst_env);
+char	**convert_to_dchar(t_env *lst_env, char **env);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

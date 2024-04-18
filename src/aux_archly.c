@@ -6,18 +6,20 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:17:12 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/02 17:11:53 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/15 15:14:37 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**convert_to_dchar(t_env *lst_env)
+char	**convert_to_dchar(t_env *lst_env, char **env)
 {
 	int		i;
 	char	**new;
 	t_env	*tmp;
 
+	if (!lst_env)
+		return (env);//create_it or return the normal one ????
 	new = (char **)malloc(sizeof(char *) * ((ft_lstenv_size(lst_env))) + 1);
 	if (!new)
 		return (NULL);
@@ -30,6 +32,8 @@ char	**convert_to_dchar(t_env *lst_env)
 		tmp = tmp->next;
 	}
 	new[i] = NULL;
+	//if (lst_env)
+	//	ft_del_env(&lst_env);
 	return (new);
 }
 
