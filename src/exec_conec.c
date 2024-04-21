@@ -14,7 +14,7 @@
 
 static void	kill_child(t_shell *sh, char **env, int *p)
 {
-	(void)p;
+	//(void)p;
 	if (sh->words->in != STD_IN)
 	{
 		//ft_dprintf(2, "2in -> %d\n", sh->words->in);
@@ -22,6 +22,8 @@ static void	kill_child(t_shell *sh, char **env, int *p)
 			exit(1);
 		close(sh->words->in);
 	}
+	else
+		close(p[0]);
 	if (sh->words->out != STD_OUT)
 	{
 		//ft_dprintf(2, "2out -> %d\n", sh->words->out);
@@ -29,6 +31,8 @@ static void	kill_child(t_shell *sh, char **env, int *p)
 			exit(1);
 		close(sh->words->out);
 	}
+	else
+		close(p[1]);
 	execve(sh->words->path, sh->words->cmd, env);
 	exit(after_exec(sh->words));
 }
@@ -80,11 +84,15 @@ static void	child_process(t_shell *sh, int *fds, char **env, int process, int *p
 int process_connector(t_shell *sh, int process, char **env, int *fds)
 {
 	pid_t	pid;
+	int	martuta[2];
+	int	wstatus;
+	int i;
 	int	santito[2];
 	int	p[2];
 	t_words *w;
 	t_redir *re;
-
+	
+	i = 0;
 	w = sh->words;
 	re = sh->redir;
 	santito[0] = 0;
@@ -111,25 +119,25 @@ int process_connector(t_shell *sh, int process, char **env, int *fds)
 			sh->redir = re;	
 			child_process(sh, fds, env, process, p);
 		}
+		martuta[i] = pid;
+		i++;
 		if (santito[0] != 0)
 			close(santito[0]);
 		if (santito[1] != 1)
 			close(santito[1]);
-	//	if (w->in != 0)
-	//		close(w->in);
-	//	if (w->out != 1)
-	//		close(w->out);
 		santito[0] = p[0];
 	//	while (re && re->type != PIPE)
 	//		//re = re->next;
 		w = w->next;			
 		process--;
 	}
-	//i = -1;
+	close(p[0]);
+	i = -1;
 	//while (martuta[++i] < sh->pipes)
-	//	waitpid (martuta[i], &wstatus, WUNTRACED | WCONTINUED);
-	return (esperanding(pid));
-	//if (WIFEXITED(wstatus))
-	//	return (WEXITSTATUS(wstatus));
-	//return (0);
+		waitpid (martuta[1], &wstatus, 0);
+		waitpid (martuta[0], &wstatus, WUNTRACED);
+	//return (esperanding(pid));
+	if (WIFEXITED(wstatus))
+		return (WEXITSTATUS(wstatus));
+	return (0);
 }
