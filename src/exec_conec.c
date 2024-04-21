@@ -12,132 +12,94 @@
 
 #include "minishell.h"
 
-static void	kill_child(t_shell *sh, char **env, int *p)
+static void	kill_child(t_process *pro, char **env)
 {
-	//(void)p;
-	if (sh->words->in != STD_IN)
+	if (pro->in != STD_IN)
 	{
-		//ft_dprintf(2, "2in -> %d\n", sh->words->in);
-		if (dup2(sh->words->in, STD_IN) == -1)
+		//ft_dprintf(2, "2in -> %d\n", pro->in);
+		if (dup2(pro->in, STD_IN) == -1)
 			exit(1);
-		close(sh->words->in);
+		close(pro->in);
 	}
 	else
-		close(p[0]);
-	if (sh->words->out != STD_OUT)
+		close(pro->p[0]);
+	if (pro->out != STD_OUT)
 	{
-		//ft_dprintf(2, "2out -> %d\n", sh->words->out);
-		if (dup2(sh->words->out, STD_OUT) == -1)
+		//ft_dprintf(2, "2out -> %d\n", pro->out);
+		if (dup2(pro->out, STD_OUT) == -1)
 			exit(1);
-		close(sh->words->out);
+		close(pro->out);
 	}
 	else
-		close(p[1]);
-	execve(sh->words->path, sh->words->cmd, env);
-	exit(after_exec(sh->words));
+		close(pro->p[1]);
+	execve(pro->words->path, pro->words->cmd, env);
+	exit(after_exec(pro->words));
 }
 
-int esperanding(pid_t pid)
+static void	child_process(t_process *pro, char **env)
 {
-	int zombie_status;
-	pid_t zombie_pid;
-	int status;
-	pid_t got_pid;
-	got_pid = waitpid(-1, &status, 0);
-	while (got_pid != pid)
-	{
-		if (got_pid < 0 && errno == ECHILD)
-		{
-			status = 0;
-			break;
-		}
-		got_pid = waitpid (-1, &status, 0);
-	}
-		zombie_pid = waitpid(-1, &zombie_status, WNOHANG);
-	while (zombie_pid > 0)
-	{
-		zombie_pid = waitpid(-1, &zombie_status, WNOHANG);
-	}
-	if (WIFSIGNALED (status))
-		return (128 + WTERMSIG (status));
+	if (char_is_inside(pro->words->cmd[0], '/') < 0)
+		find_path(pro->words);
 	else
-		return (WEXITSTATUS (status));
+		pro->words->path = ft_strdup(pro->words->cmd[0]);
+	kill_child(pro, env);
 }
 
-
-static void	child_process(t_shell *sh, int *fds, char **env, int process, int *p)
+static void before_fork(int process, t_process *pro, t_shell *sh)
 {
-	(void)fds;
-	(void)process;
-/*	fds = process_redir(sh->redir, fds);
-	if (fds[0] == -1 || fds[1] == -1)
-		exit(EXIT_FAILURE);
-	else if (sh->words && (fds[0] == STD_IN || fds[1] == STD_OUT))
-		redir_pipes(sh, p, process);	*/
-	if (char_is_inside(sh->words->cmd[0], '/') < 0)
-		find_path(sh->words);
+	if (process < sh->pipes)
+	{
+		if (pipe(pro->p) < 0)
+			exit(EXIT_FAILURE);
+		pro->out = pro->p[1];
+	}
 	else
-		sh->words->path = ft_strdup(sh->words->cmd[0]);
-	kill_child(sh, env, p);
+		pro->out = 1;
+	//hacer redirecciones
+}
+
+static void after_fork(t_process *pro)
+{
+	if (pro->in != 0)
+		close(pro->in);
+	if (pro->out != 1)
+		close(pro->out);
+	else
+		close(pro->p[1]);
+	pro->in = pro->p[0];
+	while (pro->redir && pro->redir->type != PIPE)
+		pro->redir = pro->redir->next;
+	pro->words = pro->words->next;			
 }
 
 int process_connector(t_shell *sh, int process, char **env, int *fds)
 {
-	pid_t	pid;
-	int	martuta[2];
-	int	wstatus;
-	int i;
-	int	santito[2];
-	int	p[2];
-	t_words *w;
-	t_redir *re;
+	(void)fds;
+	t_process pro;
 	
-	i = 0;
-	w = sh->words;
-	re = sh->redir;
-	santito[0] = 0;
-	while (process >= 0)
+	pro.in = 0;
+	pro.words = sh->words;
+	pro.redir = sh->redir;
+	pro.pid = malloc(sizeof(pid_t) * (sh->pipes + 1));
+	if (!pro.pid)
+		exit(1);
+	process = -1;
+	while (++process <= sh->pipes)
 	{
-		if (process >= 1)
-		{
-			if (pipe(p) < 0)
-				exit(EXIT_FAILURE);
-			santito[1] = p[1];
-		}
-		else
-		{
-			santito[1] = 1;
-		}
-		pid = fork();
-		if (pid == -1)
+		before_fork(process, &pro, sh);
+		pro.pid[process] = fork();
+		if (pro.pid[process] == -1)
 			exit(1);
-		if (pid == 0)
-		{
-			w->in = santito[0];
-			w->out = santito[1];
-			sh->words = w;
-			sh->redir = re;	
-			child_process(sh, fds, env, process, p);
-		}
-		martuta[i] = pid;
-		i++;
-		if (santito[0] != 0)
-			close(santito[0]);
-		if (santito[1] != 1)
-			close(santito[1]);
-		santito[0] = p[0];
-	//	while (re && re->type != PIPE)
-	//		//re = re->next;
-		w = w->next;			
-		process--;
+		if (pro.pid[process] == 0)
+			child_process(&pro, env);	
+		after_fork(&pro);
 	}
-	close(p[0]);
-	i = -1;
-	//while (martuta[++i] < sh->pipes)
-		waitpid (martuta[1], &wstatus, 0);
-		waitpid (martuta[0], &wstatus, WUNTRACED);
-	//return (esperanding(pid));
-	if (WIFEXITED(wstatus))
-		return (WEXITSTATUS(wstatus));
+	close(pro.p[0]);
+	process = sh->pipes + 1;
+	while (--process >= 0)
+		waitpid (pro.pid[process], &pro.wstatus, WUNTRACED | WCONTINUED);
+	free(pro.pid);
+	if (WIFEXITED(pro.wstatus))
+		return (WEXITSTATUS(pro.wstatus));
 	return (0);
 }

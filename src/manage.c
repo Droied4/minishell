@@ -17,11 +17,11 @@ int	after_exec(t_words *word)
 	if ((errno == EFAULT || errno == EACCES) && (char_is_inside(word->cmd[0],
 				'/') < 0))
 	{
-		printf("Error: %s: Command not found\n", word->cmd[0]);
+		ft_dprintf(2, "Error: %s: Command not found\n", word->cmd[0]);
 		return (127);
 	}
 	open(word->path, O_WRONLY);
-	printf("Error: %s: %s\n", word->cmd[0], strerror(errno));
+	ft_dprintf(2, "Error: %s: %s\n", word->cmd[0], strerror(errno));
 	if (errno == ENOENT)
 		return (127);
 	return (126);
