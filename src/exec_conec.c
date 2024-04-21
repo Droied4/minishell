@@ -16,7 +16,7 @@ static void	kill_child(t_process *pro, char **env)
 {
 	if (pro->in != STD_IN)
 	{
-		//ft_dprintf(2, "2in -> %d\n", pro->in);
+	//	ft_dprintf(2, "2in -> %d\n", pro->in);
 		if (dup2(pro->in, STD_IN) == -1)
 			exit(1);
 		close(pro->in);
@@ -25,7 +25,7 @@ static void	kill_child(t_process *pro, char **env)
 		close(pro->p[0]);
 	if (pro->out != STD_OUT)
 	{
-		//ft_dprintf(2, "2out -> %d\n", pro->out);
+	//	ft_dprintf(2, "2out -> %d\n", pro->out);
 		if (dup2(pro->out, STD_OUT) == -1)
 			exit(1);
 		close(pro->out);
@@ -91,13 +91,12 @@ int process_connector(t_shell *sh, int process, char **env, int *fds)
 		if (pro.pid[process] == -1)
 			exit(1);
 		if (pro.pid[process] == 0)
-			child_process(&pro, env);	
+			child_process(&pro, env);
 		after_fork(&pro);
 	}
 	close(pro.p[0]);
-	process = sh->pipes + 1;
 	while (--process >= 0)
-		waitpid (pro.pid[process], &pro.wstatus, WUNTRACED | WCONTINUED);
+		waitpid (pro.pid[process], &pro.wstatus, 0);
 	free(pro.pid);
 	if (WIFEXITED(pro.wstatus))
 		return (WEXITSTATUS(pro.wstatus));
