@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/09 17:23:15 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:28:15 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	kill_child(t_process *pro, char **env)
 {
 	if (pro->in != STD_IN)
 	{
-	//	ft_dprintf(2, "2in -> %d\n", pro->in);
 		if (dup2(pro->in, STD_IN) == -1)
 			exit(1);
 		close(pro->in);
@@ -25,7 +24,6 @@ static void	kill_child(t_process *pro, char **env)
 		close(pro->p[0]);
 	if (pro->out != STD_OUT)
 	{
-	//	ft_dprintf(2, "2out -> %d\n", pro->out);
 		if (dup2(pro->out, STD_OUT) == -1)
 			exit(1);
 		close(pro->out);
@@ -60,13 +58,14 @@ static void before_fork(int process, t_process *pro, t_shell *sh)
 
 static void after_fork(t_process *pro)
 {
-	if (pro->in != 0)
+	if (pro->in != STD_IN)
 		close(pro->in);
-	if (pro->out != 1)
+	else
+		close(pro->p[0]);
+	if (pro->out != STD_OUT)
 		close(pro->out);
 	else
 		close(pro->p[1]);
-	pro->in = pro->p[0];
 	while (pro->redir && pro->redir->type != PIPE)
 		pro->redir = pro->redir->next;
 	pro->words = pro->words->next;			
@@ -94,7 +93,6 @@ int process_connector(t_shell *sh, int process, char **env, int *fds)
 			child_process(&pro, env);
 		after_fork(&pro);
 	}
-	close(pro.p[0]);
 	while (--process >= 0)
 		waitpid (pro.pid[process], &pro.wstatus, 0);
 	free(pro.pid);
