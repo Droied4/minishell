@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/22 16:58:34 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:05:20 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,27 +78,24 @@ int process_connector(t_shell *sh, int process, char **env, int *fds)
 {
 	(void)fds;
 	t_process pro;
+	pid_t pid;
 	
 	pro.in = 0;
 	pro.words = sh->words;
 	pro.redir = sh->redir;
-	pro.pid = malloc(sizeof(pid_t) * (sh->pipes + 1));
-	if (!pro.pid)
-		exit(1);
 	process = -1;
 	while (++process <= sh->pipes)
 	{
 		before_fork(process, &pro, sh);
-		pro.pid[process] = fork();
-		if (pro.pid[process] == -1)
+		pid = fork();
+		if (pid == -1)
 			exit(1);
-		if (pro.pid[process] == 0)
+		if (pid == 0)
 			child_process(&pro, env);
 		after_fork(&pro);
 	}
-	while (--process >= 0)
-		waitpid (pro.pid[process], &pro.wstatus, 0);
-	free(pro.pid);
+	while(pid > 0)
+		pid = waitpid (-1, &pro.wstatus, 0);
 	if (WIFEXITED(pro.wstatus))
 		return (WEXITSTATUS(pro.wstatus));
 	return (0);
