@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/22 16:28:15 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:58:34 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,13 @@ static void	kill_child(t_process *pro, char **env)
 
 static void	child_process(t_process *pro, char **env)
 {
-	if (char_is_inside(pro->words->cmd[0], '/') < 0)
-		find_path(pro->words);
-	else
-		pro->words->path = ft_strdup(pro->words->cmd[0]);
+	if (pro->words)
+	{
+		if (char_is_inside(pro->words->cmd[0], '/') < 0)
+			find_path(pro->words);
+		else
+			pro->words->path = ft_strdup(pro->words->cmd[0]);
+	}
 	kill_child(pro, env);
 }
 
