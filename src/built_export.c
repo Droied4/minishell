@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/09 12:18:51 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/19 20:52:41 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env)
 	while (sh.tokens)
 	{
 		sh.tokens = sh.tokens->next;
+		//check if token->data is = + - or other char🛑
 		if (sh.tokens)
 		{
 			new = found_var(sh.tokens->data, *lst_env);

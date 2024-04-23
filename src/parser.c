@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/15 19:29:51 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/22 17:37:28 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ void	parse_words(t_shell *sh)
 	}
 }
 
-int	parse_all(t_shell *sh)	
+int	parse_all(t_shell *sh, char **env)	
 {
 	if (syntax_error(sh->tokens) < 0)
 		return (-1);
 	if (parse_input(sh) < 0)
 		return (-1);
-	//parse_expansor(); 
+	expansor(sh, env); 
 	//remove_quotes();
 	sh->pipes = stock_of(sh, PIPE);
 	sh->words = generate_words(sh->tokens);

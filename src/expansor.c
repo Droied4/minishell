@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:04:47 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/18 22:29:40 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/23 17:02:56 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,41 +75,43 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
 // if (numsingle / 2) % 2 != 0 means impar
 // if impar type  5
 
-static int number_of_quotes(char *s, char quotes)
-{
-    int i;
+// static int number_of_quotes(char *s, char quotes)
+// {
+//     int i;
 
-    i = 0;
-    while (*s)
-    {
-        if (*s == quotes)
-            i++;
-        s++;
-    }
-    return (i);
-}
+//     i = 0;
+//     while (*s != '\0')
+//     {
+//         if (*s == quotes)
+//             i++;
+//         s++;
+//     }
+//     return (i);
+// }
 
-static char *remove_quotes(char *str, char quote)
-{
-    int i;
-    int j;
-    char *tmp;
+// static char *remove_quotes(char *str, char quote)
+// {
+//     int i;
+//     int j;
+//     char *tmp;
 
-    i = 0;
-    tmp = malloc(sizeof(char) * (ft_strlen(str) - number_of_quotes(str, quote)) + 1);
-    if (!tmp)
-        return (NULL);
-    tmp[i] = '\0';
-    j = 0;
-    while (str[i])
-    {
-        if (!(str[i] == quote))
-            tmp[j++] = str[i];
-        i++;
-    }
-    tmp[j] = '\0';
-    return (tmp);
-}
+//     i = 0;
+//     tmp = malloc(sizeof(char) * ft_strlen(str) + 1);
+//     if (!tmp)
+//         return (NULL);
+//     tmp[i] = '\0';
+//     j = 0;
+//     while (str[i])
+//     {
+//         if (str[i] == quote)
+//             flag = 1;
+//         if (!(str[i] == quote))
+//             tmp[j++] = str[i];
+//         i++;
+//     }
+//     tmp[j] = '\0';
+//     return (tmp);
+// }
 
 // CURIOUS WAY OF CALLING FUNCTION
 // result = concat("'", concat(username, "'"));
@@ -155,117 +157,161 @@ static char *remove_quotes(char *str, char quote)
 // bash-3.2$ "'"$USER"'"
 // bash: 'avolcy': command not found
 
+static int find_next_quote(char *s, char c)
+{
+    int i;
 
+    i = 0;
+    if (s[i] == c)
+        i++;
+    while (s[i])
+    {
+        if (s[i] == c)
+        {
+            i++;
+            break ;
+        }
+        i++;
+    }
+    return (i);    
+}
 
-// static void solve_double_quote(t_token *tok)
+static int find_next_pos(char *s)
+{
+    int i;
+
+    i = 0;
+    while (s[i] && s[i] != SQUOT && s[i] != DQUOT)
+    {
+        if (s[i] == SQUOT || s[i] == DQUOT)
+        {
+            i++;
+            break ;
+        }
+        i++;
+    }
+    return (i);    
+}
+
+// 'hola'"$USER"'"$USER"'"'$USER'"
+// 'hola'"$USER"'"$USER"'"'$USER'"
+
+// static void add_dollar_case(char **s)
 // {
-//     int num_squotes;
-//     // int num_dquotes;
+//     int i;
+//     int j;
+//     char *new;
 
-//     while (tok)
+//     i = 0;
+//     j = 0;
+//     printf("this is s before putting dollar--->[%s]\n", *s);
+//     new = malloc(sizeof(char) * ft_strlen(*s) * 2);
+//     if (!new)
+//         return ((void)NULL);
+//     while (*s[i])
 //     {
-//         num_squotes = number_of_quotes(tok->data, DQUOT);
-//         if ((num_squotes % 2) == 0 && found_char(tok->data) == 1)
+//         if (*s[i] == SQUOT && ft_isprint(*s[i + 1]) && *s[i + 1] != SQUOT)
 //         {
-//             tok->data = remove_quotes(tok->data, DQUOT);
-//             tok->type = 7;
+//             new[j] = *s[i];
+//             new[j++] = '$';
 //         }
-//         tok = tok->next;
+//         else if (*s[i + 1] == SQUOT && *s[i + 1] && *s[i] != SQUOT)
+//             new[j++] = '$';
+//         new[j++] = *s[i];
+//         i++;
 //     }
+//     new[j] = '\0';
+//     *s = new;
+//     printf("this is s after putting dollar--->[%s]\n", *s);
 // }
 
-
-//❌WITH TOKENS ⭕️
-// static void solve_single_quote(t_token *tok)
+// static void *string_modifier(t_shell *sh, char **s, char **env)
 // {
-//     int num_quotes;
-//     // int num_dquote;
-   
-//     while (tok)
+//     int i;
+//     char *new_string;
+
+//     i = 0;
+//     if (s[0] == SQUOT)
+//         new_string = remove_quotes(s, SQUOT);
+//     else if (s[0] == DQUOT)
 //     {
-//         // num_dquote = number_of_quotes(tok->data, dquote) / 2;
-//         num_quotes = number_of_quotes(tok->data, SQUOT) / 2;
-//         if((num_quotes % 2) == 0)
-//             tok->type = 7;
+//         new_string = remove_quotes(*s, DQUOT);
+//         if (found_char(new_string, SQUOT))
+//         {
+//             add_dollar_case(&new_string);
+//             new_string = expansion_var(sh, new_string, env);
+//         }
 //         else
-//             tok->type = 5;
-//         tok->data = remove_quotes(tok->data, SQUOT);
-//         if (tok->data[0] == DQUOT && (num_quotes % 2) == 0)
-//             tok->data = remove_quotes(tok->data, DQUOT);
-//         tok = tok->next;
+//             new_string =  expansion_var(sh, *s, env);
 //     }
-    
+//     else
+//         new_string = expansion_var(sh, *s, env);
 // }
 
-//❌WITH TOKENS ⭕️
-    // t_token *tok;
+static char *filter_data(t_shell *sh, char *s, char **env)
+{
+    int pos;
+    char *new;
+    char *save;
+(void)sh;
+(void)env;
+    new = NULL;
+    save =  malloc(sizeof(char) * ft_strlen(s)+ 1);
+    if (!save)
+        return (NULL);
+    pos = 0;
+    save[0] = '\0';
+    while (*s != '\0')
+    {
+        if (*s == SQUOT || *s == DQUOT)
+        {
+            pos =  pos + find_next_quote(s, *s);
+            ft_strlcpy(save, s, pos + 1);
+        }
+        else 
+        {
+            s = s + pos;
+            pos =  pos + find_next_pos(s);
+            ft_strlcpy(save, s, pos + 1);
+        }
+        printf("this is save before modifier--->[%s]\n", save);
+        // string_modifier(sh, &save, env);
+        // printf("this is save after modifier--->[%s]\n", save);
+        new = ft_strjoin2(new, save);
+        save[0] = '\0';
+        s = s + pos;
+        pos = 0;
+    }
+    return (new);
+}
 
-    // i = -1;
-    // tok = sh->tokens;
-    // while (tok)
-    // {
-    //      printf("this is the tok before EXP--->[%s]\n", tok->data);
-    //     //CHECK IF TOKEN->DATA[0] IS " OR '
-    //     if (tok->data[0] == '\'' && ft_strlen(tok->data) > 2)
-    //         solve_single_quote(tok);
-    //     else if (tok->data[0] == '\"' && ft_strlen(tok->data) > 2)
-    //         solve_double_quote(tok);
-    //    // if (tok->type == 7)
-    //   // {
-    //         // if (is_charmeta(tok->data[0]))
-    //         if (found_char(tok->data) == 1)
-    //             tok->data = expansion_var(sh, tok->data, env);
-    //      printf("this is the tok after EXP--->[%s]\n", tok->data);
-    //    //}
-    //     tok = tok->next;
-    // }
+// ❌WITH TsOKENS ⭕️
+void expansor(t_shell *sh, char **env)
+{
+    int i;
+    t_token *tok;
+
+    i = -1;
+    tok = sh->tokens;
+    while (tok)
+    {
+         printf("this is the tok before EXP--->[%s]\n", tok->data);
+         if (found_char(tok->data, SQUOT) || found_char(tok->data, DQUOT) || \
+          found_char(tok->data, '$'))
+         {
+            tok->data = filter_data(sh, tok->data, env);            
+         }
+         printf("this is the tok after EXP--->[%s]\n", tok->data);
+        tok = tok->next;
+    }
+}
 
 //AFTER PARSER ⭕️❌⭕️
 
 // static char *smart_join(char *s)
 // {}
 
-// static int find_next_quote(char *s)
-// {
-//     int i;
 
-//     i = 0;
-//     if (s[i] == SQUOT)
-//         i++;
-//     while (s[i] && s[i] != SQUOT)
-//         i++;
-//     return (i);    
-// }
-
-// static char *filter_data(t_shell *sh, char *s, char **env)
-// {
-//     int i;
-//     size_t len;
-//     char *new;
-//     char *save;
-
-//     (void)sh;
-//     (void)env;
-//     new = NULL;
-//     len = ft_strlen(s) - (size_t)number_of_quotes(s, SQUOT);
-//     save =  malloc(sizeof(char) * len + 1);
-//     if (!save)
-//         return (NULL);
-//     i = 0;
-//     int pos =0;
-//     while (s[i])
-//     {
-//         if (s[i] == SQUOT)
-//         {
-//             pos = find_next_quote(s);
-//             printf("pos is [%d]\n", pos);
-//             ft_strlcpy(save, s + 1, pos);
-//             printf("pos is [%s]\n", save);
-//             new = ft_strjoin2(new, save);
-//         }
-//         i++;
-//     }
-//     return (new);
 //     // str = '"""'dsdas"$USER"'"""'
 //     // while (str[i]) {
 //     //     if (str[i] == SQUOT || str[i] == DQUOT) {
@@ -279,104 +325,110 @@ static char *remove_quotes(char *str, char quote)
     
 // }
 
-char **smart_split(char *s)
-{
-    int i;
-    int j;
-    int flag;
-    char *updated_s;
+
+// char **smart_split(char *s)
+// {
+//     int i;
+//     int j;
+//     int s_flag;
+//     int d_flag;
+//     char *updated_s;
 
 
-    i = 0;
-    j = 0;
-    flag = 0;
-    updated_s = (char *)malloc(sizeof(char *) * (ft_strlen(s) * 2));
-    if (!updated_s)
-        return (NULL);
-    updated_s[0] = '\0';
-    while (s[i])
-    {
-        if ((s[i] == SQUOT || s[i] == DQUOT))// && flag == 0)
-        {
-            flag = 1;
-            updated_s[j] = s[i];
-            j++;
-            i++;
-        } 
-        if ((s[i] == SQUOT || s[i] == DQUOT) && flag == 1)
-        {
-            flag = 0;
-            updated_s[j] = ' '; 
-            j++;
-        }
-        updated_s[j] = s[i];
-        i++;
-        j++;
-    }
-    updated_s[i] = '\0';
-    printf("\tupdated_s  [%s]\n", updated_s);
-    return (ft_split(updated_s, ' '));
-}
+//     i = 0;
+//     j = 0;
+//     s_flag = 0;
+//     d_flag = 0;
+//     updated_s = (char *)malloc(sizeof(char *) * (ft_strlen(s) * 2));
+//     if (!updated_s)
+//         return (NULL);
+//     updated_s[0] = '\0';
+//     while (s[i])
+//     {
+//         if (s[i] == SQUOT && s_flag == 0 && d_flag == 0)
+//             s_flag = 1;
+//         else if (s[i] == DQUOT && s_flag == 0 && d_flag == 0)
+//             d_flag = 1;
+//         else if (s[i] == SQUOT && s_flag == 1 && d_flag == 0)
+//         {
+//             s_flag = 0;
+//             updated_s[j++] = s[i];
+//             updated_s[j++] = ' ';
+//         }
+//         else if (s[i] == DQUOT && s_flag == 0 && d_flag == 1)
+//         {
+//             d_flag = 0;
+//             updated_s[j++] = s[i];
+//             updated_s[j++] = ' ';
+//         }
+//         if (s[i] != '\0')
+//             updated_s[j++] = s[i];
+//         i++;
+//     }
+//     updated_s[j] = '\0';
+//     printf("\t\tupdated_s  [%s]\n", updated_s);
+//     return (ft_split(updated_s, ' '));
+// }
 
-char *filter_data(t_shell *sh, char *s, char **env)
-{
-    char **str;
-    int i;
-    size_t len;
-    char *new;
+// char *filter_data(t_shell *sh, char *s, char **env)
+// {
+//     char **str;
+//     int i;
+//     size_t len;
+//     char *new;
 
-    i = 0;
-    len = 0;
-    len = ft_strlen(s) - (size_t)number_of_quotes(s, SQUOT);
-    str = smart_split(s);
-    if (!str)
-        return (NULL);
+//     i = 0;
+//     len = 0;
+//     len = ft_strlen(s) - (size_t)number_of_quotes(s, SQUOT);
+//     str = smart_split(s);
+//     if (!str)
+//         return (NULL);
 
-    while (str[i])
-    {
-        printf("\tthis is the current [%s]\n", str[i]);
-        if (str[i][0] == DQUOT && found_char(str[i], '$'))
-        {
-            str[i] = remove_quotes(str[i], DQUOT);
-            str[i] = expansion_var(sh, str[i], env);
-        }
-        else if (str[i][0] == SQUOT)
-            str[i] = remove_quotes(str[i], SQUOT);
-        i++;
-    }
-    // printf("\\----this is final len [%zu]\n", len);
-    new = malloc(sizeof(char) * len + 1);
-    if (!new)
-        return (NULL);
-    i = 0;
-    new[i] ='\0';
-    while (str[i])
-    {
-        new = ft_strjoin2(new, str[i]);
-        i++;
-    }
-    free_matrix(str);
-    return (new);
-}
+//     while (str[i])
+//     {
+//         printf("\tthis is the current [%s]\n", str[i]);
+//         if (str[i][0] == DQUOT && found_char(str[i], '$'))
+//         {
+//             str[i] = remove_quotes(str[i], DQUOT);
+//             str[i] = expansion_var(sh, str[i], env);
+//         }
+//         else if (str[i][0] == SQUOT)
+//             str[i] = remove_quotes(str[i], SQUOT);
+//         i++;
+//     }
+//     // printf("\\----this is final len [%zu]\n", len);
+//     new = malloc(sizeof(char) * len + 1);
+//     if (!new)
+//         return (NULL);
+//     i = 0;
+//     new[i] ='\0';
+//     while (str[i])
+//     {
+//         new = ft_strjoin2(new, str[i]);
+//         i++;
+//     }
+//     free_matrix(str);
+//     return (new);
+// }
 
-void expansor(t_shell *sh, char **env)
-{
-    int i;
+// void expansor(t_shell *sh, char **env)
+// {
+//     int i;
 
-    char **data;
+//     char **data;
 
-    data = sh->words->cmd;
-    i = 0;
-    // bash-3.2$ '"""'dsdas"$USER"'"""'
-    // bash: """dsdasavolcy""": command not found
-    while (data[i]) 
-    {
-        printf("this is the tok before EXP--->[%s]\n", data[i]);
-        data[i] = filter_data(sh, data[i], env);
-        printf("this is the tok before EXP--->[%s]\n", data[i]);
-        i++;
-    }
-}
+//     data = sh->words->cmd;
+//     i = 0;
+//     // bash-3.2$ '"""'dsdas"$USER"'"""'
+//     // bash: """dsdasavolcy""": command not found
+//     while (data[i]) 
+//     {
+//         printf("this is the tok before EXP--->[%s]\n", data[i]);
+//         data[i] = filter_data(sh, data[i], env);
+//         printf("this is the tok before EXP--->[%s]\n", data[i]);
+//         i++;
+//     }
+// }
 // bash-3.2$ '"'"$USER"'"'
 // bash: "avolcy": command not found
 // bash-3.2$ '"$USER"'
