@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/08 21:16:09 by avolcy            #+#    #+#              #
-#    Updated: 2024/03/11 19:10:06 by avolcy           ###   ########.fr        #
+#    Updated: 2024/04/23 21:00:21 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = libft.a
 CC = cc 
 RM = rm -rf
 TMP = libft.h.gch 
-CFLAGS = -Wall -Wextra -Werror #-gopciones de compilacion adicionales
+CFLAGS = -Wall -Wextra -Werror  -fsanitize=address#-gopciones de compilacion adicionales
 HEADER = libft.h
 BUILT_LIB = ar rcs
 #variable que contiene la lista de archivos fuente que se deben compilar

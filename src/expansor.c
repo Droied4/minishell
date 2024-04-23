@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:04:47 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/23 17:02:56 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/23 20:57:56 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,43 +75,65 @@ char     *expansion_var(t_shell *sh, char *data, char **env)
 // if (numsingle / 2) % 2 != 0 means impar
 // if impar type  5
 
-// static int number_of_quotes(char *s, char quotes)
-// {
-//     int i;
+static int number_of_quotes(char *s, char quotes)
+{
+    int i;
+    int j;
 
-//     i = 0;
-//     while (*s != '\0')
-//     {
-//         if (*s == quotes)
-//             i++;
-//         s++;
-//     }
-//     return (i);
-// }
+    i = 0;
+    j = 0;
+    while (s[j])
+    {
+        if (s[i] == quotes)
+            i++;
+        j++;
+    }
+    return (i);
+}
 
-// static char *remove_quotes(char *str, char quote)
-// {
-//     int i;
-//     int j;
-//     char *tmp;
+// ''holas'''    len = 10   formula is ((len + (quote % 2)) - quotes
+// 10 + 5 % 2 - 5 = 10 + 1 - 5 = 6
 
-//     i = 0;
-//     tmp = malloc(sizeof(char) * ft_strlen(str) + 1);
-//     if (!tmp)
-//         return (NULL);
-//     tmp[i] = '\0';
-//     j = 0;
-//     while (str[i])
-//     {
-//         if (str[i] == quote)
-//             flag = 1;
-//         if (!(str[i] == quote))
-//             tmp[j++] = str[i];
-//         i++;
-//     }
-//     tmp[j] = '\0';
-//     return (tmp);
-// }
+static char *remove_quotes(char *str, char quote)
+{
+    size_t i;
+    int j;
+    char *tmp;
+    int num_quotes;
+
+    tmp = malloc(sizeof(char) * ft_strlen(str) + 1);
+    if (!tmp)
+        return (NULL);
+    tmp[0] = '\0';
+    j = 0;
+    num_quotes = number_of_quotes(str, quote);
+    if (num_quotes % 2 == 0)
+    {
+        while (*str != '\0')
+        {
+            if (!(*str == quote))
+                tmp[j++] = *str;
+            str++;
+        }
+    }
+    else if (num_quotes % 2 != 0)
+    {
+        i = 1;
+        while (*str != '\0')
+        {
+            if (*str != quote)
+            {
+                i++;
+                tmp[j++] = *str;
+            }
+            else if (*str == quote && i == ft_strlen(str) + (num_quotes % 2) - num_quotes)
+                tmp[j++] = *str;
+            str++;
+        }
+    }
+    tmp[j] = '\0';
+    return (tmp);
+}
 
 // CURIOUS WAY OF CALLING FUNCTION
 // result = concat("'", concat(username, "'"));
@@ -194,7 +216,6 @@ static int find_next_pos(char *s)
 }
 
 // 'hola'"$USER"'"$USER"'"'$USER'"
-// 'hola'"$USER"'"$USER"'"'$USER'"
 
 // static void add_dollar_case(char **s)
 // {
@@ -225,28 +246,33 @@ static int find_next_pos(char *s)
 //     printf("this is s after putting dollar--->[%s]\n", *s);
 // }
 
-// static void *string_modifier(t_shell *sh, char **s, char **env)
-// {
-//     int i;
-//     char *new_string;
+static char *string_modifier(t_shell *sh, char *s, char **env)
+{
+    int i;
+    char *new_string;
 
-//     i = 0;
-//     if (s[0] == SQUOT)
-//         new_string = remove_quotes(s, SQUOT);
-//     else if (s[0] == DQUOT)
-//     {
-//         new_string = remove_quotes(*s, DQUOT);
-//         if (found_char(new_string, SQUOT))
-//         {
-//             add_dollar_case(&new_string);
-//             new_string = expansion_var(sh, new_string, env);
-//         }
-//         else
-//             new_string =  expansion_var(sh, *s, env);
-//     }
-//     else
-//         new_string = expansion_var(sh, *s, env);
-// }
+(void)sh;
+(void)env;
+    i = 0;
+    new_string = NULL;
+    if (s[0] == SQUOT)
+        new_string = remove_quotes(s, SQUOT);
+    printf("this is new_string {%s}\n", new_string);
+    return new_string;
+    // else if (s[0] == DQUOT)
+    // {
+    //     new_string = remove_quotes(*s, DQUOT);
+    //     if (found_char(new_string, SQUOT))
+    //     {
+    //         add_dollar_case(&new_string);
+    //         new_string = expansion_var(sh, new_string, env);
+    //     }
+    //     else
+    //         new_string =  expansion_var(sh, *s, env);
+    // }
+    // else
+    //     new_string = expansion_var(sh, *s, env);
+}
 
 static char *filter_data(t_shell *sh, char *s, char **env)
 {
@@ -274,14 +300,15 @@ static char *filter_data(t_shell *sh, char *s, char **env)
             pos =  pos + find_next_pos(s);
             ft_strlcpy(save, s, pos + 1);
         }
-        printf("this is save before modifier--->[%s]\n", save);
-        // string_modifier(sh, &save, env);
-        // printf("this is save after modifier--->[%s]\n", save);
+        printf("this is save before modifier--->[%s\t%p]\n", save ,save);
+        save = string_modifier(sh, save, env);
+        printf("this is save after modifier--->[%s]\n", save);
         new = ft_strjoin2(new, save);
         save[0] = '\0';
         s = s + pos;
         pos = 0;
     }
+    free(save);
     return (new);
 }
 
