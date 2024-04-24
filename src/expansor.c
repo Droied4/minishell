@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:04:47 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/23 20:57:56 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/24 13:18:17 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,11 +254,11 @@ static char *string_modifier(t_shell *sh, char *s, char **env)
 (void)sh;
 (void)env;
     i = 0;
-    new_string = NULL;
+    new_string = s;
     if (s[0] == SQUOT)
         new_string = remove_quotes(s, SQUOT);
-    printf("this is new_string {%s}\n", new_string);
-    return new_string;
+    else if (found_char(s, '$'))
+        new_string = expansion_var(sh, s, env);
     // else if (s[0] == DQUOT)
     // {
     //     new_string = remove_quotes(*s, DQUOT);
@@ -270,8 +270,8 @@ static char *string_modifier(t_shell *sh, char *s, char **env)
     //     else
     //         new_string =  expansion_var(sh, *s, env);
     // }
-    // else
-    //     new_string = expansion_var(sh, *s, env);
+    printf("this is new_string {%s}\n", new_string);
+    return new_string;
 }
 
 static char *filter_data(t_shell *sh, char *s, char **env)
@@ -292,18 +292,18 @@ static char *filter_data(t_shell *sh, char *s, char **env)
         if (*s == SQUOT || *s == DQUOT)
         {
             pos =  pos + find_next_quote(s, *s);
-            ft_strlcpy(save, s, pos + 1);
+            save = ft_substr(s, 0, (size_t)pos);
         }
         else 
         {
-            s = s + pos;
             pos =  pos + find_next_pos(s);
-            ft_strlcpy(save, s, pos + 1);
+            save = ft_substr(s, 0, (size_t)pos);
         }
         printf("this is save before modifier--->[%s\t%p]\n", save ,save);
         save = string_modifier(sh, save, env);
         printf("this is save after modifier--->[%s]\n", save);
         new = ft_strjoin2(new, save);
+        printf("this is new after modifier--->[%s]\n", save);
         save[0] = '\0';
         s = s + pos;
         pos = 0;
