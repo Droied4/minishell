@@ -67,13 +67,10 @@ static void before_fork(int process, t_process *pro, t_shell *sh)
 	//hacer redirecciones
 }
 
-static void after_fork(int process, t_process *pro)
+static void after_fork(t_process *pro)
 {
-	(void)process;
 	if (pro->in != STD_IN)
 		close(pro->in);
-	//else
-	//	close(pro->p[0]);
 	if (pro->out != STD_OUT)
 		close(pro->out);
 	else
@@ -105,7 +102,7 @@ int process_connector(t_shell *sh, int process, char **env, int *fds)
 				close(pro.p[0]);
 			child_process(&pro, env);
 		}
-		after_fork(process, &pro);
+		after_fork(&pro);
 	}
 	close(pro.p[0]);
 	while(pid > 0)
