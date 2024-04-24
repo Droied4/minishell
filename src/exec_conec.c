@@ -14,14 +14,19 @@
 
 static void	kill_child(t_process *pro, char **env)
 {
+	ft_dprintf(2, "in -> %d\n", pro->in);
 	if (pro->in != STD_IN)
 	{
 		if (dup2(pro->in, STD_IN) == -1)
+		{
+			BUG;
 			exit(1);
+		}
 		close(pro->in);
 	}
 	else
 		close(pro->p[0]);
+	ft_dprintf(2, "out -> %d\n", pro->out);
 	if (pro->out != STD_OUT)
 	{
 		if (dup2(pro->out, STD_OUT) == -1)
@@ -48,23 +53,27 @@ static void	child_process(t_process *pro, char **env)
 
 static void before_fork(int process, t_process *pro, t_shell *sh)
 {
-	if (process < sh->pipes)
+	if (process <= sh->pipes)
 	{
+		pro->in	= pro->p[0];
 		if (pipe(pro->p) < 0)
 			exit(EXIT_FAILURE);
 		pro->out = pro->p[1];
 	}
-	else
+	if (process == 0)
+		pro->in = 0;
+	else if (process == sh->pipes)
 		pro->out = 1;
 	//hacer redirecciones
 }
 
-static void after_fork(t_process *pro)
+static void after_fork(int process, t_process *pro)
 {
+	(void)process;
 	if (pro->in != STD_IN)
 		close(pro->in);
-	else
-		close(pro->p[0]);
+	//else
+	//	close(pro->p[0]);
 	if (pro->out != STD_OUT)
 		close(pro->out);
 	else
@@ -91,9 +100,14 @@ int process_connector(t_shell *sh, int process, char **env, int *fds)
 		if (pid == -1)
 			exit(1);
 		if (pid == 0)
+		{
+			if (process > 0)
+				close(pro.p[0]);
 			child_process(&pro, env);
-		after_fork(&pro);
+		}
+		after_fork(process, &pro);
 	}
+	close(pro.p[0]);
 	while(pid > 0)
 		pid = waitpid (-1, &pro.wstatus, 0);
 	if (WIFEXITED(pro.wstatus))
