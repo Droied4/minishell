@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/25 16:03:52 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:02:01 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void process_redir(t_shell *sh)
 	last_in = 0;
 	last_out = 1;
 	redir = sh->redir;
+	//ft_dprintf(2, "redir_index-> %d\n", redir->index);
 	while (redir && redir->type != PIPE)
 	{
 		if (redir->type == LESS && last_in != -1 && last_out != -1)

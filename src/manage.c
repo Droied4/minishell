@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:38:06 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/22 16:08:14 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:52:00 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,13 @@ int	after_exec(t_words *word)
 		ft_dprintf(2, "Error: %s: Command not found\n", word->cmd[0]);
 		return (127);
 	}
-	open(word->path, O_WRONLY);
-	ft_dprintf(2, "Error: %s: %s\n", word->cmd[0], strerror(errno));
+	if (word->cmd)
+	{
+		open(word->path, O_WRONLY);
+		ft_dprintf(2, "Error: %s: %s\n", word->cmd[0], strerror(errno));
+	}
+	else
+		return (0);
 	if (errno == ENOENT)
 		return (127);
 	return (126);
@@ -44,19 +49,19 @@ void	ft_free_array(char **res)
 }
 
 void	soft_exit(t_shell *sh)
-{	
-		ft_deltoken(&sh->tokens);
-		ft_del_redirs(&sh->redir);
-		ft_del_words(&sh->words);
-		free(sh->line);
+{
+	ft_deltoken(&sh->tokens);
+	ft_del_redirs(&sh->redir);
+	ft_del_words(&sh->words);
+	free(sh->line);
 }
 
 void	hard_exit(t_shell *sh)
 {
-		ft_deltoken(&sh->tokens);
-		ft_del_redirs(&sh->redir);
-		ft_del_words(&sh->words);
-		clear_history();
-		free(sh->line);
-		exit(1);
+	ft_deltoken(&sh->tokens);
+	ft_del_redirs(&sh->redir);
+	ft_del_words(&sh->words);
+	clear_history();
+	free(sh->line);
+	exit(1);
 }
