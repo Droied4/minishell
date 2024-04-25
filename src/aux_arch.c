@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:37:44 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/29 21:08:05 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/25 21:51:20 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int is_correct(char *name)
     int i;
 
     i = 0;
+    if (ft_isdigit(name[i]))
+        //is not a valid identifier case
     while (name[i])
     {
         if (ft_isalnum(name[i]) || name[i]== '_')

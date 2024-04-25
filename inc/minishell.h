@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/22 12:49:06 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/25 16:30:57 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 # include "../library/libft/libft.h"
 # include "macros.h"
 # include "struct.h"
-# include <stdio.h>
-# include <string.h>
 # include <errno.h>
-# include <sys/types.h>
-# include <stdbool.h>
-# include <sys/wait.h>
-# include <stdlib.h>
 # include <limits.h>
-# include <unistd.h>
-# include <readline/readline.h>
 # include <readline/history.h>
+# include <readline/readline.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
 //# include <editline/readline.h>
 
 /*
@@ -44,10 +44,10 @@ int		ft_deltoken(t_token **lst);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
-int len_matriz(char *line);
-int	lex_redir_case(char *s, char redir);
-int	lex_word_case(char *s);
-int	lex_quotes_case(char *s, char quote);
+int		len_matriz(char *line);
+int		lex_redir_case(char *s, char redir);
+int		lex_word_case(char *s);
+int		lex_quotes_case(char *s, char quote);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
@@ -74,9 +74,9 @@ void	redifine_token(t_token *tok);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
-int	parse_all(t_shell *sh, char **env);
+int		parse_all(t_shell *sh, char **env);
 int		parse_input(t_shell *sh);
-int	parse_redirections(t_shell *sh);
+int		parse_redirections(t_shell *sh);
 void	parse_words(t_shell *sh);
 
 /*
@@ -88,7 +88,6 @@ void	parse_words(t_shell *sh);
 int		ft_del_words(t_words **lst);
 t_words	*generate_words(t_token *tokens);
 
-
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
 	REDIR_LST - 5
@@ -98,6 +97,21 @@ t_words	*generate_words(t_token *tokens);
 int		ft_del_redirs(t_redir **lst);
 t_redir	*generate_redirs(t_token *tokens);
 
+/*
+┏━━━━━━━━・▼・━━━━━━━━┓
+		EPANSOR
+┗━━━━━━━━・▼・━━━━━━━━┛
+*/
+
+char	*expansion_var(t_shell *sh, char *data, int i);
+char 	*my_allocation(size_t len);
+void	expansor(t_shell *sh, char **env);
+int		found_char(char *data, char c);
+int		find_next_quote(char *s, char c);
+char	*filter_data(t_shell *sh, char *s, char **env, int pos);
+char	*add_dollar_case(char *s, int i, int j);
+int		find_next_pos(char *s);
+int		number_of_quotes(char *s, char quotes);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
@@ -140,7 +154,7 @@ void	incomplete_entry(t_shell *sh);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-int	after_exec(t_words *word);
+int		after_exec(t_words *word);
 void	soft_exit(t_shell *sh);
 void	hard_exit(t_shell *sh);
 void	ft_free_array(char **res);
@@ -151,8 +165,8 @@ void	ft_free_array(char **res);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-void executor(t_shell *sh, char **env);
-//void execute_cmd(t_block *block);
+void	executor(t_shell *sh, char **env);
+// void execute_cmd(t_block *block);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
@@ -160,7 +174,7 @@ void executor(t_shell *sh, char **env);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-int *process_redir(t_redir *redir, int *fds);
+int		*process_redir(t_redir *redir, int *fds);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
@@ -168,8 +182,8 @@ int *process_redir(t_redir *redir, int *fds);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-void find_path(t_words *word);
-int process_word(t_words *word, int *fds, char **env);
+void	find_path(t_words *word);
+int		process_word(t_words *word, int *fds, char **env);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
@@ -177,7 +191,7 @@ int process_word(t_words *word, int *fds, char **env);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-int process_connector(t_shell *sh, int process, char **env, int *fds);
+int		process_connector(t_shell *sh, int process, char **env, int *fds);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
@@ -215,14 +229,6 @@ int		is_char_redir(char c);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
-		EPANSOR
-┗━━━━━━━━・▼・━━━━━━━━┛
-*/
-
-void expansor(t_shell *sh, char **env);
-
-/*
-┏━━━━━━━━・▼・━━━━━━━━┓
 		ENV
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
@@ -241,7 +247,7 @@ int		check_exp_variable(t_env *tok);
 void	free_matrix(char **sh);
 int		execute_pwd(void);
 void	execute_echo(t_shell *shell);
-void    execute_env(t_shell *sh, char **env);
+void	execute_env(t_shell *sh, char **env);
 int		execute_cd(t_shell *sh, char **env);
 void	execute_exit(t_shell *sh);
 void	execute_export(t_shell *sh, char **env);
@@ -249,7 +255,7 @@ void	execute_builtins(t_shell *looking, char **env);
 t_env	*found_var(char *var, t_env *lst);
 void	execute_unset(t_shell **sh, char **env);
 void	printlst(t_token *lst);
-int     ft_del_env(t_env **lst);
-void    print_lst_env(t_env *lst, int i);
+int		ft_del_env(t_env **lst);
+void	print_lst_env(t_env *lst, int i);
 
 #endif

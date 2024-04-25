@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/09 02:05:41 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:22:41 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_words
 	int							index;
 	char						**cmd;
 	char						*path;
-	int							in;
+	int							in;//lista de fds 
 	int							out;
 	struct s_words				*next;
 }								t_words;
