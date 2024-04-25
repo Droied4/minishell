@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 01:19:42 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 03:14:59 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:39:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,14 @@ static void	create_block_lst(t_words **lst, t_words *new)
 	last->next = new;
 }
 
-static int	new_table(t_token *tok, int aux)
+static int	new_table(t_token *tok)
 {
-	if ((aux == 0 || aux == -2) && (tok->type == CMD || tok->type == SQUOTE || tok->type == DQUOTE))
+	if (tok->type == PIPE)
 		return (1);
-	else if (aux == -2)
-		return (-2);
-	else if (tok->type == PIPE)
+	else if (tok && !tok->next)
+		return (1);
+	else
 		return (0);
-	return (-1);
 	//un besitoooooo
 	//<3
 }
@@ -77,19 +76,16 @@ int	ft_del_words(t_words **lst)
 t_words	*generate_words(t_token *tokens)
 {
 	int		i;
-	int		aux;
-	t_words	*lst;
-	t_words	*new;
-	t_token	*tmp;
+	t_words		*lst;
+	t_words		*new;
+	t_token		*tmp;
 
 	i = -1;
-	aux = -2;
 	tmp = tokens;
 	lst = NULL;
 	while (tmp)
 	{
-		aux = new_table(tmp, aux);
-		if (aux > 0)
+		if (new_table(tmp) > 0)
 		{
 			new = create_block(++i);
 			if (!new)

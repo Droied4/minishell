@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/22 17:54:53 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:16:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,11 @@ static void before_fork(int process, t_process *pro, t_shell *sh)
 		pro->in = 0;
 	else if (process == sh->pipes)
 		pro->out = 1;
-	//hacer redirecciones
+	process_redir(sh);
+	if (sh->words->in > 0)
+		pro->in = sh->words->in;
+	if (sh->words->out > 1)
+		pro->out = sh->words->out;
 }
 
 static void after_fork(t_process *pro)

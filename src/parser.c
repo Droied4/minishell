@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/04 12:50:21 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:12:45 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	parse_words(t_shell *sh)
 	while (tmp_tok != NULL && tmp_words != NULL)
 	{
 		tmp_tok = fill_block(&tmp_words, tmp_tok);
-		if (tmp_words->cmd)
-			tmp_words = tmp_words->next;
+		tmp_words = tmp_words->next;
+	ft_dprintf(2, "tok index-> %d\n", tok->index);
 	}
 }
 

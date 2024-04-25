@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/04 17:49:34 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:03:52 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ void process_redir(t_shell *sh)
 			last_out = append_case(redir, last_out);
 		redir = redir->next;
 	}
-	sh->pro->in = last_in;
-	sh->pro->out = last_out;
+	sh->words->in = last_in;
+	sh->words->out = last_out;
 }
