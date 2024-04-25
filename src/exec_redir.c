@@ -56,15 +56,15 @@ static int append_case(t_redir *redir, int last_out)
 		return (last_out);
 }
 
-int *process_redir(t_redir *r, int *fds)
+void process_redir(t_shell *sh)
 {
-	t_redir *redir;
 	int last_in;
 	int last_out;
+	t_redir *redir;
 
-	redir = r;
 	last_in = 0;
 	last_out = 1;
+	redir = sh->redir;
 	while (redir && redir->type != PIPE)
 	{
 		if (redir->type == LESS && last_in != -1 && last_out != -1)
@@ -77,7 +77,6 @@ int *process_redir(t_redir *r, int *fds)
 			last_out = append_case(redir, last_out);
 		redir = redir->next;
 	}
-	fds[0] = last_in;
-	fds[1] = last_out;
-	return (fds);
+	sh->pro->in = last_in;
+	sh->pro->out = last_out;
 }

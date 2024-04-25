@@ -56,7 +56,8 @@ int	main(int ac, char **av, char **env)
 		sh.tokens = generate_tokens(sh.line);
 		if (parse_all(&sh) != -1)
 		{
-			executor(&sh, env);
+			sh.matriz_env = env;
+			executor(&sh);
 			//	print_tokens(sh.tokens);
 			//print_words(sh.words);
 			//	print_redir(sh.redir);

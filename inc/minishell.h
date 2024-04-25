@@ -151,7 +151,7 @@ void	ft_free_array(char **res);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-void executor(t_shell *sh, char **env);
+void executor(t_shell *sh);
 //void execute_cmd(t_block *block);
 
 /*
@@ -160,7 +160,7 @@ void executor(t_shell *sh, char **env);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-int *process_redir(t_redir *redir, int *fds);
+void	process_redir(t_shell *sh);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
@@ -169,7 +169,7 @@ int *process_redir(t_redir *redir, int *fds);
 */
 
 void find_path(t_words *word);
-int process_word(t_words *word, int *fds, char **env);
+int process_word(t_shell *sh);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
@@ -177,7 +177,7 @@ int process_word(t_words *word, int *fds, char **env);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-int process_connector(t_shell *sh, int process, char **env, int *fds);
+int process_connector(t_shell *sh, int process);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

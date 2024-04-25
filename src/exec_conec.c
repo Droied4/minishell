@@ -12,21 +12,16 @@
 
 #include "minishell.h"
 
-static void	kill_child(t_process *pro, char **env)
+static void	kill_child(t_process *pro, t_shell *sh)
 {
-	ft_dprintf(2, "in -> %d\n", pro->in);
 	if (pro->in != STD_IN)
 	{
 		if (dup2(pro->in, STD_IN) == -1)
-		{
-			BUG;
 			exit(1);
-		}
 		close(pro->in);
 	}
 	else
 		close(pro->p[0]);
-	ft_dprintf(2, "out -> %d\n", pro->out);
 	if (pro->out != STD_OUT)
 	{
 		if (dup2(pro->out, STD_OUT) == -1)
@@ -35,11 +30,16 @@ static void	kill_child(t_process *pro, char **env)
 	}
 	else
 		close(pro->p[1]);
-	execve(pro->words->path, pro->words->cmd, env);
+	if (is_builtin(pro->words->cmd[0]) > 0)
+	{
+		execute_builtins(sh, sh->matriz_env);
+		exit(0);
+	}
+	execve(pro->words->path, pro->words->cmd, sh->matriz_env);
 	exit(after_exec(pro->words));
 }
 
-static void	child_process(t_process *pro, char **env)
+static void	child_process(t_process *pro, t_shell *sh)
 {
 	if (pro->words)
 	{
@@ -48,7 +48,7 @@ static void	child_process(t_process *pro, char **env)
 		else
 			pro->words->path = ft_strdup(pro->words->cmd[0]);
 	}
-	kill_child(pro, env);
+	kill_child(pro, sh);
 }
 
 static void before_fork(int process, t_process *pro, t_shell *sh)
@@ -80,9 +80,8 @@ static void after_fork(t_process *pro)
 	pro->words = pro->words->next;			
 }
 
-int process_connector(t_shell *sh, int process, char **env, int *fds)
+int process_connector(t_shell *sh, int process)
 {
-	(void)fds;
 	t_process pro;
 	pid_t pid;
 	
@@ -100,7 +99,7 @@ int process_connector(t_shell *sh, int process, char **env, int *fds)
 		{
 			if (process > 0)
 				close(pro.p[0]);
-			child_process(&pro, env);
+			child_process(&pro, sh);
 		}
 		after_fork(&pro);
 	}

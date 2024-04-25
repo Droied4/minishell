@@ -70,6 +70,7 @@ typedef struct s_shell
 	struct s_words				*words;
 	struct s_redir				*redir;
 	struct s_env				*env;
+	char					**matriz_env;
 	struct s_cmds				*cmds;
 	int							pipes;
 }								t_shell;
