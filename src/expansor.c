@@ -6,14 +6,14 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:04:47 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/27 12:53:36 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:27:20 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 
 /*he token
 ❗️ UNCLOSE ENTRY TO SUPERVISED , DEIVID*/
-
 char	*expansion_var(t_shell *sh, char *data, int i)
 {
 	char	*new;
@@ -35,7 +35,7 @@ char	*expansion_var(t_shell *sh, char *data, int i)
 	if (data_sp)
 		free_matrix(data_sp);
     printf("inside of EEEEEEEXP add is {%p}\n", data);
-	return (new);
+	return (free(data), new);
 }
 
 /*CURIOUS WAY OF CALLING FUNCTION
@@ -72,7 +72,7 @@ static char	*string_modifier(t_shell *sh, char *s, char **env)
 {
 	char	*new_s;
 
-	new_s = s;
+	new_s = NULL;
 	if (!sh->env)
 		sh->env = create_lst_env(env);
 	if (s[0] == SQUOT)
@@ -92,7 +92,7 @@ static char	*string_modifier(t_shell *sh, char *s, char **env)
 	}
 	else if (found_char(s, '$'))
 		new_s = compare_it_before(sh, s);
-	return (free(s), new_s);
+	return (new_s);
 }
 
 char	*filter_data(t_shell *sh, char *s, char **env, int pos)
@@ -102,6 +102,7 @@ char	*filter_data(t_shell *sh, char *s, char **env, int pos)
 
 	new = NULL;
 	save = my_allocation(ft_strlen(s));
+	printf("\n\tthis is inside of filter data \n\t|---senter---(%p)\n\t|--save--(%p)\n", s, save);
 	while (*s != '\0')
 	{
 		save[0] = '\0';
@@ -120,7 +121,9 @@ char	*filter_data(t_shell *sh, char *s, char **env, int pos)
 			new = ft_strjoin2(new, save);
 		s = s + pos;
 		pos = 0;
+		free(save);
 	}
+	printf("\n\tthis is inside of filter data \n\t|---sleave---(%p)\n\t|--save--(%p)\n", s, save);
 	return (new);
 }
 
@@ -131,7 +134,7 @@ void	expansor(t_shell *sh, char **env)
 	tok = sh->tokens;
 	while (tok)
 	{
-		printf("this is the tok before EXP--->[%s]\n", tok->data);
+		printf("this is the tok before EXP--->[%s] and its address is [%p]\n", tok->data, tok->data);
 		if (!ft_strncmp("$?", tok->data, 2) || !ft_strncmp("$$", tok->data, 2))
 			tok->data = special_cases(tok->data, sh->exit_status);
 		else if (found_char(tok->data, SQUOT) || found_char(tok->data, DQUOT)
@@ -139,7 +142,7 @@ void	expansor(t_shell *sh, char **env)
 		{
 			tok->data = filter_data(sh, tok->data, env, 0);
 		}
-		printf("this is the tok after EXP--->[%s]\n", tok->data);
+		printf("this is the tok after EXP--->[%s] and its address is [%p]\n", tok->data, tok->data);
 		tok = tok->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 10:37:32 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/27 11:11:45 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:28:09 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ char	*is_special_dollar(char *data, int i)
 
 char	*special_cases(char *special, int exit_status)
 {
+	int	i;
 
+	i = 0;
 	if (!ft_strncmp("$?", special, 2))
 	{
 		if (ft_strlen(special) > 2)
@@ -82,13 +84,14 @@ char	*remove_uneven(char *str, char quote, int num_quotes)
 			i++;
 			tmp[j++] = *str;
 		}
-		else if (*str == quote && i == ft_strlen(str) + (num_quotes % 2)
-			- num_quotes)
+		else if (*str == quote && i == ft_strlen(str) + \
+		(num_quotes % 2) - num_quotes)
 			tmp[j++] = *str;
 		str++;
 	}
 	tmp[j] = '\0';
     printf("inside of remove uneven add is {%p}\n", str);
+	// free(str);
 	return (tmp);
 }
 
@@ -107,11 +110,12 @@ char	*remove_char(char *str, char quote, int j)
 				tmp[j++] = *str;
 			str++;
 		}
+		tmp[j] = '\0';
 	}
 	else if (num_quotes % 2 != 0)
-		return (remove_uneven(str, quote, num_quotes));
-	tmp[j] = '\0';
+		tmp = remove_uneven(str, quote, num_quotes);
     printf("inside of remove char add is {%p}\n", str);
-
+	if (str)
+		free(str);
 	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/27 10:50:02 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/27 13:02:13 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int ac, char **av, char **env)
 			print_words(sh.words);
 			print_redir(sh.redir);
 			sh.matriz_env = env;//convert our list to double char;
-			executor(&sh);
+			// executor(&sh);
 		}
 		soft_exit(&sh);
 	}
