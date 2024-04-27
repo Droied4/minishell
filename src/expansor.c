@@ -6,11 +6,10 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:04:47 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/27 12:28:49 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/27 12:53:36 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 
 /*he token
 ❗️ UNCLOSE ENTRY TO SUPERVISED , DEIVID*/
