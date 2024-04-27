@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:04:47 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/27 02:08:22 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/27 09:39:50 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ static char	*string_modifier(t_shell *sh, char *s, char **env)
 		new_s = remove_char(s, SQUOT, 0);
 	else if (s[0] == DQUOT)
 	{
+		if (ft_strlen(s) == 2 && s[0] == DQUOT && s[1] == DQUOT)
+			return(ft_strdup(""));
 		new_s = remove_char(s, DQUOT, 0);
 		if (found_char(new_s, SQUOT))
 		{
@@ -151,7 +153,6 @@ static char	*string_modifier(t_shell *sh, char *s, char **env)
 			new_s = expansion_var(sh, new_s, -1);
 		}
 		else
-			printf("this is segfault [%s]\n", new_s);
 			new_s = expansion_var(sh, add_dollar_case(new_s, 0, 0), -1);
 	}
 	else if (found_char(s, '$'))
