@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:04:47 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/25 21:51:32 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/27 02:08:22 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,15 @@ static char	*compare_it_before(t_shell *sh, char *s)
 {
 	char	*new_s;
 
+	if (found_char(s, SQUOT) || found_char(s, DQUOT))
+	{
+		if (found_char(s, SQUOT) && s[0] != '\'')
+			s = remove_char(s, SQUOT, 0);
+		else if (found_char(s, DQUOT) && s[0] != '\"')
+			s = remove_char(s, DQUOT, 0);
+		new_s = remove_char(s, '$', 0);
+		return (new_s);
+	}
 	new_s = expansion_var(sh, s, -1);
 	s = remove_char(s, '$', 0);
 	if (ft_strncmp(s, new_s, ft_strlen(new_s)) == 0)
@@ -142,6 +151,7 @@ static char	*string_modifier(t_shell *sh, char *s, char **env)
 			new_s = expansion_var(sh, new_s, -1);
 		}
 		else
+			printf("this is segfault [%s]\n", new_s);
 			new_s = expansion_var(sh, add_dollar_case(new_s, 0, 0), -1);
 	}
 	else if (found_char(s, '$'))
@@ -178,6 +188,51 @@ char	*filter_data(t_shell *sh, char *s, char **env, int pos)
 	return (free(save), new);
 }
 
+//$? exit status $$ = getpid $$$ getpid$ $$$$getpid x 2
+static char  *is_special_dollar(char *data, int i)
+{
+	int num_dollar;
+	pid_t	pid;
+	char *print_pid;
+
+	pid = getpid();
+	print_pid = NULL;
+	num_dollar = number_of_quotes(data, '$');
+	while (i++ < num_dollar / 2)
+		print_pid = ft_strjoin2(print_pid, ft_itoa((int)pid));
+	if (num_dollar % 2 == 0)
+	{
+		if (ft_strlen(data) > (size_t)num_dollar)
+		{
+			data = data + num_dollar;
+			print_pid = ft_strjoin2(print_pid, data);
+		}
+	}
+	else
+	{
+		data = data + (num_dollar - 1);
+		if (!ft_strncmp("$", data, 2))
+			print_pid = ft_strjoin2(print_pid, data);
+	}
+	return(print_pid);
+}
+	
+
+char	*special_cases(char *special, int exit_status)
+{
+	int i;
+
+	i = 0;
+	if (!ft_strncmp("$?", special, 2))
+	{
+		if (ft_strlen(special) > 2)
+			return(ft_strjoin2(ft_itoa(exit_status), special + 2));
+		return (ft_itoa(exit_status));
+	}
+	else
+		return (is_special_dollar(special, 0));
+}
+
 // ❌WITH TsOKENS ⭕️
 void	expansor(t_shell *sh, char **env)
 {
@@ -189,11 +244,9 @@ void	expansor(t_shell *sh, char **env)
 	while (tok)
 	{
 		printf("this is the tok before EXP--->[%s]\n", tok->data);
-		if (ft_strlen(tok->data) == 2 && !ft_strncmp("$$", tok->data, 3))
-		//special cases
-		//$? exit status $$ = getpid $$$ getpid$ $$$$getpid x 2
-			tok->data = ft_itoa((int)getpid());
-		if (found_char(tok->data, SQUOT) || found_char(tok->data, DQUOT)
+		if (!ft_strncmp("$?", tok->data, 2) || !ft_strncmp("$$", tok->data, 2))
+			tok->data = special_cases(tok->data, sh->exit_status);
+		else if (found_char(tok->data, SQUOT) || found_char(tok->data, DQUOT)
 			|| found_char(tok->data, '$'))
 		{
 			tok->data = filter_data(sh, tok->data, env, 0);

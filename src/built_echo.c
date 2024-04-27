@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:56 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/29 12:12:04 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/26 23:30:53 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,12 @@ static  int num_tok(t_token *tok)
     return (i);
 }
 //to DELETE ❌❌
-static char **toks_to_dchar(t_token *tok)
+static char **toks_to_dchar(t_token *tok, int x)
 {
-    int x;
     char **res;
-    int num = num_tok(tok);
-
-    x = 0;
+    int num;
+    
+    num = num_tok(tok);
     res = NULL;
     res = (char **)malloc(sizeof(char **) * num + 1);
     if (!res)
@@ -58,8 +57,7 @@ static char **toks_to_dchar(t_token *tok)
             res[x] = ft_strdup(tok->data);
         x++;
     }
-    res[x] = NULL;
-    return (res);
+    return (res[x] = NULL, res);
 }
 
 static int is_flag(char *str)
@@ -91,7 +89,7 @@ void   execute_echo(t_shell *sh)
  
     i = 0;
     flags = 0;
-    matrix = toks_to_dchar(sh->tokens);
+    matrix = toks_to_dchar(sh->tokens, 0);
     while (is_flag(matrix[i]))
     {
             flags++;
@@ -103,9 +101,6 @@ void   execute_echo(t_shell *sh)
             ft_dprintf(STDOUT_FILENO,"%s ",matrix[i]);
         else
             ft_dprintf(STDOUT_FILENO,"%s",matrix[i]);
-        // ft_dprintf(STDOUT_FILENO,"%s",matrix[i]);
-        // if (matrix[i + 1])   
-        //     printf(" ");
         //bug case echo -n h-kka aaf -nhola
         i++;
     }
