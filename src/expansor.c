@@ -71,10 +71,8 @@ static char	*compare_it_before(t_shell *sh, char *s)
 
 static char	*string_modifier(t_shell *sh, char *s, char **env)
 {
-	int		i;
 	char	*new_s;
 
-	i = 0;
 	new_s = s;
 	if (!sh->env)
 		sh->env = create_lst_env(env);
@@ -129,10 +127,8 @@ char	*filter_data(t_shell *sh, char *s, char **env, int pos)
 
 void	expansor(t_shell *sh, char **env)
 {
-	int		i;
 	t_token	*tok;
 
-	i = -1;
 	tok = sh->tokens;
 	while (tok)
 	{

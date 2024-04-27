@@ -61,7 +61,7 @@ int	main(int ac, char **av, char **env)
 			print_words(sh.words);
 			print_redir(sh.redir);
 			sh.matriz_env = env;//convert our list to double char;
-			// executor(&sh);
+			executor(&sh);
 		}
 		soft_exit(&sh);
 	}

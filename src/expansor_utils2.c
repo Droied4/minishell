@@ -53,9 +53,7 @@ char	*is_special_dollar(char *data, int i)
 
 char	*special_cases(char *special, int exit_status)
 {
-	int	i;
 
-	i = 0;
 	if (!ft_strncmp("$?", special, 2))
 	{
 		if (ft_strlen(special) > 2)
