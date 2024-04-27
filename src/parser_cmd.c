@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 16:49:16 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/04 13:38:52 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:46:23 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,11 @@ t_token	*fill_block(t_words **word, t_token *tok)
 	t_token *tok2;
 	int count;
 	
-	if (tok && tok->type == PIPE)
-		tok = tok->next;
-	count = 0;
 	tok2 = tok;
+	while (tok && tok->type != CMD && tok->type != SQUOTE && tok->type != DQUOTE)
+		tok = tok->next;
+	tok = tok2;
+	count = 0;
 	while (tok && tok->type != PIPE)
 	{
 		if (tok->type == CMD || tok->type == SQUOTE || tok->type == DQUOTE)
@@ -67,7 +68,10 @@ t_token	*fill_block(t_words **word, t_token *tok)
 		tok = tok->next;
 	}
 	if (count == 0)
+	{
+		(*word)->cmd = NULL;
 		return (tok);
+	}
 	(*word)->cmd = ft_calloc(sizeof(char *),  count + 1);
 	if (!(*word)->cmd)
 		exit(1);

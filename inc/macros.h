@@ -29,6 +29,7 @@
 		dprintf(2, "Ha entrado en -> %s\n", __FILE__);\
 		dprintf(2, "En la funcion -> %s\n", __func__);\
 		dprintf(2, "En la linea -> %d\n", __LINE__);\
+		perror("Error : ");\
 	      }
 # define SQUOT '\'' 
 # define DQUOT '\"'  

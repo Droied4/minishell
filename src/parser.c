@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/22 17:37:28 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/27 09:48:11 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ void	parse_words(t_shell *sh)
 	while (tmp_tok != NULL && tmp_words != NULL)
 	{
 		tmp_tok = fill_block(&tmp_words, tmp_tok);
-		if (tmp_words->cmd)
-			tmp_words = tmp_words->next;
+		if (tmp_tok && tmp_tok->type == PIPE)
+			tmp_tok = tmp_tok->next;
+		tmp_words = tmp_words->next;
 	}
 }
 

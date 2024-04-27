@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/25 16:30:57 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/27 09:47:50 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,8 +165,8 @@ void	ft_free_array(char **res);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-void	executor(t_shell *sh, char **env);
-// void execute_cmd(t_block *block);
+void executor(t_shell *sh);
+//void execute_cmd(t_block *block);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
@@ -174,7 +174,7 @@ void	executor(t_shell *sh, char **env);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-int		*process_redir(t_redir *redir, int *fds);
+void	process_redir(t_shell *sh);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
@@ -182,8 +182,8 @@ int		*process_redir(t_redir *redir, int *fds);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-void	find_path(t_words *word);
-int		process_word(t_words *word, int *fds, char **env);
+void find_path(t_words *word);
+int process_word(t_shell *sh);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
@@ -191,7 +191,7 @@ int		process_word(t_words *word, int *fds, char **env);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-int		process_connector(t_shell *sh, int process, char **env, int *fds);
+int process_connector(t_shell *sh, int process);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

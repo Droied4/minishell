@@ -12,20 +12,24 @@
 
 #include "minishell.h"
 
-static void child_process(t_words *word, char **env)
+static void child_process(t_shell *sh)
 {
-	if (word->in != STD_IN && word->in > 0)
+	t_words *word;
+
+	word = sh->words;
+	if (word->in != STD_IN)
 	{
 		if (dup2(word->in, STD_IN) == -1)
 			exit(1);
+		close(word->in);
 	}
-	if (word->out != STD_OUT && word->out > 1)
+	if (word->out != STD_OUT)
 	{
 		if (dup2(word->out, STD_OUT) == -1)
 			exit(1);
 		close(word->out);
 	}
-	execve(word->path, word->cmd, env);
+	execve(word->path, word->cmd, sh->matriz_env);
 	exit(after_exec(word));
 }
 
@@ -86,13 +90,14 @@ void find_path(t_words *word)
 	ft_free_array(paths);
 }
 
-int process_word(t_words *word, int *fds, char **env)
+int process_word(t_shell *sh)
 {
-	(void)fds;
 	pid_t pid;
-	int parent_aux;
+	int wstatus;
+	t_words *word;
 	int exit_status;
-		
+	
+	word = sh->words;	
 	if (char_is_inside(word->cmd[0], '/') < 0)
 		find_path(word);
 	else
@@ -102,10 +107,10 @@ int process_word(t_words *word, int *fds, char **env)
 	if (pid == -1)
 		exit(1);
 	if (pid > 0)
-		waitpid(0, &parent_aux, 0);
+		waitpid(0, &wstatus, 0);
 	else
-		child_process(word, env);
-	if (WIFEXITED(parent_aux))
-		exit_status = WEXITSTATUS(parent_aux);
+		child_process(sh);
+	if (WIFEXITED(wstatus))
+		exit_status = WEXITSTATUS(wstatus);
 	return (exit_status);
 }

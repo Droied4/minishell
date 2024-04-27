@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/04 17:49:34 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:02:01 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,16 @@ static int append_case(t_redir *redir, int last_out)
 		return (last_out);
 }
 
-int *process_redir(t_redir *r, int *fds)
+void process_redir(t_shell *sh)
 {
-	t_redir *redir;
 	int last_in;
 	int last_out;
+	t_redir *redir;
 
-	redir = r;
 	last_in = 0;
 	last_out = 1;
+	redir = sh->redir;
+	//ft_dprintf(2, "redir_index-> %d\n", redir->index);
 	while (redir && redir->type != PIPE)
 	{
 		if (redir->type == LESS && last_in != -1 && last_out != -1)
@@ -77,7 +78,6 @@ int *process_redir(t_redir *r, int *fds)
 			last_out = append_case(redir, last_out);
 		redir = redir->next;
 	}
-	fds[0] = last_in;
-	fds[1] = last_out;
-	return (fds);
+	sh->words->in = last_in;
+	sh->words->out = last_out;
 }
