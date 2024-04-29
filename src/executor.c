@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/25 16:05:07 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:53:12 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,18 @@ static int do_builtin(t_shell *sh)
 
 static int smpl_cmd(t_shell *sh)
 {
-	process_redir(sh);
-	if (sh->words->in == -1 || sh->words->out == -1)
-		return (EXIT_FAILURE);
+	if (sh->redir)
+		process_redir(sh);
 	if (sh->words)
 	{
-		if (is_builtin(sh->words->cmd[0]) > 0)
-			return (do_builtin(sh));
-		return (process_word(sh));
+		if (sh->words->in == -1 || sh->words->out == -1)
+			return (EXIT_FAILURE);
+		if (sh->words->cmd)
+		{
+			if (is_builtin(sh->words->cmd[0]) > 0)
+					return (do_builtin(sh));
+			return (process_word(sh));
+		}
 	}
 	return (EXIT_SUCCESS);
 }

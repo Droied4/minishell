@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/25 19:01:19 by deordone         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:53:11 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static void	kill_child(t_process *pro, t_shell *sh)
 	if (pro->in != STD_IN)
 	{
 		if (dup2(pro->in, STD_IN) == -1)
+		{
+			BUG;
 			exit(1);
+		}
 		close(pro->in);
 	}
 	else
@@ -121,8 +124,8 @@ int	process_connector(t_shell *sh, int process)
 			exit(1);
 		if (pid == 0)
 		{
-			if (process > 0)
-				close(pro.p[0]);
+		//	if (process > 0) hace que funcione el cat | ls
+		//		close(pro.p[0]);
 			child_process(&pro, sh);
 		}
 		after_fork(&pro);
