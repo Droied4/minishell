@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/02 23:05:07 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/03 01:30:38 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int do_builtin(t_shell *sh)
 
 static int smpl_cmd(t_shell *sh)
 {
-	if (sh->redir)
+    if (sh->redir)
 		process_redir(sh->pro);
 	if (sh->words)
 	{

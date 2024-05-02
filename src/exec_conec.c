@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/02 23:17:42 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/03 01:22:39 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,8 @@ int	process_connector(t_shell *sh, int process)
 			exit(1);
 		if (pro.pid == 0)
 		{
-		    if (pro.p[0] != pro.w->in)
-			    close(pro.p[0]);
+		   if (pro.p[0] != pro.w->in)
+               close(pro.p[0]);
 			child_process(sh, &pro);
 		}
 		after_fork(&pro);
