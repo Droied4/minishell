@@ -6,13 +6,14 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/09 02:05:41 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/02 23:05:34 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 
+#include <time.h>
 typedef struct s_token
 {
 	int							index;
@@ -43,14 +44,12 @@ typedef struct s_redir
 
 typedef struct s_process
 {
-	struct s_words *words;
-	struct s_redir *redir;
-	int	       p[2];
-	int	       in;
-	int	 	out;
-	pid_t		*pid;
-	int		wstatus;
-}	t_process;
+	struct s_words				*w;
+	struct s_redir				*r;
+    pid_t                       pid;
+    int                         p[2];
+    int                         wstatus;
+} t_process;
 
 typedef struct s_env
 {
@@ -66,9 +65,9 @@ typedef struct s_shell
 	char						*line;
 	int							exit_status;
 	struct s_token				*tokens;
-	struct s_process *pro;
 	struct s_words				*words;
 	struct s_redir				*redir;
+	struct s_process			*pro;
 	struct s_env				*env;
 	char					**matriz_env;
 	struct s_cmds				*cmds;

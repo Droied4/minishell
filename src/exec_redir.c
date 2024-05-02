@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/29 17:53:14 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/02 23:04:26 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,21 @@ static int	append_case(t_redir *redir, int last_out)
 	return (last_out);
 }
 
-void	process_redir(t_shell *sh)
+static void  save_result(int last_in, int last_out, t_process *pro)
+{
+	if (last_in > 0)
+    {
+        close(pro->p[0]);
+		pro->w->in = last_in;
+    }
+    if (last_out > 1)
+    {
+        close(pro->p[1]);
+	    pro->w->out = last_out;
+    }
+}
+
+void	process_redir(t_process *pro)
 {
 	int		last_in;
 	int		last_out;
@@ -99,7 +113,7 @@ void	process_redir(t_shell *sh)
 
 	last_in = 0;
 	last_out = 1;
-	redir = sh->redir;
+	redir = pro->r;
 	while (redir && redir->type != PIPE)
 	{
 		if (redir->type == LESS && last_in != -1 && last_out != -1)
@@ -112,9 +126,5 @@ void	process_redir(t_shell *sh)
 			last_out = append_case(redir, last_out);
 		redir = redir->next;
 	}
-	if (sh->words)
-	{
-		sh->words->in = last_in;
-		sh->words->out = last_out;
-	}
+    return (save_result(last_in, last_out, pro));
 }

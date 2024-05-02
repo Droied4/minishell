@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/29 17:05:16 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/02 23:25:38 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int	main(int ac, char **av, char **env)
 		{
 			//print_tokens(sh.tokens);
 		//	print_words(sh.words);
-			print_words(sh.words);
-			print_redir(sh.redir);
+		//	print_words(sh.words);
+		//	print_redir(sh.redir);
 			sh.matriz_env = env;
 			executor(&sh);
 		}

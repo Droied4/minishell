@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/09 03:07:32 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/02 23:03:47 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void executor(t_shell *sh);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-void	process_redir(t_shell *sh);
+void	process_redir(t_process *pro);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
