@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/29 17:53:13 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/03 02:20:36 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void child_process(t_shell *sh)
 {
 	t_words *word;
 
-	word = sh->words;
+	word = sh->pro.w;
 	if (word->in != STD_IN)
 	{
 		if (dup2(word->in, STD_IN) == -1)
@@ -97,7 +97,7 @@ int process_word(t_shell *sh)
 	t_words *word;
 	int exit_status;
 	
-	word = sh->words;	
+	word = sh->pro.w;	
 	if (char_is_inside(word->cmd[0], '/') < 0)
 		find_path(word);
 	else
@@ -110,6 +110,10 @@ int process_word(t_shell *sh)
 		waitpid(0, &wstatus, 0);
 	else
 		child_process(sh);
+	if (word->in != STD_IN)
+		close(word->in);
+	if (word->out != STD_OUT)
+		close(word->out);
 	if (WIFEXITED(wstatus))
 		exit_status = WEXITSTATUS(wstatus);
 	return (exit_status);

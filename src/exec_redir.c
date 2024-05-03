@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/02 23:04:26 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/03 02:15:00 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,12 @@ static int	append_case(t_redir *redir, int last_out)
 
 static void  save_result(int last_in, int last_out, t_process *pro)
 {
-	if (last_in > 0)
+	if (last_in > 0 || last_in == -1)
     {
         close(pro->p[0]);
 		pro->w->in = last_in;
     }
-    if (last_out > 1)
+    if (last_out > 1 || last_out == -1)
     {
         close(pro->p[1]);
 	    pro->w->out = last_out;

@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/03 01:22:39 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/03 02:12:15 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ int	process_connector(t_shell *sh, int process)
 {
     t_process  pro;
     
-    pro.w = sh->words;
-    pro.r = sh->redir;
+    pro.w = sh->pro.w;
+    pro.r = sh->pro.r;
     
     pro.p[0] = 0;
 	process = -1;
