@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:01:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/08 21:53:14 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:46:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	token_type(t_token *lst)
 		lst->type = CMD;
 }
 
-static int len_of_words(char *line)
+static int	len_of_words(char *line)
 {
 	while (*line && *line == ' ')
 		line++;
@@ -43,20 +43,18 @@ static int len_of_words(char *line)
 	{
 		if (is_char_redir(*line) > 0)
 			return (lex_redir_case(line, *line));
-	//	else if (*line == '\'' || *line == '\"')
-	//		return (lex_quotes_case(line, *line) + 1);
 	}
 	return (lex_word_case(line));
 }
 
-static char *cpy_words(char **line, char *words, int len_word)
+static char	*cpy_words(char **line, char *words, int len_word)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (*(*line) != '\'' || *(*line) != '\"')
 	{
-		while (*(*line)&& *(*line) == ' ')
+		while (*(*line) && *(*line) == ' ')
 			(*line)++;
 	}
 	while (i < len_word)
@@ -68,11 +66,10 @@ static char *cpy_words(char **line, char *words, int len_word)
 	return (words);
 }
 
-static char *aux_montage(char **line)
+static char	*aux_montage(char **line)
 {
-	char *words;
-
-	int len_word;
+	char	*words;
+	int		len_word;
 
 	len_word = len_of_words(*line);
 	words = malloc(sizeof(char) * len_word + 1);
@@ -85,12 +82,13 @@ static char *aux_montage(char **line)
 
 char	**montage_tokens(char *line)
 {
-	char	**tokens = NULL;
-	char 	*words;
+	char	**tokens;
+	char	*words;
 	int		len;
-	int 	i;
+	int		i;
 	char	*keeper;
-	
+
+	tokens = NULL;
 	i = 0;
 	keeper = line;
 	len = len_matriz(line);

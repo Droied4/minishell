@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/04 16:50:06 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:47:07 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	print_words(t_words *lst)
 		printf(NC "curr -> %p\n", tmp);
 		printf(NC "next -> %p\n", tmp->next);
 		printf(GREEN "---------------------");
-		printf(NC"\n");
+		printf(NC "\n");
 		tmp = tmp->next;
 	}
 }
@@ -89,7 +89,7 @@ void	print_redir(t_redir *lst)
 		printf(NC "curr -> %p\n", tmp);
 		printf(NC "next -> %p\n", tmp->next);
 		printf(CYAN "---------------------");
-		printf(NC"\n");
+		printf(NC "\n");
 		tmp = tmp->next;
 	}
 }
@@ -134,10 +134,10 @@ char	*char2str(char c)
 	return (str);
 }
 
-int stock_of(t_shell *sh, int type)
+int	stock_of(t_shell *sh, int type)
 {
-	t_token *tok;
-	int stock;
+	t_token	*tok;
+	int		stock;
 
 	stock = 0;
 	tok = sh->tokens;
@@ -150,9 +150,9 @@ int stock_of(t_shell *sh, int type)
 	return (stock);
 }
 
-int char_is_inside(char const *str, char c)
+int	char_is_inside(char const *str, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])

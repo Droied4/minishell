@@ -6,15 +6,15 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/03 02:20:36 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:42:00 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void child_process(t_shell *sh)
+static void	child_process(t_shell *sh)
 {
-	t_words *word;
+	t_words	*word;
 
 	word = sh->pro.w;
 	if (word->in != STD_IN)
@@ -79,25 +79,25 @@ static char	*ft_check_path(char **paths, char **cmd)
 	return (NULL);
 }
 
-void find_path(t_words *word)
+void	find_path(t_words *word)
 {
-	char **paths;
-	char *path;
-	
+	char	**paths;
+	char	*path;
+
 	path = getenv("PATH");
 	paths = ft_split(path, ':');
 	word->path = ft_check_path(paths, word->cmd);
 	ft_free_array(paths);
 }
 
-int process_word(t_shell *sh)
+int	process_word(t_shell *sh)
 {
-	pid_t pid;
-	int wstatus;
-	t_words *word;
-	int exit_status;
-	
-	word = sh->pro.w;	
+	pid_t	pid;
+	int		wstatus;
+	t_words	*word;
+	int		exit_status;
+
+	word = sh->pro.w;
 	if (char_is_inside(word->cmd[0], '/') < 0)
 		find_path(word);
 	else

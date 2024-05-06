@@ -6,12 +6,12 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/06 13:38:49 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:52:08 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
+
 static char	*prompt(int exit_status)
 {
 	char	*e_itoa;
@@ -31,11 +31,11 @@ static char	*prompt(int exit_status)
 	free(e_itoa);
 	return (final_str);
 }
-*/
+
 int	main(int ac, char **av, char **env)
 {
 	t_shell	sh;
-//	char	*prompt_str;
+	char	*prompt_str;
 
 	(void)av;
 	(void)ac;
@@ -47,20 +47,19 @@ int	main(int ac, char **av, char **env)
 	sh.pro.r = NULL;
 	while (1)
 	{
-	//	prompt_str = prompt(sh.exit_status);
-		//prompt_str = ft_strdup("pong shell > ");
-		//sh.line = readline(prompt_str);
-		//free(prompt_str);
-		sh.line = readline("shell -> ");
+		prompt_str = prompt(sh.exit_status);
+		sh.line = readline(prompt_str);
 		if (!sh.line)
 			exit(1);
+		free(prompt_str);
+		//sh.line = readline("shell -> ");
 		add_history(sh.line);
 		sh.tokens = generate_tokens(sh.line);
 		if (parse_all(&sh) != -1 && ft_strlen(sh.line) > 0)
 		{
 			//print_tokens(sh.tokens);
-			print_words(sh.pro.w);
-			print_redir(sh.pro.r);
+		//	print_words(sh.pro.w);
+		//	print_redir(sh.pro.r);
 			sh.matriz_env = env;
 			executor(&sh);
 		}

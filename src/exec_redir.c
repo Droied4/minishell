@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/06 13:32:39 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:52:28 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,6 @@ static int	heredoc_case(t_redir *redir, int last_in)
 		free(doc);
 	}
 	close(p[1]);
-
-	/*
-	char	buffer[BUFFER_SIZE];
-	ssize_t	bytesRead;
-	while ((bytesRead = read(p[0], buffer, BUFFER_SIZE)) > 0)
-	{
-		// Imprimir el contenido leído en la consola
-		write(STDOUT_FILENO, buffer, bytesRead);
-	}*/
 	ft_putstr_fd("\n\0", p[1]);
 	free(doc);
 	return (last_in);
@@ -91,22 +82,6 @@ static int	append_case(t_redir *redir, int last_out)
 	return (last_out);
 }
 
-static void  save_result(int last_in, int last_out, t_process *pro)
-{
-	if (last_in > 0 || last_in == -1)
-    {
-	//	if (pro->p[0] > 0)
- 	//       close(pro->p[0]);
-		pro->w->in = last_in;
-    }
-    if (last_out > 1 || last_out == -1)
-    {
-	//	if (pro->p[1] > 1 )
-      //  	close(pro->p[1]);
-	    pro->w->out = last_out;
-    }
-}
-
 void	process_redir(t_process *pro)
 {
 	int		last_in;
@@ -128,5 +103,8 @@ void	process_redir(t_process *pro)
 			last_out = append_case(redir, last_out);
 		redir = redir->next;
 	}
-    return (save_result(last_in, last_out, pro));
+	if (last_in > 0 || last_in == -1)
+		pro->w->in = last_in;
+	if (last_out > 1 || last_out == -1)
+		pro->w->out = last_out;
 }

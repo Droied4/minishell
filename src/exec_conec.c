@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/03 14:12:36 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:42:11 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 
 static void	kill_child(t_shell *sh, t_process *pro)
 {
-
-     ft_dprintf(2, "in:  %d\n", pro->w->in);
-  ft_dprintf(2, "out: %d\n", pro->w->out);
+	//  ft_dprintf(2, "in:  %d\n", pro->w->in);
+	// ft_dprintf(2, "out: %d\n", pro->w->out);
 	if (pro->w->in != STD_IN)
 	{
 		if (dup2(pro->w->in, STD_IN) == -1)
@@ -89,19 +88,18 @@ static void	after_fork(t_process *pro)
 		pro->r = pro->r->next;
 	if (pro->r)
 		pro->r = pro->r->next;
-    pro->w = pro->w->next;
+	pro->w = pro->w->next;
 }
 
 int	process_connector(t_shell *sh, int process)
 {
-    t_process  pro;
-    
-    pro.w = sh->pro.w;
-    pro.r = sh->pro.r;
-    
-    pro.p[0] = 0;
+	t_process	pro;
+
+	pro.w = sh->pro.w;
+	pro.r = sh->pro.r;
+	pro.p[0] = 0;
 	process = -1;
-    while (++process <= sh->pipes)
+	while (++process <= sh->pipes)
 	{
 		before_fork(process, &pro, sh);
 		pro.pid = fork();
@@ -109,8 +107,8 @@ int	process_connector(t_shell *sh, int process)
 			exit(1);
 		if (pro.pid == 0)
 		{
-		   if (pro.p[0] != pro.w->in)
-               close(pro.p[0]);
+			if (pro.p[0] != pro.w->in)
+				close(pro.p[0]);
 			child_process(sh, &pro);
 		}
 		after_fork(&pro);
