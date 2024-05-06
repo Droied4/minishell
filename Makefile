@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/02 18:16:41 by droied           ###   ########.fr        #
+#    Updated: 2024/05/03 13:54:41 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,7 @@ $(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF)
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
 		@printf "$(CYAN)Compiling $@$(NC)\n";
 		@mkdir -p $(dir $@)
-		@$(CC) $(CFLAGS) -c $< -o $@  -lreadline -L $(READLINE_PATH)lib -I $(READLINE_PATH)include
+		@$(CC) $(CFLAGS) -c $< -o $@ 
 
 
 $(LIBFT) :
