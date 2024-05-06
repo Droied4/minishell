@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/09 02:05:38 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:33:15 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 /*
  *COLORS
  * */
-# define RED "\033[0;31m"
-# define CYAN "\033[0;36m"
-# define GREEN "\033[0;32m"
-# define YELLOW "\033[0;33m"
-# define WHITE "\033[0;97m"
-# define BLUE "\033[0;34m"
-# define NC "\033[0m"
+# define RED "\001\033[0;31m\002"
+# define CYAN "\001\033[0;36m\002"
+# define GREEN "\001\033[0;32m\002"
+# define YELLOW "\001\033[0;33m\002"
+# define WHITE "\001\033[0;97m\002"
+# define BLUE "\001\033[0;34m\002"
+# define NC "\001\033[0m\002"
 # define EXIT_STATUS "127"
 
 # define BUG {\
