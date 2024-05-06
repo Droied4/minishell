@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/04/27 10:50:39 by avolcy           ###   ########.fr        #
+#    Updated: 2024/05/02 19:17:19 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) 
+CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g #-fsanitize=address
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               SOURCES                                        #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  

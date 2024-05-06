@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:06:07 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/27 17:48:23 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/01 21:17:40 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	found_char(char *data, char c)
 	int	i;
 
 	i = 0;
+	if (!data)
+		return (0);
 	while (data[i])
 	{
 		if (data[i] == c && data[i + 1])
@@ -33,9 +35,14 @@ int	number_of_quotes(char *s, char quotes)
 
 	i = 0;
 	j = 0;
-	while (s[j])
+	if (!s)
+		return (0);
+	// printf("{%p}\n", s);
+	printf("heap {%s} and len is {%ld} \n", s, ft_strlen(s));  
+	while (s[j] != '\0')
 	{
-		if (s[i] == quotes)
+		write(1, &s[j],1);
+		if (s[j] == quotes)
 			i++;
 		j++;
 	}
@@ -68,13 +75,12 @@ int	find_next_pos(char *s)
 	int	i;
 
 	i = 0;
-	while (s[i] && s[i] != SQUOT && s[i] != DQUOT)
+	if (s[i] == '$')
+		i++;
+	while (s[i] != '\0')
 	{
-		if (s[i] == SQUOT || s[i] == DQUOT)
-		{
-			i++;
-			break ;
-		}
+		if ((s[i] == SQUOT || s[i] == DQUOT || s[i] == '$') && s[i])
+			break;
 		i++;
 	}
 	return (i);
@@ -104,5 +110,5 @@ char	*add_dollar_case(char *s, int i, int j)
 			new[j++] = s[i];
 		i++;
 	}
-	return (new[j++] = '\0', new);
+	return (new[j++] = '\0', ft_clean_up(&s), new);
 }

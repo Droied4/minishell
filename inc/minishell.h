@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/27 10:42:12 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/04/30 18:18:56 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_redir	*generate_redirs(t_token *tokens);
 		EPANSOR
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
-char	*is_special_dollar(char *data, int i);
+char	*is_special_dollar(char *data, int num_dollar, int i);
 char	*special_cases(char *special, int exit_status);
 char	*remove_uneven(char *str, char quote, int num_quotes);
 char	*remove_char(char *str, char quote, int j);

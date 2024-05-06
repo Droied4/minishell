@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 10:37:32 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/27 19:28:09 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/02 18:01:55 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,26 @@ char	*my_allocation(size_t len)
 {
 	char	*allocated;
 
+	printf("len mallocation {%ld}", len);
 	allocated = malloc(sizeof(char) * len + 1);
 	if (!allocated)
 		return (NULL);
 	allocated[0] = '\0';
+	printf("address mallocation {%p}\n", allocated);
 	return (allocated);
 }
 
-char	*is_special_dollar(char *data, int i)
+char	*is_special_dollar(char *data, int num_dollar, int i)
 {
-	int		num_dollar;
 	pid_t	pid;
 	char	*print_pid;
+	char	*str_pid;
 
 	pid = getpid();
 	print_pid = NULL;
-	num_dollar = number_of_quotes(data, '$');
+	str_pid = ft_itoa((int)pid);
 	while (i++ < num_dollar / 2)
-		print_pid = ft_strjoin2(print_pid, ft_itoa((int)pid));
+		print_pid = ft_strjoin2(print_pid, str_pid);
 	if (num_dollar % 2 == 0)
 	{
 		if (ft_strlen(data) > (size_t)num_dollar)
@@ -48,22 +50,24 @@ char	*is_special_dollar(char *data, int i)
 		if (!ft_strncmp("$", data, 2))
 			print_pid = ft_strjoin2(print_pid, data);
 	}
-	return (print_pid);
+	return (free(data), free(str_pid), print_pid);
 }
 
 char	*special_cases(char *special, int exit_status)
 {
 	int	i;
+	char	*str_exit_status;
 
 	i = 0;
 	if (!ft_strncmp("$?", special, 2))
 	{
+		str_exit_status = ft_itoa(exit_status);
 		if (ft_strlen(special) > 2)
-			return (ft_strjoin2(ft_itoa(exit_status), special + 2));
-		return (ft_itoa(exit_status));
+			str_exit_status = (ft_strjoin2(str_exit_status, special + 2));
+		return (free(special), str_exit_status);
 	}
 	else
-		return (is_special_dollar(special, 0));
+		return (is_special_dollar(special, number_of_quotes(special, '$'), 0));
 }
 
 /*''holas'''    len = 10   formula is ((len + (quote % 2)) - quotes
@@ -94,7 +98,8 @@ char	*remove_uneven(char *str, char quote, int num_quotes)
 	// free(str);
 	return (tmp);
 }
-
+// '"'$USER'"'
+// "'$USER"'"'
 char	*remove_char(char *str, char quote, int j)
 {
 	char	*tmp;
@@ -113,9 +118,9 @@ char	*remove_char(char *str, char quote, int j)
 		tmp[j] = '\0';
 	}
 	else if (num_quotes % 2 != 0)
-		tmp = remove_uneven(str, quote, num_quotes);
+		return (remove_uneven(str, quote, num_quotes));
     printf("inside of remove char add is {%p}\n", str);
-	if (str)
-		free(str);
+	// if (str)
+		// free(str);
 	return (tmp);
 }
