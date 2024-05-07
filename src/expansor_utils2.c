@@ -6,121 +6,116 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 10:37:32 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/02 18:01:55 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/07 19:18:10 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*my_allocation(size_t len)
+int count_len(char *str)
 {
-	char	*allocated;
-
-	printf("len mallocation {%ld}", len);
-	allocated = malloc(sizeof(char) * len + 1);
-	if (!allocated)
-		return (NULL);
-	allocated[0] = '\0';
-	printf("address mallocation {%p}\n", allocated);
-	return (allocated);
+    int len;
+    
+    len = 0;
+    while (*str)
+    {
+      len += 1;
+        if (*str != '$')
+        {
+          while (*str && *str != '$')
+            str++;
+        }
+        else if (*str == '$')
+        {
+            str++;
+            while (ft_isalnum(*str) || *str == '_')
+                str++;
+        }
+    }
+    return (len);
 }
 
-char	*is_special_dollar(char *data, int num_dollar, int i)
+int count_len_env_part(char *str)
 {
-	pid_t	pid;
-	char	*print_pid;
-	char	*str_pid;
+    int len;
 
-	pid = getpid();
-	print_pid = NULL;
-	str_pid = ft_itoa((int)pid);
-	while (i++ < num_dollar / 2)
-		print_pid = ft_strjoin2(print_pid, str_pid);
-	if (num_dollar % 2 == 0)
-	{
-		if (ft_strlen(data) > (size_t)num_dollar)
-		{
-			data = data + num_dollar;
-			print_pid = ft_strjoin2(print_pid, data);
-		}
-	}
-	else
-	{
-		data = data + (num_dollar - 1);
-		if (!ft_strncmp("$", data, 2))
-			print_pid = ft_strjoin2(print_pid, data);
-	}
-	return (free(data), free(str_pid), print_pid);
+    len = 0;
+    if (*str != '$')
+    {
+        while (*str && *str != '$')
+        {
+            len++;
+            str++;
+        }
+        return (len);
+    }
+    else if (*str == '$')
+    {
+        len++;
+        str++;
+        while (ft_isalnum(*str) || *str == '_')
+        {
+            len++;
+            str++;
+        }
+    }
+    return (len);
 }
 
-char	*special_cases(char *special, int exit_status)
+int count_words(char *str, int is_sq, int is_dq)
 {
-	int	i;
-	char	*str_exit_status;
-
-	i = 0;
-	if (!ft_strncmp("$?", special, 2))
-	{
-		str_exit_status = ft_itoa(exit_status);
-		if (ft_strlen(special) > 2)
-			str_exit_status = (ft_strjoin2(str_exit_status, special + 2));
-		return (free(special), str_exit_status);
-	}
-	else
-		return (is_special_dollar(special, number_of_quotes(special, '$'), 0));
+    int count;
+    
+    count = 0;
+    while (*str)
+    {
+        is_sq = 0;
+        is_dq = 0;
+        count += 1;
+        if (*str == SQUOT && !is_sq && !is_dq)
+        {
+            is_sq = 1;
+            str++;
+        }
+        else if (*str == DQUOT && !is_dq && !is_sq)
+        {
+            is_dq = 1;
+            str++;
+        }
+        while ((*str && is_sq && !is_dq && *str != SQUOT) ||
+            (*str && !is_sq && is_dq && *str != DQUOT) ||
+            (*str && !is_sq && !is_dq && *str != SQUOT && *str != DQUOT))
+            str++;
+        if ((is_sq || is_dq) && (*str == SQUOT || *str == DQUOT))
+            str++;
+    }
+    return (count);
 }
 
-/*''holas'''    len = 10   formula is ((len + (quote % 2)) - quotes
- 10 + 5 % 2 - 5 = 10 + 1 - 5 = 6*/
-char	*remove_uneven(char *str, char quote, int num_quotes)
+int get_len_string(char *str)
 {
-	int		j;
-	size_t	i;
-	char	*tmp;
+    int len;
+    int sq;
+    int dq;
 
-	i = 1;
-	j = 0;
-	tmp = my_allocation(ft_strlen(str));
-	while (*str != '\0')
-	{
-		if (*str != quote)
-		{
-			i++;
-			tmp[j++] = *str;
-		}
-		else if (*str == quote && i == ft_strlen(str) + \
-		(num_quotes % 2) - num_quotes)
-			tmp[j++] = *str;
-		str++;
-	}
-	tmp[j] = '\0';
-    printf("inside of remove uneven add is {%p}\n", str);
-	// free(str);
-	return (tmp);
-}
-// '"'$USER'"'
-// "'$USER"'"'
-char	*remove_char(char *str, char quote, int j)
-{
-	char	*tmp;
-	int		num_quotes;
-
-	tmp = my_allocation(ft_strlen(str));
-	num_quotes = number_of_quotes(str, quote);
-	if (num_quotes % 2 == 0 || quote == DQUOT)
-	{
-		while (*str != '\0')
-		{
-			if (!(*str == quote))
-				tmp[j++] = *str;
-			str++;
-		}
-		tmp[j] = '\0';
-	}
-	else if (num_quotes % 2 != 0)
-		return (remove_uneven(str, quote, num_quotes));
-    printf("inside of remove char add is {%p}\n", str);
-	// if (str)
-		// free(str);
-	return (tmp);
+    len = 0;
+    sq = 0;
+    dq = 0;
+    if (*str == SQUOT)
+    {
+        sq = 1;
+        len += 1;
+    }
+    else if (*str == DQUOT)
+    {
+        dq = 1;
+        len += 1;
+    }
+    while ((str[len] && sq && !dq && str[len] != SQUOT) ||
+        (str[len] && !sq && dq && str[len] != DQUOT) ||
+        (str[len] && !sq && !dq && str[len] != SQUOT && str[len] != DQUOT))
+        len++;
+    if ((sq || dq) && (str[len] == SQUOT || str[len] == DQUOT))
+        len += 1;
+    return (len);    
 }

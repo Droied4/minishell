@@ -6,41 +6,155 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/02 19:31:19 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/07 20:30:23 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*he token
-❗️ UNCLOSE ENTRY TO SUPERVISED , DEIVID*/
-char	*expansion_var(t_shell *sh, char *data, int i)
+t_env   *found_exp_var(char *str, t_env *lst)
 {
-	char	*new;
-	char	**data_sp;
-	t_env	*var_node;
-
-	data_sp = ft_split(data, '$');
-	if (!data_sp)
-		return (NULL);
-	new = NULL;
-	while (data_sp[++i])
-	{
-		var_node = found_var(data_sp[i], sh->env);
-		if (var_node)
-			new = ft_strjoin2(new, var_node->var_content);
-		else if (!var_node)
-			new = ft_strjoin2(new, data_sp[i]);
-	}
-	if (ft_strncmp(remove_char(data, '$', 0), new, ft_strlen(new)) == 0)
-		new = ft_strdup("");
-	if (data_sp)
-		free_matrix(data_sp);
-    
-    // ft_del_env(&var_node);
-    printf("inside of EEEEEEEXP add is {%p}\n", data);
-	return (free(data), new);
+    while (lst)
+    {
+        printf("content: %s\n", lst->var_content);
+        if (ft_strncmp(str, lst->var_content, ft_strlen(str)))
+            return (lst);
+        lst = lst->next;
+    }
+    return (NULL);
 }
+
+char *expansion_final(t_shell *sh, char *str)
+{
+    int i;
+    char **env_split;
+    t_env *var_node;
+    char    *tmp;
+
+    env_split = split_env_var(str);
+    if (!env_split)
+        return (NULL);
+    // if (!sh->env)
+        // sh->env = create_lst_env(sh->env);
+    i = 0;
+    printf("OKEY %p\n", env_split);
+    while (env_split[i])
+    {
+        var_node = NULL;
+        if (env_split[i][0] == '$')
+            var_node = found_var(&env_split[i][1], sh->env);
+        if (var_node)
+        {
+            tmp = ft_strdup(var_node->var_content);
+            printf("this is join --->%s\n", tmp);
+            env_split[i] = tmp;
+        }
+        i++;
+    }
+    tmp = join_split(env_split);
+    printf("this is join --->%s\n", tmp);
+    free_matrix(env_split);
+    printf("final exp: %s\n", tmp);
+    return (tmp);
+}
+
+char    *expand_string(t_shell *sh, char *str)
+{
+    char    *expanded;
+
+    if (str[0] == SQUOT)
+    {
+        expanded = ft_strtrim(str, "\'");
+        return (expanded);
+    }
+    // if (!found_char(str, '$') && !found_char(str, '$') && !found_char(str, '$'))
+        // return (ft_strdup(str));
+    if (str[0] == DQUOT)
+        str = ft_strtrim(str, "\"");
+    if (found_char(str, '$'))
+    {
+        expanded = expansion_final(sh, str);
+        if (!ft_strncmp(expanded, str, ft_strlen(str)))
+            expanded = ft_strdup("");
+    }
+    else
+        expanded = ft_strdup(str);
+    return (expanded);
+}
+char    **split_quotes(char *str)
+{
+    int i;
+    int position;
+    int words;
+    char **smart_split;
+
+    words = count_words(str, 0, 0);
+    smart_split = malloc(sizeof(char *) * (words + 1));
+    if (!smart_split)
+        return (NULL);
+    i = 0;
+    position = 0;
+    while (i < words)
+    {
+        smart_split[i] = ft_get_cpy(str, &position);
+        str = &str[position];
+        i++;
+    }
+    smart_split[i] = NULL;
+    return (smart_split);
+}
+char    *expand_data(t_shell *sh, char *str)
+{
+    int     i;
+    char    **smart_split;
+    char    *tmp;
+
+    smart_split = split_quotes(str);
+    if (!smart_split)
+        return (NULL);
+    i = 0;
+    while (smart_split[i])
+    {
+        tmp = expand_string(sh, smart_split[i]);
+        if (!tmp)
+            return (free_matrix(smart_split), NULL);
+        free(smart_split[i]);
+        smart_split[i] = tmp;
+        i++;
+    }
+    tmp = join_split(smart_split);
+    free_matrix(smart_split);
+    return (tmp);
+}
+
+void	expansor(t_shell *sh)
+{
+    t_token *tok;
+    char   *tmp;
+    tok = sh->tokens;
+    printf("dir env: %p\n", sh->env);
+    while (tok)
+    {
+        if (!ft_strncmp("$?", tok->data, 2) || !ft_strncmp("$$", tok->data, 2))
+            tok->data  = special_cases(tok->data, sh->exit_status);
+        else if (found_char(tok->data, '$'))
+        {
+            tmp = expand_data(sh, tok->data);
+            free(tok->data);// free
+            tok->data = tmp;
+        }
+        else if (tok->data[0] == SQUOT || tok->data[0] == DQUOTE)
+        {
+            tmp = trimmer_quotes(tok->data, tok->data[0]);
+            free(tok->data);// free
+            tok->data = tmp;
+        }
+        tok = tok->next;
+    }
+}
+
+// '"'$USER'"'
+// "'$USER"'"'
 
 /*CURIOUS WAY OF CALLING FUNCTION
 result = concat("'", concat(username, "'"));
@@ -53,120 +167,3 @@ bash-3.2$
 $'USER' $"USER"
 echo $TERM ""hola$USER$USET$USERm > $USERg
 ambiguous redirect*/
-
-static char	*compare_it_before(t_shell *sh, char *s)
-{
-	char	*new_s;
-
-	if (found_char(s, SQUOT) || found_char(s, DQUOT))
-	{
-		if (found_char(s, SQUOT) && s[0] != '\'')
-			s = remove_char(s, SQUOT, 0);
-		else if (found_char(s, DQUOT) && s[0] != '\"')
-			s = remove_char(s, DQUOT, 0);
-		else if (found_char(s, DQUOT) && s[0] == '\"')
-			return (remove_char(s, '\"', 0));
-		new_s = remove_char(s, '$', 0);
-		return (new_s);
-	}
-	new_s = expansion_var(sh, s, -1);
-	// s = remove_char(s, '$', 0);
-	// if (ft_strncmp(s, new_s, ft_strlen(new_s)) == 0)
-	// 	new_s = ft_strdup("");
-	return (new_s);
-}
-
-static char	*string_modifier(t_shell *sh, char *s, char **env)
-{
-	char	*new_s;
-
-	new_s = NULL;
-	if (!sh->env)
-		sh->env = create_lst_env(env);
-	if (s[0] == SQUOT)
-		new_s = remove_char(s, SQUOT, 0);
-	else if (ft_strlen(s) == 2 && s[0] == DQUOT && s[1] == DQUOT)
-		return (ft_strdup(""));
-	else if (s[0] == DQUOT && found_char(s, '$'))
-	{
-		new_s = remove_char(s, DQUOT, 0);
-		if (found_char(new_s, SQUOT))
-		{
-			new_s = add_dollar_case(new_s, 0, 0);
-			new_s = expansion_var(sh, new_s, -1);
-		}
-		else
-			new_s = expansion_var(sh, add_dollar_case(new_s, 0, 0), -1);
-	}
-	else if (found_char(s, '$') || found_char(s, DQUOT))
-		new_s = compare_it_before(sh, s);
-	else
-		new_s = ft_strdup(s);
-	printf("this is inside of modifier final result is {%s}\n", new_s);
-	return (new_s);
-}
-// char	*filter_data(t_shell *sh, char *s, char **env, int pos)
-// {
-
-// }
-char	*filter_data(t_shell *sh, char *s, char **env, int pos)
-{
-	char	*new;
-	char	*save;
-	char 	*tmp;
-
-	new = NULL;
-	tmp = s;
-	//save = my_allocation(ft_strlen(s));
-	// printf("\n\tthis is inside of filter data \n\t|---senter---(%p)\n\t|--save--(%p)\n", s, save);
-	while (*tmp != '\0')
-	{
-		// save[0] = '\0';
-		if (*tmp == SQUOT || *tmp == DQUOT)
-		{
-			pos = find_next_quote(tmp, *tmp);
-			// ft_strlcpy(save, tmp, pos + 1);
-            save = ft_substr(tmp, 0, pos);
-		}
-		else
-		{
-			pos = find_next_pos(tmp);
-			// ft_strlcpy(save, tmp, pos + 1);
-            save = ft_substr(tmp, 0, pos);
-		}
-		save = string_modifier(sh, save, env);
-		if (save)
-			new = ft_strjoin2(new, save);
-		tmp = tmp + pos;
-		pos = 0;
-	}
-	printf("\n\tthis is inside of filter data \n\t|---sleave-{%s}--(%p)\n\t|--save--(%p)\n", new, s, save);
-	free(save);
-	return (new);
-}
-
-void	expansor(t_shell *sh, char **env)
-{
-	t_token	*tok;
-	(void)env;
-	tok = sh->tokens;
-	print_tokens(sh->tokens);
-	while (tok)
-	{
-		printf("this is the tok before EXP--->[%s] and its address is [%p]\n", tok->data, tok->data);
-		if (!ft_strncmp("$?", tok->data, 2) || !ft_strncmp("$$", tok->data, 2))
-			tok->data = special_cases(tok->data, sh->exit_status);
-		else if (found_char(tok->data, SQUOT) || found_char(tok->data, DQUOT)
-			|| found_char(tok->data, '$'))
-		{
-			char *new = malloc(ft_strlen(tok->data));
-			ft_strlcpy(new, tok->data, ft_strlen(tok->data));
-			ft_clean_up(&tok->data);
-			tok->data = filter_data(sh, new, env, 0);
-			free(new);
-		}
-		printf("this is the tok after EXP--->[%s] and its address is [%p]\n", tok->data, tok->data);
-		tok = tok->next;
-	}
-	print_tokens(sh->tokens);
-}

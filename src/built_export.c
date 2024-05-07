@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/19 20:52:41 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/07 17:27:25 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ t_env	*found_var(char *var, t_env *lst)
 		else
 			len = ft_strlen(tmp->var_name);
 		if (ft_strncmp(line[0], tmp->var_name, len) == 0)
-		{
-			free_matrix(line);
-			return (tmp);
-		}
+			return (free_matrix(line), tmp);
 		tmp = tmp->next;
 	}
 	if (line)

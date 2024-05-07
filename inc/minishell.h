@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/07 10:56:14 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/07 16:21:55 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	redifine_token(t_token *tok);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
-int		parse_all(t_shell *sh, char **env);
+int		parse_all(t_shell *sh);
 int		parse_input(t_shell *sh);
 int		parse_redirections(t_shell *sh);
 void	parse_words(t_shell *sh);
@@ -99,29 +99,55 @@ t_redir	*generate_redirs(t_token *tokens);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
-		EPANSOR
+	EXPANSOR - 5
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
-char	*is_special_dollar(char *data, int num_dollar, int i);
-char	*special_cases(char *special, int exit_status);
-char	*remove_uneven(char *str, char quote, int num_quotes);
-char	*remove_char(char *str, char quote, int j);
 
-char	*expansion_var(t_shell *sh, char *data, int i);
-char 	*my_allocation(size_t len);
-void	expansor(t_shell *sh, char **env);
+char	**split_quotes(char *str);
+char	*expand_data(t_shell *sh, char *str);
+void	expansor(t_shell *sh);
+char	*expand_string(t_shell *sh, char *str);
+char	*expansion_final(t_shell *sh, char *str);
+
+/*
+┏━━━━━━━━・▼・━━━━━━━━┓
+  EXPANSOR_UTILS1 - 4
+┗━━━━━━━━・▼・━━━━━━━━┛
+*/
+
+char	**split_env_var(char *str);
+char    *find_env_part(char *str, int *pos);
+char	*special_cases(char *special, int exit_status);
+char	*is_special_dollar(char *data, int num_dollar, int i);
+
+/*
+┏━━━━━━━━・▼・━━━━━━━━┓
+  EXPANSOR_UTILS2 - 4
+┗━━━━━━━━・▼・━━━━━━━━┛
+*/
+
+int		count_len(char *str);
+int		get_len_string(char *str);
+int		count_len_env_part(char *str);
+int		count_words(char *str, int is_sq, int is_dq);
+
+/*
+┏━━━━━━━━・▼・━━━━━━━━┓
+  ExPANSOR_UTILS3 - 3
+┗━━━━━━━━・▼・━━━━━━━━┛
+*/
+char	*join_split(char **split);
 int		found_char(char *data, char c);
-int		find_next_quote(char *s, char c);
-char	*filter_data(t_shell *sh, char *s, char **env, int pos);
-char	*add_dollar_case(char *s, int i, int j);
-int		find_next_pos(char *s);
-int		number_of_quotes(char *s, char quotes);
+char	*ft_get_cpy(char *str, int *pos);
+char    *trimmer_quotes(char *str, int quotes);
+int		number_of_quotes(char *str, char quotes);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
-		PARSER BLOCK - 5
+	PARSER BLOCK - 5
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
+
 void	montage_redirections(t_token *tok, t_redir *redir);
 
 /*

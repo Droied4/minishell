@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/07 10:57:15 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/07 20:52:04 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ int	main(int ac, char **av, char **env)
 		//sh.line = readline("shell -> ");
 		add_history(sh.line);
 		sh.tokens = generate_tokens(sh.line);
-		if (parse_all(&sh, env) != -1 && ft_strlen(sh.line) > 0)
+		if (parse_all(&sh) != -1 && ft_strlen(sh.line) > 0)
 		{
 			//print_tokens(sh.tokens);
 		//	print_words(sh.pro.w);
 		//	print_redir(sh.pro.r);
 			sh.matriz_env = env;
-			executor(&sh);
+			//executor(&sh);
 		}
 		soft_exit(&sh);
 	}
