@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:03:05 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/08 21:53:13 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:48:09 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	lex_word_case(char *s)
 	int	i;
 
 	i = 0;
-	while (s[i] != ' ' && s[i] != '\0' && (is_charmeta(s[i]) < 0
-			|| s[i] == '$' || s[i] == '\'' || s[i] == '\"'))
+	while (s[i] != ' ' && s[i] != '\0' && (is_charmeta(s[i]) < 0 || s[i] == '$'
+			|| s[i] == '\'' || s[i] == '\"'))
 	{
 		if (s[i] == '\'' || s[i] == '\"')
 			i += lex_quotes_case(&s[i], s[i]);
@@ -98,15 +98,16 @@ int	len_matriz(char *line)
 	count = 0;
 	while (line[i])
 	{
-		if (is_charmeta(line[i]) > 0 && line[i] != '$' && line[i] != '\"' && line[i] != '\'')
+		if (is_charmeta(line[i]) > 0 && line[i] != '$' && line[i] != '\"'
+			&& line[i] != '\'')
 		{
 			res = meta_case(line, count, i, res);
 			i = res[0];
 			count = res[1];
 			free(res);
 		}
-		else if (line[i] != ' ' && (is_charmeta(line[i]) < 0 || line[i] == '$' || line[i] == '\'' || line[i] == '\"')
-			&& ++count)
+		else if (line[i] != ' ' && (is_charmeta(line[i]) < 0 || line[i] == '$'
+				|| line[i] == '\'' || line[i] == '\"') && ++count)
 			i += lex_word_case(&line[i]);
 		else
 			i++;

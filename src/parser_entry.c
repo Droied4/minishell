@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:46:50 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/03 15:50:36 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:53:59 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	unclosed_entry(t_shell *sh)
 	sh->tokens = generate_tokens(sh->line);
 }
 
-static int final_check(int squotes, int dquotes)
+static int	final_check(int squotes, int dquotes)
 {
 	if ((squotes % 2) != 0)
 		return (-1);
@@ -52,7 +52,7 @@ int	input_unclosed(t_shell *sh)
 		i = -1;
 		if (tmp_tok->type == SQUOTE && (dquotes % 2) == 0)
 		{
-			while(tmp_tok->data[++i])
+			while (tmp_tok->data[++i])
 			{
 				if (tmp_tok->data[i] == '\'')
 					squotes++;
@@ -61,7 +61,7 @@ int	input_unclosed(t_shell *sh)
 		}
 		if (tmp_tok->type == DQUOTE && (squotes % 2) == 0)
 		{
-			while(tmp_tok->data[++i])
+			while (tmp_tok->data[++i])
 			{
 				if (tmp_tok->data[i] == '\"')
 					dquotes++;

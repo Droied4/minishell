@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:38:06 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/25 17:52:00 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/03 02:09:08 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,16 @@ void	ft_free_array(char **res)
 void	soft_exit(t_shell *sh)
 {
 	ft_deltoken(&sh->tokens);
-	ft_del_redirs(&sh->redir);
-	ft_del_words(&sh->words);
+	ft_del_redirs(&sh->pro.r);
+	ft_del_words(&sh->pro.w);
 	free(sh->line);
 }
 
 void	hard_exit(t_shell *sh)
 {
 	ft_deltoken(&sh->tokens);
-	ft_del_redirs(&sh->redir);
-	ft_del_words(&sh->words);
+	ft_del_redirs(&sh->pro.r);
+	ft_del_words(&sh->pro.w);
 	clear_history();
 	free(sh->line);
 	exit(1);

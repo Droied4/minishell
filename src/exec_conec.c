@@ -6,130 +6,116 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/25 19:01:19 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:42:11 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "struct.h"
 
-static void	kill_child(t_process *pro, t_shell *sh)
+static void	kill_child(t_shell *sh, t_process *pro)
 {
-	if (pro->in != STD_IN)
+	//  ft_dprintf(2, "in:  %d\n", pro->w->in);
+	// ft_dprintf(2, "out: %d\n", pro->w->out);
+	if (pro->w->in != STD_IN)
 	{
-		if (dup2(pro->in, STD_IN) == -1)
+		if (dup2(pro->w->in, STD_IN) == -1)
 			exit(1);
-		close(pro->in);
+		close(pro->w->in);
 	}
 	else
 		close(pro->p[0]);
-	if (pro->out != STD_OUT)
+	if (pro->w->out != STD_OUT)
 	{
-		if (dup2(pro->out, STD_OUT) == -1)
+		if (dup2(pro->w->out, STD_OUT) == -1)
 			exit(1);
-		close(pro->out);
+		close(pro->w->out);
 	}
 	else
 		close(pro->p[1]);
-	if (pro->words->cmd)
+	if (pro->w->cmd)
 	{
-		if (is_builtin(pro->words->cmd[0]) > 0)
+		if (is_builtin(pro->w->cmd[0]) > 0)
 		{
 			execute_builtins(sh, sh->matriz_env);
 			exit(0);
 		}
-		execve(pro->words->path, pro->words->cmd, sh->matriz_env);
+		execve(pro->w->path, pro->w->cmd, sh->matriz_env);
 	}
-	exit(after_exec(pro->words));
+	exit(after_exec(pro->w));
 }
 
-static void	child_process(t_process *pro, t_shell *sh)
+static void	child_process(t_shell *sh, t_process *pro)
 {
-	if (pro->words && pro->words->cmd)
+	if (pro->w && pro->w->cmd)
 	{
-		if (char_is_inside(pro->words->cmd[0], '/') < 0)
-			find_path(pro->words);
+		if (char_is_inside(pro->w->cmd[0], '/') < 0)
+			find_path(pro->w);
 		else
-			pro->words->path = ft_strdup(pro->words->cmd[0]);
+			pro->w->path = ft_strdup(pro->w->cmd[0]);
 	}
-	kill_child(pro, sh);
+	kill_child(sh, pro);
 }
 
 static void	before_fork(int process, t_process *pro, t_shell *sh)
 {
-	t_shell sh1;
-	
-	sh1 = *sh;
-	sh1.redir = pro->redir;
 	if (process <= sh->pipes)
 	{
-		pro->in = pro->p[0];
+		pro->w->in = pro->p[0];
 		if (pipe(pro->p) < 0)
 			exit(EXIT_FAILURE);
-		pro->out = pro->p[1];
+		pro->w->out = pro->p[1];
 	}
-	if (process == 0)
-		pro->in = 0;
-	else if (process == sh->pipes)
-		pro->out = 1;
-	process_redir(&sh1);
-	if (sh->words->in > 0)
+	if (process == sh->pipes)
+		pro->w->out = 1;
+	process_redir(pro);
+	if (pro->w->next)
 	{
-		close(pro->p[0]);
-		pro->in = sh->words->in;
-	}
-	if (sh->words->out > 1)
-	{
-		close(pro->p[1]);
-		pro->out = sh->words->out;
-	}
-	if (sh->words->next)
-	{
-		sh->words->next->in = sh->words->in;
-		sh->words->next->out = sh->words->out;
+		pro->w->next->in = pro->w->in;
+		pro->w->next->out = pro->w->out;
 	}
 }
 
 static void	after_fork(t_process *pro)
 {
-	if (pro->in != STD_IN)
-		close(pro->in);
-	if (pro->out != STD_OUT)
-		close(pro->out);
+	if (pro->w->in != STD_IN)
+		close(pro->w->in);
+	if (pro->w->out != STD_OUT)
+		close(pro->w->out);
 	else
 		close(pro->p[1]);
-	while (pro->redir && pro->redir->type != PIPE)
-		pro->redir = pro->redir->next;
-	if (pro->redir)
-		pro->redir = pro->redir->next;
-	pro->words = pro->words->next;
+	while (pro->r && pro->r->type != PIPE)
+		pro->r = pro->r->next;
+	if (pro->r)
+		pro->r = pro->r->next;
+	pro->w = pro->w->next;
 }
 
 int	process_connector(t_shell *sh, int process)
 {
 	t_process	pro;
-	pid_t		pid;
 
-	pro.in = 0;
-	pro.words = sh->words;
-	pro.redir = sh->redir;
+	pro.w = sh->pro.w;
+	pro.r = sh->pro.r;
+	pro.p[0] = 0;
 	process = -1;
 	while (++process <= sh->pipes)
 	{
 		before_fork(process, &pro, sh);
-		pid = fork();
-		if (pid == -1)
+		pro.pid = fork();
+		if (pro.pid == -1)
 			exit(1);
-		if (pid == 0)
+		if (pro.pid == 0)
 		{
-			if (process > 0)
+			if (pro.p[0] != pro.w->in)
 				close(pro.p[0]);
-			child_process(&pro, sh);
+			child_process(sh, &pro);
 		}
 		after_fork(&pro);
 	}
 	close(pro.p[0]);
-	while (pid > 0)
-		pid = waitpid(-1, &pro.wstatus, 0);
+	while (pro.pid > 0)
+		pro.pid = waitpid(-1, &pro.wstatus, 0);
 	if (WIFEXITED(pro.wstatus))
 		return (WEXITSTATUS(pro.wstatus));
 	return (0);

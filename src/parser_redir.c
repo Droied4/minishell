@@ -6,23 +6,23 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 01:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 05:37:11 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:54:19 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *define_file(t_token *tok)
+static char	*define_file(t_token *tok)
 {
 	if (tok->type > PIPE && tok->type < SQUOTE)
 	{
 		if (tok->next)
-			return(ft_strdup(tok->next->data));	
+			return (ft_strdup(tok->next->data));
 	}
 	return (NULL);
 }
 
-static int define_type(t_token *tok)
+static int	define_type(t_token *tok)
 {
 	if (tok->type == PIPE)
 		return (PIPE);
@@ -38,9 +38,9 @@ static int define_type(t_token *tok)
 		return (-1);
 }
 
-void montage_redirections(t_token *tok, t_redir *redir)
+void	montage_redirections(t_token *tok, t_redir *redir)
 {
-	while(tok && redir)
+	while (tok && redir)
 	{
 		redir->type = define_type(tok);
 		redir->file = define_file(tok);

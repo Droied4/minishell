@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/02 19:17:19 by avolcy           ###   ########.fr        #
+#    Updated: 2024/05/07 10:53:04 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,12 +78,12 @@ make_libs:
 
 $(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF) 
 	@printf "$(CYAN)$@ Compiled$(NC)\n";
-	@$(CC) $(CFLAGS) $^ -o $(NAME) -lreadline -L $(READLINE_PATH)lib -I $(READLINE_PATH)include
+	@$(CC) $(CFLAGS) $^ -o $(NAME)  -lreadline -L $(READLINE_PATH)lib -I $(READLINE_PATH)include
 
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
 		@printf "$(CYAN)Compiling $@$(NC)\n";
 		@mkdir -p $(dir $@)
-		@$(CC) $(CFLAGS) -c $< -o $@ -I $(READLINE_PATH)include
+		@$(CC) $(CFLAGS) -c $< -o $@ 
 
 
 $(LIBFT) :

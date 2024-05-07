@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/27 10:10:39 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/07 11:02:18 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	parse_input(t_shell *sh)
 int	parse_redirections(t_shell *sh)
 {
 	t_token	*tmp_tok;
-	t_redir *tmp_redir;
+	t_redir	*tmp_redir;
 
 	tmp_tok = sh->tokens;
-	tmp_redir = sh->redir;
+	tmp_redir = sh->pro.r;
 	if (!tmp_tok || !tmp_redir)
 		return (1);
 	montage_redirections(tmp_tok, tmp_redir);
@@ -58,7 +58,7 @@ void	parse_words(t_shell *sh)
 	t_words	*tmp_words;
 
 	tmp_tok = sh->tokens;
-	tmp_words = sh->words;
+	tmp_words = sh->pro.w;
 	while (tmp_tok != NULL && tmp_words != NULL)
 	{
 		tmp_tok = fill_block(&tmp_words, tmp_tok);
@@ -76,9 +76,9 @@ int	parse_all(t_shell *sh, char **env)
 		return (-1);
 	expansor(sh, env); 
 	sh->pipes = stock_of(sh, PIPE);
-	sh->words = generate_words(sh->tokens);
+	sh->pro.w = generate_words(sh->tokens);
 	parse_words(sh);
-	sh->redir = generate_redirs(sh->tokens);
+	sh->pro.r = generate_redirs(sh->tokens);
 	if (parse_redirections(sh) == -1)
 		return (-1);
 	return (0);
