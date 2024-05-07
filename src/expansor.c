@@ -6,23 +6,11 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/07 20:30:23 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/07 22:24:53 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_env   *found_exp_var(char *str, t_env *lst)
-{
-    while (lst)
-    {
-        printf("content: %s\n", lst->var_content);
-        if (ft_strncmp(str, lst->var_content, ft_strlen(str)))
-            return (lst);
-        lst = lst->next;
-    }
-    return (NULL);
-}
 
 char *expansion_final(t_shell *sh, char *str)
 {
@@ -34,10 +22,7 @@ char *expansion_final(t_shell *sh, char *str)
     env_split = split_env_var(str);
     if (!env_split)
         return (NULL);
-    // if (!sh->env)
-        // sh->env = create_lst_env(sh->env);
     i = 0;
-    printf("OKEY %p\n", env_split);
     while (env_split[i])
     {
         var_node = NULL;
@@ -46,31 +31,29 @@ char *expansion_final(t_shell *sh, char *str)
         if (var_node)
         {
             tmp = ft_strdup(var_node->var_content);
-            printf("this is join --->%s\n", tmp);
+            free(env_split[i]);
             env_split[i] = tmp;
         }
         i++;
     }
     tmp = join_split(env_split);
-    printf("this is join --->%s\n", tmp);
     free_matrix(env_split);
-    printf("final exp: %s\n", tmp);
     return (tmp);
 }
 
 char    *expand_string(t_shell *sh, char *str)
 {
     char    *expanded;
+    int     trimmed;
 
+    trimmed = 0;
     if (str[0] == SQUOT)
-    {
-        expanded = ft_strtrim(str, "\'");
-        return (expanded);
-    }
-    // if (!found_char(str, '$') && !found_char(str, '$') && !found_char(str, '$'))
-        // return (ft_strdup(str));
+        return (ft_strtrim(str, "\'"));
     if (str[0] == DQUOT)
+    {
         str = ft_strtrim(str, "\"");
+        trimmed = 1;
+    }
     if (found_char(str, '$'))
     {
         expanded = expansion_final(sh, str);
@@ -79,6 +62,8 @@ char    *expand_string(t_shell *sh, char *str)
     }
     else
         expanded = ft_strdup(str);
+    if (trimmed)
+        free(str);
     return (expanded);
 }
 char    **split_quotes(char *str)
@@ -132,7 +117,6 @@ void	expansor(t_shell *sh)
     t_token *tok;
     char   *tmp;
     tok = sh->tokens;
-    printf("dir env: %p\n", sh->env);
     while (tok)
     {
         if (!ft_strncmp("$?", tok->data, 2) || !ft_strncmp("$$", tok->data, 2))
@@ -151,6 +135,7 @@ void	expansor(t_shell *sh)
         }
         tok = tok->next;
     }
+    print_tokens(tok);
 }
 
 // '"'$USER'"'

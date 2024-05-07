@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/07 20:52:04 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/07 22:27:14 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(int ac, char **av, char **env)
 	sh.cmds = NULL;
 	sh.pro.w = NULL;
 	sh.pro.r = NULL;
+	sh.env = create_lst_env(env);
 	while (1)
 	{
 		prompt_str = prompt(sh.exit_status);
@@ -61,7 +62,7 @@ int	main(int ac, char **av, char **env)
 		//	print_words(sh.pro.w);
 		//	print_redir(sh.pro.r);
 			sh.matriz_env = env;
-			//executor(&sh);
+			executor(&sh);
 		}
 		soft_exit(&sh);
 	}
