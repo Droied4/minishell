@@ -6,18 +6,9 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/03 18:16:11 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:41:21 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// Your shell must implement the following builtins:
-// ◦ echo with option -n
-// ◦ cd with only a relative or absolute path
-// ◦ pwd with no options
-// ◦ export with no options
-// ◦ unset with no options
-// ◦ env with no options or arguments
-// ◦ exit with no options
 
 #include "minishell.h"
 

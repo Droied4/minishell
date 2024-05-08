@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:56 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/26 23:30:53 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:45:18 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static  int num_tok(t_token *tok)
     }
     return (i);
 }
-//to DELETE ❌❌
+
 static char **toks_to_dchar(t_token *tok, int x)
 {
     char **res;
@@ -101,7 +101,6 @@ void   execute_echo(t_shell *sh)
             ft_dprintf(STDOUT_FILENO,"%s ",matrix[i]);
         else
             ft_dprintf(STDOUT_FILENO,"%s",matrix[i]);
-        //bug case echo -n h-kka aaf -nhola
         i++;
     }
     if (!flags)

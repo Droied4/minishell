@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/07 10:56:25 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:27:45 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define STRUCT_H
 
 #include <time.h>
+#include "minishell.h"
+
 typedef struct s_token
 {
 	int							index;
@@ -53,23 +55,23 @@ typedef struct s_process
 
 typedef struct s_env
 {
-	char *line; // for test purpose
+	char						*line;
+	struct s_env				*next;
+    struct s_env				*prev;
 	char						*var_name;
 	char						*var_content;
-	struct s_env				*next;
-    struct s_env *prev;
 }								t_env;
 
 typedef struct s_shell
 {
-	char						*line;
-	int							exit_status;
-	struct s_token				*tokens;
 	struct s_process			pro;
-	struct s_env				*env;
-	char					**matriz_env;
-	struct s_cmds				*cmds;
 	int							pipes;
+	char						*line;
+	struct s_cmds				*cmds;
+	struct s_token				*tokens;
+	struct s_env				*env;
+	int							exit_status;
+	char						**matriz_env;
 }								t_shell;
 
 typedef enum e_type

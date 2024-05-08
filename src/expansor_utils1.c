@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:12:42 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/07 20:52:07 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:11:46 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*special_cases(char *special, int exit_status)
 		return (free(special), str_exit_status);
 	}
 	else
-		return (is_special_dollar(special, number_of_quotes(special, '$'), 0));
+		return (is_special_dollar(special, number_of_char(special, '$'), 0));
 }
 
 

@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+ /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   expansor_utils3.c                                  :+:      :+:    :+:   */
@@ -11,6 +11,28 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char    *trimmer_quotes(char *str, int quotes)
+{
+    if (quotes == SQUOT)
+        return(ft_strtrim(str, "\'"));
+    return(ft_strtrim(str, "\""));
+
+}
+
+int number_of_char(char *str, char charact)
+ {
+     int len;
+
+     len = 0;
+     while (str && *str)
+     {
+         if (*str == charact)
+             len++;
+         str++;
+     }
+     return (len);
+ }
 
 int	found_char(char *data, char c)
 {
@@ -30,9 +52,9 @@ int	found_char(char *data, char c)
 
 char    *ft_get_cpy(char *str, int *pos)
 {
-    char    *cpy;
-    int     len;
     int     i;
+    int     len;
+    char    *cpy;
 
     len = get_len_string(str);
     *pos = len;
@@ -51,9 +73,9 @@ char    *ft_get_cpy(char *str, int *pos)
 
 char    *join_split(char **split)
 {
-    char    *join;
-    char    *tmp;
     int     i;
+    char    *tmp;
+    char    *join;
 
     i = 0;
     join = NULL;
@@ -67,45 +89,3 @@ char    *join_split(char **split)
     }
     return (join);
 }
-char    *trimmer_quotes(char *str, int quotes)
-{
-    if (quotes == SQUOT)
-        return(ft_strtrim(str, "\'"));
-    return(ft_strtrim(str, "\""));
-
-}
-
-int number_of_quotes(char *str, char quotes)
- {
-     int len;
-
-     len = 0;
-     while (str && *str)
-     {
-         if (*str == quotes)
-             len++;
-         str++;
-     }
-     return (len);
- }
-// char    *trimmer_quotes(char *str, int quotes)
-// {
-//     int i;
-//     int len;
-//     char *new_str;
-
-//     i = 0;
-//     len = ft_strlen(str) - number_of_quotes(str, quotes);
-//     new_str = malloc(sizeof(char) * (len + 1));
-//     if (!new_str)
-//         return (NULL);
-//     while (str[i])
-//     {
-//         if (str[i] == quotes)
-//             i++;
-//         new_str[i] = str[i];
-//         i++;
-//     }
-//     new_str[i] = '\0';
-//     return (new_str);    
-// }

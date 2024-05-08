@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 10:37:32 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/07 19:18:10 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:07:02 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,8 @@ int count_len_env_part(char *str)
     return (len);
 }
 
-int count_words(char *str, int is_sq, int is_dq)
+int count_words(char *str, int count, int is_sq, int is_dq)
 {
-    int count;
-    
-    count = 0;
     while (*str)
     {
         is_sq = 0;

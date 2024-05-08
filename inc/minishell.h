@@ -6,12 +6,13 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/07 16:21:55 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:45:24 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 # include "../library/dprintf/ft_dprintf.h"
 # include "../library/libft/libft.h"
 # include "macros.h"
@@ -103,15 +104,15 @@ t_redir	*generate_redirs(t_token *tokens);
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
+void	expansor(t_shell *sh);
 char	**split_quotes(char *str);
 char	*expand_data(t_shell *sh, char *str);
-void	expansor(t_shell *sh);
 char	*expand_string(t_shell *sh, char *str);
 char	*expansion_final(t_shell *sh, char *str);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
-  EXPANSOR_UTILS1 - 4
+ EXPANSOR_UTILS 1 - 4
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
@@ -122,25 +123,25 @@ char	*is_special_dollar(char *data, int num_dollar, int i);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
-  EXPANSOR_UTILS2 - 4
+ EXPANSOR_UTILS 2 - 4
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
 int		count_len(char *str);
 int		get_len_string(char *str);
 int		count_len_env_part(char *str);
-int		count_words(char *str, int is_sq, int is_dq);
+int		count_words(char *str, int count, int is_sq, int is_dq);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
-  ExPANSOR_UTILS3 - 3
+ ExPANSOR_UTILS 3 - 5
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 char	*join_split(char **split);
 int		found_char(char *data, char c);
 char	*ft_get_cpy(char *str, int *pos);
 char    *trimmer_quotes(char *str, int quotes);
-int		number_of_quotes(char *str, char quotes);
+int		number_of_char(char *str, char charact);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
@@ -225,7 +226,7 @@ int process_connector(t_shell *sh, int process);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
-			AUX - 7
+		AUX ARCH- 7
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 int		ft_lstenv_size(t_env *lst);
@@ -237,9 +238,9 @@ void	print_lst_env(t_env *lst, int i);
 		AUX DEI - 5
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
-void	print_tokens(t_token *lst);
-void	print_words(t_words *lst);
-void	print_redir(t_redir *lst);
+void	print_tokens(t_token *lst);//test
+void	print_words(t_words *lst);//test
+void	print_redir(t_redir *lst);//test
 char	*ft_imp_strjoin(char const *s1, char const *s2);
 char	*char2str(char c);
 int		stock_of(t_shell *sh, int type);
@@ -262,6 +263,7 @@ int		is_char_redir(char c);
 		ENV
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+
 int		ft_del_env(t_env **lst);
 t_env	*create_envnode(char *envp);
 t_env	*create_lst_env(char **envp);

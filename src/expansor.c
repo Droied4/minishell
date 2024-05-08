@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/07 22:24:53 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:28:18 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char    **split_quotes(char *str)
     int words;
     char **smart_split;
 
-    words = count_words(str, 0, 0);
+    words = count_words(str, 0, 0, 0);
     smart_split = malloc(sizeof(char *) * (words + 1));
     if (!smart_split)
         return (NULL);
@@ -116,6 +116,7 @@ void	expansor(t_shell *sh)
 {
     t_token *tok;
     char   *tmp;
+    
     tok = sh->tokens;
     while (tok)
     {
@@ -124,13 +125,13 @@ void	expansor(t_shell *sh)
         else if (found_char(tok->data, '$'))
         {
             tmp = expand_data(sh, tok->data);
-            free(tok->data);// free
+            free(tok->data);
             tok->data = tmp;
         }
         else if (tok->data[0] == SQUOT || tok->data[0] == DQUOTE)
         {
             tmp = trimmer_quotes(tok->data, tok->data[0]);
-            free(tok->data);// free
+            free(tok->data);
             tok->data = tmp;
         }
         tok = tok->next;

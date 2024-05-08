@@ -6,36 +6,11 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:17:12 by deordone          #+#    #+#             */
-/*   Updated: 2024/04/15 15:14:37 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:40:14 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**convert_to_dchar(t_env *lst_env, char **env)
-{
-	int		i;
-	char	**new;
-	t_env	*tmp;
-
-	if (!lst_env)
-		return (env);//create_it or return the normal one ????
-	new = (char **)malloc(sizeof(char *) * ((ft_lstenv_size(lst_env))) + 1);
-	if (!new)
-		return (NULL);
-	tmp = lst_env;
-	while (tmp->next)
-	{
-		i = 0;
-		new[i] = ft_strdup(tmp->line);
-		i++;
-		tmp = tmp->next;
-	}
-	new[i] = NULL;
-	//if (lst_env)
-	//	ft_del_env(&lst_env);
-	return (new);
-}
 
 void	print_lst_env(t_env *lst, int i)
 {
