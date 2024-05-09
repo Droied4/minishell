@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/09 21:26:33 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/09 22:24:08 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	update_var(char *s, t_env *var_node)
 	var_node->var_content = split[1];
 	free(split);
 }
-
+// A - Z ORDER
 t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 {
 	t_env	*last;
@@ -74,29 +74,12 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 	}
 	return (*lst_env);
 }
-//from A to Z
-// static void    sort_tokens(t_token *tok)
-// {
-//     t_token *tmp;
-//     int     count;
-
-//     count = 0;
-//     tmp = tok;
-//     while (tmp)
-//     {
-//         printf("this is the token[%d]--->[%d]", count, tmp->index);
-//         count++;
-//         tmp = tmp->next;
-//     }
-
-// }
 
 void	execute_export(t_shell *sh, char **env)
 {
 	int	flag;
 
 	flag = 0;
-	// ❗️fix token function
 	// = is found, next char is " || next char is null  but tok->next[0] is "
 	if (sh->tokens->next == NULL && sh->env == NULL)
 		sh->env = create_lst_env(env);

@@ -6,18 +6,13 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:37:44 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/09 21:36:44 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/09 22:24:39 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//variable name has to be one of those alphanum || digit || _
-// check if var_name is ?NULL
-// ❗️ function that add text to the content of a var 
 // ❗️ export test=hola -> export test+=same export ="holasame"
-// a function that fix the tokens correctly for the export to export all passed variable
-
 static int error_name_variable(char *str)
 {
     ft_dprintf(2, "PongShell : export: `%s': not a valid identifier\n", str);
@@ -29,7 +24,8 @@ int is_correct_name(char *name)
     int i;
 
     i = 0;
-    if (ft_isdigit(name[i]))
+	printf("this is a char %c\n", name[i]);
+    if (name[i] == '=' || ft_isdigit(name[i]))
         return (error_name_variable(name));
     while (name[i] && name[i] != '=')
     {
@@ -48,7 +44,7 @@ char	**convert_to_dchar(t_env *lst_env, char **env)
 	t_env	*tmp;
 
 	if (!lst_env)
-		return (env);//create_it or return the normal one ????
+		lst_env = create_lst_env(env);//create_it or return the normal one ????
 	new = (char **)malloc(sizeof(char *) * ((ft_lstenv_size(lst_env))) + 1);
 	if (!new)
 		return (NULL);
