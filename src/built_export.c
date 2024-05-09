@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/07 17:27:25 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/09 21:26:33 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,14 @@ static void	update_var(char *s, t_env *var_node)
 	free(split);
 }
 
-t_env	*exporting_var(t_shell sh, t_env **lst_env)
+t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 {
 	t_env	*last;
-	t_env	*new;
 
-	new = NULL;
 	while (sh.tokens)
 	{
 		sh.tokens = sh.tokens->next;
-		//check if token->data is = + - or other char🛑
-		if (sh.tokens)
+		if (sh.tokens && !is_correct_name(sh.tokens->data))
 		{
 			new = found_var(sh.tokens->data, *lst_env);
 			if (!new)
@@ -112,11 +109,11 @@ void	execute_export(t_shell *sh, char **env)
 	else if (sh->tokens->next != NULL && sh->env == NULL)
 	{
 		sh->env = create_lst_env(env);
-		sh->env = exporting_var(*sh, &sh->env);
+		sh->env = exporting_var(*sh, &sh->env, NULL);
 	}
 	else if (sh->tokens->next != NULL && sh->env != NULL)
 	{
-		sh->env = exporting_var(*sh, &sh->env);
+		sh->env = exporting_var(*sh, &sh->env, NULL);
 	}
 	if (flag == 0)
 		print_lst_env(sh->env, 2);

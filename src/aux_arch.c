@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:37:44 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/08 13:53:37 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/09 21:36:44 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,27 @@
 // ❗️ export test=hola -> export test+=same export ="holasame"
 // a function that fix the tokens correctly for the export to export all passed variable
 
-int error_name_variable(char *variable_name)
+static int error_name_variable(char *str)
 {
-    ft_dprintf(2, "PongShell : export: `%s': not a valid identifier", variable_name);
+    ft_dprintf(2, "PongShell : export: `%s': not a valid identifier\n", str);
     return (1);
 }
 
-int is_correct(char *name)
+int is_correct_name(char *name)
 {
     int i;
 
     i = 0;
     if (ft_isdigit(name[i]))
         return (error_name_variable(name));
-    while (name[i])
+    while (name[i] && name[i] != '=')
     {
         if (ft_isalnum(name[i]) || name[i]== '_')
             i++;
         else
-            return (0);
+            return (error_name_variable(name));
     }
-    return (1);    
+    return (0);    
 }
 
 char	**convert_to_dchar(t_env *lst_env, char **env)

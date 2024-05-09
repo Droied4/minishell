@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/08 13:45:24 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/09 21:22:27 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,7 @@ int process_connector(t_shell *sh, int process);
 		AUX ARCH- 7
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+int		is_correct_name(char *name);
 int		ft_lstenv_size(t_env *lst);
 int		ft_del_env(t_env **lst);
 void	print_lst_env(t_env *lst, int i);
@@ -267,8 +268,8 @@ int		is_char_redir(char c);
 int		ft_del_env(t_env **lst);
 t_env	*create_envnode(char *envp);
 t_env	*create_lst_env(char **envp);
-t_env	*exporting_var(t_shell sh, t_env **lst_env);
 char	**convert_to_dchar(t_env *lst_env, char **env);
+t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

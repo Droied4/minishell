@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:07 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/04 13:49:55 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/09 20:50:28 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ t_env *create_envnode(char *envp)
     new = (t_env *)malloc(sizeof(t_env));
     if (!new)
         return NULL;
-    new->line = ft_strdup(envp);// Allocate memory and copy the string cause the 
-    new->next = NULL;//new->line = envp only copy the pointer
+    new->line = ft_strdup(envp); 
+    new->next = NULL;
     splitting = ft_split(new->line, '=');
     if (splitting)
     {
