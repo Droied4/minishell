@@ -6,19 +6,12 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:56 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/08 13:45:18 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/10 19:48:43 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//echo without nothing or -nnnn -n prints a \n
-//echo with -n or -nnnnnnnnnnnnn or -nnnnnnnnnn n prints the prompt back
-//echo with -nnnnnnnnnn n n prints : "n nbash", -nnnn nn n n : nn n nbash
-//echo with  -nnnnn- || -nnn-n prints : -nnnnn- \n, -nnn-n \n
-//echo with -nnnn -n
-
-//to DELETE ❌❌
 static  int num_tok(t_token *tok)
 {
     int i;
@@ -39,7 +32,7 @@ static char **toks_to_dchar(t_token *tok, int x)
     
     num = num_tok(tok);
     res = NULL;
-    res = (char **)malloc(sizeof(char **) * num + 1);
+    res = (char **)malloc(sizeof(char *) * num + 1);
     if (!res)
     {
         while (res[x])
@@ -84,8 +77,8 @@ static int is_flag(char *str)
 void   execute_echo(t_shell *sh)
 {
     int i;
-    char **matrix;
     int flags;
+    char **matrix;
  
     i = 0;
     flags = 0;

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/08 13:41:21 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:48:44 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	execute_exit(t_shell *sh)
 	if (sh->line)
 		free(sh->line);
 	clear_history();
-	printf("exit\n");
+	ft_dprintf(1, "exit\n");
 	exit(0);
 }
 
 //segv if env -i ./minishell && env passed
-void	execute_builtins(t_shell *shell, char **env)
+int	execute_builtins(t_shell *shell, char **env)
 {
 	if (shell->tokens && shell->tokens->data)
 	{
@@ -45,9 +45,10 @@ void	execute_builtins(t_shell *shell, char **env)
 		else if (!ft_strncmp(shell->tokens->data, "unset", 7))
 		{
 			if (shell->tokens->next == NULL)
-				return ;
+				return (1);
 			execute_unset(&shell, env);
-			print_lst_env(shell->env, 1);//test puurposes;
+			// print_lst_env(shell->env, 1);//test puurposes;
 		}
 	}
+	return (0);
 }

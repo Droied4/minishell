@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/09 22:24:32 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:26:11 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,7 @@ int		is_char_redir(char c);
 int		ft_del_env(t_env **lst);
 t_env	*create_envnode(char *envp);
 t_env	*create_lst_env(char **envp);
-char	**convert_to_dchar(t_env *lst_env, char **env);
+char	**convert_env_dchar(t_env *lst_env, char **env);
 t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new);
 
 /*
@@ -284,7 +284,7 @@ void	execute_env(t_shell *sh, char **env);
 int		execute_cd(t_shell *sh, char **env);
 void	execute_exit(t_shell *sh);
 void	execute_export(t_shell *sh, char **env);
-void	execute_builtins(t_shell *looking, char **env);
+int		execute_builtins(t_shell *looking, char **env);
 t_env	*found_var(char *var, t_env *lst);
 void	execute_unset(t_shell **sh, char **env);
 void	printlst(t_token *lst);

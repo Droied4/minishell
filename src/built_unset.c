@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 18:36:44 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/04 19:58:54 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:24:02 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ void	execute_unset(t_shell **sh, char **env)
 		if (right)
 			right->prev = left;
 	}
-	free(node->line);
-	free(node->var_name);
-	free(node->var_content);
-	free(node);
+	ft_del_env(&node);
+	// free(node->line);
+	// free(node->var_name);
+	// free(node->var_content);
+	// free(node);
 }

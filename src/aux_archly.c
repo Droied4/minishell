@@ -6,11 +6,26 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:17:12 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/08 13:40:14 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:48:46 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_lst_env_export(t_env *lst)
+{
+	while (lst)
+		{
+			ft_dprintf(STDOUT_FILENO, "declare -x %s=", lst->var_name);
+			if (!lst->var_content)
+				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", "");
+			else if (lst->var_content && lst->var_content[0] == '\"')
+				ft_dprintf(STDOUT_FILENO, "%s\n", lst->var_content);
+			else
+				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", lst->var_content);
+			lst = lst->next;
+		}
+}
 
 void	print_lst_env(t_env *lst, int i)
 {
@@ -29,19 +44,7 @@ void	print_lst_env(t_env *lst, int i)
 		}
 	}
 	else if (2 == i)
-	{
-		while (tmp)
-		{
-			ft_dprintf(STDOUT_FILENO, "declare -x %s=", tmp->var_name);
-			if (!tmp->var_content)
-				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", "");
-			else if (tmp->var_content && tmp->var_content[0] == '\"')
-				ft_dprintf(STDOUT_FILENO, "%s\n", tmp->var_content);
-			else
-				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", tmp->var_content);
-			tmp = tmp->next;
-		}
-	}
+		print_lst_env_export(lst);
 }
 
 int	ft_del_env(t_env **lst)
