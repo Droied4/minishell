@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/11 21:49:54 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/11 22:01:02 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,14 @@ static char	*prompt(int exit_status)
 	return (final_str);
 }
 
-static void	init_sh(t_shell *sh)
+static void	init_sh(t_shell *sh, char **env)
 {
 	sh->exit_status = 0;
 	sh->env = NULL;
 	sh->cmds = NULL;
 	sh->pro.w = NULL;
 	sh->pro.r = NULL;
+	sh->env = create_lst_env(env);
 }
 
 int	main(int ac, char **av, char **env)
@@ -48,14 +49,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	(void)ac;
-	(void)env;
-    init_sh(&sh);
-	sh.exit_status = 0;
-	sh.env = NULL;
-	sh.cmds = NULL;
-	sh.pro.w = NULL;
-	sh.pro.r = NULL;
-	sh.env = create_lst_env(env);
+    init_sh(&sh, env);
 	while (1)
 	{
 		// where does the builtins are called
