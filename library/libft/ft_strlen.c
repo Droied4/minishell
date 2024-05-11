@@ -6,18 +6,17 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 18:08:53 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 19:09:47 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/01 20:25:18 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
 
 size_t	ft_strlen(const char *x)
 {
 	int	i;
 
-	if (*x == '\0' || x == NULL)
+	if (x == NULL || *x == '\0')
 		return (0);
 	i = 0;
 	while (x[i] != '\0')

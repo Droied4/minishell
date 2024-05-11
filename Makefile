@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/03 13:54:41 by deordone         ###   ########.fr        #
+#    Updated: 2024/05/07 20:42:50 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g #-fsanitize=address
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               SOURCES                                        #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
@@ -39,10 +39,11 @@ SOURCES = minishell.c aux_dei.c aux_archly.c is_something.c aux_arch.c \
 		  manage.c \
 		  lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c \
 		  parser.c parser_input.c parser_entry.c \
+		  expansor.c expansor_utils1.c expansor_utils2.c expansor_utils3.c \
 		  word_lst.c parser_cmd.c redir_lst.c parser_redir.c \
 		  executor.c exec_redir.c exec_cmds.c exec_conec.c\
 		  builtins.c built_export.c built_pwd_cd.c built_unset.c built_echo.c\
-		  environ.c \
+		  built_env.c \
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #
@@ -106,6 +107,9 @@ fclean : clean
 	@make fclean -C $(DPRINTF_PATH) > /dev/null
 
 re: fclean all 
+
+vg: all
+	valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --track-fds=yes --suppressions=readline.supp ./$(NAME)
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                              MY RULES                                        #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
@@ -133,4 +137,4 @@ author:
 	@printf "$(WHITE)			  https://github.com/ZenitsuTHB\n";
 	@echo;
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re vg
