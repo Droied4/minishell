@@ -6,13 +6,13 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/01 13:16:39 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/09 22:24:08 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	found_var(char *var, t_env *lst, int *i)
+t_env	*found_var(char *var, t_env *lst)
 {
 	size_t	len;
 	t_env	*tmp;
@@ -28,92 +28,58 @@ int	found_var(char *var, t_env *lst, int *i)
 		else
 			len = ft_strlen(tmp->var_name);
 		if (ft_strncmp(line[0], tmp->var_name, len) == 0)
-		{
-			*i += 1;
-			free_matrix(line);
-			return (1);
-		}
-		else
-		{
-			*i += 1;
-			tmp = tmp->next;
-		}
+			return (free_matrix(line), tmp);
+		tmp = tmp->next;
 	}
-	free_matrix(line);
-	return (0);
+	if (line)
+		free_matrix(line);
+	return (NULL);
 }
 
-static t_env	*update_var(char *s, t_env **lst, int pos)
+static void	update_var(char *s, t_env *var_node)
 {
-	int		i;
 	char	**split;
-	t_env	*newlst;
 
-	i = 0;
-	newlst = *lst;
-	while (++i < pos && newlst)
-		newlst = newlst->next;
-	newlst->line = ft_strdup(s);
-	split = ft_split(newlst->line, '=');
-	newlst->var_name = split[0];
-	newlst->var_content = split[1];
+	var_node->line = ft_strdup(s);
+	split = ft_split(var_node->line, '=');
+	var_node->var_name = split[0];
+	var_node->var_content = split[1];
 	free(split);
-	return (*lst);
 }
-
-t_env	*exporting_var(t_shell sh, t_env **lst_env)
+// A - Z ORDER
+t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 {
-	int		i;
 	t_env	*last;
-	t_env	*new;
 
-	new = NULL;
-	// check_exp_variable(sh.tokens);
 	while (sh.tokens)
 	{
-		i = 0;
 		sh.tokens = sh.tokens->next;
-		if (sh.tokens)// && is_correct(sh.tokens->data))
+		if (sh.tokens && !is_correct_name(sh.tokens->data))
 		{
-			if (!found_var(sh.tokens->data, *lst_env, &i))
-				new = create_envnode(sh.tokens->data);
-			else
-				*lst_env = update_var(sh.tokens->data, lst_env, i);
-			if (new)
+			new = found_var(sh.tokens->data, *lst_env);
+			if (!new)
 			{
+				new = create_envnode(sh.tokens->data);
+				if (!new)
+					return (NULL);
 				last = *lst_env;
 				while (last->next)
 					last = last->next;
 				last->next = new;
 				new->prev = last;
 			}
+			else
+				update_var(sh.tokens->data, new);
 		}
 	}
 	return (*lst_env);
 }
-// case export hola="como estas" que tal como="vamos"
-// static void    check_tokens(t_token *tok)
-// {
-//     t_token *tmp;
-//     int     count;
-
-//     count = 0;
-//     tmp = tok;
-//     while (tmp)
-//     {
-//         printf("this is the token[%d]--->[%d]", count, tmp->index);
-//         count++;
-//         tmp = tmp->next;
-//     }
-
-// }
 
 void	execute_export(t_shell *sh, char **env)
 {
 	int	flag;
 
 	flag = 0;
-	// ❗️fix token function
 	// = is found, next char is " || next char is null  but tok->next[0] is "
 	if (sh->tokens->next == NULL && sh->env == NULL)
 		sh->env = create_lst_env(env);
@@ -126,11 +92,11 @@ void	execute_export(t_shell *sh, char **env)
 	else if (sh->tokens->next != NULL && sh->env == NULL)
 	{
 		sh->env = create_lst_env(env);
-		sh->env = exporting_var(*sh, &sh->env);
+		sh->env = exporting_var(*sh, &sh->env, NULL);
 	}
 	else if (sh->tokens->next != NULL && sh->env != NULL)
 	{
-		sh->env = exporting_var(*sh, &sh->env);
+		sh->env = exporting_var(*sh, &sh->env, NULL);
 	}
 	if (flag == 0)
 		print_lst_env(sh->env, 2);

@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environ.c                                          :+:      :+:    :+:   */
+/*   built_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/22 12:50:17 by avolcy            #+#    #+#             */
-/*   Updated: 2024/04/03 16:06:24 by deordone         ###   ########.fr       */
+/*   Created: 2024/04/04 13:48:07 by avolcy            #+#    #+#             */
+/*   Updated: 2024/05/09 22:24:24 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -36,11 +37,9 @@ t_env *create_envnode(char *envp)
     new = (t_env *)malloc(sizeof(t_env));
     if (!new)
         return NULL;
-    new->line = ft_strdup(envp); // Allocate memory and copy the string cause the 
-    new->next = NULL;//new->line = envp only copy the pointer
-	//printf("###SPlt update var: ptr###\n");	//BORRAR
+    new->line = ft_strdup(envp); 
+    new->next = NULL;
     splitting = ft_split(new->line, '=');
-	//printf("###EndEsplit\n###");
     if (splitting)
     {
         new->var_name = splitting[0];
@@ -50,7 +49,6 @@ t_env *create_envnode(char *envp)
     return (new);
 }
 
-//pass the tokens to it///DONE !7h 56
 t_env   *create_lst_env(char **envp)
 {
     t_env  *new;
@@ -58,18 +56,15 @@ t_env   *create_lst_env(char **envp)
     
     int i;
     i = 0;
-    list_env = NULL; // Initialize to NULL
-    while (envp[i])// Separate increment operation from loop condition
+    list_env = NULL;
+    while (envp[i])
      { 
         new = create_envnode(envp[i]);
         if (new)
             create_envlst(&list_env, new);
         i++;
     }
-    // print_lst_env(list_env, 1); // Print the linked list
     return (list_env);
-    // ft_del_env(&list_env);
-    // return 0;
 }
 
 void    execute_env(t_shell *shell, char **env)

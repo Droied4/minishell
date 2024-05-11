@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/11 21:24:48 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/11 21:49:54 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,15 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)env;
     init_sh(&sh);
+	sh.exit_status = 0;
+	sh.env = NULL;
+	sh.cmds = NULL;
+	sh.pro.w = NULL;
+	sh.pro.r = NULL;
+	sh.env = create_lst_env(env);
 	while (1)
 	{
+		// where does the builtins are called
 		prompt_str = prompt(sh.exit_status);
 		printf("\001%s\002\n", prompt_str);
 		sh.line = readline("");
@@ -62,7 +69,10 @@ int	main(int ac, char **av, char **env)
 		sh.tokens = generate_tokens(sh.line);
 		if (parse_all(&sh) != -1 && ft_strlen(sh.line) > 0)
 		{
-			sh.matriz_env = env;
+		//print_tokens(sh.tokens);
+		//	print_words(sh.pro.w);
+		//	print_redir(sh.pro.r);
+			sh.matriz_env = convert_env_dchar(sh.env, env);//convert lst_env into char **matriz_env
 			executor(&sh);
 		}
 		soft_exit(&sh);

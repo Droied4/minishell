@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/06 16:33:15 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/07 10:56:02 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 		dprintf(2, "En la linea -> %d\n", __LINE__);\
 		perror("Error : ");\
 	      }
+# define SQUOT '\'' 
+# define DQUOT '\"'  
 # define STD_IN 0 
 # define STD_OUT 1
 # define DASH_N "-n"
