@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/06 17:00:24 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/11 21:24:48 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,25 @@ static char	*prompt(int exit_status)
 
 	e_itoa = ft_itoa(exit_status);
 	if (exit_status == 0)
-		final_str = ft_strjoin("\001\033[0;32m✔ \033[0m", "🏓  PongShell ↴ \002");
+		final_str = ft_strjoin("\001\033[0;32m✔ \033[0m",
+				"🏓  PongShell ↴ \002");
 	else
 	{
 		str = ft_strjoin("\001\033[0;31m", e_itoa);
-		final_str = ft_strjoin(str ,"\033[0m 🏓  PongShell ↴ \002");
+		final_str = ft_strjoin(str, "\033[0m 🏓  PongShell ↴ \002");
 		free(str);
 	}
 	free(e_itoa);
 	return (final_str);
+}
+
+static void	init_sh(t_shell *sh)
+{
+	sh->exit_status = 0;
+	sh->env = NULL;
+	sh->cmds = NULL;
+	sh->pro.w = NULL;
+	sh->pro.r = NULL;
 }
 
 int	main(int ac, char **av, char **env)
@@ -39,11 +49,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	(void)ac;
 	(void)env;
-	sh.exit_status = 0;
-	sh.env = NULL;
-	sh.cmds = NULL;
-	sh.pro.w = NULL;
-	sh.pro.r = NULL;
+    init_sh(&sh);
 	while (1)
 	{
 		prompt_str = prompt(sh.exit_status);
@@ -52,14 +58,10 @@ int	main(int ac, char **av, char **env)
 		if (!sh.line)
 			exit(1);
 		free(prompt_str);
-		//sh.line = readline("shell -> ");
 		add_history(sh.line);
 		sh.tokens = generate_tokens(sh.line);
 		if (parse_all(&sh) != -1 && ft_strlen(sh.line) > 0)
 		{
-			//print_tokens(sh.tokens);
-		//	print_words(sh.pro.w);
-		//	print_redir(sh.pro.r);
 			sh.matriz_env = env;
 			executor(&sh);
 		}
@@ -67,4 +69,3 @@ int	main(int ac, char **av, char **env)
 	}
 	return (0);
 }
-

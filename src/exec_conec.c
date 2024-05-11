@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/06 14:42:11 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/11 21:23:09 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 static void	kill_child(t_shell *sh, t_process *pro)
 {
-	//  ft_dprintf(2, "in:  %d\n", pro->w->in);
-	// ft_dprintf(2, "out: %d\n", pro->w->out);
 	if (pro->w->in != STD_IN)
 	{
 		if (dup2(pro->w->in, STD_IN) == -1)

@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 01:19:42 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/06 13:34:01 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/11 21:21:03 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_words	*create_block(int i)
 
 static void	create_block_lst(t_words **lst, t_words *new)
 {
-	t_words *last;
+	t_words	*last;
 
 	if (!(*lst))
 	{
@@ -51,8 +51,6 @@ static int	new_table(t_token *tok)
 		return (1);
 	else
 		return (0);
-	//un besitoooooo
-	//<3
 }
 
 int	ft_del_words(t_words **lst)
@@ -76,9 +74,9 @@ int	ft_del_words(t_words **lst)
 t_words	*generate_words(t_token *tokens)
 {
 	int		i;
-	t_words		*lst;
-	t_words		*new;
-	t_token		*tmp;
+	t_words	*lst;
+	t_words	*new;
+	t_token	*tmp;
 
 	i = -1;
 	tmp = tokens;

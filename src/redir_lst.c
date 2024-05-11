@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 01:19:06 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/06 13:37:13 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/11 21:21:12 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static t_redir	*create_block(int i)
 
 static void	create_block_lst(t_redir **lst, t_redir *new)
 {
-	t_redir *last;
+	t_redir	*last;
 
 	if (!(*lst))
 	{
