@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/10 20:26:11 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/12 19:25:31 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,19 +276,19 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new);
 		BUILTINS
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
-int		check_exp_variable(t_env *tok);
-void	free_matrix(char **sh);
 int		execute_pwd(void);
-void	execute_echo(t_shell *shell);
-void	execute_env(t_shell *sh, char **env);
-int		execute_cd(t_shell *sh, char **env);
-void	execute_exit(t_shell *sh);
-void	execute_export(t_shell *sh, char **env);
-int		execute_builtins(t_shell *looking, char **env);
-t_env	*found_var(char *var, t_env *lst);
-void	execute_unset(t_shell **sh, char **env);
+void	free_matrix(char **sh);
 void	printlst(t_token *lst);
 int		ft_del_env(t_env **lst);
+void	execute_exit(t_shell *sh);
+void	execute_echo(t_shell *shell);
+int		check_exp_variable(t_env *tok);
 void	print_lst_env(t_env *lst, int i);
+t_env	*found_var(char *var, t_env *lst);
+int		execute_cd(t_shell *sh, char **env);
+void	execute_env(t_shell *sh, char **env);
+void	execute_export(t_shell *sh, char **env);
+int		execute_builtins(t_shell *looking, char **env);
+void	execute_unset(t_shell **sh, t_env *node, char **env);
 
 #endif
