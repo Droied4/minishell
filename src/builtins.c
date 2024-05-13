@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/10 20:48:44 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/12 19:24:06 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	execute_builtins(t_shell *shell, char **env)
 		{
 			if (shell->tokens->next == NULL)
 				return (1);
-			execute_unset(&shell, env);
+			execute_unset(&shell, NULL, env);
 			// print_lst_env(shell->env, 1);//test puurposes;
 		}
 	}

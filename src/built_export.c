@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/09 22:24:08 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/12 19:31:43 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,10 @@ void	execute_export(t_shell *sh, char **env)
 	int	flag;
 
 	flag = 0;
-	// = is found, next char is " || next char is null  but tok->next[0] is "
 	if (sh->tokens->next == NULL && sh->env == NULL)
 		sh->env = create_lst_env(env);
 	else if (sh->tokens->next == NULL && sh->env != NULL)
 	{
-		// to put in alphabetic order function to do
 		print_lst_env(sh->env, 2);
 		flag = 1;
 	}
@@ -101,6 +99,7 @@ void	execute_export(t_shell *sh, char **env)
 	if (flag == 0)
 		print_lst_env(sh->env, 2);
 }
+// to put in alphabetic order function to do
 // while check_order == ko
 // check 1st charact
 // if 1st char == 1st->next char move to 2nd and so one
