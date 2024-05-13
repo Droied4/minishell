@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:12:42 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/08 13:11:46 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/13 03:28:43 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,8 @@ char	*is_special_dollar(char *data, int num_dollar, int i)
 
 char	*special_cases(char *special, int exit_status)
 {
-	int	i;
 	char	*str_exit_status;
 
-	i = 0;
 	if (!ft_strncmp("$?", special, 2))
 	{
 		str_exit_status = ft_itoa(exit_status);
