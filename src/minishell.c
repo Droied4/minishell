@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/11 22:01:02 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/13 13:36:47 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	main(int ac, char **av, char **env)
 		if (!sh.line)
 			exit(1);
 		free(prompt_str);
-		add_history(sh.line);
+        if (sh.line != 0)
+		    add_history(sh.line);
 		sh.tokens = generate_tokens(sh.line);
 		if (parse_all(&sh) != -1 && ft_strlen(sh.line) > 0)
 		{
