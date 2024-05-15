@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/08 13:27:45 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/13 19:18:09 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ typedef struct s_env
 typedef struct s_shell
 {
 	struct s_process			pro;
+	struct s_env				*env;
 	int							pipes;
 	char						*line;
 	struct s_cmds				*cmds;
 	struct s_token				*tokens;
-	struct s_env				*env;
 	int							exit_status;
 	char						**matriz_env;
 }								t_shell;
