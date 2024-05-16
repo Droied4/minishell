@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/14 21:57:03 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/16 16:19:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,54 @@ void    manage_ctrl_c(int signo)
     rl_redisplay();
 }
 
-void signal_handler_inter(int signum)
+void signal_handler_interactive(int signum)
 {
     struct sigaction sigint_action;    
     struct sigaction sigquit_action;
 
+    (void)signum;
     sigint_action.sa_handler = &manage_ctrl_c;
     sigemptyset(&sigint_action.sa_mask);
-    
+    sigint_action.sa_flags = 0;
+    sigaction(SIGINT, &sigint_action, NULL);
+    sigquit_action.sa_handler = SIG_IGN;
+    sigemptyset(&sigquit_action.sa_mask);
+    sigquit_action.sa_flags = 0;
+    sigaction(SIGQUIT, &sigquit_action, NULL);
 
-    
+}
+
+void    signal_handler_non_interactive(int signum)
+{
+    struct sigaction sigint_action;
+    struct sigaction sigquit_action;
+
+    (void)signum;
+    sigint_action.sa_handler = &print_slash_n;
+    sigemptyset(&sigint_action.sa_mask);
+    sigint_action.sa_flags = 0;
+    sigaction(SIGINT, &sigint_action, NULL);
+    sigquit_action.sa_handler = &print_quit_msg;
+    sigemptyset(&sigquit_action.sa_mask);
+    sigquit_action.sa_flags = 0;
+    sigaction(SIGQUIT, &sigquit_action, NULL);
+
+}
+
+void    signal_handler_herdoc(int signum)
+{
+    struct sigaction sigint_action;
+    struct sigaction sigquit_action;
+
+    (void)signum;
+    sigint_action.sa_handler = SIG_IGN;
+    sigemptyset(&sigint_action.sa_mask);
+    sigint_action.sa_flags = 0;
+    sigaction(SIGINT, &sigint_action, NULL);
+    sigquit_action.sa_handler = SIG_IGN;
+    sigemptyset(&sigquit_action.sa_mask);
+    sigquit_action.sa_flags = 0;
+    sigaction(SIGQUIT, &sigquit_action, NULL);
 }
 
 int manage_signals(t_signal mode)

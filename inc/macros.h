@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   macros.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/13 20:24:42 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/16 11:22:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 # define STR_META "|><\'\"$"
 # define METACHAR {PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE, EXP}
 # define STR_BUILTINS "echo cd pwd export unset env exit"
+
+# include <signal.h>
 
 extern sig_atomic_t signals;
 
