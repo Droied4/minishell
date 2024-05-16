@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/16 16:19:01 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/16 21:02:09 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,37 @@
 // ctrl + C displays a new prompt on a new line. 
 // ctrl + D exits the shell.
 // ctrl + \ does nothing 
-typedef enum e_signal
-{
-    HEREDOC,
-    INTERACTIVE,
-    NON_INTERACTIVE
-}   t_signal;
+
 
 void    manage_ctrl_c(int signo)
 {
     (void)signo;
     ft_dprintf(1,"\n");
     rl_on_new_line();// indicate that a new line has started in the Readline library
-    rl_replace_line();
+    rl_replace_line("", 0);
     // typically follows the rl_on_new_line function to
     // inform Readline that the prompt and input buffer have been updated
     // replace the current line (input buffer) with the provided string
     rl_redisplay();
 }
+void	print_slash_n(int signo)
+{
+    (void)signo;
+	printf("\n");
+	rl_on_new_line();
+}
 
-void signal_handler_interactive(int signum)
+void	print_quit_msg(int signo)
+{
+    (void)signo;
+	printf("Quit: 3\n");
+	rl_on_new_line();
+}
+void signal_handler_interactive(void)
 {
     struct sigaction sigint_action;    
     struct sigaction sigquit_action;
 
-    (void)signum;
     sigint_action.sa_handler = &manage_ctrl_c;
     sigemptyset(&sigint_action.sa_mask);
     sigint_action.sa_flags = 0;
@@ -71,12 +77,11 @@ void signal_handler_interactive(int signum)
 
 }
 
-void    signal_handler_non_interactive(int signum)
+void    signal_handler_non_interactive(void)
 {
     struct sigaction sigint_action;
     struct sigaction sigquit_action;
 
-    (void)signum;
     sigint_action.sa_handler = &print_slash_n;
     sigemptyset(&sigint_action.sa_mask);
     sigint_action.sa_flags = 0;
@@ -88,12 +93,11 @@ void    signal_handler_non_interactive(int signum)
 
 }
 
-void    signal_handler_herdoc(int signum)
+void    signal_handler_herdoc(void)
 {
     struct sigaction sigint_action;
     struct sigaction sigquit_action;
 
-    (void)signum;
     sigint_action.sa_handler = SIG_IGN;
     sigemptyset(&sigint_action.sa_mask);
     sigint_action.sa_flags = 0;
@@ -104,7 +108,21 @@ void    signal_handler_herdoc(int signum)
     sigaction(SIGQUIT, &sigquit_action, NULL);
 }
 
-int manage_signals(t_signal mode)
+int manage_signals(t_shell *sh, t_signal mode)
 {
+    (void)sh;
+    if (mode == INTERACTIVE)
+    {
+        signal_handler_interactive();
+        // sh->exit_status = 130; 
+    }
+    else if (mode == NON_INTERACTIVE)
+    {
+        signal_handler_non_interactive();
+        // sh->exit_status = 131; 
+    }
+    else if(mode == HEREDOC)
+        signal_handler_herdoc();
 
+    return (0);
 }

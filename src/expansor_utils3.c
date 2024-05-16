@@ -20,24 +20,21 @@ char    *trimmer_quotes(char *str, int quotes)
     char    *trimmed;
     int     num_quotes;
 
-    if (quotes == SQUOT)
+    len = ft_strlen(str);
+    num_quotes =  number_of_char(str, quotes);
+    trimmed = malloc(sizeof(char) * (len - num_quotes) + 1);
+    if (!trimmed)
+        exit(1);
+    i = 0;
+    j = 0;
+    while (str[i])
     {
-        len = ft_strlen(str);
-        num_quotes =  number_of_char(str, SQUOT);
-        trimmed = malloc(sizeof(char) * (len - num_quotes) + 1);
-        i = 0;
-        j = 0;
-        while (str[i])
-        {
-            if (str[i] != quotes)
-                trimmed[j++] = str[i];
-            i++;
-        }
-        trimmed[j] = '\0';
-        return(trimmed);
+       if (str[i] != quotes)
+           trimmed[j++] = str[i];
+        i++;
     }
-    return(ft_strtrim(str, "\""));
-
+    trimmed[j] = '\0';
+    return(trimmed);
 }
 
 int number_of_char(char *str, char charact)

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/13 21:07:07 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:41:55 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,25 @@ char    *expand_data(t_shell *sh, char *str)
     return (tmp);
 }
 
+static char *aux_trim(char *data)
+{
+    int pos_dquote;
+    int pos_squote;
+
+    pos_dquote = char_is_inside(data, DQUOT);
+    pos_squote = char_is_inside(data, SQUOT);
+
+    if (pos_dquote < 0 && pos_squote >= 0)
+        return (trimmer_quotes(data, SQUOT));
+    else if (pos_squote < 0 && pos_dquote >= 0)
+        return (trimmer_quotes(data, DQUOT));
+    if (pos_dquote > 0 && pos_dquote > pos_squote)
+         return (trimmer_quotes(data, SQUOT));
+    else if (pos_squote > 0 && pos_squote > pos_dquote)
+        return (trimmer_quotes(data, DQUOT));
+    return (NULL);
+}
+
 void	expansor(t_shell *sh)
 {
     t_token *tok;
@@ -128,9 +147,9 @@ void	expansor(t_shell *sh)
             free(tok->data);
             tok->data = tmp;
         }
-        else if (tok->data[0] == SQUOT || tok->data[0] == DQUOTE)
+        else if (found_char(tok->data, SQUOT) || found_char(tok->data, DQUOT))
         {
-            tmp = trimmer_quotes(tok->data, tok->data[0]);
+            tmp = aux_trim(tok->data);
             free(tok->data);
             tok->data = tmp;
         }

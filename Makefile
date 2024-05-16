@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/07 20:42:50 by avolcy           ###   ########.fr        #
+#    Updated: 2024/05/16 20:31:24 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,13 +30,12 @@ DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
 LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
 READLINE_PATH = $(LIBRARY_PATH)/readline/
-
 HEADER = $(INCLUDE_PATH)/minishell.h
 HEADER += $(INCLUDE_PATH)/struct.h
 HEADER += $(INCLUDE_PATH)/macros.h
 
 SOURCES = minishell.c aux_dei.c aux_archly.c is_something.c aux_arch.c \
-		  manage.c \
+		  manage.c signals.c \
 		  lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c \
 		  parser.c parser_input.c parser_entry.c \
 		  expansor.c expansor_utils1.c expansor_utils2.c expansor_utils3.c \
@@ -78,7 +77,7 @@ make_libs:
 
 $(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF) 
 	@printf "$(CYAN)$@ Compiled$(NC)\n";
-	@$(CC) $(CFLAGS) $^ -o $(NAME)  -lreadline -L $(READLINE_PATH)lib -I $(READLINE_PATH)include
+	@$(CC) $(CFLAGS) $^ -o $(NAME) -lreadline -L $(READLINE_PATH)lib -I $(READLINE_PATH)include
 
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
 		@printf "$(CYAN)Compiling $@$(NC)\n";
