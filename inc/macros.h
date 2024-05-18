@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/16 11:22:08 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/16 21:54:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@
 
 # include <signal.h>
 
-extern sig_atomic_t signals;
+extern sig_atomic_t g_signal_var;
 
 #endif
