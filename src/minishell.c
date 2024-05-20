@@ -6,13 +6,13 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/16 22:04:48 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:55:18 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*prompt(int exit_status)
+sig_atomic_t volatile g_signals = 0;
+char	*prompt(int exit_status)
 {
 	char	*e_itoa;
 	char	*str;
@@ -42,6 +42,7 @@ static void	init_sh(t_shell *sh, char **env)
 	sh->env = create_lst_env(env);
 }
 
+
 int	main(int ac, char **av, char **env)
 {
 	t_shell	sh;
@@ -51,11 +52,11 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
     init_sh(&sh, env);
 	while (1)
-	{
-		// manage_signals(&sh, INTERACTIVE);
-		// where does the builtins are called
+	{	
 		prompt_str = prompt(sh.exit_status);
 		ft_dprintf(1, "\001%s\002\n", prompt_str);
+		ft_signals(&sh, INTERACTIVE);
+		// where does the builtins are called
 		sh.line = readline("");
 		if (!sh.line)
 			exit(1);

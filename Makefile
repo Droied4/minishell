@@ -6,54 +6,53 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/16 20:31:24 by avolcy           ###   ########.fr        #
+#    Updated: 2024/05/20 18:02:50 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               MINISHELL                                      #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
+# 
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g #-fsanitize=address
-# ╔══════════════════════════════════════════════════════════════════════════╗ #  
-#                               SOURCES                                        #
-# ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
+# Paths
 SOURCES_PATH    = ./src
 OBJECTS_PATH    = ./obj
 INCLUDE_PATH    = ./inc
 LIBRARY_PATH	= ./library
 LIBFT_PATH	= $(LIBRARY_PATH)/libft
 DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
+READLINE_PATH = $(LIBRARY_PATH)/readline-8.1/
+LOCAL_INSTALL_PATH = $(HOME)/local
+
+# Libraries
 LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
-READLINE_PATH = $(LIBRARY_PATH)/readline/
-HEADER = $(INCLUDE_PATH)/minishell.h
-HEADER += $(INCLUDE_PATH)/struct.h
-HEADER += $(INCLUDE_PATH)/macros.h
+READLINE_LIBS = $(READLINE_PATH)libreadline.a $(READLINE_PATH)libhistory.a
 
+# Headers
+HEADER = $(INCLUDE_PATH)/minishell.h $(INCLUDE_PATH)/struct.h $(INCLUDE_PATH)/macros.h
+
+# Sources
 SOURCES = minishell.c aux_dei.c aux_archly.c is_something.c aux_arch.c \
-		  manage.c signals.c \
-		  lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c \
-		  parser.c parser_input.c parser_entry.c \
-		  expansor.c expansor_utils1.c expansor_utils2.c expansor_utils3.c \
-		  word_lst.c parser_cmd.c redir_lst.c parser_redir.c \
-		  executor.c exec_redir.c exec_cmds.c exec_conec.c\
-		  builtins.c built_export.c built_pwd_cd.c built_unset.c built_echo.c\
-		  built_env.c \
+          manage.c signals.c \
+          lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c \
+          parser.c parser_input.c parser_entry.c \
+          expansor.c expansor_utils1.c expansor_utils2.c expansor_utils3.c \
+          word_lst.c parser_cmd.c redir_lst.c parser_redir.c \
+          executor.c exec_redir.c exec_cmds.c exec_conec.c\
+          builtins.c built_export.c built_pwd_cd.c built_unset.c built_echo.c\
+          built_env.c \
 
-# ╔══════════════════════════════════════════════════════════════════════════╗ #  
-#                               OBJECTS                                        #
-# ╚══════════════════════════════════════════════════════════════════════════╝ #  
-
+# Objects and dependencies
 OBJECTS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.c=.o})
 DEPS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.c=.d})
 
-# ╔══════════════════════════════════════════════════════════════════════════╗ #  
-#                               COLORS                                         #
-# ╚══════════════════════════════════════════════════════════════════════════╝ #  
+# Colors
 RED=\033[0;31m
 CYAN=\033[0;36m
 GREEN=\033[0;32m
@@ -62,11 +61,9 @@ WHITE=\033[0;97m
 BLUE=\033[0;34m
 NC=\033[0m # No color
 
-# ╔══════════════════════════════════════════════════════════════════════════╗ #  
-#                                RULES                                         #
-# ╚══════════════════════════════════════════════════════════════════════════╝ #  
+# Rules
+all: subsystems header $(NAME) author
 
-all: header $(NAME) author
 make_libs:
 	@make -C $(LIBFT_PATH) > /dev/null
 	@printf "$(CYAN)Compiling $(LIBFT_PATH)$(NC)\n";
@@ -75,24 +72,35 @@ make_libs:
 
 -include $(DEPS)
 
-$(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF) 
+$(NAME): $(LIBFT) $(OBJECTS) $(DPRINTF) $(READLINE_LIBS)
 	@printf "$(CYAN)$@ Compiled$(NC)\n";
-	@$(CC) $(CFLAGS) $^ -o $(NAME) -lreadline -L $(READLINE_PATH)lib -I $(READLINE_PATH)include
+	@$(CC) $(CFLAGS) $^ -o $(NAME) -L$(LOCAL_INSTALL_PATH)/lib -I$(LOCAL_INSTALL_PATH)/include -lncurses -lreadline
 
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
 		@printf "$(CYAN)Compiling $@$(NC)\n";
 		@mkdir -p $(dir $@)
-		@$(CC) $(CFLAGS) -c $< -o $@ 
-
+		@$(CC) -DREADLINE_LIBRARY $(CFLAGS) -c $< -o $@ 
 
 $(LIBFT) :
 	@printf "$(CYAN)Compiling $@$(NC)\n";
-	@make -C $(LIBFT_PATH) > /dev/null
+	@make -C $(LIBFT_PATH) > /dev/null 
+	@make -C $(READLINE_PATH) static 
 
 $(DPRINTF) :
 	@printf "$(CYAN)Compiling $@$(NC)\n";
 	@make -C $(DPRINTF_PATH) > /dev/null
 
+subsystems: configure-readline
+	@make -C $(READLINE_PATH) static
+
+configure-readline:
+	@if ! grep -q "$(READLINE_ABSOLUTE_PATH)" "$(READLINE_PATH)/config.status"; then \
+		echo "$(YELLOW)READLINE WILL BE CONFIGURED$(DEFAULT)"; \
+		cd $(READLINE_PATH) && ./configure; \
+	else \
+	 	echo "$(YELLOW)READLINE ALREADY CONFIGURED$(DEFAULT)"; \
+	fi
+	
 clean:
 	@printf "$(CYAN)Cleaning objects and libraries$(NC)\n";
 	@rm -rf $(OBJECTS_PATH) 
@@ -109,6 +117,7 @@ re: fclean all
 
 vg: all
 	valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --track-fds=yes --suppressions=readline.supp ./$(NAME)
+
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                              MY RULES                                        #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  

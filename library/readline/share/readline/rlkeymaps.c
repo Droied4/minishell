@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#if defined (READLINE_LIBRARY)
+// #if defined (READLINE_LIBRARY)
 #  include "readline.h"
 #  include "history.h"
-#else
-#  include <readline/readline.h>
-#  include <readline/history.h>
-#endif
+// #else
+// #  include <readline/readline.h>
+// #  include <readline/history.h>
+// #endif
 
 int
 main (int c, char **v)

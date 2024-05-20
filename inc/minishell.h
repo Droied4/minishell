@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/16 19:18:02 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:52:54 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 #include "struct.h"
 #include <errno.h>
 #include <limits.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -29,6 +27,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include "../library/readline-8.1/readline.h"
+#include "../library/readline-8.1/history.h"
 // # include <editline/readline.h>
 
 /*
@@ -36,6 +36,8 @@
                 LEXER - 5
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+extern  sig_atomic_t volatile g_signals;
+void	ft_signals(t_shell *sh, t_signal mode);
 
 t_token *generate_tokens(char *line);
 int ft_deltoken(t_token **lst);
@@ -75,7 +77,7 @@ void redifine_token(t_token *tok);
                 PARSER - 3
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
-
+void	find_path(t_words *word);
 int parse_all(t_shell *sh);
 int parse_input(t_shell *sh);
 int parse_redirections(t_shell *sh);
@@ -198,6 +200,7 @@ void ft_free_array(char **res);
 */
 
 void executor(t_shell *sh);
+char	*prompt(int exit_status);
 // void execute_cmd(t_block *block);
 
 /*

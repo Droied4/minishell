@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/06 14:42:00 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:54:08 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	child_process(t_shell *sh)
 {
 	t_words	*word;
-
+	ft_signals(sh, NON_INTERACTIVE);
 	word = sh->pro.w;
 	if (word->in != STD_IN)
 	{
@@ -51,7 +51,7 @@ static char	*ft_aux_check(char *new_path, char *new_cmd)
 	return (NULL);
 }
 
-static char	*ft_check_path(char **paths, char **cmd)
+char	*ft_check_path(char **paths, char **cmd)
 {
 	int		i;
 	int		j;
@@ -103,6 +103,7 @@ int	process_word(t_shell *sh)
 	else
 		word->path = ft_strdup(word->cmd[0]);
 	exit_status = 0;
+	
 	pid = fork();
 	if (pid == -1)
 		exit(1);

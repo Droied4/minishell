@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/16 21:02:09 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:59:08 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,92 +37,135 @@
 // ctrl + \ does nothing 
 
 
-void    manage_ctrl_c(int signo)
+// void    manage_ctrl_c(int signo)
+// {
+//     (void)signo;
+//     ft_dprintf(1,"\n");
+//     rl_on_new_line();// indicate that a new line has started in the Readline library
+//     // rl_replace_line("", 0);
+//     // typically follows the rl_on_new_line function to
+//     // inform Readline that the prompt and input buffer have been updated
+//     // replace the current line (input buffer) with the provided string
+//     rl_redisplay();
+// }
+// void	print_slash_n(int signo)
+// {
+//     (void)signo;
+// 	printf("\n");
+// 	rl_on_new_line();
+// }
+
+// void	print_quit_msg(int signo)
+// {
+//     (void)signo;
+// 	printf("Quit: 3\n");
+// 	rl_on_new_line();
+// }
+// void signal_handler_interactive(void)
+// {
+//     struct sigaction sigint_action;    
+//     struct sigaction sigquit_action;
+
+//     sigint_action.sa_handler = &manage_ctrl_c;
+//     sigemptyset(&sigint_action.sa_mask);
+//     sigint_action.sa_flags = 0;
+//     sigaction(SIGINT, &sigint_action, NULL);
+//     sigquit_action.sa_handler = SIG_IGN;
+//     sigemptyset(&sigquit_action.sa_mask);
+//     sigquit_action.sa_flags = 0;
+//     sigaction(SIGQUIT, &sigquit_action, NULL);
+
+// }
+
+// void    signal_handler_non_interactive(void)
+// {
+//     struct sigaction sigint_action;
+//     struct sigaction sigquit_action;
+
+//     sigint_action.sa_handler = &print_slash_n;
+//     sigemptyset(&sigint_action.sa_mask);
+//     sigint_action.sa_flags = 0;
+//     sigaction(SIGINT, &sigint_action, NULL);
+//     sigquit_action.sa_handler = &print_quit_msg;
+//     sigemptyset(&sigquit_action.sa_mask);
+//     sigquit_action.sa_flags = 0;
+//     sigaction(SIGQUIT, &sigquit_action, NULL);
+
+// }
+
+// void    signal_handler_herdoc(void)
+// {
+//     struct sigaction sigint_action;
+//     struct sigaction sigquit_action;
+
+//     sigint_action.sa_handler = SIG_IGN;
+//     sigemptyset(&sigint_action.sa_mask);
+//     sigint_action.sa_flags = 0;
+//     sigaction(SIGINT, &sigint_action, NULL);
+//     sigquit_action.sa_handler = SIG_IGN;
+//     sigemptyset(&sigquit_action.sa_mask);
+//     sigquit_action.sa_flags = 0;
+//     sigaction(SIGQUIT, &sigquit_action, NULL);
+// }
+
+// int manage_signals(t_shell *sh, t_signal mode)
+// {
+//     (void)sh;
+//     if (mode == INTERACTIVE)
+//     {
+//         signal_handler_interactive();
+//         // sh->exit_status = 130; 
+//     }
+//     else if (mode == NON_INTERACTIVE)
+//     {
+//         signal_handler_non_interactive();
+//         // sh->exit_status = 131; 
+//     }
+//     else if(mode == HEREDOC)
+//         signal_handler_herdoc();
+
+//     return (0);
+// }
+
+
+static void	nexec_sig_handler(int sign)
 {
-    (void)signo;
-    ft_dprintf(1,"\n");
-    rl_on_new_line();// indicate that a new line has started in the Readline library
-    rl_replace_line("", 0);
-    // typically follows the rl_on_new_line function to
-    // inform Readline that the prompt and input buffer have been updated
-    // replace the current line (input buffer) with the provided string
-    rl_redisplay();
+	char *prompt_str;
+	
+	if (sign == SIGINT)
+	{
+		prompt_str = prompt(130);
+		ft_dprintf(1, "\001%s\002\n", prompt_str);
+		g_signals = SIGINT;
+		write(1, "\n", 1);
+		rl_replace_line("", 1);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
-void	print_slash_n(int signo)
+
+static void	stop_sig_handler(int sign)
 {
-    (void)signo;
-	printf("\n");
-	rl_on_new_line();
+	write(1, "\n", 1);
+	if (sign == SIGINT)
+		signal(SIGINT, SIG_IGN);
 }
-
-void	print_quit_msg(int signo)
+void	ft_signals(t_shell *sh, t_signal mode)
 {
-    (void)signo;
-	printf("Quit: 3\n");
-	rl_on_new_line();
-}
-void signal_handler_interactive(void)
-{
-    struct sigaction sigint_action;    
-    struct sigaction sigquit_action;
-
-    sigint_action.sa_handler = &manage_ctrl_c;
-    sigemptyset(&sigint_action.sa_mask);
-    sigint_action.sa_flags = 0;
-    sigaction(SIGINT, &sigint_action, NULL);
-    sigquit_action.sa_handler = SIG_IGN;
-    sigemptyset(&sigquit_action.sa_mask);
-    sigquit_action.sa_flags = 0;
-    sigaction(SIGQUIT, &sigquit_action, NULL);
-
-}
-
-void    signal_handler_non_interactive(void)
-{
-    struct sigaction sigint_action;
-    struct sigaction sigquit_action;
-
-    sigint_action.sa_handler = &print_slash_n;
-    sigemptyset(&sigint_action.sa_mask);
-    sigint_action.sa_flags = 0;
-    sigaction(SIGINT, &sigint_action, NULL);
-    sigquit_action.sa_handler = &print_quit_msg;
-    sigemptyset(&sigquit_action.sa_mask);
-    sigquit_action.sa_flags = 0;
-    sigaction(SIGQUIT, &sigquit_action, NULL);
-
-}
-
-void    signal_handler_herdoc(void)
-{
-    struct sigaction sigint_action;
-    struct sigaction sigquit_action;
-
-    sigint_action.sa_handler = SIG_IGN;
-    sigemptyset(&sigint_action.sa_mask);
-    sigint_action.sa_flags = 0;
-    sigaction(SIGINT, &sigint_action, NULL);
-    sigquit_action.sa_handler = SIG_IGN;
-    sigemptyset(&sigquit_action.sa_mask);
-    sigquit_action.sa_flags = 0;
-    sigaction(SIGQUIT, &sigquit_action, NULL);
-}
-
-int manage_signals(t_shell *sh, t_signal mode)
-{
-    (void)sh;
-    if (mode == INTERACTIVE)
-    {
-        signal_handler_interactive();
-        // sh->exit_status = 130; 
-    }
-    else if (mode == NON_INTERACTIVE)
-    {
-        signal_handler_non_interactive();
-        // sh->exit_status = 131; 
-    }
-    else if(mode == HEREDOC)
-        signal_handler_herdoc();
-
-    return (0);
+	(void)sh;
+	if (mode == INTERACTIVE)
+	{
+		signal(SIGINT, nexec_sig_handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == NON_INTERACTIVE)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
+	else if (mode == HEREDOC)
+	{
+		signal(SIGINT, stop_sig_handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }
