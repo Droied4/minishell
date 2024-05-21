@@ -6,12 +6,14 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/20 17:55:18 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 16:00:00 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 sig_atomic_t volatile g_signals = 0;
+
 char	*prompt(int exit_status)
 {
 	char	*e_itoa;
@@ -56,7 +58,6 @@ int	main(int ac, char **av, char **env)
 		prompt_str = prompt(sh.exit_status);
 		ft_dprintf(1, "\001%s\002\n", prompt_str);
 		ft_signals(&sh, INTERACTIVE);
-		// where does the builtins are called
 		sh.line = readline("");
 		if (!sh.line)
 			exit(1);

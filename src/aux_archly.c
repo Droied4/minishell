@@ -6,45 +6,39 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:17:12 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/10 20:48:46 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 17:26:33 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_lst_env_export(t_env *lst)
+int	ft_lstenv_size(t_env *lst)
 {
-	while (lst)
-		{
-			ft_dprintf(STDOUT_FILENO, "declare -x %s=", lst->var_name);
-			if (!lst->var_content)
-				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", "");
-			else if (lst->var_content && lst->var_content[0] == '\"')
-				ft_dprintf(STDOUT_FILENO, "%s\n", lst->var_content);
-			else
-				ft_dprintf(STDOUT_FILENO, "\"%s\"\n", lst->var_content);
-			lst = lst->next;
-		}
+	int	count;
+
+	count = 0;
+	if (!lst)
+		return (count);
+	while (lst != NULL)
+	{
+		count++;
+		lst = lst->next;
+	}
+	return (count++);
 }
 
-void	print_lst_env(t_env *lst, int i)
+void	free_matrix(char **allsplit)
 {
-	t_env	*tmp;
+	int	i;
 
-	if (!lst)
-		return ;
-	tmp = lst;
-	if (1 == i)
+	i = 0;
+	while (allsplit[i])
 	{
-		while (tmp)
-		{
-			if (ft_strchr(tmp->line, (int) '='))
-				ft_dprintf(STDOUT_FILENO,"%s=%s\n", tmp->var_name, tmp->var_content);
-			tmp = tmp->next;
-		}
+		free(allsplit[i]);
+		i++;
 	}
-	else if (2 == i)
-		print_lst_env_export(lst);
+	free(allsplit);
+	allsplit = NULL;
 }
 
 int	ft_del_env(t_env **lst)
@@ -66,31 +60,38 @@ int	ft_del_env(t_env **lst)
 	return (0);
 }
 
-int	ft_lstenv_size(t_env *lst)
+void	print_lst_env_export(t_env *lst)
 {
-	int	count;
-
-	count = 0;
-	if (!lst)
-		return (count);
-	while (lst != NULL)
+	while (lst)
 	{
-		count++;
+		ft_dprintf(STDOUT_FILENO, "declare -x %s=", lst->var_name);
+		if (!lst->var_content)
+			ft_dprintf(STDOUT_FILENO, "\"%s\"\n", "");
+		else if (lst->var_content && lst->var_content[0] == '\"')
+			ft_dprintf(STDOUT_FILENO, "%s\n", lst->var_content);
+		else
+			ft_dprintf(STDOUT_FILENO, "\"%s\"\n", lst->var_content);
 		lst = lst->next;
 	}
-	return (count++);
 }
 
-void	free_matrix(char **allsplit)
+void	print_lst_env(t_env *lst, int i)
 {
-	int i;
+	t_env	*tmp;
 
-	i = 0;
-	while (allsplit[i])
+	if (!lst)
+		return ;
+	tmp = lst;
+	if (1 == i)
 	{
-		free(allsplit[i]);
-		i++;
-	} 
-	free(allsplit);
-	allsplit = NULL;
+		while (tmp)
+		{
+			if (ft_strchr(tmp->line, (int) '='))
+				ft_dprintf(STDOUT_FILENO, "%s=%s\n", tmp->var_name,
+					tmp->var_content);
+			tmp = tmp->next;
+		}
+	}
+	else if (2 == i)
+		print_lst_env_export(lst);
 }

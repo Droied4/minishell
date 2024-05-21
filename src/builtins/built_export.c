@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/12 19:31:43 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 19:45:58 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	execute_export(t_shell *sh, char **env)
 	}
 	else if (sh->tokens->next != NULL && sh->env != NULL)
 	{
+		flag = 1;
 		sh->env = exporting_var(*sh, &sh->env, NULL);
 	}
 	if (flag == 0)

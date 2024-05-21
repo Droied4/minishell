@@ -6,33 +6,33 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:37:44 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/10 20:48:43 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 17:23:28 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int error_name_variable(char *str)
+static int	error_name_variable(char *str)
 {
-    ft_dprintf(2, "PongShell : export: `%s': not a valid identifier\n", str);
-    return (1);
+	ft_dprintf(2, "PongShell : export: `%s': not a valid identifier\n", str);
+	return (1);
 }
 
-int is_correct_name(char *name)
+int	is_correct_name(char *name)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (name[i] == '=' || ft_isdigit(name[i]))
-        return (error_name_variable(name));
-    while (name[i] && name[i] != '=')
-    {
-        if (ft_isalnum(name[i]) || name[i]== '_')
-            i++;
-        else
-            return (error_name_variable(name));
-    }
-    return (0);    
+	i = 0;
+	if (name[i] == '=' || ft_isdigit(name[i]))
+		return (error_name_variable(name));
+	while (name[i] && name[i] != '=')
+	{
+		if (ft_isalnum(name[i]) || name[i] == '_')
+			i++;
+		else
+			return (error_name_variable(name));
+	}
+	return (0);
 }
 
 char	**convert_env_dchar(t_env *lst_env, char **env)
