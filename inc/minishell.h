@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/20 17:52:54 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 20:15:35 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,11 @@ char *expansion_final(t_shell *sh, char *str);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
- EXPANSOR_UTILS 1 - 4
+ EXPANSOR_UTILS 1 - 5
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
+char	*aux_trim(char *data);
 char **split_env_var(char *str);
 char *find_env_part(char *str, int *pos);
 char *special_cases(char *special, int exit_status);
@@ -148,7 +149,7 @@ int number_of_char(char *str, char charact);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
-        PARSER BLOCK - 5
+   PARSER BLOCK - 5
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
