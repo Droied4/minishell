@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/20 17:59:08 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 11:00:02 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,12 +130,12 @@
 
 static void	nexec_sig_handler(int sign)
 {
-	char *prompt_str;
+	// char *prompt_str;
 	
 	if (sign == SIGINT)
 	{
-		prompt_str = prompt(130);
-		ft_dprintf(1, "\001%s\002\n", prompt_str);
+		// prompt_str = prompt(130);
+		// ft_dprintf(1, "\001%s\002\n", prompt_str);
 		g_signals = SIGINT;
 		write(1, "\n", 1);
 		rl_replace_line("", 1);
