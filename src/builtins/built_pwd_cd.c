@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:13:30 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/12 19:33:23 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 20:08:46 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	execute_pwd(void)
 	return (EXIT_FAILURE);
 }
 
-static void update_currentpwd_cd(t_env *lst)
+static void	update_currentpwd_cd(t_env *lst)
 {
-	t_env *var_node;
+	t_env	*var_node;
 	char	path[PATH_MAX];
 
 	path[0] = '\0';
@@ -38,9 +38,9 @@ static void update_currentpwd_cd(t_env *lst)
 	var_node->var_content = ft_strdup(path);
 }
 
-static void update_oldpwd_cd(t_env *lst, char *old)
+static void	update_oldpwd_cd(t_env *lst, char *old)
 {
-	t_env *var_node;
+	t_env	*var_node;
 
 	var_node = found_var("OLDPWD", lst);
 	if (!var_node)
@@ -51,10 +51,10 @@ static void update_oldpwd_cd(t_env *lst, char *old)
 
 int	execute_cd(t_shell *sh, char **env)
 {
-	t_env *home;
+	t_env	*home;
 	char	*path;
 	char	oldpath[PATH_MAX];
-	
+
 	if (sh->env == NULL)
 		sh->env = create_lst_env(env);
 	if (sh->tokens->next == NULL)
@@ -68,10 +68,10 @@ int	execute_cd(t_shell *sh, char **env)
 	getcwd(oldpath, sizeof(oldpath));
 	if (chdir(path) == -1)
 		ft_dprintf(STDERR_FILENO, "path did not found bro\n");
-	else 
+	else
 	{
 		update_oldpwd_cd(sh->env, oldpath);
 		update_currentpwd_cd(sh->env);
-	}	
+	}
 	return (0);
 }

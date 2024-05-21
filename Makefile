@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/21 19:37:51 by avolcy           ###   ########.fr        #
+#    Updated: 2024/05/21 19:56:37 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,8 @@ HEADER = $(INCLUDE_PATH)/minishell.h $(INCLUDE_PATH)/struct.h $(INCLUDE_PATH)/ma
 
 # Sources
 
+SOURCES = minishell.c  signals.c
+
 LEXER = lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c 
 
 EXECUTOR = executor.c exec_redir.c exec_cmds.c exec_conec.c
@@ -46,17 +48,16 @@ EXECUTOR = executor.c exec_redir.c exec_cmds.c exec_conec.c
 PARSER = parser.c parser_input.c parser_entry.c word_lst.c \
 		parser_cmd.c redir_lst.c parser_redir.c
 
+AUX = aux_dei.c aux_archly.c is_something.c aux_arch.c manage.c
+
 BUILTINS = builtins.c built_export.c built_pwd_cd.c built_unset.c \
 		built_echo.c built_env.c
 
-SOURCES = minishell.c aux_dei.c aux_archly.c is_something.c aux_arch.c \
-          manage.c signals.c
-		   
 EXPANSOR = expansor.c expansor_utils1.c expansor_utils2.c expansor_utils3.c 
-
 
 # Objects and dependencies
 OBJECTS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.c=.o})
+OBJECTS += $(addprefix $(OBJECTS_PATH)/aux/, ${AUX:.c=.o})
 OBJECTS += $(addprefix $(OBJECTS_PATH)/lexer/, ${LEXER:.c=.o})
 OBJECTS += $(addprefix $(OBJECTS_PATH)/parser/, ${PARSER:.c=.o})
 OBJECTS += $(addprefix $(OBJECTS_PATH)/builtins/, ${BUILTINS:.c=.o})

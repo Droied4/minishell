@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 18:36:44 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/12 19:22:52 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 20:08:16 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	execute_unset(t_shell **sh, t_env *node, char **env)
 {
-	t_env   *left;
-	t_env   *right;
-	
+	t_env	*left;
+	t_env	*right;
+
 	if ((*sh)->env == NULL)
 		(*sh)->env = create_lst_env(env);
 	node = found_var((*sh)->tokens->next->data, (*sh)->env);
@@ -31,7 +31,7 @@ void	execute_unset(t_shell **sh, t_env *node, char **env)
 	}
 	else
 	{
-		left->next = right; 
+		left->next = right;
 		if (right)
 			right->prev = left;
 	}

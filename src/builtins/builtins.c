@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/12 19:24:06 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 20:06:51 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	execute_exit(t_shell *sh)
 	exit(0);
 }
 
-//segv if env -i ./minishell && env passed
 int	execute_builtins(t_shell *shell, char **env)
 {
+	/*segv if env -i ./minishell && env passed*/
 	if (shell->tokens && shell->tokens->data)
 	{
 		if (!ft_strncmp(shell->tokens->data, "cd", 3))
@@ -47,7 +47,6 @@ int	execute_builtins(t_shell *shell, char **env)
 			if (shell->tokens->next == NULL)
 				return (1);
 			execute_unset(&shell, NULL, env);
-			// print_lst_env(shell->env, 1);//test puurposes;
 		}
 	}
 	return (0);
