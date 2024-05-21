@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/21 17:21:25 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 21:28:55 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,37 @@ ctrl + C displays a new prompt on a new line.
 ctrl + D exits the shell.
 ctrl + \ does nothing */
 
+
+/*	disable_control_chars_echo()
+ *   
+ *  The extra characters ^C and ^\ (a.k.a control characters) are added to the
+ *	terminal's input buffer when you press CTRL+C or CTRL+\ to send SIGINT or 
+ *	SIGQUIT signals. To prevent these control characters from being displayed 
+ *	in minishell's prompt we must configure the terminal to not echo control
+ *	characters. This can achieve this by setting the terminal's attributes, 
+ *	specifically the ECHOCTL flag, using the termios library in C. 
+ */
+void	disable_control_chars_echo(void)
+{
+	struct termios	new_termios;
+
+	tcgetattr(0, &new_termios);
+	new_termios.c_lflag &= ~ECHOCTL;
+	tcsetattr(0, TCSANOW, &new_termios);
+}
+
+/*	restore_terminal_settings()
+ *
+ *	Sets terminal configuration back to the original settings
+ */
+void	restore_terminal_settings(void)
+{
+	struct termios	new_termios;	
+
+	tcgetattr(0, &new_termios);
+	new_termios.c_lflag |= ECHOCTL;
+	tcsetattr(0, TCSANOW, &new_termios);
+}
 static void	interactive_sig_handler(int sign)
 {
 	
@@ -49,6 +80,11 @@ static void	interactive_sig_handler(int sign)
 	}
 }
 
+static void sigquit_handler()
+{
+	ft_dprintf(1, "exit");
+	exit(0);
+}
 static void	stop_sig_handler(int sign)
 {
 	write(1, "\n", 1);
@@ -62,7 +98,7 @@ void	ft_signals(t_shell *sh, t_signal mode)
 	{
 		signal(SIGINT, interactive_sig_handler);
 		sh->exit_status = 130;
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, sigquit_handler);
 	}
 	else if (mode == NON_INTERACTIVE)
 	{

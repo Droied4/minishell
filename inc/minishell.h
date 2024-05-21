@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/21 20:15:35 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 21:14:46 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <termios.h>
 #include <unistd.h>
 #include "../library/readline-8.1/readline.h"
 #include "../library/readline-8.1/history.h"
@@ -36,6 +37,10 @@
                 LEXER - 5
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+
+void	restore_terminal_settings(void);
+void	disable_control_chars_echo(void);
+
 extern  sig_atomic_t volatile g_signals;
 void	ft_signals(t_shell *sh, t_signal mode);
 

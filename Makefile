@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/21 19:56:37 by avolcy           ###   ########.fr        #
+#    Updated: 2024/05/21 22:02:39 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,9 @@ OBJECTS += $(addprefix $(OBJECTS_PATH)/executor/, ${EXECUTOR:.c=.o})
 DEPS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.c=.d})
 
 # Colors
+G = \033[1;32m
+O = \033[38;5;208m
+C = \033[1;36m
 RED=\033[0;31m
 CYAN=\033[0;36m
 GREEN=\033[0;32m
@@ -87,7 +90,7 @@ make_libs:
 -include $(DEPS)
 
 $(NAME): $(LIBFT) $(OBJECTS) $(DPRINTF) $(READLINE_LIBS)
-	@printf "$(CYAN)$@ Compiled$(NC)\n";
+	@printf "$(CYAN)$@ has been$(NC)$(G)Successfully$(NC)$(CYAN)Compiled$(NC)\n\n";
 	@$(CC) $(CFLAGS) $^ -o $(NAME) -L$(LOCAL_INSTALL_PATH)/lib -I$(LOCAL_INSTALL_PATH)/include -lncurses -lreadline
 
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
@@ -149,14 +152,14 @@ header:
 	@printf	" \t\t|  \_________________________________________/   | \n";
 	@printf	" \t\t|     avolcy /|\ deordone                    ⚬   | \n";
 	@printf	"  \t\t\______________________________________________/   \n";
-	@printf	"  \t\t         !____________________________! \n";
+	@printf	"  \t\t         !____________________________! \n\n";
 	@echo
 
 author: 
 	@echo;
-	@printf "$(WHITE)			   https://github.com/Droied4 \n";
+	@printf "$(O)			    https://github.com/Droied4 \n";
 	@printf "$(RED)	    ══════════════════════════「₪」══════════════════════════\n";
-	@printf "$(WHITE)			  https://github.com/ZenitsuTHB\n";
+	@printf "$(O)			   https://github.com/ZenitsuTHB\n";
 	@echo;
 
 .PHONY: all clean fclean re vg

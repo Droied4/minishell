@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/21 16:00:00 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 21:13:39 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	main(int ac, char **av, char **env)
 		prompt_str = prompt(sh.exit_status);
 		ft_dprintf(1, "\001%s\002\n", prompt_str);
 		ft_signals(&sh, INTERACTIVE);
+		disable_control_chars_echo();
 		sh.line = readline("");
 		if (!sh.line)
 			exit(1);
@@ -72,6 +73,7 @@ int	main(int ac, char **av, char **env)
 			//convert lst_env into char **matriz_env
 			if (!sh.matriz_env)
 				sh.matriz_env = convert_env_dchar(sh.env, env);
+			restore_terminal_settings();
 			executor(&sh);
 		}
 		soft_exit(&sh);
