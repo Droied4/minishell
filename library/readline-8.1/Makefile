@@ -31,7 +31,7 @@ PACKAGE_TARNAME = readline
 srcdir = .
 
 top_srcdir = .
-BUILD_DIR = /Users/avolcy/Cursus42/minishell/library/readline-8.1
+BUILD_DIR = ./
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}

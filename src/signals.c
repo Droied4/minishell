@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/21 11:00:02 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/21 15:43:25 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,9 +150,9 @@ static void	stop_sig_handler(int sign)
 	if (sign == SIGINT)
 		signal(SIGINT, SIG_IGN);
 }
+
 void	ft_signals(t_shell *sh, t_signal mode)
 {
-	(void)sh;
 	if (mode == INTERACTIVE)
 	{
 		signal(SIGINT, nexec_sig_handler);
