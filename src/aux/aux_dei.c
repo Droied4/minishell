@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/06 14:47:07 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/22 21:28:52 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int	char_is_inside(char const *str, char c)
 	while (str[i])
 	{
 		if (str[i] == c)
-			return (1);
+			return (i);
 		i++;
 	}
 	return (-1);

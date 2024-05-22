@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/21 21:28:55 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/22 21:37:56 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ static void	interactive_sig_handler(int sign)
 	}
 }
 
-static void sigquit_handler()
-{
-	ft_dprintf(1, "exit");
-	exit(0);
-}
+// static void sigquit_handler()
+// {
+// 	ft_dprintf(1, "Quit\n");
+// 	exit(0);
+// }
 static void	stop_sig_handler(int sign)
 {
 	write(1, "\n", 1);
@@ -94,11 +94,12 @@ static void	stop_sig_handler(int sign)
 
 void	ft_signals(t_shell *sh, t_signal mode)
 {
+	(void)sh;
 	if (mode == INTERACTIVE)
 	{
 		signal(SIGINT, interactive_sig_handler);
-		sh->exit_status = 130;
-		signal(SIGQUIT, sigquit_handler);
+		// sh->exit_status = 130;
+		signal(SIGQUIT, SIG_IGN);//sigquit_handler);
 	}
 	else if (mode == NON_INTERACTIVE)
 	{
@@ -109,7 +110,7 @@ void	ft_signals(t_shell *sh, t_signal mode)
 	{
 		//signals to put in heredoc ❗️
 		signal(SIGINT, stop_sig_handler);
-		sh->exit_status = 131;
+		// sh->exit_status = 131;
 		signal(SIGQUIT, SIG_IGN);
 	}
 }

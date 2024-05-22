@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/21 21:13:39 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/22 21:49:31 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,3 +80,16 @@ int	main(int ac, char **av, char **env)
 	}
 	return (0);
 }
+
+
+/*
+
+	- arreglar exit status
+	- echo "hi'bye" ✅
+	- '<  te mete en un lugar extraño(que es lo correcto) pero al salir con ctr-d da segfault
+	- echo ""hola como '"' estas a ---> da segfault;
+	- exit con muchos parametros no funciona correctamente (too many arguments) ($? = 1)
+	- exit con primer parametro con letras (numeric argument required) ($? = 255)
+	- unset PATH -> NO DEBERIA FUNCIONAR, pero funciona :(
+	- comillas juntas hace que pete -> echo ""'❗️
+*/

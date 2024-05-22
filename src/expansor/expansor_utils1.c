@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:12:42 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/21 20:36:18 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/22 15:32:47 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*aux_trim(char *data)
 		return (trimmer_quotes(data, SQUOT));
 	else if (pos_squote > 0 && pos_squote > pos_dquote)
 		return (trimmer_quotes(data, DQUOT));
-	return (NULL);
+	return (ft_strdup(""));
 }
 
 char	**split_env_var(char *str)
