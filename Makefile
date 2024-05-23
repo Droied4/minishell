@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/23 21:06:17 by avolcy           ###   ########.fr        #
+#    Updated: 2024/05/23 21:42:14 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ LIBRARY_PATH	= ./library
 LIBFT_PATH	= $(LIBRARY_PATH)/libft
 DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
 READLINE_PATH = $(LIBRARY_PATH)/readline-8.1/
-LOCAL_INSTALL_PATH = $(HOME)/local
+LOCAL_INSTALL_PATH = ./library
 
 # Libraries
 LIBFT = $(LIBFT_PATH)/libft.a
