@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/13 19:18:09 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:55:02 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,12 @@ typedef enum e_block_type
 	B_CMD,     // 5
 	B_FILE     // 6
 }								t_block_type;
+
+typedef enum e_signal
+{
+    HEREDOC,
+    INTERACTIVE,
+    NON_INTERACTIVE
+}   t_signal;
 
 #endif

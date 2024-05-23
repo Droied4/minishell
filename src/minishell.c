@@ -6,13 +6,15 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/11 22:01:02 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/22 21:49:31 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*prompt(int exit_status)
+sig_atomic_t volatile g_signals = 0;
+
+char	*prompt(int exit_status)
 {
 	char	*e_itoa;
 	char	*str;
@@ -42,6 +44,7 @@ static void	init_sh(t_shell *sh, char **env)
 	sh->env = create_lst_env(env);
 }
 
+
 int	main(int ac, char **av, char **env)
 {
 	t_shell	sh;
@@ -51,10 +54,11 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
     init_sh(&sh, env);
 	while (1)
-	{
-		// where does the builtins are called
+	{	
 		prompt_str = prompt(sh.exit_status);
-		printf("\001%s\002\n", prompt_str);
+		ft_dprintf(1, "\001%s\002\n", prompt_str);
+		ft_signals(&sh, INTERACTIVE);
+		disable_control_chars_echo();
 		sh.line = readline("");
 		if (!sh.line)
 			exit(1);
@@ -66,10 +70,26 @@ int	main(int ac, char **av, char **env)
 		//print_tokens(sh.tokens);
 		//	print_words(sh.pro.w);
 		//	print_redir(sh.pro.r);
-			sh.matriz_env = convert_env_dchar(sh.env, env);//convert lst_env into char **matriz_env
+			//convert lst_env into char **matriz_env
+			if (!sh.matriz_env)
+				sh.matriz_env = convert_env_dchar(sh.env, env);
+			restore_terminal_settings();
 			executor(&sh);
 		}
 		soft_exit(&sh);
 	}
 	return (0);
 }
+
+
+/*
+
+	- arreglar exit status
+	- echo "hi'bye" ✅
+	- '<  te mete en un lugar extraño(que es lo correcto) pero al salir con ctr-d da segfault
+	- echo ""hola como '"' estas a ---> da segfault;
+	- exit con muchos parametros no funciona correctamente (too many arguments) ($? = 1)
+	- exit con primer parametro con letras (numeric argument required) ($? = 255)
+	- unset PATH -> NO DEBERIA FUNCIONAR, pero funciona :(
+	- comillas juntas hace que pete -> echo ""'❗️
+*/

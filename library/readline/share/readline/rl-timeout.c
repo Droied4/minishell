@@ -33,13 +33,13 @@
 #include <stdio.h>
 
 /* Standard readline include files. */
-#if defined (READLINE_LIBRARY)
+// #if defined (READLINE_LIBRARY)
 #  include "readline.h"
 #  include "history.h"
-#else
-#  include <readline/readline.h>
-#  include <readline/history.h>
-#endif
+// #else
+// #  include <readline/readline.h>
+// #  include <readline/history.h>
+// #endif
 
 extern int errno;
 

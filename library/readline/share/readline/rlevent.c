@@ -48,15 +48,15 @@ extern void exit();
 #  include <locale.h>
 #endif
 
-#if defined (READLINE_LIBRARY)
+// #if defined (READLINE_LIBRARY)
 #  include "posixstat.h"
 #  include "readline.h"
 #  include "history.h"
-#else
-#  include <sys/stat.h>
-#  include <readline/readline.h>
-#  include <readline/history.h>
-#endif
+// #else
+// #  include <sys/stat.h>
+// #  include <readline/readline.h>
+// #  include <readline/history.h>
+// #endif
 
 extern int optind;
 extern char *optarg;
