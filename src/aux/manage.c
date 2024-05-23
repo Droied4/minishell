@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:38:06 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/03 02:09:08 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/23 19:58:58 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	hard_exit(t_shell *sh)
 	ft_deltoken(&sh->tokens);
 	ft_del_redirs(&sh->pro.r);
 	ft_del_words(&sh->pro.w);
+	ft_del_env(&sh->env);
 	clear_history();
 	free(sh->line);
 	exit(1);

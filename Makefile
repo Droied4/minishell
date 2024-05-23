@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/21 22:02:39 by avolcy           ###   ########.fr        #
+#    Updated: 2024/05/23 21:06:17 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,6 +107,7 @@ $(DPRINTF) :
 	@printf "$(CYAN)Compiling $@$(NC)\n";
 	@make -C $(DPRINTF_PATH) > /dev/null
 
+# Documentation about this part will be interesting 🅰️
 subsystems: configure-readline
 	@make -C $(READLINE_PATH) static
 
