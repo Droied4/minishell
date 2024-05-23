@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/22 21:37:56 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/23 10:47:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ void	disable_control_chars_echo(void)
 	tcgetattr(0, &new_termios);
 	new_termios.c_lflag &= ~ECHOCTL;
 	tcsetattr(0, TCSANOW, &new_termios);
+}
+void	print_slash_n(int signo)
+{
+    (void)signo;
+	printf("\n");
+	rl_on_new_line();
 }
 
 /*	restore_terminal_settings()
