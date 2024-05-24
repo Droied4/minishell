@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/23 10:47:41 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/24 19:50:22 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ static void	interactive_sig_handler(int sign)
 	
 	if (sign == SIGINT)
 	{
-		g_signals = SIGINT;
-		write(1, "\n", 1);
-		rl_replace_line("", 1);
+		g_signals = 130;
+		rl_replace_line("", 0);
+		ft_dprintf(2, "\001\n\033[0;31m130 \033[0m 🏓 PongShell \n\002");
 		rl_on_new_line();
 		rl_redisplay();
 	}
@@ -103,8 +103,7 @@ void	ft_signals(t_shell *sh, t_signal mode)
 	(void)sh;
 	if (mode == INTERACTIVE)
 	{
-		signal(SIGINT, interactive_sig_handler);
-		// sh->exit_status = 130;
+		signal(SIGINT, interactive_sig_handler); 
 		signal(SIGQUIT, SIG_IGN);//sigquit_handler);
 	}
 	else if (mode == NON_INTERACTIVE)
