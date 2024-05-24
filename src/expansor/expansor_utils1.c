@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:12:42 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/22 15:32:47 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/24 17:46:40 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*find_env_part(char *str, int *pos)
 	return (part);
 }
 
-char	*is_special_dollar(char *data, int num_dollar, int i)
+/*char	*is_special_dollar(char *data, int num_dollar, int i)
 {
 	pid_t	pid;
 	char	*print_pid;
@@ -95,7 +95,7 @@ char	*is_special_dollar(char *data, int num_dollar, int i)
 			print_pid = ft_strjoin2(print_pid, data);
 	}
 	return (free(str_pid), print_pid);
-}
+}*/
 
 char	*special_cases(char *special, int exit_status)
 {
@@ -109,5 +109,5 @@ char	*special_cases(char *special, int exit_status)
 		return (free(special), str_exit_status);
 	}
 	else
-		return (is_special_dollar(special, number_of_char(special, '$'), 0));
+		return (ft_strdup(special));
 }

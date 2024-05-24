@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/23 21:42:14 by avolcy           ###   ########.fr        #
+#    Updated: 2024/05/24 18:04:09 by avolcy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,13 @@ INCLUDE_PATH    = ./inc
 LIBRARY_PATH	= ./library
 LIBFT_PATH	= $(LIBRARY_PATH)/libft
 DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
-READLINE_PATH = $(LIBRARY_PATH)/readline-8.1/
+READLINE_PATH = $(LIBRARY_PATH)/readline
 LOCAL_INSTALL_PATH = ./library
 
 # Libraries
 LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
-READLINE_LIBS = $(READLINE_PATH)libreadline.a $(READLINE_PATH)libhistory.a
+READLINE_LIBS = $(READLINE_PATH)/libreadline.a $(READLINE_PATH)/libhistory.a
 
 # Headers
 HEADER = $(INCLUDE_PATH)/minishell.h $(INCLUDE_PATH)/struct.h $(INCLUDE_PATH)/macros.h
@@ -91,7 +91,7 @@ make_libs:
 
 $(NAME): $(LIBFT) $(OBJECTS) $(DPRINTF) $(READLINE_LIBS)
 	@printf "$(CYAN)$@ has been$(NC)$(G)Successfully$(NC)$(CYAN)Compiled$(NC)\n\n";
-	@$(CC) $(CFLAGS) $^ -o $(NAME) -L$(LOCAL_INSTALL_PATH)/lib -I$(LOCAL_INSTALL_PATH)/include -lncurses -lreadline
+	@$(CC) $(CFLAGS) $^ -lcurses -o $(NAME)  
 
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
 		@mkdir -p $(dir $@)

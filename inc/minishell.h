@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/21 21:14:46 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/24 18:05:23 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 #include <sys/wait.h>
 #include <termios.h>
 #include <unistd.h>
-#include "../library/readline-8.1/readline.h"
-#include "../library/readline-8.1/history.h"
+#include "../library/readline/readline.h"
+#include "../library/readline/history.h"
 // # include <editline/readline.h>
 
 /*

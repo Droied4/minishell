@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/23 21:33:06 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/24 18:10:25 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	execute_exit(t_shell *sh)
 		normal_exit(sh, 255);
 	}
 	else
-		normal_exit(sh, 0);
+		normal_exit(sh, sh->exit_status);
 }
 
 int	execute_builtins(t_shell *shell, char **env)

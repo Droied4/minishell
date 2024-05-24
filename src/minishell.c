@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/22 21:52:51 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/24 18:09:55 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{	
 		prompt_str = prompt(sh.exit_status);
-		ft_dprintf(1, "\001%s\002\n", prompt_str);
+		//ft_dprintf(1, "\001%s\002\n", prompt_str);
 		ft_signals(&sh, INTERACTIVE);
 		disable_control_chars_echo();
-		sh.line = readline("");
+		sh.line = readline(prompt_str);
 		if (!sh.line)
-			exit(1);
+			execute_exit(&sh);// <- call the exit builtin with no params
 		free(prompt_str);
 		add_history(sh.line);
 		sh.tokens = generate_tokens(sh.line);
