@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/24 18:04:09 by avolcy           ###   ########.fr        #
+#    Updated: 2024/05/24 18:25:23 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ BLUE=\033[0;34m
 NC=\033[0m # No color
 
 # Rules
-all: subsystems header $(NAME) author
+all: header $(NAME) author
 
 make_libs:
 	@make -C $(LIBFT_PATH) > /dev/null
@@ -107,17 +107,12 @@ $(DPRINTF) :
 	@printf "$(CYAN)Compiling $@$(NC)\n";
 	@make -C $(DPRINTF_PATH) > /dev/null
 
-# Documentation about this part will be interesting 🅰️
-subsystems: configure-readline
+$(READLINE_LIBS): $(READLINE_PATH)/Makefile
 	@make -C $(READLINE_PATH) static
 
-configure-readline:
-	@if ! grep -q "$(READLINE_ABSOLUTE_PATH)" "$(READLINE_PATH)/config.status"; then \
+$(READLINE_PATH)/Makefile:
 		echo "$(YELLOW)READLINE WILL BE CONFIGURED$(DEFAULT)"; \
 		cd $(READLINE_PATH) && ./configure; \
-	else \
-	 	echo "$(YELLOW)READLINE ALREADY CONFIGURED$(DEFAULT)"; \
-	fi
 	
 clean:
 	@printf "$(CYAN)Cleaning objects and libraries$(NC)\n";
