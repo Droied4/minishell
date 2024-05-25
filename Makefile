@@ -3,58 +3,75 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/20 18:39:55 by deordone         ###   ########.fr        #
+#    Updated: 2024/05/25 12:28:31 by droied           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               MINISHELL                                      #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
+#
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g #-fsanitize=address
-# ╔══════════════════════════════════════════════════════════════════════════╗ #  
-#                               SOURCES                                        #
-# ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
+# Paths
 SOURCES_PATH    = ./src
 OBJECTS_PATH    = ./obj
 INCLUDE_PATH    = ./inc
 LIBRARY_PATH	= ./library
 LIBFT_PATH	= $(LIBRARY_PATH)/libft
 DPRINTF_PATH	= $(LIBRARY_PATH)/dprintf
+READLINE_PATH = $(LIBRARY_PATH)/readline
+LOCAL_INSTALL_PATH = ./library
+
+# Libraries
 LIBFT = $(LIBFT_PATH)/libft.a
 DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
-READLINE_PATH = $(LIBRARY_PATH)/readline/
+READLINE_LIBS = $(READLINE_PATH)/libreadline.a $(READLINE_PATH)/libhistory.a
 
-HEADER = $(INCLUDE_PATH)/minishell.h
-HEADER += $(INCLUDE_PATH)/struct.h
-HEADER += $(INCLUDE_PATH)/macros.h
+# Headers
+HEADER = $(INCLUDE_PATH)/minishell.h $(INCLUDE_PATH)/struct.h $(INCLUDE_PATH)/macros.h
 
-SOURCES = minishell.c aux_dei.c aux_archly.c is_something.c aux_arch.c \
-		  manage.c \
-		  lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c \
-		  parser.c parser_input.c parser_entry.c \
-		  expansor.c expansor_utils1.c expansor_utils2.c expansor_utils3.c \
-		  word_lst.c parser_cmd.c redir_lst.c parser_redir.c \
-		  executor.c exec_redir.c exec_cmds.c exec_conec.c\
-		  builtins.c built_export.c built_pwd_cd.c built_unset.c built_echo.c\
-		  built_env.c \
+# Sources
 
-# ╔══════════════════════════════════════════════════════════════════════════╗ #  
-#                               OBJECTS                                        #
-# ╚══════════════════════════════════════════════════════════════════════════╝ #  
+SOURCES = minishell.c  signals.c
 
+LEXER = lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c 
+
+EXECUTOR = executor.c exec_redir.c exec_cmds.c exec_conec.c
+
+PARSER = parser.c parser_input.c parser_entry.c word_lst.c \
+		parser_cmd.c redir_lst.c parser_redir.c
+
+AUX = aux_dei.c aux_archly.c is_something.c aux_arch.c manage.c
+
+BUILTINS = builtins.c built_export.c built_pwd_cd.c built_unset.c \
+		built_echo.c built_env.c
+
+EXPANSOR = expansor.c expansor_utils1.c expansor_utils2.c expansor_utils3.c 
+
+# Objects and dependencies
 OBJECTS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.c=.o})
+OBJECTS += $(addprefix $(OBJECTS_PATH)/aux/, ${AUX:.c=.o})
+OBJECTS += $(addprefix $(OBJECTS_PATH)/lexer/, ${LEXER:.c=.o})
+OBJECTS += $(addprefix $(OBJECTS_PATH)/parser/, ${PARSER:.c=.o})
+OBJECTS += $(addprefix $(OBJECTS_PATH)/builtins/, ${BUILTINS:.c=.o})
+OBJECTS += $(addprefix $(OBJECTS_PATH)/expansor/, ${EXPANSOR:.c=.o})
+OBJECTS += $(addprefix $(OBJECTS_PATH)/executor/, ${EXECUTOR:.c=.o})
+
 DEPS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.c=.d})
 
-# ╔══════════════════════════════════════════════════════════════════════════╗ #  
-#                               COLORS                                         #
-# ╚══════════════════════════════════════════════════════════════════════════╝ #  
+# Colors
+G = \033[1;32m
+O = \033[38;5;208m
+C = \033[1;36m
+B = \033[34m
+M = \033[35m
 RED=\033[0;31m
 CYAN=\033[0;36m
 GREEN=\033[0;32m
@@ -63,11 +80,9 @@ WHITE=\033[0;97m
 BLUE=\033[0;34m
 NC=\033[0m # No color
 
-# ╔══════════════════════════════════════════════════════════════════════════╗ #  
-#                                RULES                                         #
-# ╚══════════════════════════════════════════════════════════════════════════╝ #  
-
+# Rules
 all: header $(NAME) author
+
 make_libs:
 	@make -C $(LIBFT_PATH) > /dev/null
 	@printf "$(CYAN)Compiling $(LIBFT_PATH)$(NC)\n";
@@ -76,40 +91,50 @@ make_libs:
 
 -include $(DEPS)
 
-$(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF) 
-	@printf "$(CYAN)$@ Compiled$(NC)\n";
-	@$(CC) $(CFLAGS) $^ -o $(NAME)  -lreadline -L $(READLINE_PATH)lib -I $(READLINE_PATH)include
+$(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF) $(READLINE_LIBS)
+	@printf "$(CYAN)$@ has been$(NC)$(G)Successfully$(NC)$(CYAN)Compiled$(NC)\n\n";
+	@$(CC) $(CFLAGS) $^ -lcurses -o $(NAME)  
 
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
-		@printf "$(CYAN)Compiling $@$(NC)\n";
 		@mkdir -p $(dir $@)
-		@$(CC) $(CFLAGS) -c $< -o $@ 
-
+		@printf "$(CYAN)Compiling $@$(NC)\r";
+		@$(CC) -DREADLINE_LIBRARY $(CFLAGS) -c $< -o $@ 
 
 $(LIBFT) :
 	@printf "$(CYAN)Compiling $@$(NC)\n";
-	@make -C $(LIBFT_PATH) > /dev/null
+	@make -C $(LIBFT_PATH) > /dev/null 
+	@make -C $(READLINE_PATH) static 
 
 $(DPRINTF) :
 	@printf "$(CYAN)Compiling $@$(NC)\n";
 	@make -C $(DPRINTF_PATH) > /dev/null
 
+$(READLINE_LIBS): $(READLINE_PATH)/Makefile
+	@make -C $(READLINE_PATH) static
+
+$(READLINE_PATH)/Makefile:
+		echo "$(YELLOW)READLINE WILL BE CONFIGURED$(DEFAULT)"; \
+		cd $(READLINE_PATH) && ./configure; \
+	
 clean:
 	@printf "$(CYAN)Cleaning objects and libraries$(NC)\n";
 	@rm -rf $(OBJECTS_PATH) 
 	@make clean -C $(LIBFT_PATH) > /dev/null
 	@make clean -C $(DPRINTF_PATH) > /dev/null
+	clear
 
 fclean : clean
 	@printf "$(CYAN)Cleaning objects, libraries and executable$(NC)\n";
 	@rm -rf $(NAME)
 	@make fclean -C $(LIBFT_PATH) > /dev/null
 	@make fclean -C $(DPRINTF_PATH) > /dev/null
+	clear
 
 re: fclean all 
 
 vg: all
 	valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --track-fds=yes --suppressions=readline.supp ./$(NAME)
+
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                              MY RULES                                        #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
@@ -127,14 +152,14 @@ header:
 	@printf	" \t\t|  \_________________________________________/   | \n";
 	@printf	" \t\t|     avolcy /|\ deordone                    ⚬   | \n";
 	@printf	"  \t\t\______________________________________________/   \n";
-	@printf	"  \t\t         !____________________________! \n";
+	@printf	"  \t\t         !____________________________! \n\n";
 	@echo
 
 author: 
 	@echo;
-	@printf "$(WHITE)			   https://github.com/Droied4 \n";
+	@printf "$(O)			    https://github.com/Droied4 \n";
 	@printf "$(RED)	    ══════════════════════════「₪」══════════════════════════\n";
-	@printf "$(WHITE)			  https://github.com/ZenitsuTHB\n";
+	@printf "$(O)			   https://github.com/ZenitsuTHB\n";
 	@echo;
 
-.PHONY: all clean fclean re vg
+.PHONY: all clean fclean re vg 

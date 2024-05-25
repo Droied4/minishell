@@ -6,21 +6,17 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/12 19:25:31 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/25 12:22:37 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../library/dprintf/ft_dprintf.h"
-# include "../library/libft/libft.h"
 # include "macros.h"
 # include "struct.h"
 # include <errno.h>
 # include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -28,6 +24,10 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include "../library/libft/libft.h"
+# include "../library/dprintf/ft_dprintf.h"
+# include <../library/readline/history.h>
+# include <../library/readline/readline.h>
 //# include <editline/readline.h>
 
 /*
