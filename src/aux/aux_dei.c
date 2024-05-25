@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/06 14:47:07 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/22 21:59:59 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	print_tokens(t_token *lst)
 	tmp = lst;
 	while (tmp)
 	{
-		printf("\nToken %i\n", tmp->index);
-		printf("data -> %s\n", tmp->data);
-		printf("type -> %i\n", tmp->type);
-		printf("curr -> %p\n", tmp);
-		printf("prev -> %p\n", tmp->prev);
-		printf("next -> %p\n", tmp->next);
+		ft_dprintf(1, "\nToken %i\n", tmp->index);
+		ft_dprintf(1, "data -> %s\n", tmp->data);
+		ft_dprintf(1, "type -> %i\n", tmp->type);
+		ft_dprintf(1, "curr -> %p\n", tmp);
+		ft_dprintf(1, "prev -> %p\n", tmp->prev);
+		ft_dprintf(1, "next -> %p\n", tmp->next);
 		tmp = tmp->next;
 	}
 }
@@ -38,25 +38,25 @@ void	print_words(t_words *lst)
 	while (tmp)
 	{
 		i = -1;
-		printf(GREEN "\n-----------------------\n");
-		printf(GREEN "|    Block Of Words   %i |\n", tmp->index);
-		printf(GREEN "-----------------------\n");
+		ft_dprintf(1,GREEN "\n-----------------------\n");
+		ft_dprintf(1,GREEN "|    Block Of Words   %i |\n", tmp->index);
+		ft_dprintf(1,GREEN "-----------------------\n");
 		if (tmp->cmd)
 		{
-			printf(NC "cmd ->");
+			ft_dprintf(1,NC "cmd ->");
 			while (tmp->cmd[++i])
-				printf(NC " %s ", tmp->cmd[i]);
+				ft_dprintf(1,NC " %s ", tmp->cmd[i]);
 		}
 		else
-			printf(RED "cmd -> NULL");
-		printf("\npath -> %s\n", tmp->path);
-		printf("in_fd -> %i\n", tmp->in);
-		printf("out_fd -> %i\n", tmp->out);
-		printf(GREEN "---------------------\n");
-		printf(NC "curr -> %p\n", tmp);
-		printf(NC "next -> %p\n", tmp->next);
-		printf(GREEN "---------------------");
-		printf(NC "\n");
+			ft_dprintf(1,RED "cmd -> NULL");
+		ft_dprintf(1, "\npath -> %s\n", tmp->path);
+		ft_dprintf(1, "in_fd -> %i\n", tmp->in);
+		ft_dprintf(1, "out_fd -> %i\n", tmp->out);
+		ft_dprintf(1, GREEN "---------------------\n");
+		ft_dprintf(1, NC "curr -> %p\n", tmp);
+		ft_dprintf(1, NC "next -> %p\n", tmp->next);
+		ft_dprintf(1, GREEN "---------------------");
+		ft_dprintf(1, NC "\n");
 		tmp = tmp->next;
 	}
 }
@@ -68,28 +68,28 @@ void	print_redir(t_redir *lst)
 	tmp = lst;
 	while (tmp)
 	{
-		printf(CYAN "\n-----------------------\n");
-		printf(CYAN "|Block Of Redirections %i|\n", tmp->index);
-		printf(CYAN "-----------------------\n");
+		ft_dprintf(1, CYAN "\n-----------------------\n");
+		ft_dprintf(1, CYAN "|Block Of Redirections %i|\n", tmp->index);
+		ft_dprintf(1, CYAN "-----------------------\n");
 		if (tmp->type == 0)
-			printf(NC "\ntype -> %s\n", "PIPE");
+			ft_dprintf(1, NC "\ntype -> %s\n", "PIPE");
 		else if (tmp->type == 1)
-			printf(NC "\ntype -> %s\n", "GREAT");
+			ft_dprintf(1, NC "\ntype -> %s\n", "GREAT");
 		else if (tmp->type == 2)
-			printf(NC "\ntype -> %s\n", "LESS");
+			ft_dprintf(1, NC "\ntype -> %s\n", "LESS");
 		else if (tmp->type == 3)
-			printf(NC "\ntype -> %s\n", "DGREAT");
+			ft_dprintf(1, NC "\ntype -> %s\n", "DGREAT");
 		else if (tmp->type == 4)
-			printf(NC "\ntype -> %s\n", "DLESS");
+			ft_dprintf(1, NC "\ntype -> %s\n", "DLESS");
 		if (tmp->file)
-			printf(NC "file -> %s\n", tmp->file);
+			ft_dprintf(1, NC "file -> %s\n", tmp->file);
 		else
-			printf(RED "file -> NULL\n");
-		printf(CYAN "---------------------\n");
-		printf(NC "curr -> %p\n", tmp);
-		printf(NC "next -> %p\n", tmp->next);
-		printf(CYAN "---------------------");
-		printf(NC "\n");
+			ft_dprintf(1, RED "file -> NULL\n");
+		ft_dprintf(1, CYAN "---------------------\n");
+		ft_dprintf(1, NC "curr -> %p\n", tmp);
+		ft_dprintf(1, NC "next -> %p\n", tmp->next);
+		ft_dprintf(1, CYAN "---------------------");
+		ft_dprintf(1, NC "\n");
 		tmp = tmp->next;
 	}
 }
@@ -158,7 +158,7 @@ int	char_is_inside(char const *str, char c)
 	while (str[i])
 	{
 		if (str[i] == c)
-			return (1);
+			return (i);
 		i++;
 	}
 	return (-1);

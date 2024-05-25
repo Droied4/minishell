@@ -6,30 +6,52 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/13 13:36:47 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/24 19:43:56 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+//✔
 #include "minishell.h"
 
-static char	*prompt(int exit_status)
-{
-	char	*e_itoa;
-	char	*str;
-	char	*final_str;
+sig_atomic_t volatile g_signals = 0;
 
-	e_itoa = ft_itoa(exit_status);
+void	ft_itos(int entero, char *new_level)
+{
+	if (entero < 10)
+	{
+		new_level[0] = entero + '0';
+		new_level[1] = '\0';
+	}
+	else if (entero < 100)
+	{
+		new_level[0] = (entero / 10) + '0';
+		new_level[1] = (entero % 10) + '0';
+		new_level[2] = '\0';
+	}
+	else if (entero < 1000)
+	{
+		new_level[0] = (entero / 100) + '0';
+		entero = entero % 100;
+		new_level[1] = (entero / 10) + '0';
+		new_level[2] = (entero % 10) + '0';
+		new_level[3] = '\0';
+	}
+}
+
+char	*prompt(int exit_status)
+{
+	static char	str[256];
+	char	entero[5];
+
+	ft_itos(exit_status, entero);
 	if (exit_status == 0)
-		final_str = ft_strjoin("\001\033[0;32m✔ \033[0m",
-				"🏓  PongShell ↴ \002");
+		ft_strlcpy(str, "\001\033[0;32m✔ \033[0m 🏓 PongShell \002",sizeof(str));
 	else
 	{
-		str = ft_strjoin("\001\033[0;31m", e_itoa);
-		final_str = ft_strjoin(str, "\033[0m 🏓  PongShell ↴ \002");
-		free(str);
+			ft_strlcpy(str, "\001\033[0;31m", sizeof(str));
+			ft_strlcat(str, entero, sizeof(str));
+			ft_strlcat(str, "\033[0m 🏓 PongShell \002", sizeof(str));
 	}
-	free(e_itoa);
-	return (final_str);
+	return (str);
 }
 
 static void	init_sh(t_shell *sh, char **env)
@@ -49,28 +71,42 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	(void)ac;
-    init_sh(&sh, env);
+	init_sh(&sh, env);
 	while (1)
 	{
-		// where does the builtins are called
 		prompt_str = prompt(sh.exit_status);
-		printf("\001%s\002\n", prompt_str);
+		ft_dprintf(2, "\001%s\002\n", prompt_str);
+		ft_signals(&sh, INTERACTIVE);
+		disable_control_chars_echo();
 		sh.line = readline("");
 		if (!sh.line)
-			exit(1);
-		free(prompt_str);
-        if (sh.line != 0)
-		    add_history(sh.line);
+			execute_exit(&sh); // <- call the exit builtin with no params
+		add_history(sh.line);
 		sh.tokens = generate_tokens(sh.line);
 		if (parse_all(&sh) != -1 && ft_strlen(sh.line) > 0)
 		{
-		//print_tokens(sh.tokens);
-		//	print_words(sh.pro.w);
-		//	print_redir(sh.pro.r);
-			sh.matriz_env = convert_env_dchar(sh.env, env);//convert lst_env into char **matriz_env
+			// print_tokens(sh.tokens);
+			//	print_words(sh.pro.w);
+			//	print_redir(sh.pro.r);
+			// convert lst_env into char **matriz_env
+			if (!sh.matriz_env)
+				sh.matriz_env = convert_env_dchar(sh.env, env);
+			restore_terminal_settings();
 			executor(&sh);
 		}
 		soft_exit(&sh);
 	}
 	return (0);
 }
+
+/*
+
+	- arreglar exit status
+	- echo "hi'bye" ✅
+	- '<  te mete en un lugar extraño(que es lo correcto) pero al salir con ctr-d da segfault
+	- echo ""hola como '"' estas a ---> da segfault;✅
+	- exit con muchos parametros no funciona correctamente (too many arguments) ($? = 1)
+	- exit con primer parametro con letras (numeric argument required) ($? = 255)
+	- unset PATH -> NO DEBERIA FUNCIONAR, pero funciona :(
+	- comillas juntas hace que pete -> echo ""'✅
+*/
