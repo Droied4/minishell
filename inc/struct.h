@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/08 13:27:45 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/25 13:08:12 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ typedef struct s_env
 typedef struct s_shell
 {
 	struct s_process			pro;
+	struct s_env				*env;
 	int							pipes;
 	char						*line;
 	struct s_cmds				*cmds;
 	struct s_token				*tokens;
-	struct s_env				*env;
 	int							exit_status;
 	char						**matriz_env;
 }								t_shell;
@@ -98,5 +98,12 @@ typedef enum e_block_type
 	B_CMD,     // 5
 	B_FILE     // 6
 }								t_block_type;
+
+typedef enum e_signal
+{
+    HEREDOC,
+    INTERACTIVE,
+    NON_INTERACTIVE
+}   t_signal;
 
 #endif
