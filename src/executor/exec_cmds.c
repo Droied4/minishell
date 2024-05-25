@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/25 14:20:44 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/25 16:38:33 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ char	*ft_check_path(char **paths, char **cmd)
 
 	i = 0;
 	j = 0;
+	if (!paths)
+		return (NULL);
 	if (access(cmd[0], X_OK) == 0)
 		return (ft_strdup(cmd[0]));
 	while (paths[i] != NULL)

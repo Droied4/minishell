@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/25 14:17:13 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/25 18:12:26 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //✔
@@ -60,7 +60,7 @@ static void	init_sh(t_shell *sh, char **env)
 	sh->env = NULL;
 	sh->cmds = NULL;
 	sh->pro.w = NULL;
-	sh->pro.r = NULL;
+	sh->pro.r = NULL;			
 	sh->env = create_lst_env(env);
 }
 
@@ -70,31 +70,33 @@ int	main(int ac, char **av, char **env)
 	char	*prompt_str;
 
 	(void)av;
-	(void)ac;
-	init_sh(&sh, env);
-	while (1)
+	if (ac == 1)
 	{
-		prompt_str = prompt(sh.exit_status);
-		ft_dprintf(2, "\001%s\002\n", prompt_str);
-		ft_signals(&sh, INTERACTIVE);
-		disable_control_chars_echo();
-		sh.line = readline("");
-		if (!sh.line)
-			execute_exit(&sh); // <- call the exit builtin with no params
-		add_history(sh.line);
-		sh.tokens = generate_tokens(sh.line);
-		if (parse_all(&sh) != -1 && ft_strlen(sh.line) > 0)
+		init_sh(&sh, env);
+		while (1)
 		{
-			// print_tokens(sh.tokens);
-			//	print_words(sh.pro.w);
-			//	print_redir(sh.pro.r);
-			// convert lst_env into char **matriz_env
-			//if (!sh.matriz_env)
+			prompt_str = prompt(sh.exit_status);
+			ft_dprintf(2, "\001%s\002\n", prompt_str);
+			ft_signals(&sh, INTERACTIVE);
+			disable_control_chars_echo();
+			sh.line = readline("");
+			if (!sh.line)
+				execute_exit(&sh); // <- call the exit builtin with no params
+			add_history(sh.line);
+			sh.tokens = generate_tokens(sh.line);
+			if (parse_all(&sh) != -1 && ft_strlen(sh.line) > 0)
+			{
 				sh.matriz_env = convert_env_dchar(sh.env, env);
-			restore_terminal_settings();
-			executor(&sh);
+				restore_terminal_settings();
+				executor(&sh);
+			}
+			soft_exit(&sh);
 		}
-		soft_exit(&sh);
+	}
+	else 
+	{
+		ft_dprintf(2, "Dear evaluator\nWe do not must to contemplate this case\n");
+		ft_dprintf(2, "With love...\n🏓Pong Shell\n");
 	}
 	return (0);
 }
