@@ -13,7 +13,7 @@
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               MINISHELL                                      #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
-# 
+#
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
@@ -91,7 +91,7 @@ make_libs:
 
 -include $(DEPS)
 
-$(NAME): $(LIBFT) $(OBJECTS) $(DPRINTF) $(READLINE_LIBS)
+$(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF) $(READLINE_LIBS)
 	@printf "$(CYAN)$@ has been$(NC)$(G)Successfully$(NC)$(CYAN)Compiled$(NC)\n\n";
 	@$(CC) $(CFLAGS) $^ -lcurses -o $(NAME)  
 
@@ -121,12 +121,14 @@ clean:
 	@rm -rf $(OBJECTS_PATH) 
 	@make clean -C $(LIBFT_PATH) > /dev/null
 	@make clean -C $(DPRINTF_PATH) > /dev/null
+	clear
 
 fclean : clean
 	@printf "$(CYAN)Cleaning objects, libraries and executable$(NC)\n";
 	@rm -rf $(NAME)
 	@make fclean -C $(LIBFT_PATH) > /dev/null
 	@make fclean -C $(DPRINTF_PATH) > /dev/null
+	clear
 
 re: fclean all 
 
@@ -160,4 +162,4 @@ author:
 	@printf "$(O)			   https://github.com/ZenitsuTHB\n";
 	@echo;
 
-.PHONY: all clean fclean re vg
+.PHONY: all clean fclean re vg 
