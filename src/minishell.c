@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/26 17:29:11 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/26 22:31:04 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,21 @@ static void	init_sh(t_shell *sh, char **env)
 	sh->cmds = NULL;
 	sh->pro.w = NULL;
 	sh->pro.r = NULL;
-	/* if (!*env)
-		env = simulate_mini_env(sh); */
+	if (!*env)
+	{
+		ft_dprintf(2, "\nDON'T do this as the env is NULL\n");
+		exit (EXIT_FAILURE);
+	}
+	/*env = simulate_mini_env(sh);*/
 	sh->env = create_lst_env(env);
 }
-
+//echo $USER""'hello
 int	main(int ac, char **av, char **env)
 {
 	t_shell	sh;
 	char	*prompt_str;
 
 	(void)av;
-	printf("env %p\n%s\n", &env, env[0]);
 	if (ac == 1)
 	{
 		init_sh(&sh, env);
@@ -105,11 +108,9 @@ int	main(int ac, char **av, char **env)
 }
 
 /*
-
+	- ./minishell in the minishell change the SHLVL++
 	- arreglar exit status
-	- echo "hi'bye" ✅
 	- '<  te mete en un lugar extraño(que es lo correcto) pero al salir con ctr-d da segfault
-	- echo ""hola como '"' estas a ---> da segfault;✅
 	- exit con muchos parametros no funciona correctamente (too many arguments) ($? = 1)
 	- exit con primer parametro con letras (numeric argument required) ($? = 255)
 	- unset PATH -> NO DEBERIA FUNCIONAR, pero funciona :(

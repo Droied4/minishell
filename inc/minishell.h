@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/26 11:49:49 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/26 22:15:20 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,7 +286,7 @@ t_env *exporting_var(t_shell sh, t_env **lst_env, t_env *new);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
-                BUILTINS
+        BUILTINS
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 int execute_pwd(void);
@@ -298,7 +298,7 @@ void execute_echo(t_shell *shell);
 int check_exp_variable(t_env *tok);
 void print_lst_env(t_env *lst, int i);
 t_env *found_var(char *var, t_env *lst);
-int execute_cd(t_shell *sh, char **env);
+int execute_cd(t_shell *sh, char *path, char **env);
 void execute_env(t_shell *sh, char **env);
 void execute_export(t_shell *sh, char **env);
 int execute_builtins(t_shell *looking, char **env);

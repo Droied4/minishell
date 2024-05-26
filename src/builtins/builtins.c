@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/24 18:10:25 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/26 22:15:35 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,13 @@ void	execute_exit(t_shell *sh)
 
 int	execute_builtins(t_shell *shell, char **env)
 {
-	/*segv if env -i ./minishell && env passed*/
+	int status;
+
+	status = 0;
 	if (shell->tokens && shell->tokens->data)
 	{
 		if (!ft_strncmp(shell->tokens->data, "cd", 3))
-			execute_cd(shell, env);
+			status = execute_cd(shell, NULL, env);
 		else if (!ft_strncmp(shell->tokens->data, "echo", 5))
 			execute_echo(shell);
 		else if (!ft_strncmp(shell->tokens->data, "env", 4))
@@ -110,13 +112,13 @@ int	execute_builtins(t_shell *shell, char **env)
 		else if (!ft_strncmp(shell->tokens->data, "export", 7))
 			execute_export(shell, env);
 		else if (!ft_strncmp(shell->tokens->data, "pwd", 4))
-			execute_pwd();
+			status = execute_pwd();
 		else if (!ft_strncmp(shell->tokens->data, "unset", 7))
 		{
 			if (shell->tokens->next == NULL)
-				return (1);
+				return (status);
 			execute_unset(&shell, NULL, env);
 		}
 	}
-	return (0);
+	return (status);
 }
