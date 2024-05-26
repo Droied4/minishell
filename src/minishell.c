@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/25 18:12:26 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/26 11:55:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-//✔
+
 #include "minishell.h"
 
 sig_atomic_t volatile g_signals = 0;

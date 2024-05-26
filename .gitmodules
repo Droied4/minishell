@@ -1,0 +1,3 @@
+[submodule "library/readline"]
+	path = library/readline
+	url = https://git.savannah.gnu.org/git/readline.git
