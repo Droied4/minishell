@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/26 14:30:43 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/26 17:29:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ static void	init_sh(t_shell *sh, char **env)
 	sh->cmds = NULL;
 	sh->pro.w = NULL;
 	sh->pro.r = NULL;
-	if (!*env)
-		env = simulate_mini_env(sh);
+	/* if (!*env)
+		env = simulate_mini_env(sh); */
 	sh->env = create_lst_env(env);
 }
 

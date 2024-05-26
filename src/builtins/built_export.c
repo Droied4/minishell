@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/21 19:58:56 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/26 17:49:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,20 @@ static void	update_var(char *s, t_env *var_node)
 	var_node->var_content = split[1];
 	free(split);
 }
+static void	add_node_to_lstenv(t_env **lstenv, t_env **new)
+{
+	t_env	*last;
+
+	last = *lstenv;
+	while (last->next)
+		last = last->next;
+	last->next = *new;
+	(*new)->prev = last;
+}
 
 t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 {
-	t_env	*last;
+	//t_env	*last;
 
 	while (sh.tokens)
 	{
@@ -62,11 +72,12 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 				new = create_envnode(sh.tokens->data);
 				if (!new)
 					return (NULL);
-				last = *lst_env;
+				add_node_to_lstenv(lst_env, &new);
+				/* last = *lst_env;
 				while (last->next)
 					last = last->next;
 				last->next = new;
-				new->prev = last;
+				new->prev = last */;
 			}
 			else
 				update_var(sh.tokens->data, new);
