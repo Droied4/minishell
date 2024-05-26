@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/26 11:55:11 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/26 14:30:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ static void	init_sh(t_shell *sh, char **env)
 	sh->env = NULL;
 	sh->cmds = NULL;
 	sh->pro.w = NULL;
-	sh->pro.r = NULL;			
+	sh->pro.r = NULL;
+	if (!*env)
+		env = simulate_mini_env(sh);
 	sh->env = create_lst_env(env);
 }
 
@@ -70,6 +72,7 @@ int	main(int ac, char **av, char **env)
 	char	*prompt_str;
 
 	(void)av;
+	printf("env %p\n%s\n", &env, env[0]);
 	if (ac == 1)
 	{
 		init_sh(&sh, env);
@@ -95,8 +98,8 @@ int	main(int ac, char **av, char **env)
 	}
 	else 
 	{
-		ft_dprintf(2, "Dear evaluator\nWe do not must to contemplate this case\n");
-		ft_dprintf(2, "With love...\n🏓Pong Shell\n");
+		ft_dprintf(2, WRONG_ARG);
+		ft_dprintf(2, WRONG_ARG_1);
 	}
 	return (0);
 }
