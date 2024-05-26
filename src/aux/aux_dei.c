@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_dei.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/22 21:59:59 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/26 11:52:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,4 +162,18 @@ int	char_is_inside(char const *str, char c)
 		i++;
 	}
 	return (-1);
+}
+
+char **get_envivar(char *var, char **env)
+{
+	int i;
+
+	i = 0;
+	while(env[i])
+	{
+		if (ft_strncmp(env[i], var, 5) == 0)
+			return (ft_split(env[i], ':'));
+		i++;
+	}
+	return (NULL);
 }

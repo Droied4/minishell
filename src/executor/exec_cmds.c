@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/20 17:54:08 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/26 11:53:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ char	*ft_check_path(char **paths, char **cmd)
 
 	i = 0;
 	j = 0;
+	if (!paths)
+		return (NULL);
 	if (access(cmd[0], X_OK) == 0)
 		return (ft_strdup(cmd[0]));
 	while (paths[i] != NULL)
@@ -79,17 +81,6 @@ char	*ft_check_path(char **paths, char **cmd)
 	return (NULL);
 }
 
-void	find_path(t_words *word)
-{
-	char	**paths;
-	char	*path;
-
-	path = getenv("PATH");
-	paths = ft_split(path, ':');
-	word->path = ft_check_path(paths, word->cmd);
-	ft_free_array(paths);
-}
-
 int	process_word(t_shell *sh)
 {
 	pid_t	pid;
@@ -99,7 +90,7 @@ int	process_word(t_shell *sh)
 
 	word = sh->pro.w;
 	if (char_is_inside(word->cmd[0], '/') < 0)
-		find_path(word);
+		word->path = ft_check_path(get_envivar("PATH=", sh->matriz_env), word->cmd);
 	else
 		word->path = ft_strdup(word->cmd[0]);
 	exit_status = 0;

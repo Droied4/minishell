@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/24 18:05:23 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/26 11:49:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,7 @@ char *ft_imp_strjoin(char const *s1, char const *s2);
 char *char2str(char c);
 int stock_of(t_shell *sh, int type);
 int char_is_inside(const char *str, char c);
+char **get_envivar(char *var, char **env);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/24 19:43:56 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/26 17:29:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-//✔
+
 #include "minishell.h"
 
 sig_atomic_t volatile g_signals = 0;
@@ -61,6 +61,8 @@ static void	init_sh(t_shell *sh, char **env)
 	sh->cmds = NULL;
 	sh->pro.w = NULL;
 	sh->pro.r = NULL;
+	/* if (!*env)
+		env = simulate_mini_env(sh); */
 	sh->env = create_lst_env(env);
 }
 
@@ -70,31 +72,34 @@ int	main(int ac, char **av, char **env)
 	char	*prompt_str;
 
 	(void)av;
-	(void)ac;
-	init_sh(&sh, env);
-	while (1)
+	printf("env %p\n%s\n", &env, env[0]);
+	if (ac == 1)
 	{
-		prompt_str = prompt(sh.exit_status);
-		ft_dprintf(2, "\001%s\002\n", prompt_str);
-		ft_signals(&sh, INTERACTIVE);
-		disable_control_chars_echo();
-		sh.line = readline("");
-		if (!sh.line)
-			execute_exit(&sh); // <- call the exit builtin with no params
-		add_history(sh.line);
-		sh.tokens = generate_tokens(sh.line);
-		if (parse_all(&sh) != -1 && ft_strlen(sh.line) > 0)
+		init_sh(&sh, env);
+		while (1)
 		{
-			// print_tokens(sh.tokens);
-			//	print_words(sh.pro.w);
-			//	print_redir(sh.pro.r);
-			// convert lst_env into char **matriz_env
-			if (!sh.matriz_env)
+			prompt_str = prompt(sh.exit_status);
+			ft_dprintf(2, "\001%s\002\n", prompt_str);
+			ft_signals(&sh, INTERACTIVE);
+			disable_control_chars_echo();
+			sh.line = readline("");
+			if (!sh.line)
+				execute_exit(&sh); // <- call the exit builtin with no params
+			add_history(sh.line);
+			sh.tokens = generate_tokens(sh.line);
+			if (parse_all(&sh) != -1 && ft_strlen(sh.line) > 0)
+			{
 				sh.matriz_env = convert_env_dchar(sh.env, env);
-			restore_terminal_settings();
-			executor(&sh);
+				restore_terminal_settings();
+				executor(&sh);
+			}
+			soft_exit(&sh);
 		}
-		soft_exit(&sh);
+	}
+	else 
+	{
+		ft_dprintf(2, WRONG_ARG);
+		ft_dprintf(2, WRONG_ARG_1);
 	}
 	return (0);
 }

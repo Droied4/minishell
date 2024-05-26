@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_arch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:37:44 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/21 17:23:28 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/26 16:50:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	is_correct_name(char *name)
 	int	i;
 
 	i = 0;
-	if (name[i] == '=' || ft_isdigit(name[i]))
+	if (name[i] == '=' || !ft_isalpha(name[i]))
 		return (error_name_variable(name));
 	while (name[i] && name[i] != '=')
 	{
-		if (ft_isalnum(name[i]) || name[i] == '_')
+		if (ft_isalnum(name[i]) || name[i] == '_'  || name[i] == '+')
 			i++;
 		else
 			return (error_name_variable(name));

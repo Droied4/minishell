@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/11 21:23:09 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/25 14:20:35 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	child_process(t_shell *sh, t_process *pro)
 	if (pro->w && pro->w->cmd)
 	{
 		if (char_is_inside(pro->w->cmd[0], '/') < 0)
-			find_path(pro->w);
+			pro->w->path = ft_check_path(get_envivar("PATH=", sh->matriz_env), pro->w->cmd);
 		else
 			pro->w->path = ft_strdup(pro->w->cmd[0]);
 	}

@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:06:19 by deordone          #+#    #+#             */
-/*   Updated: 2024/03/31 03:13:00 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:42:57 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_builtin(char *data)
 	i = -1;
 	while (builtins[++i])
 	{
-		if (ft_strncmp(data, builtins[i], ft_strlen(builtins[i])) == 0)
+		if (ft_strncmp(data, builtins[i], ft_strlen(builtins[i]) + 1) == 0)
 		{
 			ft_free_array(builtins);
 			return (1);

@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/24 18:25:23 by deordone         ###   ########.fr        #
+#    Updated: 2024/05/26 12:01:01 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               MINISHELL                                      #
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
-# 
+#
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
@@ -70,6 +70,8 @@ DEPS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.c=.d})
 G = \033[1;32m
 O = \033[38;5;208m
 C = \033[1;36m
+B = \033[34m
+M = \033[35m
 RED=\033[0;31m
 CYAN=\033[0;36m
 GREEN=\033[0;32m
@@ -89,7 +91,7 @@ make_libs:
 
 -include $(DEPS)
 
-$(NAME): $(LIBFT) $(OBJECTS) $(DPRINTF) $(READLINE_LIBS)
+$(NAME): $(OBJECTS) $(LIBFT) $(DPRINTF) $(READLINE_LIBS)
 	@printf "$(CYAN)$@ has been$(NC)$(G)Successfully$(NC)$(CYAN)Compiled$(NC)\n\n";
 	@$(CC) $(CFLAGS) $^ -lcurses -o $(NAME)  
 
@@ -119,12 +121,14 @@ clean:
 	@rm -rf $(OBJECTS_PATH) 
 	@make clean -C $(LIBFT_PATH) > /dev/null
 	@make clean -C $(DPRINTF_PATH) > /dev/null
+	clear
 
 fclean : clean
 	@printf "$(CYAN)Cleaning objects, libraries and executable$(NC)\n";
 	@rm -rf $(NAME)
 	@make fclean -C $(LIBFT_PATH) > /dev/null
 	@make fclean -C $(DPRINTF_PATH) > /dev/null
+	clear
 
 re: fclean all 
 
@@ -158,4 +162,4 @@ author:
 	@printf "$(O)			   https://github.com/ZenitsuTHB\n";
 	@echo;
 
-.PHONY: all clean fclean re vg
+.PHONY: all clean fclean re vg 
