@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:07 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/21 20:07:23 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/27 11:27:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_env	*create_envnode(char *envp)
 	splitting = ft_split(new->line, '=');
 	if (splitting)
 	{
+		if (splitting[0][ft_strlen(splitting[0]) - 1] == '+')
+			splitting[0] = trimmer_quotes(splitting[0], (int)'+');
 		new->var_name = splitting[0];
 		new->var_content = splitting[1];
 	}

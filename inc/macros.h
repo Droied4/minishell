@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/26 14:07:02 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/27 00:57:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@
 # define METACHAR {PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE, EXP}
 # define STR_BUILTINS "echo cd pwd export unset env exit"
 # define WRONG_ARG "Dear evaluator\nWe should not consider this case\n"
-# define WRONG_ARG_1 "With love...🤓🤓\n🏓Pong Shell ✌🏼✌🏾\n"
-
-# include <signal.h>
-
+# define WRONG_ARG_1 "With love...🤓🤓\n🏓PongShell ✌🏼✌🏾\n"
+# define SHELL_ERROR "🏓PongShell ERROR !\nTry with a non NULL env\n"
 
 #endif

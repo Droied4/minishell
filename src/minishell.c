@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/26 22:40:20 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/27 12:02:06 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*prompt(int exit_status)
 	}
 	return (str);
 }
-
+/*env = simulate_mini_env(sh);*/
 static void	init_sh(t_shell *sh, char **env)
 {
 	sh->exit_status = 0;
@@ -63,13 +63,12 @@ static void	init_sh(t_shell *sh, char **env)
 	sh->pro.r = NULL;
 	if (!*env)
 	{
-		ft_dprintf(2, "\nDON'T do this as the env is NULL\n");
+		ft_dprintf(2, SHELL_ERROR);
 		exit (EXIT_FAILURE);
 	}
-	/*env = simulate_mini_env(sh);*/
 	sh->env = create_lst_env(env);
 }
-//echo $USER""'hello
+/*echo $USER""'hello*/
 int	main(int ac, char **av, char **env)
 {
 	t_shell	sh;

@@ -6,20 +6,23 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/26 17:49:17 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/27 11:24:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*found_var(char *var, t_env *lst)
+t_env	*found_var(char *cmd_line, t_env *lst)
 {
 	size_t	len;
 	t_env	*tmp;
 	char	**line;
 
 	len = 0;
-	line = ft_split(var, '=');
+	line = ft_split(cmd_line, '=');
+	if (line[0][ft_strlen(line[0]) - 1] == '+')
+		line[0] = trimmer_quotes(line[0], (int)'+');
+	ft_dprintf(1, "the new one %s last pos %c\n", line[0], line[0][ft_strlen(line[0])]);
 	tmp = lst;
 	while (tmp)
 	{
