@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/26 22:10:20 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/27 20:40:34 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	do_builtin(t_shell *sh)
 static int	smpl_cmd(t_shell *sh)
 {
 	if (sh->pro.r)
-		process_redir(&sh->pro);
+		process_redir(sh, &sh->pro);
 	if (sh->pro.w)
 	{
 		if (sh->pro.w->in == -1 || sh->pro.w->out == -1)

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/27 17:16:41 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/27 20:36:17 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ char	*prompt(int exit_status);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-void process_redir(t_process *pro);
+void process_redir(t_shell *sh, t_process *pro);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓

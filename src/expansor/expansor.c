@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/24 21:53:04 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/27 21:57:17 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	expansor(t_shell *sh)
 {
 	t_token	*tok;
 	char	*tmp;
+	// t_token	*tok_tmp;
 
 	tok = sh->tokens;
 	while (tok)
@@ -131,11 +132,19 @@ void	expansor(t_shell *sh)
 			tok->data = tmp;
 		}
 		else if (found_char(tok->data, SQUOT) || found_char(tok->data, DQUOT))
- 	{
+		{
 			tmp = aux_trim(tok->data);
 			free(tok->data);
 			tok->data = tmp;
 		}
+		// if (is_retokenizible(tok->data))
+		// {
+		// 	t_token *tmp;
+
+		// 	tmp = tok;
+		// 	tok_tmp = generate_tokens(tok->data);
+		// 	tok->next = tok_tmp;
+		// }
 		tok = tok->next;
 	}
 	// print_tokens(tok);

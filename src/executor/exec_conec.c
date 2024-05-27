@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_conec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/25 14:20:35 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/27 22:08:52 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	before_fork(int process, t_process *pro, t_shell *sh)
 	}
 	if (process == sh->pipes)
 		pro->w->out = 1;
-	process_redir(pro);
+	process_redir(sh, pro);
 	if (pro->w->next)
 	{
 		pro->w->next->in = pro->w->in;

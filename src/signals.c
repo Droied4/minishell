@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/24 19:50:22 by deordone         ###   ########.fr       */
+/*   Updated: 2024/05/27 20:30:57 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,18 @@ void	print_slash_n(int signo)
 	rl_on_new_line();
 }
 
+	
+// both examples display a newline but when we press ctrl + d - it gives a segmentation fault 
+//  and when we press ctrl + c - it doesnt cancel the line) ls | "
+// You can find this in /minishell/src/parser/parser_entry.c incomplete_entry 
+// (for pipe case) and unclosed_entry (for quotes case)
+// when we execute our terminal and we press ctrl + d whitout puting an input before we got a segmentation fault)
+
 /*	restore_terminal_settings()
  *
  *	Sets terminal configuration back to the original settings
  */
+
 void	restore_terminal_settings(void)
 {
 	struct termios	new_termios;	
@@ -73,12 +81,12 @@ void	restore_terminal_settings(void)
 	new_termios.c_lflag |= ECHOCTL;
 	tcsetattr(0, TCSANOW, &new_termios);
 }
+
 static void	interactive_sig_handler(int sign)
 {
-	
-	if (sign == SIGINT)
+	if (sign == CTRL_C)
 	{
-		g_signals = 130;
+		g_signals = 1;
 		rl_replace_line("", 0);
 		ft_dprintf(2, "\001\n\033[0;31m130 \033[0m 🏓 PongShell \n\002");
 		rl_on_new_line();
@@ -91,31 +99,30 @@ static void	interactive_sig_handler(int sign)
 // 	ft_dprintf(1, "Quit\n");
 // 	exit(0);
 // }
-static void	stop_sig_handler(int sign)
-{
-	write(1, "\n", 1);
-	if (sign == SIGINT)
-		signal(SIGINT, SIG_IGN);
-}
+
+// static void	stop_sig_handler(int sign)
+// {
+// 	write(1, "\n", 1);
+// 	if (sign == SIGINT)
+// 		signal(SIGINT, SIG_IGN);
+// }
 
 void	ft_signals(t_shell *sh, t_signal mode)
 {
-	(void)sh;
-	if (mode == INTERACTIVE)
+	if (mode == INTERACTIVE || mode == HEREDOC)
 	{
-		signal(SIGINT, interactive_sig_handler); 
-		signal(SIGQUIT, SIG_IGN);//sigquit_handler);
+		signal(CTRL_C, interactive_sig_handler);
+		if (g_signals == 1)
+		{
+			g_signals = 1;
+			sh->exit_status = 130;
+			g_signals = 0;
+		}
+		signal(CTRL_SLASH, SIG_IGN);
 	}
 	else if (mode == NON_INTERACTIVE)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-	}
-	else if (mode == HEREDOC)
-	{
-		//signals to put in heredoc ❗️
-		signal(SIGINT, stop_sig_handler);
-		// sh->exit_status = 131;
-		signal(SIGQUIT, SIG_IGN);
+		signal(CTRL_C, SIG_DFL);
+		signal(CTRL_SLASH, SIG_DFL);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/25 14:20:57 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/27 21:56:45 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	less_case(t_redir *redir, int last_in)
 	return (last_in);
 }
 
-static int	heredoc_case(t_redir *redir, int last_in)
+static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 {
 	char	*doc;
 	int		p[2];
@@ -38,6 +38,7 @@ static int	heredoc_case(t_redir *redir, int last_in)
 	doc = "/tmp/shell.txt";
 	while (42)
 	{
+		ft_signals(sh, HEREDOC);
 		doc = readline("> ");
 		last_in = p[0];
 		if (ft_strlen(doc) > ft_strlen(redir->file))
@@ -82,7 +83,7 @@ static int	append_case(t_redir *redir, int last_out)
 	return (last_out);
 }
 
-void	process_redir(t_process *pro)
+void	process_redir(t_shell *sh, t_process *pro)
 {
 	int		last_in;
 	int		last_out;
@@ -96,7 +97,7 @@ void	process_redir(t_process *pro)
 		if (redir->type == LESS && last_in != -1 && last_out != -1)
 			last_in = less_case(redir, last_in);
 		else if (redir->type == DLESS && last_in != -1)
-			last_in = heredoc_case(redir, last_in);
+			last_in = heredoc_case(sh, redir, last_in);
 		else if (redir->type == GREAT && last_in != -1 && last_out != -1)
 			last_out = great_case(redir, last_out);
 		else if (redir->type == DGREAT && last_in != -1 && last_out != -1)

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/27 17:16:16 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:20:55 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int all_chars_digit(char *data)
 	2 - exit 42; exits and ($? = 42)✅
 	3 - "exit 42q" or "exit s sgg gs"; exits and ($? = 255)✅
 		prints : numeric argument required ✅
-	4 - "exit 42 42"; doesn't exit ($? = 1) $? ❌
+	4 - "exit 42 42"; doesn't exit ($? = 1) $? ✅
 		prints : too many arguments ✅
 */
 int	execute_exit(t_shell *sh)
