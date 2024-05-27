@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/26 22:15:20 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:16:41 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,7 +293,7 @@ int execute_pwd(void);
 void free_matrix(char **sh);
 void printlst(t_token *lst);
 int ft_del_env(t_env **lst);
-void execute_exit(t_shell *sh);
+int execute_exit(t_shell *sh);
 void execute_echo(t_shell *shell);
 int check_exp_variable(t_env *tok);
 void print_lst_env(t_env *lst, int i);

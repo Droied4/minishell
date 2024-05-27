@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 20:26:13 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/26 22:15:35 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:16:16 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@
 	- more than one arg is passed and the first doesn't have any rare characters
 		it doesn't process the exit but print msg = bash: exit: too many arguments ($? = 1)
 */
-
-// a function that analize the args if there's more than one argument 
-// analize if all are numbers
-
-# define NUM_ARG_REQ "numeric argument required\n"
-# define TOO_MANY_ARG "Pongshell: exit: too many arguments\n"
-
 
 int token_size(t_token *tokens)
 {
@@ -72,16 +65,17 @@ int all_chars_digit(char *data)
 	4 - "exit 42 42"; doesn't exit ($? = 1) $? ❌
 		prints : too many arguments ✅
 */
-void	execute_exit(t_shell *sh)
+int	execute_exit(t_shell *sh)
 {
 	int size;
+	int status;
 
-	ft_dprintf(1, "exit\n");
+	status = 0;
 	size = token_size(sh->tokens);
 	if (size > 2 && all_chars_digit(sh->tokens->next->data) == 1)
 	{
-		sh->exit_status = 1;
-		ft_dprintf(1, TOO_MANY_ARG);
+		status = 1;
+		ft_dprintf(2, TOO_MANY_ARG);
 	}
 	else if (size == 2 && all_chars_digit(sh->tokens->next->data) == 1)
 		normal_exit(sh, ft_atoi(sh->tokens->next->data));
@@ -92,6 +86,7 @@ void	execute_exit(t_shell *sh)
 	}
 	else
 		normal_exit(sh, sh->exit_status);
+	return (status);
 }
 
 int	execute_builtins(t_shell *shell, char **env)
@@ -108,7 +103,7 @@ int	execute_builtins(t_shell *shell, char **env)
 		else if (!ft_strncmp(shell->tokens->data, "env", 4))
 			execute_env(shell, env);
 		else if (!ft_strncmp(shell->tokens->data, "exit", 5))
-			execute_exit(shell);
+			status = execute_exit(shell);
 		else if (!ft_strncmp(shell->tokens->data, "export", 7))
 			execute_export(shell, env);
 		else if (!ft_strncmp(shell->tokens->data, "pwd", 4))

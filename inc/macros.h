@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   macros.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/27 00:57:27 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:07:51 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 # define STR_META "|><\'\"$"
 # define METACHAR {PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE, EXP}
 # define STR_BUILTINS "echo cd pwd export unset env exit"
+# define NUM_ARG_REQ "numeric argument required\n"
+# define TOO_MANY_ARG "Pongshell: exit: too many arguments\n"
 # define WRONG_ARG "Dear evaluator\nWe should not consider this case\n"
 # define WRONG_ARG_1 "With love...🤓🤓\n🏓PongShell ✌🏼✌🏾\n"
 # define SHELL_ERROR "🏓PongShell ERROR !\nTry with a non NULL env\n"
