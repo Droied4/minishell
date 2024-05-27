@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/26 11:55:11 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/27 12:02:06 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,22 @@ char	*prompt(int exit_status)
 	}
 	return (str);
 }
-
+/*env = simulate_mini_env(sh);*/
 static void	init_sh(t_shell *sh, char **env)
 {
 	sh->exit_status = 0;
 	sh->env = NULL;
 	sh->cmds = NULL;
 	sh->pro.w = NULL;
-	sh->pro.r = NULL;			
+	sh->pro.r = NULL;
+	if (!*env)
+	{
+		ft_dprintf(2, SHELL_ERROR);
+		exit (EXIT_FAILURE);
+	}
 	sh->env = create_lst_env(env);
 }
-
+/*echo $USER""'hello*/
 int	main(int ac, char **av, char **env)
 {
 	t_shell	sh;
@@ -95,18 +100,16 @@ int	main(int ac, char **av, char **env)
 	}
 	else 
 	{
-		ft_dprintf(2, "Dear evaluator\nWe do not must to contemplate this case\n");
-		ft_dprintf(2, "With love...\n🏓Pong Shell\n");
+		ft_dprintf(2, WRONG_ARG);
+		ft_dprintf(2, WRONG_ARG_1);
 	}
 	return (0);
 }
 
 /*
-
+	- ./minishell in the minishell change the SHLVL++
 	- arreglar exit status
-	- echo "hi'bye" ✅
 	- '<  te mete en un lugar extraño(que es lo correcto) pero al salir con ctr-d da segfault
-	- echo ""hola como '"' estas a ---> da segfault;✅
 	- exit con muchos parametros no funciona correctamente (too many arguments) ($? = 1)
 	- exit con primer parametro con letras (numeric argument required) ($? = 255)
 	- unset PATH -> NO DEBERIA FUNCIONAR, pero funciona :(

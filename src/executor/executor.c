@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/25 14:21:08 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/26 22:10:20 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,29 @@
 
 static int	do_builtin(t_shell *sh)
 {
+	int status;
 	t_words	*word;
 
+	status = 0;
 	word = sh->pro.w;
 	if (word->in != STD_IN)
 	{
 		if (dup2(word->in, STD_IN) == -1)
-			exit(1);
+			exit(EXIT_FAILURE);
 		close(word->in);
 	}
 	if (word->out != STD_OUT)
 	{
 		if (dup2(word->out, STD_OUT) == -1)
-			exit(1);
+			exit(EXIT_FAILURE);
 		close(word->out);
 	}
-	execute_builtins(sh, sh->matriz_env);
+	status = execute_builtins(sh, sh->matriz_env);
 	if (dup2(0, STD_IN) == -1)
-		exit(1);
+		exit(EXIT_FAILURE);
 	if (dup2(1, STD_OUT) == -1)
-		exit(1);
-	return (0);
+		exit(EXIT_FAILURE);
+	return (status);
 }
 
 static int	smpl_cmd(t_shell *sh)

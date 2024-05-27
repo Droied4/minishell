@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:13:30 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/21 20:08:46 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/26 22:15:47 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,9 @@ static void	update_oldpwd_cd(t_env *lst, char *old)
 	var_node->var_content = ft_strdup(old);
 }
 
-int	execute_cd(t_shell *sh, char **env)
+int	execute_cd(t_shell *sh, char *path, char **env)
 {
 	t_env	*home;
-	char	*path;
 	char	oldpath[PATH_MAX];
 
 	if (sh->env == NULL)
@@ -67,11 +66,14 @@ int	execute_cd(t_shell *sh, char **env)
 	oldpath[0] = '\0';
 	getcwd(oldpath, sizeof(oldpath));
 	if (chdir(path) == -1)
-		ft_dprintf(STDERR_FILENO, "path did not found bro\n");
+	{
+		ft_dprintf(2, "Pongshell: cd: %s: No such file or directory\n", path);
+		return (EXIT_FAILURE);
+	}
 	else
 	{
 		update_oldpwd_cd(sh->env, oldpath);
 		update_currentpwd_cd(sh->env);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

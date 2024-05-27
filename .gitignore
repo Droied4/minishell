@@ -21,6 +21,7 @@
 *.a
 *.la
 *.lo
+/library/readline
 
 # Shared objects (inc. Windows DLLs)
 *.dll

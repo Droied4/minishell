@@ -6,20 +6,22 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/21 19:58:56 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:03:21 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*found_var(char *var, t_env *lst)
+t_env	*found_var(char *cmd_line, t_env *lst)
 {
 	size_t	len;
 	t_env	*tmp;
 	char	**line;
 
 	len = 0;
-	line = ft_split(var, '=');
+	line = ft_split(cmd_line, '=');
+	if (line[0][ft_strlen(line[0]) - 1] == '+')
+		line[0] = trimmer_quotes(line[0], (int)'+');
 	tmp = lst;
 	while (tmp)
 	{
@@ -38,18 +40,35 @@ t_env	*found_var(char *var, t_env *lst)
 
 static void	update_var(char *s, t_env *var_node)
 {
+
 	char	**split;
 
 	var_node->line = ft_strdup(s);
 	split = ft_split(var_node->line, '=');
-	var_node->var_name = split[0];
-	var_node->var_content = split[1];
+	if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)
+		var_node->var_content = ft_strjoin2(var_node->var_content, split[1]);
+	else
+	{
+		var_node->var_name = split[0];
+		var_node->var_content = split[1];
+	}
 	free(split);
+}
+
+static void	add_node_to_lstenv(t_env **lstenv, t_env **new)
+{
+	t_env	*last;
+
+	last = *lstenv;
+	while (last->next)
+		last = last->next;
+	last->next = *new;
+	(*new)->prev = last;
 }
 
 t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 {
-	t_env	*last;
+	//t_env	*last;
 
 	while (sh.tokens)
 	{
@@ -62,11 +81,12 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 				new = create_envnode(sh.tokens->data);
 				if (!new)
 					return (NULL);
-				last = *lst_env;
+				add_node_to_lstenv(lst_env, &new);
+				/* last = *lst_env;
 				while (last->next)
 					last = last->next;
 				last->next = new;
-				new->prev = last;
+				new->prev = last */;
 			}
 			else
 				update_var(sh.tokens->data, new);

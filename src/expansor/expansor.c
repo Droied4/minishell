@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/24 17:42:33 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/24 21:53:04 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,16 +131,17 @@ void	expansor(t_shell *sh)
 			tok->data = tmp;
 		}
 		else if (found_char(tok->data, SQUOT) || found_char(tok->data, DQUOT))
-		{
+ 	{
 			tmp = aux_trim(tok->data);
 			free(tok->data);
 			tok->data = tmp;
 		}
 		tok = tok->next;
 	}
-	print_tokens(tok);
+	// print_tokens(tok);
 }
 
+//to retokenize when after the expansion
 /*CURIOUS WAY OF CALLING FUNCTION
 result = concat("'", concat(username, "'"));
 EXPECTED RESULT : "'"$USER"'"
