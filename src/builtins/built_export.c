@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/27 11:24:38 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:03:21 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_env	*found_var(char *cmd_line, t_env *lst)
 	line = ft_split(cmd_line, '=');
 	if (line[0][ft_strlen(line[0]) - 1] == '+')
 		line[0] = trimmer_quotes(line[0], (int)'+');
-	ft_dprintf(1, "the new one %s last pos %c\n", line[0], line[0][ft_strlen(line[0])]);
 	tmp = lst;
 	while (tmp)
 	{
@@ -41,14 +40,21 @@ t_env	*found_var(char *cmd_line, t_env *lst)
 
 static void	update_var(char *s, t_env *var_node)
 {
+
 	char	**split;
 
 	var_node->line = ft_strdup(s);
 	split = ft_split(var_node->line, '=');
-	var_node->var_name = split[0];
-	var_node->var_content = split[1];
+	if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)
+		var_node->var_content = ft_strjoin2(var_node->var_content, split[1]);
+	else
+	{
+		var_node->var_name = split[0];
+		var_node->var_content = split[1];
+	}
 	free(split);
 }
+
 static void	add_node_to_lstenv(t_env **lstenv, t_env **new)
 {
 	t_env	*last;
