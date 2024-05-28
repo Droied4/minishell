@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/27 20:36:17 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/28 21:48:35 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,6 +289,7 @@ t_env *exporting_var(t_shell sh, t_env **lst_env, t_env *new);
         BUILTINS
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+int token_size(t_token *tokens);
 int execute_pwd(void);
 void free_matrix(char **sh);
 void printlst(t_token *lst);

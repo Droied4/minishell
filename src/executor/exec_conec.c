@@ -6,12 +6,12 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/27 22:08:52 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/28 15:12:14 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "struct.h"
+#include "../../inc/minishell.h"
+#include "../../inc/struct.h"
 
 static void	kill_child(t_shell *sh, t_process *pro)
 {
