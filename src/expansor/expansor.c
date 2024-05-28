@@ -44,16 +44,16 @@ char	*expansion_final(t_shell *sh, char *str)
 char	*expand_string(t_shell *sh, char *str)
 {
 	char	*expanded;
-	int		trimmed;
+	//int		trimmed;
 
-	trimmed = 0;
-	if (str[0] == SQUOT)
-		return (ft_strtrim(str, "\'"));
-	if (str[0] == DQUOT)
-	{
-		str = ft_strtrim(str, "\"");
-		trimmed = 1;
-	}
+	//trimmed = 0;
+	//if (str[0] == SQUOT)
+	//	return (ft_strtrim(str, "\'"));
+	//if (str[0] == DQUOT)
+	//{
+	//	str = ft_strtrim(str, "\"");
+	//	trimmed = 1;
+	//}
 	if (found_char(str, '$'))
 	{
 		expanded = expansion_final(sh, str);
@@ -62,8 +62,8 @@ char	*expand_string(t_shell *sh, char *str)
 	}
 	else
 		expanded = ft_strdup(str);
-	if (trimmed)
-		free(str);
+	//if (trimmed)
+	//	free(str);
 	return (expanded);
 }
 
@@ -197,41 +197,42 @@ char *join_tokens(t_token *old_tok)
 
 void	expansor(t_shell *sh)
 {
-	t_token	*tok;
-	t_token	*tmp_tok;
 	char	*tmp;
 	// t_token	*tok_tmp;
 
-	tok = sh->tokens;
-	tmp_tok = sh->tokens;
 	print_tokens(sh->tokens);
-	while (tmp_tok)
+	if (!ft_strncmp("$?", sh->line, 2) || !ft_strncmp("$$", sh->line, 2))
+		sh->line = special_cases(sh->line, sh->exit_status);
+	else if (found_char(sh->line, '$'))
 	{
-		if (!ft_strncmp("$?", tmp_tok->data, 2) || !ft_strncmp("$$", tmp_tok->data, 2))
-			tmp_tok->data = special_cases(tmp_tok->data, sh->exit_status);
-		else if (found_char(tmp_tok->data, '$'))
+		tmp = expand_data(sh, sh->line);
+		if (tmp[0] != '\0')
 		{
-			tmp = expand_data(sh, tmp_tok->data);
-			if (tmp[0] != '\0')
-			{
-				free(tmp_tok->data);
-				tmp_tok->data = tmp;
-				tmp_tok->type = CMD;
-			}
+			free(sh->line);
+			sh->line = tmp;
 		}
-		else if (found_char(tmp_tok->data, SQUOT) || found_char(tmp_tok->data, DQUOT))
-		{
-			tmp = aux_trim(tmp_tok->data);
-			free(tmp_tok->data);
-			tmp_tok->data = tmp;
-			// tmp_tok->type = CMD;
-		}
-		tmp_tok = tmp_tok->next;
+		printf("----right after expansion-------------%s\n", sh->line);
 	}
-	char *line = join_tokens(sh->tokens);
-	printf("-----------------%s\n", line);
-	sh->tokens = generate_tokens(line);
-	// free_matrix(&line);
+	sh->tokens = generate_tokens(sh->line);
+	t_token *tok = sh->tokens;
+	while(tok)
+	{
+		if (found_char(tok->data, SQUOT) || found_char(tok->data, DQUOT))
+		{
+			tmp = aux_trim(tok->data);
+			free(tok->data);
+			tok->data = tmp;
+		}
+		tok = tok->next;
+	}
+
+//	if (found_char(sh->line, SQUOT) || found_char(sh->line, DQUOT))
+//	{
+//		tmp = aux_trim(sh->line);
+//		free(sh->line);
+//		sh->line = tmp;
+//	}
+	printf("-----------------%s\n", sh->line);
 	// if(sh->tokens && sh->tokens->data && is_retokenizable(sh->tokens->data))
 	// 	sh->tokens = retoken_ization(sh->tokens);
 	print_tokens(sh->tokens);
