@@ -18,7 +18,10 @@ t_env	*found_var(char *cmd_line, t_env *lst)
 	t_env	*tmp;
 	char	**line;
 
-	len = 0;
+	len = ft_strlen(cmd_line);
+	if(len == 0)
+		return (NULL);
+	printf("this is the comand line[%s]\n",cmd_line);
 	line = ft_split(cmd_line, '=');
 	if (line[0][ft_strlen(line[0]) - 1] == '+')
 		line[0] = trimmer_quotes(line[0], (int)'+');

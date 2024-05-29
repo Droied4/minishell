@@ -25,6 +25,7 @@ char	*expansion_final(t_shell *sh, char *str)
 	i = 0;
 	while (env_split[i])
 	{
+		printf("splitted---->%s\n", env_split[i]);
 		var_node = NULL;
 		if (env_split[i][0] == '$')
 			var_node = found_var(&env_split[i][1], sh->env);
@@ -138,11 +139,12 @@ char *quotes_removal(char *cmd_line)
 
 void	expansor(t_shell *sh)
 {
-	t_token *tok;
+//	t_token *tok;
 	char	*tmp;
 	char	*tmp_line;
 
 	print_tokens(sh->tokens);
+	//tok = sh->tokens;
 	if (!ft_strncmp("$?", sh->line, 2) || !ft_strncmp("$$", sh->line, 2))
 		sh->line = special_cases(sh->line, sh->exit_status);
 	else if (found_char(sh->line, '$'))
@@ -153,9 +155,9 @@ void	expansor(t_shell *sh)
 			free(sh->line);
 			sh->line = tmp;
 		}
-		//printf("----right after expansion-------------%s\n", sh->line);
+		printf("----right after expansion-------------%s\n", sh->line);
 	}
-	tok= sh->tokens;
+	//tok = sh->tokens;
 	tmp_line = quotes_removal(sh->line);
 	printf("this is new_cmdl   ine----%s\n", tmp_line);
 	sh->line = tmp_line;
@@ -173,7 +175,7 @@ EXPECTED RESULT : "'"$USER"'"
 bash-3.2$ echo  test  |  wc  -c
 		5
 bash-3.2$
-'hola'"$USER"'"$USER"'"'$USER'"
+echo 'hola'"$USER"'"$USER"'"'$USER'"
  echo 'hola'  "     $USER    "  " a " "${USER}"
 $'USER' $"USER"
 echo $TERM ""hola$USER$USET$USERm > $USERg
