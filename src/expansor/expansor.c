@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/28 21:50:22 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/29 22:10:40 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,8 @@ char	*expansion_final(t_shell *sh, char *str)
 char	*expand_string(t_shell *sh, char *str)
 {
 	char	*expanded;
-	//int		trimmed;
-
-	//trimmed = 0;
-	//if (str[0] == SQUOT)
-	//	return (ft_strtrim(str, "\'"));
-	//if (str[0] == DQUOT)
-	//{
-	//	str = ft_strtrim(str, "\"");
-	//	trimmed = 1;
-	//}
-	if (found_char(str, '$'))
+	
+	if (found_char(str, '$') && str[0] != SQUOT)
 	{
 		expanded = expansion_final(sh, str);
 		if (!ft_strncmp(expanded, str, ft_strlen(str)))
@@ -62,8 +53,6 @@ char	*expand_string(t_shell *sh, char *str)
 	}
 	else
 		expanded = ft_strdup(str);
-	//if (trimmed)
-	//	free(str);
 	return (expanded);
 }
 
@@ -113,92 +102,45 @@ char	*expand_data(t_shell *sh, char *str)
 	free_matrix(smart_split);
 	return (tmp);
 }
-static int is_retokenizable(char *string)
+
+//a function that clean the line doing the same split process jut to remove the quotes
+//char *quote_removal(char *cmd_line)
+//1 - smart_split
+//2 - ft_strtrim
+char *quotes_removal(char *cmd_line)
 {
-	while (*string)
+	int i = 0;
+	int j = 0;
+	char **smart_split;
+
+	if (!cmd_line)
+		return (NULL);
+	smart_split = split_quotes(cmd_line);
+	while (smart_split[i])
 	{
-		if (*string == 32 || (*string >= 9 && *string <= 13))
-			return (1);
-		string++;
-	}
-	return (0);
-}
-
-// t_token	*last_new_tok(t_token *token)
-// {
-// 	t_token *tmp = token;
-// 	while (tmp->next)
-// 		tmp = tmp->next;
-// 	return tmp;		
-// } 
-
-size_t total_len_data(t_token *old_tok)
-{
-	size_t total_len;
-
-	total_len = 0;
-	while (old_tok)
-	{
-		total_len += ft_strlen(old_tok->data);
-		old_tok = old_tok->next;
-	}
-	return (total_len);	
-}
-
-
-
-t_token	*retoken_ization(t_token *tok)
-{
-	t_token *tmp;
-	t_token *new;
-
-	tmp = tok;
-	new = tok;
-	while (tmp)
-	{
-		if(is_retokenizable(tmp->data))
-			new =  generate_tokens(tmp->data);
-		tmp = tmp->next;
-	}
-	free(tok->data);
-	free(tok);
-	tok = new;
-	return (tok);
-}
-char *join_tokens(t_token *old_tok) 
-{
-	int i;
-	int j;
-	char *new_line;
-	size_t len;
-
-	len = total_len_data(old_tok);
-	new_line = malloc(sizeof(char) * len + 1 + token_size(old_tok));
-	while (old_tok)
-	{
-		if(old_tok && old_tok->data)
+		if (smart_split[i][j])
 		{
-			i = 0;
-			j = 0;
-			while (old_tok->data[i])
-			{
-				new_line[j++] = old_tok->data[i];
-				i++;
-			}
-			if (old_tok)
-				new_line[j++] = ' ';
-			i = 0;
+		ft_dprintf(1, "before removal number[%d]-----line[%s]\n", i, smart_split[i]);
+			if (smart_split[i][j] == SQUOT)
+				smart_split[i] = (ft_strtrim(smart_split[i], "\'"));
+			else if (smart_split[i][j] == DQUOT)
+				smart_split[i] = ft_strtrim(smart_split[i], "\"");
+		ft_dprintf(1, "after removal number[%d]-----line[%s]\n", i, smart_split[i]);
 		}
-		old_tok = old_tok->next;
+
+		i++;
 	}
-	printf("1-----------------%s\n", new_line);
-	return (new_line);	
+	free(cmd_line);
+	cmd_line = join_split(smart_split);
+	printf("this is new_cmdline----%s\n", cmd_line);
+	return (cmd_line);
 }
 
 void	expansor(t_shell *sh)
 {
+	t_token *tok;
 	char	*tmp;
-	// t_token	*tok_tmp;
+	char	*tmp_line;
 
 	print_tokens(sh->tokens);
 	if (!ft_strncmp("$?", sh->line, 2) || !ft_strncmp("$$", sh->line, 2))
@@ -211,34 +153,13 @@ void	expansor(t_shell *sh)
 			free(sh->line);
 			sh->line = tmp;
 		}
-		printf("----right after expansion-------------%s\n", sh->line);
+		//printf("----right after expansion-------------%s\n", sh->line);
 	}
-	//a function that clean the line doing the same split process jut to remove the quotes
-	//char *quote_removal(char *cmd_line)
-	//1 - smart_split
-	//2 - ft_strtrim
+	tok= sh->tokens;
+	tmp_line = quotes_removal(sh->line);
+	printf("this is new_cmdl   ine----%s\n", tmp_line);
+	sh->line = tmp_line;
 	sh->tokens = generate_tokens(sh->line);
-	t_token *tok = sh->tokens;
-	while(tok)
-	{
-		if (found_char(tok->data, SQUOT) || found_char(tok->data, DQUOT))
-		{
-			tmp = aux_trim(tok->data);
-			free(tok->data);
-			tok->data = tmp;
-		}
-		tok = tok->next;
-	}
-
-//	if (found_char(sh->line, SQUOT) || found_char(sh->line, DQUOT))
-//	{
-//		tmp = aux_trim(sh->line);
-//		free(sh->line);
-//		sh->line = tmp;
-//	}
-	printf("-----------------%s\n", sh->line);
-	// if(sh->tokens && sh->tokens->data && is_retokenizable(sh->tokens->data))
-	// 	sh->tokens = retoken_ization(sh->tokens);
 	print_tokens(sh->tokens);
 }
 
