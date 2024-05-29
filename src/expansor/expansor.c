@@ -213,6 +213,10 @@ void	expansor(t_shell *sh)
 		}
 		printf("----right after expansion-------------%s\n", sh->line);
 	}
+	//a function that clean the line doing the same split process jut to remove the quotes
+	//char *quote_removal(char *cmd_line)
+	//1 - smart_split
+	//2 - ft_strtrim
 	sh->tokens = generate_tokens(sh->line);
 	t_token *tok = sh->tokens;
 	while(tok)
