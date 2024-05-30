@@ -139,12 +139,12 @@ char *quotes_removal(char *cmd_line)
 
 void	expansor(t_shell *sh)
 {
-//	t_token *tok;
+	t_token *tok;
 	char	*tmp;
 	char	*tmp_line;
 
 	print_tokens(sh->tokens);
-	//tok = sh->tokens;
+	tok = sh->tokens;
 	if (!ft_strncmp("$?", sh->line, 2) || !ft_strncmp("$$", sh->line, 2))
 		sh->line = special_cases(sh->line, sh->exit_status);
 	else if (found_char(sh->line, '$'))
@@ -157,11 +157,11 @@ void	expansor(t_shell *sh)
 		}
 		printf("----right after expansion-------------%s\n", sh->line);
 	}
-	//tok = sh->tokens;
 	tmp_line = quotes_removal(sh->line);
 	printf("this is new_cmdl   ine----%s\n", tmp_line);
 	sh->line = tmp_line;
-	sh->tokens = generate_tokens(sh->line);
+	if (ft_strncmp(tok->data, "export", 7))
+		sh->tokens = generate_tokens(sh->line);
 	print_tokens(sh->tokens);
 }
 
