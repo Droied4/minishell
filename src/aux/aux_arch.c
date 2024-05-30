@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_arch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:37:44 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/26 16:50:46 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/30 21:39:29 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_correct_name(char *name)
 		return (error_name_variable(name));
 	while (name[i] && name[i] != '=')
 	{
-		if (ft_isalnum(name[i]) || name[i] == '_'  || name[i] == '+')
+		if (ft_isalnum(name[i]) || name[i] == '_' || name[i] == '+')
 			i++;
 		else
 			return (error_name_variable(name));
@@ -56,4 +56,45 @@ char	**convert_env_dchar(t_env *lst_env, char **env)
 	}
 	new[i] = NULL;
 	return (new);
+}
+
+char	*quotes_removal_master(char *cmd_line)
+{
+	int		i;
+	int		j;
+	char	**smart_split;
+
+	i = 0;
+	j = 0;
+	if (!cmd_line)
+		return (NULL);
+	smart_split = split_quotes(cmd_line);
+	while (smart_split[i])
+	{
+		if (smart_split[i][j])
+		{
+			if (smart_split[i][j] == SQUOT)
+				smart_split[i] = (ft_strtrim(smart_split[i], "\'"));
+			else if (smart_split[i][j] == DQUOT)
+				smart_split[i] = ft_strtrim(smart_split[i], "\"");
+		}
+		i++;
+	}
+	free(cmd_line);
+	cmd_line = join_split(smart_split);
+	free_matrix(smart_split);
+	return (cmd_line);
+}
+
+t_token	*quotes_removal(t_token *tokens)
+{
+	t_token	*tok;
+
+	tok = tokens;
+	while (tok)
+	{
+		tok->data = quotes_removal_master(tok->data);
+		tok = tok->next;
+	}
+	return (tokens);
 }

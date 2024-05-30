@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/30 13:09:59 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/30 20:04:57 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_env	*found_var(char *cmd_line, t_env *lst)
 	len = ft_strlen(cmd_line);
 	if(len == 0)
 		return (NULL);
-	printf("this is the comand line[%s]\n",cmd_line);
 	line = ft_split(cmd_line, '=');
 	if (line[0][ft_strlen(line[0]) - 1] == '+')
 		line[0] = trimmer_quotes(line[0], (int)'+');
@@ -75,7 +74,6 @@ static void	add_node_to_lstenv(t_env **lstenv, t_env **new)
 
 t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 {
-	//t_env	*last;
 
 	while (sh.tokens)
 	{
@@ -89,11 +87,6 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 				if (!new)
 					return (NULL);
 				add_node_to_lstenv(lst_env, &new);
-				/* last = *lst_env;
-				while (last->next)
-					last = last->next;
-				last->next = new;
-				new->prev = last */;
 			}
 			else
 				update_var(sh.tokens->data, new);

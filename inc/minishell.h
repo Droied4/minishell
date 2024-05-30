@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/28 21:48:35 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/30 18:40:34 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void montage_redirections(t_token *tok, t_redir *redir);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
-                PARSER CMD - 3
+    PARSER CMD - 3
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
@@ -172,7 +172,7 @@ char *add_space(char *info);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
-                PARSER INPUT - 4
+    PARSER INPUT - 4
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
@@ -180,7 +180,7 @@ int syntax_error(t_token *tok);
 
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
-                PARSER ENTRY - 4
+    PARSER ENTRY - 4
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
@@ -190,7 +190,7 @@ int input_incomplete(t_shell *sh);
 void incomplete_entry(t_shell *sh);
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
-                MANAGE  - 4
+      MANAGE  - 4
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
@@ -241,10 +241,13 @@ int manage_signals(t_shell *sh, t_signal mode);
                 AUX ARCH- 7
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
-int is_correct_name(char *name);
-int ft_lstenv_size(t_env *lst);
+
 int ft_del_env(t_env **lst);
+int ft_lstenv_size(t_env *lst);
+int is_correct_name(char *name);
 void print_lst_env(t_env *lst, int i);
+t_token	*quotes_removal(t_token *tokens);
+char	*quotes_removal_master(char *cmd_line);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

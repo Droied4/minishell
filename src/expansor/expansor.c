@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/30 17:46:41 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/30 21:31:56 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*expansion_final(t_shell *sh, char *str)
 	i = 0;
 	while (env_split[i])
 	{
-		printf("splitted---->%s\n", env_split[i]);
 		var_node = NULL;
 		if (env_split[i][0] == '$')
 			var_node = found_var(&env_split[i][1], sh->env);
@@ -45,7 +44,7 @@ char	*expansion_final(t_shell *sh, char *str)
 char	*expand_string(t_shell *sh, char *str)
 {
 	char	*expanded;
-	
+
 	if (found_char(str, '$') && str[0] != SQUOT)
 	{
 		expanded = expansion_final(sh, str);
@@ -104,53 +103,10 @@ char	*expand_data(t_shell *sh, char *str)
 	return (tmp);
 }
 
-//a function that clean the line doing the same split process jut to remove the quotes
-//char *quote_removal(char *cmd_line)
-//1 - smart_split
-//2 - ft_strtrim
-char *quotes_removal_master(char *cmd_line)
-{
-	int i = 0;
-	int j = 0;
-	char **smart_split;
-
-	if (!cmd_line)
-		return (NULL);
-	smart_split = split_quotes(cmd_line);
-	while (smart_split[i])
-	{
-		if (smart_split[i][j])
-		{
-			if (smart_split[i][j] == SQUOT)
-				smart_split[i] = (ft_strtrim(smart_split[i], "\'"));
-			else if (smart_split[i][j] == DQUOT)
-				smart_split[i] = ft_strtrim(smart_split[i], "\"");
-		}
-
-		i++;
-	}
-	free(cmd_line);
-	cmd_line = join_split(smart_split);
-	return (cmd_line);
-}
-
-t_token	*quotes_removal(t_token *tokens)
-{
-	t_token *tok;
-
-	tok = tokens;
-	while (tok)
-	{
-		tok->data = quotes_removal_master(tok->data);
-		tok = tok->next;
-	}
-	return (tokens);
-}
 void	expansor(t_shell *sh)
 {
 	char	*tmp;
 
-	print_tokens(sh->tokens);
 	if (sh->line[0] == '\0')
 		return ;
 	if (!ft_strncmp("$?", sh->line, 2) || !ft_strncmp("$$", sh->line, 2))
@@ -164,14 +120,11 @@ void	expansor(t_shell *sh)
 			sh->line = tmp;
 		}
 	}
-	// if (ft_strncmp(sh->tokens->data, "export", 8))
+	ft_deltoken(&sh->tokens);
 	sh->tokens = generate_tokens(sh->line);
 	if (found_char(sh->line, SQUOT) || found_char(sh->line, DQUOT))
 		sh->tokens = quotes_removal(sh->tokens);
-	print_tokens(sh->tokens);
 }
-
-
 /*CURIOUS WAY OF CALLING FUNCTION
 result = concat("'", concat(username, "'"));
 EXPECTED RESULT : "'"$USER"'"
