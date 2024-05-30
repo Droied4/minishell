@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/29 22:10:40 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/30 17:33:03 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char	*expand_data(t_shell *sh, char *str)
 //char *quote_removal(char *cmd_line)
 //1 - smart_split
 //2 - ft_strtrim
-char *quotes_removal(char *cmd_line)
+char *quotes_removal_master(char *cmd_line)
 {
 	int i = 0;
 	int j = 0;
@@ -121,30 +121,38 @@ char *quotes_removal(char *cmd_line)
 	{
 		if (smart_split[i][j])
 		{
-		ft_dprintf(1, "before removal number[%d]-----line[%s]\n", i, smart_split[i]);
 			if (smart_split[i][j] == SQUOT)
 				smart_split[i] = (ft_strtrim(smart_split[i], "\'"));
 			else if (smart_split[i][j] == DQUOT)
 				smart_split[i] = ft_strtrim(smart_split[i], "\"");
-		ft_dprintf(1, "after removal number[%d]-----line[%s]\n", i, smart_split[i]);
 		}
 
 		i++;
 	}
 	free(cmd_line);
 	cmd_line = join_split(smart_split);
-	printf("this is new_cmdline----%s\n", cmd_line);
 	return (cmd_line);
 }
 
-void	expansor(t_shell *sh)
+t_token	*quotes_removal(t_token *tokens)
 {
 	t_token *tok;
+
+	tok = tokens;
+	while (tok)
+	{
+		tok->data = quotes_removal_master(tok->data);
+		tok = tok->next;
+	}
+	return (tokens);
+}
+void	expansor(t_shell *sh)
+{
 	char	*tmp;
-	char	*tmp_line;
 
 	print_tokens(sh->tokens);
-	tok = sh->tokens;
+	if (sh->line[0] == '\0')
+		return ;
 	if (!ft_strncmp("$?", sh->line, 2) || !ft_strncmp("$$", sh->line, 2))
 		sh->line = special_cases(sh->line, sh->exit_status);
 	else if (found_char(sh->line, '$'))
@@ -155,18 +163,13 @@ void	expansor(t_shell *sh)
 			free(sh->line);
 			sh->line = tmp;
 		}
-		printf("----right after expansion-------------%s\n", sh->line);
 	}
-	tmp_line = quotes_removal(sh->line);
-	printf("this is new_cmdl   ine----%s\n", tmp_line);
-	sh->line = tmp_line;
-	if (ft_strncmp(tok->data, "export", 7))
-		sh->tokens = generate_tokens(sh->line);
+	// if (ft_strncmp(sh->tokens->data, "export", 8))
+	sh->tokens = generate_tokens(sh->line);
+	if (found_char(sh->line, SQUOT) || found_char(sh->line, DQUOT))
+		sh->tokens = quotes_removal(sh->tokens);
 	print_tokens(sh->tokens);
 }
-
-
-
 
 
 /*CURIOUS WAY OF CALLING FUNCTION

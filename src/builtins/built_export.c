@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/29 22:07:30 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/30 13:09:59 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ static void	update_var(char *s, t_env *var_node)
 	var_node->line = ft_strdup(s);
 	split = ft_split(var_node->line, '=');
 	if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)
+	{
+		if (split[1][0] == SQUOT || split[1][0] == DQUOT)
+			split[1] = trimmer_quotes(split[1], split[1][0]);
 		var_node->var_content = ft_strjoin2(var_node->var_content, split[1]);
+	}
 	else
 	{
 		var_node->var_name = split[0];
