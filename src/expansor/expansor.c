@@ -45,9 +45,14 @@ char	*expand_string(t_shell *sh, char *str)
 {
 	char	*expanded;
 
+	//$?$?$?$?$?$?$?
+	printf("strrrrrr--------->  %s\n", str);
 	if (found_char(str, '$') && str[0] != SQUOT)
 	{
-		expanded = expansion_final(sh, str);
+		if (str[0] == '?')
+			expanded = special_cases(str, sh->exit_status);
+		else
+			expanded = expansion_final(sh, str);
 		if (!ft_strncmp(expanded, str, ft_strlen(str)))
 			expanded = ft_strdup("");
 	}
