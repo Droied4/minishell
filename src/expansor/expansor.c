@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/30 21:31:56 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/31 21:28:14 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,24 @@ char	*expansion_final(t_shell *sh, char *str)
 
 char	*expand_string(t_shell *sh, char *str)
 {
+	char	*tmp;
 	char	*expanded;
 
-	//$?$?$?$?$?$?$?
 	printf("strrrrrr--------->  %s\n", str);
+	tmp = NULL;
+	expanded = NULL;
 	if (found_char(str, '$') && str[0] != SQUOT)
 	{
-		if (str[0] == '?')
+		if (is_special_cases(str) != 0)
 			expanded = special_cases(str, sh->exit_status);
 		else
 			expanded = expansion_final(sh, str);
+		if (expanded && found_char(expanded,'$'))
+		{
+			tmp = expansion_final(sh, expanded);
+			free(expanded);
+			expanded = tmp;
+		}
 		if (!ft_strncmp(expanded, str, ft_strlen(str)))
 			expanded = ft_strdup("");
 	}
@@ -64,8 +72,8 @@ char	*expand_string(t_shell *sh, char *str)
 char	**split_quotes(char *str)
 {
 	int		i;
-	int		position;
 	int		words;
+	int		position;
 	char	**smart_split;
 
 	words = count_words(str, 0, 0, 0);
@@ -114,8 +122,6 @@ void	expansor(t_shell *sh)
 
 	if (sh->line[0] == '\0')
 		return ;
-	if (!ft_strncmp("$?", sh->line, 2) || !ft_strncmp("$$", sh->line, 2))
-		sh->line = special_cases(sh->line, sh->exit_status);
 	else if (found_char(sh->line, '$'))
 	{
 		tmp = expand_data(sh, sh->line);

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/30 18:40:34 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/31 17:02:19 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ char *is_special_dollar(char *data, int num_dollar, int i);
  EXPANSOR_UTILS 2 - 4
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
-
+int is_special_cases(char *sp_case);
 int count_len(char *str);
 int get_len_string(char *str);
 int count_len_env_part(char *str);
