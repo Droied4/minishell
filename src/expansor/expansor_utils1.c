@@ -110,54 +110,51 @@ int is_special_cases(char *str)
 	}
 	return (0);
 }
-int how_many_dol_interog(char *str)
+
+int dol_count_words(char *str)
 {
-	int i;
-	int number;
+    int i;
+    int count;
 
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '$' && str[i + 1] && str[i + 1] == '?')
-			number += 1;
-		i++;
-	}
-	return (number);
+    i = 0;
+    count = 0;
+    while (str[i])
+    {
+        if (str[i] == '$' && str[i + 1] && str[i + 1] == '?')
+        {
+            count++;
+            i += 2;
+        }
+        else
+        {
+            while ((str[i] && !(str[i] == '$' && str[i + 1] \
+              && str[i + 1] == '?')) || (str[i] && str[i] != ' '))
+                i++;
+            count++;
+        }
+    }
+    return (count);
 }
+int len_part(char *str)
+{
+    int i;
+    int len;
 
-// int len_part(char *str)
-// {
-//     int i;
-//     int len;
-
-//     i = 0;
-//     len = 0;
-//     while (str[i])
-//     {
-      
-//       if(str[i] == '$' && str[i + 1] && str[i + 1] == '?')
-//         return (2);
-//       else
-//         len++;
-//       i++;
-//     }
-//     return(len);
-// }
-
-// #include <stdio.h>
-// int main() {
-//   int len = 0;
-//   char *s = "h$l$?1??$?4";
-  
-//   while (*s)
-//   {
-//     len = len_part(s);
-//     printf("%d\n", len);
-//     s = &s[len];
-//     len = 0;
-//   }
-//   return 0;
-// }
+    i = 0;
+    len = 0;
+    while (str[i])
+    {
+        if (str[i] == '$' && str[i + 1] && str[i + 1] == '?')
+        {
+            if (len == 0)
+                len = 2;
+            break;
+        }
+        len++;
+        i++;
+    }
+    return (len);
+}
 
 char *small_part(char *str, int *pos)
 {
@@ -174,6 +171,7 @@ char *small_part(char *str, int *pos)
 	while (++i < len)
 		part[i] = str[i];
 	part[i] = '\0';
+  printf("part i %s\n", part);
 	return (part);
 }
 
@@ -185,7 +183,7 @@ char	**split_dollar_interog(char *str)
 	int num_dol_int;
 
 	i = -1;
-	num_dol_int = how_many_dol_interog(str);
+	num_dol_int = dol_count_words(str);
 	result = malloc(sizeof(char *) * num_dol_int + 1);
 	if (!result)
 		return (NULL);
@@ -193,7 +191,8 @@ char	**split_dollar_interog(char *str)
 	while (++i < num_dol_int)
 	{
 		result[i] = small_part(str, &pos);
-		str = &str[pos];
+    printf("small_part--%i %s\n",num_dol_int, result[i]);
+		str += pos;
 		i++;
 	}
 	result[i] = NULL;
@@ -211,6 +210,7 @@ char	*special_cases(char *special, int exit_status)
 	split_exit = split_dollar_interog(special);
 	while (split_exit[i])
 	{
+    printf("split--%s\n", split_exit[i]);
 		if (!ft_strncmp("$?", split_exit[i], 3))
 			split_exit[i] = ft_strdup(str_exit);
 		i++;

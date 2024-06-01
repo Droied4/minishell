@@ -51,8 +51,10 @@ char	*expand_string(t_shell *sh, char *str)
 	expanded = NULL;
 	if (found_char(str, '$') && str[0] != SQUOT)
 	{
-		if (is_special_cases(str) != 0)
+		if (is_special_cases(str) != 0){
 			expanded = special_cases(str, sh->exit_status);
+      printf("expanded----%s\n", expanded);    
+    }
 		else
 			expanded = expansion_final(sh, str);
 		if (expanded && found_char(expanded,'$'))
