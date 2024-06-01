@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:12:42 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/31 21:28:22 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/01 19:33:24 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,28 +113,34 @@ int is_special_cases(char *str)
 
 int dol_count_words(char *str)
 {
-    int i;
-    int count;
+    int i = 0;
+    int count = 0;
+    int in_word = 0;
 
-    i = 0;
-    count = 0;
     while (str[i])
     {
-        if (str[i] == '$' && str[i + 1] && str[i + 1] == '?')
+        while (str[i] == ' ' || str[i] == '\t')
+            i++;
+        if (str[i] == '$' && str[i + 1] == '?')
         {
             count++;
             i += 2;
         }
-        else
+        else if (str[i])
         {
-            while ((str[i] && !(str[i] == '$' && str[i + 1] \
-              && str[i + 1] == '?')) || (str[i] && str[i] != ' '))
+            in_word = 1;
+            while (str[i] && !(str[i] == '$' && str[i + 1] == '?') && str[i] != ' ' && str[i] != '\t')
                 i++;
-            count++;
+            if (in_word)
+            {
+                count++;
+                in_word = 0;
+            }
         }
     }
-    return (count);
+    return count;
 }
+
 int len_part(char *str)
 {
     int i;
@@ -193,7 +199,6 @@ char	**split_dollar_interog(char *str)
 		result[i] = small_part(str, &pos);
     printf("small_part--%i %s\n",num_dol_int, result[i]);
 		str += pos;
-		i++;
 	}
 	result[i] = NULL;
 	return (result);
