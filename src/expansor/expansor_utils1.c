@@ -105,7 +105,7 @@ int is_special_cases(char *str)
 	while (str[i])
 	{
 		if (str[i] == '$' && str[i + 1] && str[i + 1] == '?')
-			return (i);
+			return (1);
 		i++;
 	}
 	return (0);
@@ -188,16 +188,15 @@ char	**split_dollar_interog(char *str)
 	char **result;
 	int num_dol_int;
 
-	i = -1;
 	num_dol_int = dol_count_words(str);
 	result = malloc(sizeof(char *) * num_dol_int + 1);
 	if (!result)
 		return (NULL);
+	i = -1;
 	pos = 0;
 	while (++i < num_dol_int)
 	{
 		result[i] = small_part(str, &pos);
-    printf("small_part--%i %s\n",num_dol_int, result[i]);
 		str += pos;
 	}
 	result[i] = NULL;
@@ -211,8 +210,11 @@ char	*special_cases(char *special, int exit_status)
 	char **split_exit;
 
 	i = 0;
+  //else if (!ft_strncmp("$0", split_exit[i], PongShell);
 	str_exit = ft_itoa(exit_status);
 	split_exit = split_dollar_interog(special);
+  if (!split_exit)
+    return (NULL);
 	while (split_exit[i])
 	{
     printf("split--%s\n", split_exit[i]);

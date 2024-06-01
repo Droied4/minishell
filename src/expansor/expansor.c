@@ -46,14 +46,12 @@ char	*expand_string(t_shell *sh, char *str)
 	char	*tmp;
 	char	*expanded;
 
-	printf("strrrrrr--------->  %s\n", str);
 	tmp = NULL;
 	expanded = NULL;
 	if (found_char(str, '$') && str[0] != SQUOT)
 	{
 		if (is_special_cases(str) != 0){
 			expanded = special_cases(str, sh->exit_status);
-      printf("expanded----%s\n", expanded);    
     }
 		else
 			expanded = expansion_final(sh, str);

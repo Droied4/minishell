@@ -133,7 +133,7 @@ fclean : clean
 re: fclean all 
 
 vg: all
-	valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --track-fds=yes --suppressions=readline.supp ./$(NAME)
+	valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --track-fds=yes ./$(NAME) #--suppressions=readline.supp ./$(NAME)
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                              MY RULES                                        #
