@@ -88,7 +88,7 @@ static void	interactive_sig_handler(int sign)
 	{
 		g_signals = 1;
 		rl_replace_line("", 0);
-		ft_dprintf(2, "\001\n\033[0;31m130 \033[0m 🏓 PongShell \n\002");
+		ft_dprintf(2, "\001\n\033[0;31m130\033[0m 🏓 PongShell \n\002");
 		rl_on_new_line();
 		rl_redisplay();
 	}
@@ -115,7 +115,7 @@ void	ft_signals(t_shell *sh, t_signal mode)
 		if (g_signals == 1)
 		{
 			g_signals = 1;
-			sh->exit_status = 130;
+			sh->exit_status = 128 + CTRL_C;
 			g_signals = 0;
 		}
 		signal(CTRL_SLASH, SIG_IGN);
