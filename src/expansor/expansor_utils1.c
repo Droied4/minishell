@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:12:42 by avolcy            #+#    #+#             */
-/*   Updated: 2024/06/01 19:33:24 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/02 19:04:52 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,33 +69,6 @@ char	*find_env_part(char *str, int *pos)
 	return (part);
 }
 
-/*char	*is_special_dollar(char *data, int num_dollar, int i)
-{
-	pid_t	pid;
-	char	*print_pid;
-	char	*str_pid;
-
-	pid = getpid();
-	print_pid = NULL;
-	str_pid = ft_itoa(pid);
-	while (i++ < num_dollar / 2)
-		print_pid = ft_strjoin2(print_pid, str_pid);
-	if (num_dollar % 2 == 0)
-	{
-		if (ft_strlen(data) > (size_t)num_dollar)
-		{
-			data = data + num_dollar;
-			print_pid = ft_strjoin2(print_pid, data);
-		}
-	}
-	else
-	{
-		data = data + (num_dollar - 1);
-		if (!ft_strncmp("$", data, 2))
-			print_pid = ft_strjoin2(print_pid, data);
-	}
-	return (free(str_pid), print_pid);
-}*/
 
 int is_special_cases(char *str)
 {
@@ -177,7 +150,6 @@ char *small_part(char *str, int *pos)
 	while (++i < len)
 		part[i] = str[i];
 	part[i] = '\0';
-  printf("part i %s\n", part);
 	return (part);
 }
 
@@ -210,6 +182,11 @@ char	*special_cases(char *special, int exit_status)
 	char **split_exit;
 
 	i = 0;
+	if (g_signals == 1)
+	{
+		exit_status = 128 + CTRL_C;
+		g_signals = 0;
+	}
   //else if (!ft_strncmp("$0", split_exit[i], PongShell);
 	str_exit = ft_itoa(exit_status);
 	split_exit = split_dollar_interog(special);
@@ -217,7 +194,6 @@ char	*special_cases(char *special, int exit_status)
     return (NULL);
 	while (split_exit[i])
 	{
-    printf("split--%s\n", split_exit[i]);
 		if (!ft_strncmp("$?", split_exit[i], 3))
 			split_exit[i] = ft_strdup(str_exit);
 		i++;
@@ -228,17 +204,45 @@ char	*special_cases(char *special, int exit_status)
 	return (str_exit);
 }
 
-// char	*special_cases(char *special, int exit_status)
-// {
-// 	char	*str_exit_status;
+/*char	*is_special_dollar(char *data, int num_dollar, int i)
+{
+	pid_t	pid;
+	char	*print_pid;
+	char	*str_pid;
 
-// 	if (!ft_strncmp("$?", special, 2))
-// 	{
-// 		str_exit_status = ft_itoa(exit_status);
-// 		if (ft_strlen(special) > 2)
-// 			str_exit_status = (ft_strjoin2(str_exit_status, special + 2));
-// 		return (free(special), str_exit_status);
-// 	}
-// 	else
-// 		return (ft_strdup(special));
-// }
+	pid = getpid();
+	print_pid = NULL;
+	str_pid = ft_itoa(pid);
+	while (i++ < num_dollar / 2)
+		print_pid = ft_strjoin2(print_pid, str_pid);
+	if (num_dollar % 2 == 0)
+	{
+		if (ft_strlen(data) > (size_t)num_dollar)
+		{
+			data = data + num_dollar;
+			print_pid = ft_strjoin2(print_pid, data);
+		}
+	}
+	else
+	{
+		data = data + (num_dollar - 1);
+		if (!ft_strncmp("$", data, 2))
+			print_pid = ft_strjoin2(print_pid, data);
+	}
+	return (free(str_pid), print_pid);
+}
+
+char	*special_cases(char *special, int exit_status)
+{
+	char	*str_exit_status;
+
+	if (!ft_strncmp("$?", special, 2))
+	{
+		str_exit_status = ft_itoa(exit_status);
+		if (ft_strlen(special) > 2)
+			str_exit_status = (ft_strjoin2(str_exit_status, special + 2));
+		return (free(special), str_exit_status);
+	}
+	else
+		return (ft_strdup(special));
+}*/

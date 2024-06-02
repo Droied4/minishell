@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/27 20:30:57 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/02 19:29:02 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,36 +93,45 @@ static void	interactive_sig_handler(int sign)
 		rl_redisplay();
 	}
 }
+static void	heredoc_sig_handler(int sign)
+{
+	if (sign == CTRL_C)
+	{
+		g_signals = 2;
+		rl_replace_line("", 0);
+		ft_dprintf(2, "\001\n\033[0;31m1\033[0m 🏓 PongShell \n\002");
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+static void sigquit_handler()
+{
+	ft_dprintf(1, "Quit\n");
+}
 
-// static void sigquit_handler()
-// {
-// 	ft_dprintf(1, "Quit\n");
-// 	exit(0);
-// }
-
-// static void	stop_sig_handler(int sign)
-// {
-// 	write(1, "\n", 1);
-// 	if (sign == SIGINT)
-// 		signal(SIGINT, SIG_IGN);
-// }
+static void	stop_sig_handler(int sign)
+{
+	write(1, "\n", 1);
+	if (sign == SIGINT)
+		signal(SIGINT, SIG_IGN);
+}
 
 void	ft_signals(t_shell *sh, t_signal mode)
 {
-	if (mode == INTERACTIVE || mode == HEREDOC)
+	(void)sh;
+	if (mode == INTERACTIVE)
 	{
 		signal(CTRL_C, interactive_sig_handler);
-		if (g_signals == 1)
-		{
-			g_signals = 1;
-			sh->exit_status = 128 + CTRL_C;
-			g_signals = 0;
-		}
+		signal(CTRL_SLASH, SIG_IGN);
+	}
+	else if (mode == HEREDOC)
+	{
+		signal(CTRL_C, heredoc_sig_handler);
 		signal(CTRL_SLASH, SIG_IGN);
 	}
 	else if (mode == NON_INTERACTIVE)
 	{
-		signal(CTRL_C, SIG_DFL);
-		signal(CTRL_SLASH, SIG_DFL);
+		signal(CTRL_C, stop_sig_handler);
+		signal(CTRL_SLASH, sigquit_handler);
 	}
 }
