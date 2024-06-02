@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/06/02 19:29:02 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/02 21:36:08 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	interactive_sig_handler(int sign)
 	{
 		g_signals = 1;
 		rl_replace_line("", 0);
-		ft_dprintf(2, "\001\n\033[0;31m130\033[0m 🏓 PongShell \n\002");
+		ft_dprintf(2, "\001\n\033[0;31m1\033[0m 🏓 PongShell \n\002");
 		rl_on_new_line();
 		rl_redisplay();
 	}
@@ -97,8 +97,8 @@ static void	heredoc_sig_handler(int sign)
 {
 	if (sign == CTRL_C)
 	{
-		g_signals = 2;
-		rl_replace_line("", 0);
+		g_signals = 1;
+		rl_replace_line("", 1);
 		ft_dprintf(2, "\001\n\033[0;31m1\033[0m 🏓 PongShell \n\002");
 		rl_on_new_line();
 		rl_redisplay();
@@ -106,32 +106,43 @@ static void	heredoc_sig_handler(int sign)
 }
 static void sigquit_handler()
 {
-	ft_dprintf(1, "Quit\n");
+	g_signals = 128 + CTRL_BSLASH;
+	ft_dprintf(2, "Quit: 3\n");
 }
 
-static void	stop_sig_handler(int sign)
+static void	non_interac_sig_handler(int sign)
 {
 	write(1, "\n", 1);
 	if (sign == SIGINT)
+	{
 		signal(SIGINT, SIG_IGN);
+		g_signals = 128 + CTRL_C;
+	}
+
 }
 
 void	ft_signals(t_shell *sh, t_signal mode)
 {
 	(void)sh;
-	if (mode == INTERACTIVE)
+	if (mode == INTERACTIVE)//perfecto
 	{
 		signal(CTRL_C, interactive_sig_handler);
-		signal(CTRL_SLASH, SIG_IGN);
+		signal(CTRL_BSLASH, SIG_IGN);
 	}
 	else if (mode == HEREDOC)
 	{
+		//ctrl + D gives segfault;
+		//heredoc probs, it has to be close when a sigint is passed but it still remain even 
+		//if I printf the new prompt like in interactive mode;
 		signal(CTRL_C, heredoc_sig_handler);
-		signal(CTRL_SLASH, SIG_IGN);
+		signal(CTRL_BSLASH,SIG_IGN);
 	}
 	else if (mode == NON_INTERACTIVE)
 	{
-		signal(CTRL_C, stop_sig_handler);
-		signal(CTRL_SLASH, sigquit_handler);
+		//works perfectly, ❓frontend ERROR cause it still printing the prompt within the ✅
+		// instead of printing the exit status it supposes
+		// to change to 130 || 131 depends on the received signal
+		signal(CTRL_C, non_interac_sig_handler);
+		signal(CTRL_BSLASH, sigquit_handler);
 	}
 }

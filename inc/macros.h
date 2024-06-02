@@ -38,7 +38,7 @@
 # define DASH_N "-n"
 # define STR_REDIR "|s><"
 # define CTRL_C SIGINT
-# define CTRL_SLASH SIGQUIT
+# define CTRL_BSLASH SIGQUIT
 # define REDIR {PIPE, GREAT, LESS, DGREAT, DLESS}
 # define STR_META "|><\'\"$"
 # define METACHAR {PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE, EXP}
