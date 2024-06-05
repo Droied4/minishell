@@ -24,6 +24,7 @@ int	ft_lstenv_size(t_env *lst)
 		count++;
 		lst = lst->next;
 	}
+  printf("length of the env %d\n", count);
 	return (count++);
 }
 
@@ -86,7 +87,7 @@ void	print_lst_env(t_env *lst, int i)
 	{
 		while (tmp)
 		{
-			if (ft_strchr(tmp->line, (int) '='))
+			if (tmp->line && ft_strchr(tmp->line, (int) '='))
 				ft_dprintf(STDOUT_FILENO, "%s=%s\n", tmp->var_name,
 					tmp->var_content);
 			tmp = tmp->next;

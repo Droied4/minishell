@@ -67,6 +67,7 @@ static void	init_sh(t_shell *sh, char **env)
 		exit (EXIT_FAILURE);
 	}
 	sh->env = create_lst_env(env);
+  sh->matriz_env = NULL;
 }
 /*echo $USER""'hello*/
 int	main(int ac, char **av, char **env)
