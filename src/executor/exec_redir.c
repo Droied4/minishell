@@ -31,6 +31,7 @@ static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 	int		p[2];
 	int		len;
 
+  (void)sh;
 	if (last_in != 0)
 		close(last_in);
 	if (pipe(p) < 0)
@@ -39,6 +40,8 @@ static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 	while (42)
 	{	
 		doc = readline("> ");
+    if (doc == NULL)
+      break ;
 		last_in = p[0];
 		if (ft_strlen(doc) > ft_strlen(redir->file))
 			len = ft_strlen(doc);
@@ -88,6 +91,7 @@ void	process_redir(t_shell *sh, t_process *pro)
 	int		last_out;
 	t_redir	*redir;
 
+  (void)sh;
 	last_in = 0;
 	last_out = 1;
 	redir = pro->r;

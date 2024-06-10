@@ -24,7 +24,6 @@ int	ft_lstenv_size(t_env *lst)
 		count++;
 		lst = lst->next;
 	}
-  printf("length of the env %d\n", count);
 	return (count++);
 }
 
