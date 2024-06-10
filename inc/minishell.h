@@ -152,6 +152,10 @@ char *ft_get_cpy(char *str, int *pos);
 char *trimmer_quotes(char *str, int quotes);
 int number_of_char(char *str, char charact);
 
+int	dol_count_words(char *str, int i, int count, int in_word);
+int	len_part(char *str);
+char	*small_part(char *str, int *pos);
+char	*special_cases(char *special, int exit_status);
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
    PARSER BLOCK - 5

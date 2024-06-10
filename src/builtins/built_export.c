@@ -19,11 +19,11 @@ t_env	*found_var(char *cmd_line, t_env *lst)
 	char	**line;
 
 	len = ft_strlen(cmd_line);
-	if(len == 0)
+	if (len == 0)
 		return (NULL);
 	line = ft_split(cmd_line, '=');
 	if (line[0][ft_strlen(line[0]) - 1] == '+')
-		line[0] = trimmer_quotes(line[0], (int)'+');
+		line[0] = trimmer_quotes(line[0], (int) '+');
 	tmp = lst;
 	while (tmp)
 	{
@@ -42,7 +42,6 @@ t_env	*found_var(char *cmd_line, t_env *lst)
 
 static void	update_var(char *s, t_env *var_node)
 {
-
 	char	**split;
 
 	var_node->line = ft_strdup(s);
@@ -74,7 +73,6 @@ static void	add_node_to_lstenv(t_env **lstenv, t_env **new)
 
 t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 {
-
 	while (sh.tokens)
 	{
 		sh.tokens = sh.tokens->next;

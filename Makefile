@@ -53,7 +53,8 @@ AUX = aux_dei.c aux_archly.c is_something.c aux_arch.c manage.c
 BUILTINS = builtins.c built_export.c built_pwd_cd.c built_unset.c \
 		built_echo.c built_env.c
 
-EXPANSOR = expansor.c expansor_utils1.c expansor_utils2.c expansor_utils3.c 
+EXPANSOR = expansor.c expansor_utils1.c expansor_utils2.c \
+		expansor_utils3.c expansor_utils4.c
 
 # Objects and dependencies
 OBJECTS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.c=.o})

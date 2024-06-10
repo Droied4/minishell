@@ -88,6 +88,7 @@ int	process_word(t_shell *sh)
 	int		exit_status;
 
 	word = sh->pro.w;
+	wstatus = 0;
 	if (char_is_inside(word->cmd[0], '/') < 0)
 		word->path = ft_check_path(get_envivar("PATH=", sh->matriz_env), word->cmd);
 	else
