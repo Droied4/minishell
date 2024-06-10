@@ -6,13 +6,14 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/28 21:29:16 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/10 14:55:43 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_input(t_shell *sh)
+/* in other moment u can fix this the unique problem is the signals
+ * int	parse_input(t_shell *sh)
 {
 	t_token	*tmp_tok;
 
@@ -32,7 +33,23 @@ int	parse_input(t_shell *sh)
 			return (-1);
 	}
 	return (0);
+}*/
+
+int	parse_input(t_shell *sh)
+{
+	if (input_unclosed(sh) < 0)
+	{
+		ft_dprintf(2, "Unclosed Entry\n");
+		return (-1);
+	}
+	if (input_incomplete(sh) < 0)
+	{
+		ft_dprintf(2, "Incomplete Entry\n");
+		return (-1);
+	}
+	return (0);
 }
+
 
 int	parse_redirections(t_shell *sh)
 {

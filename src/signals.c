@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/06/02 21:36:08 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/10 14:08:30 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ static void	interactive_sig_handler(int sign)
 {
 	if (sign == CTRL_C)
 	{
-		g_signals = 1;
+		g_signals = 130;
 		rl_replace_line("", 0);
-		ft_dprintf(2, "\001\n\033[0;31m1\033[0m 🏓 PongShell \n\002");
+		ft_dprintf(2, "\001\n\033[0;31m130\033[0m 🏓 PongShell \n\002");
 		rl_on_new_line();
 		rl_redisplay();
 	}

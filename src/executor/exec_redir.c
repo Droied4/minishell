@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/02 21:36:05 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/10 15:07:37 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,15 @@ static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 	if (pipe(p) < 0)
 		exit(1);
 	doc = "/tmp/shell.txt";
-	disable_control_chars_echo();
-	ft_signals(sh, HEREDOC);
 	while (42)
-	{
+	{	
 		doc = readline("> ");
 		last_in = p[0];
 		if (ft_strlen(doc) > ft_strlen(redir->file))
 			len = ft_strlen(doc);
 		else
 			len = ft_strlen(redir->file);
-		if (ft_strncmp(doc, redir->file, len) == 0)
+		if (!doc || !redir->file || ft_strncmp(doc, redir->file, len) == 0)
 			break ;
 		ft_putstr_fd(doc, p[1]);
 		ft_putstr_fd("\n", p[1]);
@@ -54,7 +52,6 @@ static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 	}
 	close(p[1]);
 	ft_putstr_fd("\n\0", p[1]);
-	restore_terminal_settings();
 	free(doc);
 	return (last_in);
 }
