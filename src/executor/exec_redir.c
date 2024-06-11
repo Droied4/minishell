@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/10 22:32:26 by droied           ###   ########.fr       */
+/*   Updated: 2024/06/11 20:06:51 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 	char	*doc;
 	int		p[2];
 	int		len;
-	//int s;
-
-	//s = g_signals;
-	(void)sh;
+  (void)sh;
 	if (last_in != 0)
 		close(last_in);
 	if (pipe(p) < 0)
 		exit(1);
-	doc = readline("> ");
-	while (doc)
-	{
+	doc = "/tmp/shell.txt";
+	while (42)
+	{	
+		doc = readline("> ");
+    if (doc == NULL)
+      break ;
 		last_in = p[0];
 		if (ft_strlen(doc) > ft_strlen(redir->file))
 			len = ft_strlen(doc);
@@ -97,6 +97,7 @@ void	process_redir(t_shell *sh, t_process *pro)
 	int		last_out;
 	t_redir	*redir;
 
+  (void)sh;
 	last_in = 0;
 	last_out = 1;
 	redir = pro->r;

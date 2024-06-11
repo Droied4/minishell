@@ -42,6 +42,11 @@ char	*prompt(int exit_status)
 	static char	str[256];
 	char	entero[5];
 
+  if (g_signals != 0)
+  {
+    exit_status = g_signals;
+    g_signals = 0;
+  }
 	ft_itos(exit_status, entero);
 	if (exit_status == 0)
 		ft_strlcpy(str, "\001\033[0;32m✔ \033[0m 🏓 PongShell \002",sizeof(str));
@@ -95,6 +100,7 @@ int	main(int ac, char **av, char **env)
 				sh.matriz_env = convert_env_dchar(sh.env, env);
 				restore_terminal_settings();
 				executor(&sh);
+        free_matrix(sh.matriz_env);
 			}
 			soft_exit(&sh);
 		}
