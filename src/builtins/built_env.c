@@ -43,10 +43,10 @@ t_env	*create_envnode(char *envp)
 	{
 		if (splitting[0][ft_strlen(splitting[0]) - 1] == '+')
 			splitting[0] = trimmer_quotes(splitting[0], (int) '+');
-		new->var_name = splitting[0];
-		new->var_content = splitting[1];
+		new->var_name = ft_strdup(splitting[0]);
+		new->var_content = ft_strdup(splitting[1]);
 	}
-	free(splitting);
+	free_matrix(splitting);
 	return (new);
 }
 

@@ -97,11 +97,10 @@ static void	heredoc_sig_handler(int sign)
 {
 	if (sign == CTRL_C)
 	{
-		g_signals = 1;
-		rl_replace_line("", 1);
-		ft_dprintf(2, "\001\n\033[0;31m1\033[0m 🏓 PongShell \n\002");
+		g_signals = 130;
+		close(0);
+		ft_dprintf(1, "\n");
 		rl_on_new_line();
-		rl_redisplay();
 	}
 }
 static void sigquit_handler()

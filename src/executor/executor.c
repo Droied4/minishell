@@ -51,7 +51,7 @@ static int	smpl_cmd(t_shell *sh)
 		{
 			if (is_builtin(sh->pro.w->cmd[0]) > 0)
 				return (do_builtin(sh));
-			return (process_word(sh));
+			return (process_word(sh, 0, 0));
 		}
 	}
 	return (EXIT_SUCCESS);

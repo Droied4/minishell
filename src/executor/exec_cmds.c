@@ -71,29 +71,26 @@ char	*ft_check_path(char **paths, char **cmd)
 		new_cmd = ft_strjoin(new_path, cmd[0]);
 		new_cmd = ft_aux_check(new_path, new_cmd);
 		if (new_cmd)
-		{
-			free(new_path);
-			return (new_cmd);
-		}
+			return (free(new_path), new_cmd);
 		j++;
 	}
 	return (NULL);
 }
 
-int	process_word(t_shell *sh)
+int	process_word(t_shell *sh, int wstatus, int exit_status)
 {
 	pid_t	pid;
-	int		wstatus;
 	t_words	*word;
-	int		exit_status;
+	char **envivar;
 
 	word = sh->pro.w;
-	wstatus = 0;
 	if (char_is_inside(word->cmd[0], '/') < 0)
-		word->path = ft_check_path(get_envivar("PATH=", sh->matriz_env), word->cmd);
+	{
+		envivar = get_envivar("PATH=", sh->matriz_env);
+		word->path = ft_check_path(envivar, word->cmd);
+	}
 	else
 		word->path = ft_strdup(word->cmd[0]);
-	exit_status = 0;
 	pid = fork();
 	ft_signals(sh, NON_INTERACTIVE);
 	if (pid == -1)
@@ -108,5 +105,5 @@ int	process_word(t_shell *sh)
 		close(word->out);
 	if (WIFEXITED(wstatus))
 		exit_status = WEXITSTATUS(wstatus);
-	return (exit_status);
+	return (free_matrix(envivar), exit_status);
 }

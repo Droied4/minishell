@@ -40,27 +40,28 @@ char	**convert_env_dchar(t_env *lst_env, char **env)
 	int		i;
 	char	**new;
 	t_env	*tmp;
+	int		size;
 
 	if (!lst_env)
 		lst_env = create_lst_env(env);
-  int size = ft_lstenv_size(lst_env);
+	size = ft_lstenv_size(lst_env);
 	new = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!new)
 		return (NULL);
-  i = -1;
-  while (++i < size)
-    new[i] = NULL;
+	i = -1;
+	while (++i < size)
+		new[i] = NULL;
 	tmp = lst_env;
 	i = 0;
 	while (tmp->next)
 	{
 		new[i] = ft_strdup(tmp->line);
 		if (!new[i])
-    {
-      ft_del_env(&lst_env);
-      return (free_matrix(new), NULL);
-    }
-    i++;
+		{
+			ft_del_env(&lst_env);
+			return (free_matrix(new), NULL);
+		}
+		i++;
 		tmp = tmp->next;
 	}
 	new[i] = NULL;

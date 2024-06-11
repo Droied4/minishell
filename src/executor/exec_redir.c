@@ -30,18 +30,23 @@ static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 	char	*doc;
 	int		p[2];
 	int		len;
+	int		fd;
 
-  (void)sh;
+	(void)sh;
 	if (last_in != 0)
 		close(last_in);
 	if (pipe(p) < 0)
 		exit(1);
 	doc = "/tmp/shell.txt";
+	fd = dup(0);
+	ft_signals(sh, HEREDOC);
 	while (42)
-	{	
+	{
 		doc = readline("> ");
-    if (doc == NULL)
-      break ;
+		if (doc == NULL || g_signals != 0) {
+			dup2(fd, 0);
+			break ;
+		}
 		last_in = p[0];
 		if (ft_strlen(doc) > ft_strlen(redir->file))
 			len = ft_strlen(doc);
@@ -52,8 +57,9 @@ static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 		ft_putstr_fd(doc, p[1]);
 		ft_putstr_fd("\n", p[1]);
 		free(doc);
-	}
+	}		
 	close(p[1]);
+	close(fd);
 	ft_putstr_fd("\n\0", p[1]);
 	free(doc);
 	return (last_in);
@@ -91,7 +97,7 @@ void	process_redir(t_shell *sh, t_process *pro)
 	int		last_out;
 	t_redir	*redir;
 
-  (void)sh;
+	(void)sh;
 	last_in = 0;
 	last_out = 1;
 	redir = pro->r;

@@ -45,12 +45,19 @@ static void	kill_child(t_shell *sh, t_process *pro)
 
 static void	child_process(t_shell *sh, t_process *pro)
 {
+	char **envivar;
+
+	envivar = NULL;
 	if (pro->w && pro->w->cmd)
 	{
 		if (char_is_inside(pro->w->cmd[0], '/') < 0)
-			pro->w->path = ft_check_path(get_envivar("PATH=", sh->matriz_env), pro->w->cmd);
+		{
+			envivar = get_envivar("PATH=", sh->matriz_env);
+			pro->w->path = ft_check_path(envivar, pro->w->cmd);
+		}
 		else
 			pro->w->path = ft_strdup(pro->w->cmd[0]);
+		free_matrix(envivar);
 	}
 	kill_child(sh, pro);
 }
