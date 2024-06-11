@@ -39,7 +39,7 @@ static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 		exit(1);
 	doc = "/tmp/shell.txt";
 	fd = dup(0);
-	ft_signals(sh, HEREDOC);
+	ft_signals(HEREDOC);
 	while (42)
 	{
 		doc = readline("> ");

@@ -15,6 +15,7 @@
 static void	child_process(t_shell *sh)
 {
 	t_words	*word;
+
 	word = sh->pro.w;
 	if (word->in != STD_IN)
 	{
@@ -77,11 +78,19 @@ char	*ft_check_path(char **paths, char **cmd)
 	return (NULL);
 }
 
+static void	closing_in_out(t_words *word)
+{
+	if (word->in != STD_IN)
+		close(word->in);
+	if (word->out != STD_OUT)
+		close(word->out);
+}
+
 int	process_word(t_shell *sh, int wstatus, int exit_status)
 {
 	pid_t	pid;
 	t_words	*word;
-	char **envivar;
+	char	**envivar;
 
 	word = sh->pro.w;
 	if (char_is_inside(word->cmd[0], '/') < 0)
@@ -92,17 +101,14 @@ int	process_word(t_shell *sh, int wstatus, int exit_status)
 	else
 		word->path = ft_strdup(word->cmd[0]);
 	pid = fork();
-	ft_signals(sh, NON_INTERACTIVE);
+	ft_signals(NON_INTERACTIVE);
 	if (pid == -1)
 		exit(1);
 	if (pid > 0)
 		waitpid(0, &wstatus, 0);
 	else
 		child_process(sh);
-	if (word->in != STD_IN)
-		close(word->in);
-	if (word->out != STD_OUT)
-		close(word->out);
+	closing_in_out(word);
 	if (WIFEXITED(wstatus))
 		exit_status = WEXITSTATUS(wstatus);
 	return (free_matrix(envivar), exit_status);

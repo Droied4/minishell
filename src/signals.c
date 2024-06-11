@@ -35,8 +35,9 @@ static void	heredoc_sig_handler(int sign)
 	}
 }
 
-static void	sigquit_handler(void)
+static void	sigquit_handler(int sign)
 {
+	(void)sign;
 	g_signals = 128 + CTRL_BSLASH;
 	ft_dprintf(2, "Quit: 3\n");
 }

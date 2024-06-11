@@ -88,7 +88,7 @@ int	main(int ac, char **av, char **env)
 		{
 			prompt_str = prompt(sh.exit_status);
 			ft_dprintf(2, "\001%s\002\n", prompt_str);
-			ft_signals(&sh, INTERACTIVE);
+			ft_signals(INTERACTIVE);
 			disable_control_chars_echo();
 			sh.line = readline("");
 			if (!sh.line)
