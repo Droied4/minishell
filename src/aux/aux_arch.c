@@ -48,9 +48,6 @@ char	**convert_env_dchar(t_env *lst_env, char **env)
 	new = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!new)
 		return (NULL);
-	i = -1;
-	while (++i < size)
-		new[i] = NULL;
 	tmp = lst_env;
 	i = 0;
 	while (tmp->next)
@@ -64,8 +61,7 @@ char	**convert_env_dchar(t_env *lst_env, char **env)
 		i++;
 		tmp = tmp->next;
 	}
-	new[i] = NULL;
-	return (new);
+	return (new[i] = NULL, new);
 }
 
 char	*quotes_removal_master(char *cmd_line)

@@ -86,17 +86,18 @@ char	**split_dollar_interog(char *str)
 	int		num_dol_int;
 
 	num_dol_int = dol_count_words(str, 0, 0, 0);
-	result = malloc(sizeof(char *) * num_dol_int + 1);
+	result = malloc(sizeof(char) * (num_dol_int + 1));
 	if (!result)
 		return (NULL);
-	i = -1;
+	i = 0;
 	pos = 0;
-	while (++i < num_dol_int)
+	while (i < num_dol_int)
 	{
 		result[i] = small_part(str, &pos);
 		str += pos;
+		i++;
 	}
-	result[i] = NULL;
+	result[i++] = NULL;
 	return (result);
 }
 

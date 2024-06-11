@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 char	*ft_imp_strjoin(char const *s1, char const *s2)
 {
 	char	*rsv;
@@ -81,12 +82,12 @@ int	char_is_inside(char const *str, char c)
 	return (-1);
 }
 
-char **get_envivar(char *var, char **env)
+char	**get_envivar(char *var, char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
 		if (ft_strncmp(env[i], var, 5) == 0)
 			return (ft_split(env[i], ':'));
@@ -94,7 +95,6 @@ char **get_envivar(char *var, char **env)
 	}
 	return (NULL);
 }
-
 
 /*void	print_tokens(t_token *lst)
 {
