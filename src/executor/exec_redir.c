@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/10 15:07:37 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/10 22:32:26 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,17 @@ static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 	char	*doc;
 	int		p[2];
 	int		len;
+	//int s;
 
+	//s = g_signals;
+	(void)sh;
 	if (last_in != 0)
 		close(last_in);
 	if (pipe(p) < 0)
 		exit(1);
-	doc = "/tmp/shell.txt";
-	while (42)
-	{	
-		doc = readline("> ");
+	doc = readline("> ");
+	while (doc)
+	{
 		last_in = p[0];
 		if (ft_strlen(doc) > ft_strlen(redir->file))
 			len = ft_strlen(doc);
@@ -46,9 +48,16 @@ static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 			len = ft_strlen(redir->file);
 		if (!doc || !redir->file || ft_strncmp(doc, redir->file, len) == 0)
 			break ;
+		doc = expand_string(sh, doc);
 		ft_putstr_fd(doc, p[1]);
 		ft_putstr_fd("\n", p[1]);
 		free(doc);
+		doc = readline("> ");
+		if (g_signals == 130)
+		{
+			free(doc);
+			doc = NULL;
+		}
 	}
 	close(p[1]);
 	ft_putstr_fd("\n\0", p[1]);

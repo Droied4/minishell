@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/06/10 14:08:30 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/10 21:57:14 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void	heredoc_sig_handler(int sign)
 	if (sign == CTRL_C)
 	{
 		g_signals = 1;
-		rl_replace_line("", 1);
+ 		rl_replace_line("", 1);
 		ft_dprintf(2, "\001\n\033[0;31m1\033[0m 🏓 PongShell \n\002");
 		rl_on_new_line();
 		rl_redisplay();
