@@ -48,7 +48,8 @@ EXECUTOR = executor.c exec_redir.c exec_cmds.c exec_conec.c
 PARSER = parser.c parser_input.c parser_entry.c word_lst.c \
 		parser_cmd.c redir_lst.c parser_redir.c
 
-AUX = aux_dei.c aux_archly.c is_something.c aux_arch.c manage.c
+AUX = aux_dei.c aux_archly.c is_something.c aux_arch.c manage.c \
+			aux_sig.c
 
 BUILTINS = builtins.c built_export.c built_pwd_cd.c built_unset.c \
 		built_echo.c built_env.c
