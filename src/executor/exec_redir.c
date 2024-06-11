@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/10 15:07:37 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/11 20:09:04 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 			len = ft_strlen(redir->file);
 		if (!doc || !redir->file || ft_strncmp(doc, redir->file, len) == 0)
 			break ;
+		doc = expand_string(sh, doc);
 		ft_putstr_fd(doc, p[1]);
 		ft_putstr_fd("\n", p[1]);
 		free(doc);
