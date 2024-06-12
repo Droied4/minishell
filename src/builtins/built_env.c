@@ -36,8 +36,11 @@ t_env	*create_envnode(char *envp)
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
+	new->var_name = NULL;
+	new->var_content = NULL;
 	new->line = ft_strdup(envp);
 	new->next = NULL;
+	new->prev = NULL;
 	splitting = ft_split(new->line, '=');
 	if (splitting)
 	{
