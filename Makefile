@@ -43,7 +43,8 @@ SOURCES = minishell.c  signals.c
 
 LEXER = lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c 
 
-EXECUTOR = executor.c exec_redir.c exec_cmds.c exec_conec.c
+EXECUTOR = executor.c exec_redir.c exec_cmds.c exec_conec.c \
+	heredoc.c 
 
 PARSER = parser.c parser_input.c parser_entry.c word_lst.c \
 		parser_cmd.c redir_lst.c parser_redir.c

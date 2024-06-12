@@ -25,46 +25,6 @@ static int	less_case(t_redir *redir, int last_in)
 	return (last_in);
 }
 
-static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
-{
-	char	*doc;
-	int		p[2];
-	int		len;
-	int		fd;
-
-	if (last_in != 0)
-		close(last_in);
-	if (pipe(p) < 0)
-		exit(1);
-	doc = "/tmp/shell.txt";
-	fd = dup(0);
-	ft_signals(HEREDOC);
-	while (42)
-	{
-		doc = readline("> ");
-		if (doc == NULL || g_signals != 0) {
-			dup2(fd, 0);
-			break ;
-		}
-		last_in = p[0];
-		if (ft_strlen(doc) > ft_strlen(redir->file))
-			len = ft_strlen(doc);
-		else
-			len = ft_strlen(redir->file);
-		if (!doc || !redir->file || ft_strncmp(doc, redir->file, len) == 0)
-			break ;
-		doc = expand_string(sh, doc);
-		ft_putstr_fd(doc, p[1]);
-		ft_putstr_fd("\n", p[1]);
-		free(doc);
-	}		
-	close(p[1]);
-	close(fd);
-	ft_putstr_fd("\n\0", p[1]);
-	free(doc);
-	return (last_in);
-}
-
 static int	great_case(t_redir *redir, int last_out)
 {
 	if (last_out != 1)
@@ -106,7 +66,7 @@ void	process_redir(t_shell *sh, t_process *pro)
 		if (redir->type == LESS && last_in != -1 && last_out != -1)
 			last_in = less_case(redir, last_in);
 		else if (redir->type == DLESS && last_in != -1)
-			last_in = heredoc_case(sh, redir, last_in);
+			last_in = heredoc_case(sh, redir, last_in, 0);
 		else if (redir->type == GREAT && last_in != -1 && last_out != -1)
 			last_out = great_case(redir, last_out);
 		else if (redir->type == DGREAT && last_in != -1 && last_out != -1)

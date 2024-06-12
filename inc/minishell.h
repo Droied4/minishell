@@ -228,6 +228,8 @@ char							*prompt(int exit_status);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
+int								heredoc_case(t_shell *sh, t_redir *redir,
+									int last_in, int len);
 void							process_redir(t_shell *sh, t_process *pro);
 
 /*
