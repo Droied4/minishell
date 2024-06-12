@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/06/11 23:51:27 by droied           ###   ########.fr        #
+#    Updated: 2024/06/12 17:34:37 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SOURCES = minishell.c  signals.c
 
 LEXER = lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c 
 
-EXECUTOR = executor.c exec_redir.c exec_cmds.c exec_conec.c
+EXECUTOR = executor.c exec_redir.c exec_cmds.c exec_conec.c heredoc.c
 
 PARSER = parser.c parser_input.c parser_entry.c word_lst.c \
 		parser_cmd.c redir_lst.c parser_redir.c

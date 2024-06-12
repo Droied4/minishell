@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/28 15:12:14 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:44:55 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ static void	kill_child(t_shell *sh, t_process *pro)
 	if (pro->w->cmd)
 	{
 		if (is_builtin(pro->w->cmd[0]) > 0)
-		{
-			execute_builtins(sh, sh->matriz_env);
-			exit(0);
-		}
+			exit(execute_builtins(sh, sh->matriz_env));
 		execve(pro->w->path, pro->w->cmd, sh->matriz_env);
 	}
 	exit(after_exec(pro->w));
@@ -69,11 +66,14 @@ static void	before_fork(int process, t_process *pro, t_shell *sh)
 		pro->w->in = pro->p[0];
 		if (pipe(pro->p) < 0)
 			exit(EXIT_FAILURE);
+		process_redir(sh, pro);
 		pro->w->out = pro->p[1];
 	}
 	if (process == sh->pipes)
+	{
 		pro->w->out = 1;
-	process_redir(sh, pro);
+		process_redir(sh, pro);
+	}
 	if (pro->w->next)
 	{
 		pro->w->next->in = pro->w->in;
