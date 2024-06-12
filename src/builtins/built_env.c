@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:07 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/27 17:05:18 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/12 00:08:51 by droied           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ t_env	*create_envnode(char *envp)
 		if (splitting[0][ft_strlen(splitting[0]) - 1] == '+')
 			splitting[0] = trimmer_quotes(splitting[0], (int) '+');
 		new->var_name = ft_strdup(splitting[0]);
-		new->var_content = ft_strdup(splitting[1]);
+		if (splitting[1])
+			new->var_content = ft_strdup(splitting[1]);
 	}
 	free_matrix(splitting);
 	return (new);
