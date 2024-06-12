@@ -6,11 +6,11 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/24 21:53:04 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/31 21:28:14 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 char	*expansion_final(t_shell *sh, char *str)
 {
@@ -43,35 +43,38 @@ char	*expansion_final(t_shell *sh, char *str)
 
 char	*expand_string(t_shell *sh, char *str)
 {
+	char	*tmp;
 	char	*expanded;
-	int		trimmed;
 
-	trimmed = 0;
-	if (str[0] == SQUOT)
-		return (ft_strtrim(str, "\'"));
-	if (str[0] == DQUOT)
+	tmp = NULL;
+	expanded = NULL;
+	if (found_char(str, '$') && str[0] != SQUOT)
 	{
-		str = ft_strtrim(str, "\"");
-		trimmed = 1;
-	}
-	if (found_char(str, '$'))
-	{
-		expanded = expansion_final(sh, str);
+		if (is_special_cases(str) != 0)
+		{
+			expanded = special_cases(str, sh->exit_status);
+		}
+		else
+			expanded = expansion_final(sh, str);
+		if (expanded && found_char(expanded, '$'))
+		{
+			tmp = expansion_final(sh, expanded);
+			free(expanded);
+			expanded = tmp;
+		}
 		if (!ft_strncmp(expanded, str, ft_strlen(str)))
 			expanded = ft_strdup("");
 	}
 	else
 		expanded = ft_strdup(str);
-	if (trimmed)
-		free(str);
 	return (expanded);
 }
 
 char	**split_quotes(char *str)
 {
 	int		i;
-	int		position;
 	int		words;
+	int		position;
 	char	**smart_split;
 
 	words = count_words(str, 0, 0, 0);
@@ -82,8 +85,10 @@ char	**split_quotes(char *str)
 	position = 0;
 	while (i < words)
 	{
-		smart_split[i] = ft_get_cpy(str, &position);
-		str = &str[position];
+		smart_split[i] = ft_get_cpy(str + position, &position);
+		if (!smart_split[i])
+			return(free_matrix(smart_split), NULL);
+		//str = &str[position];
 		i++;
 	}
 	smart_split[i] = NULL;
@@ -116,39 +121,31 @@ char	*expand_data(t_shell *sh, char *str)
 
 void	expansor(t_shell *sh)
 {
-	t_token	*tok;
 	char	*tmp;
 
-	tok = sh->tokens;
-	while (tok)
+	if (sh->line[0] == '\0')
+		return ;
+	else if (found_char(sh->line, '$'))
 	{
-		if (!ft_strncmp("$?", tok->data, 2) || !ft_strncmp("$$", tok->data, 2))
-			tok->data = special_cases(tok->data, sh->exit_status);
-		else if (found_char(tok->data, '$'))
+		tmp = expand_data(sh, sh->line);
+		if (tmp[0] != '\0')
 		{
-			tmp = expand_data(sh, tok->data);
-			free(tok->data);
-			tok->data = tmp;
+			free(sh->line);
+			sh->line = tmp;
 		}
-		else if (found_char(tok->data, SQUOT) || found_char(tok->data, DQUOT))
- 	{
-			tmp = aux_trim(tok->data);
-			free(tok->data);
-			tok->data = tmp;
-		}
-		tok = tok->next;
 	}
-	// print_tokens(tok);
+	ft_deltoken(&sh->tokens);
+	sh->tokens = generate_tokens(sh->line);
+	if (found_char(sh->line, SQUOT) || found_char(sh->line, DQUOT))
+		sh->tokens = quotes_removal(sh->tokens);
 }
-
-//to retokenize when after the expansion
 /*CURIOUS WAY OF CALLING FUNCTION
 result = concat("'", concat(username, "'"));
 EXPECTED RESULT : "'"$USER"'"
 bash-3.2$ echo  test  |  wc  -c
 		5
 bash-3.2$
-'hola'"$USER"'"$USER"'"'$USER'"
+echo 'hola'"$USER"'"$USER"'"'$USER'"
  echo 'hola'  "     $USER    "  " a " "${USER}"
 $'USER' $"USER"
 echo $TERM ""hola$USER$USET$USERm > $USERg

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec_conec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/25 14:20:35 by droied           ###   ########.fr       */
+/*   Updated: 2024/05/28 15:12:14 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "struct.h"
+#include "../../inc/minishell.h"
+#include "../../inc/struct.h"
 
 static void	kill_child(t_shell *sh, t_process *pro)
 {
@@ -45,12 +45,19 @@ static void	kill_child(t_shell *sh, t_process *pro)
 
 static void	child_process(t_shell *sh, t_process *pro)
 {
+	char **envivar;
+
+	envivar = NULL;
 	if (pro->w && pro->w->cmd)
 	{
 		if (char_is_inside(pro->w->cmd[0], '/') < 0)
-			pro->w->path = ft_check_path(get_envivar("PATH=", sh->matriz_env), pro->w->cmd);
+		{
+			envivar = get_envivar("PATH=", sh->matriz_env);
+			pro->w->path = ft_check_path(envivar, pro->w->cmd);
+		}
 		else
 			pro->w->path = ft_strdup(pro->w->cmd[0]);
+		free_matrix(envivar);
 	}
 	kill_child(sh, pro);
 }
@@ -66,7 +73,7 @@ static void	before_fork(int process, t_process *pro, t_shell *sh)
 	}
 	if (process == sh->pipes)
 		pro->w->out = 1;
-	process_redir(pro);
+	process_redir(sh, pro);
 	if (pro->w->next)
 	{
 		pro->w->next->in = pro->w->in;

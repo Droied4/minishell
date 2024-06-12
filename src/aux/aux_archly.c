@@ -32,6 +32,8 @@ void	free_matrix(char **allsplit)
 	int	i;
 
 	i = 0;
+	if (!allsplit)
+		return ;
 	while (allsplit[i])
 	{
 		free(allsplit[i]);
@@ -86,7 +88,7 @@ void	print_lst_env(t_env *lst, int i)
 	{
 		while (tmp)
 		{
-			if (ft_strchr(tmp->line, (int) '='))
+			if (tmp->line && ft_strchr(tmp->line, (int) '='))
 				ft_dprintf(STDOUT_FILENO, "%s=%s\n", tmp->var_name,
 					tmp->var_content);
 			tmp = tmp->next;

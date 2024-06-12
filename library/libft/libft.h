@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 15:43:46 by avolcy            #+#    #+#             */
-/*   Updated: 2024/03/11 19:10:04 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/11 17:09:41 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}t_list;
+}	t_list;
 
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);

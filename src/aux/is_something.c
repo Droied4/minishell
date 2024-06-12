@@ -18,6 +18,8 @@ int	is_builtin(char *data)
 	char	**builtins;
 
 	builtins = ft_split(STR_BUILTINS, ' ');
+	if (!builtins)
+		return (0);
 	i = -1;
 	while (builtins[++i])
 	{

@@ -20,7 +20,7 @@ static int	ft_isintmin(int fd, int count)
 	return (11 + count);
 }
 
-int	ft_dputnbr(int fd,int nb)
+int	ft_dputnbr(int fd, int nb)
 {
 	int	count;
 
