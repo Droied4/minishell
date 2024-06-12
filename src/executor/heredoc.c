@@ -17,7 +17,6 @@ static void close_pipes(int p[2], int fd, char *doc)
 	close(fd);
 	//ft_putstr_fd("\n\0", p[1]);
 	close(p[1]);
-	close(p[0]);
 	if (doc)	
 		free(doc);
 }
