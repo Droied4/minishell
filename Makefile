@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/05/26 12:01:01 by marvin           ###   ########.fr        #
+#    Updated: 2024/06/11 23:51:27 by droied           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,12 +48,14 @@ EXECUTOR = executor.c exec_redir.c exec_cmds.c exec_conec.c
 PARSER = parser.c parser_input.c parser_entry.c word_lst.c \
 		parser_cmd.c redir_lst.c parser_redir.c
 
-AUX = aux_dei.c aux_archly.c is_something.c aux_arch.c manage.c
+AUX = aux_dei.c aux_archly.c is_something.c aux_arch.c manage.c \
+	aux_sig.c
 
 BUILTINS = builtins.c built_export.c built_pwd_cd.c built_unset.c \
 		built_echo.c built_env.c
 
-EXPANSOR = expansor.c expansor_utils1.c expansor_utils2.c expansor_utils3.c 
+EXPANSOR = expansor.c expansor_utils1.c expansor_utils2.c \
+		expansor_utils3.c expansor_utils4.c
 
 # Objects and dependencies
 OBJECTS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.c=.o})
@@ -133,7 +135,7 @@ fclean : clean
 re: fclean all 
 
 vg: all
-	valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --track-fds=yes --suppressions=readline.supp ./$(NAME)
+	valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --track-fds=yes --suppressions=.readline.supp ./$(NAME)
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                              MY RULES                                        #

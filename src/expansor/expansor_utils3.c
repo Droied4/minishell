@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:13:33 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/21 20:36:51 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/30 20:33:59 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*ft_get_cpy(char *str, int *pos)
 		cpy[i] = str[i];
 		i++;
 	}
-	cpy[i] = '\0';
+	cpy[len] = '\0';
 	return (cpy);
 }
 

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:12:42 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/24 17:46:40 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/10 14:20:48 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,45 +69,16 @@ char	*find_env_part(char *str, int *pos)
 	return (part);
 }
 
-/*char	*is_special_dollar(char *data, int num_dollar, int i)
+int	is_special_cases(char *str)
 {
-	pid_t	pid;
-	char	*print_pid;
-	char	*str_pid;
+	int	i;
 
-	pid = getpid();
-	print_pid = NULL;
-	str_pid = ft_itoa(pid);
-	while (i++ < num_dollar / 2)
-		print_pid = ft_strjoin2(print_pid, str_pid);
-	if (num_dollar % 2 == 0)
+	i = 0;
+	while (str[i])
 	{
-		if (ft_strlen(data) > (size_t)num_dollar)
-		{
-			data = data + num_dollar;
-			print_pid = ft_strjoin2(print_pid, data);
-		}
+		if (str[i] == '$' && str[i + 1] && str[i + 1] == '?')
+			return (1);
+		i++;
 	}
-	else
-	{
-		data = data + (num_dollar - 1);
-		if (!ft_strncmp("$", data, 2))
-			print_pid = ft_strjoin2(print_pid, data);
-	}
-	return (free(str_pid), print_pid);
-}*/
-
-char	*special_cases(char *special, int exit_status)
-{
-	char	*str_exit_status;
-
-	if (!ft_strncmp("$?", special, 2))
-	{
-		str_exit_status = ft_itoa(exit_status);
-		if (ft_strlen(special) > 2)
-			str_exit_status = (ft_strjoin2(str_exit_status, special + 2));
-		return (free(special), str_exit_status);
-	}
-	else
-		return (ft_strdup(special));
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/27 17:03:21 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/05/30 20:04:57 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ t_env	*found_var(char *cmd_line, t_env *lst)
 	t_env	*tmp;
 	char	**line;
 
-	len = 0;
+	len = ft_strlen(cmd_line);
+	if (len == 0)
+		return (NULL);
 	line = ft_split(cmd_line, '=');
 	if (line[0][ft_strlen(line[0]) - 1] == '+')
-		line[0] = trimmer_quotes(line[0], (int)'+');
+		line[0] = trimmer_quotes(line[0], (int) '+');
 	tmp = lst;
 	while (tmp)
 	{
@@ -40,13 +42,16 @@ t_env	*found_var(char *cmd_line, t_env *lst)
 
 static void	update_var(char *s, t_env *var_node)
 {
-
 	char	**split;
 
 	var_node->line = ft_strdup(s);
 	split = ft_split(var_node->line, '=');
 	if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)
+	{
+		if (split[1][0] == SQUOT || split[1][0] == DQUOT)
+			split[1] = trimmer_quotes(split[1], split[1][0]);
 		var_node->var_content = ft_strjoin2(var_node->var_content, split[1]);
+	}
 	else
 	{
 		var_node->var_name = split[0];
@@ -68,8 +73,6 @@ static void	add_node_to_lstenv(t_env **lstenv, t_env **new)
 
 t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 {
-	//t_env	*last;
-
 	while (sh.tokens)
 	{
 		sh.tokens = sh.tokens->next;
@@ -82,11 +85,6 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 				if (!new)
 					return (NULL);
 				add_node_to_lstenv(lst_env, &new);
-				/* last = *lst_env;
-				while (last->next)
-					last = last->next;
-				last->next = new;
-				new->prev = last */;
 			}
 			else
 				update_var(sh.tokens->data, new);

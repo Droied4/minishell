@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_arch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:37:44 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/26 16:50:46 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/30 21:39:29 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_correct_name(char *name)
 		return (error_name_variable(name));
 	while (name[i] && name[i] != '=')
 	{
-		if (ft_isalnum(name[i]) || name[i] == '_'  || name[i] == '+')
+		if (ft_isalnum(name[i]) || name[i] == '_' || name[i] == '+')
 			i++;
 		else
 			return (error_name_variable(name));
@@ -40,10 +40,13 @@ char	**convert_env_dchar(t_env *lst_env, char **env)
 	int		i;
 	char	**new;
 	t_env	*tmp;
+	int		size;
 
 	if (!lst_env)
 		lst_env = create_lst_env(env);
-	new = (char **)malloc(sizeof(char *) * ((ft_lstenv_size(lst_env))) + 1);
+	print_lst_env(lst_env, 0);
+	size = ft_lstenv_size(lst_env);
+	new = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!new)
 		return (NULL);
 	tmp = lst_env;
@@ -51,9 +54,56 @@ char	**convert_env_dchar(t_env *lst_env, char **env)
 	while (tmp->next)
 	{
 		new[i] = ft_strdup(tmp->line);
+		if (!new[i])
+		{
+			ft_del_env(&lst_env);
+			return (free_matrix(new), NULL);
+		}
 		i++;
 		tmp = tmp->next;
 	}
-	new[i] = NULL;
-	return (new);
+	return (new[i] = NULL, new);
+}
+
+char	*quotes_removal_master(char *cmd_line)
+{
+	int		i;
+	int		j;
+	char	**smart_split;
+
+	i = 0;
+	j = 0;
+	if (!cmd_line)
+		return (NULL);
+	smart_split = split_quotes(cmd_line);
+	if (!smart_split)
+		return (NULL);
+	while (smart_split[i])
+	{
+		if (smart_split[i][j])
+		{
+			if (smart_split[i][j] == SQUOT)
+				smart_split[i] = (ft_strtrim(smart_split[i], "\'"));
+			else if (smart_split[i][j] == DQUOT)
+				smart_split[i] = ft_strtrim(smart_split[i], "\"");
+		}
+		i++;
+	}
+	free(cmd_line);
+	cmd_line = join_split(smart_split);
+	free_matrix(smart_split);
+	return (cmd_line);
+}
+
+t_token	*quotes_removal(t_token *tokens)
+{
+	t_token	*tok;
+
+	tok = tokens;
+	while (tok)
+	{
+		tok->data = quotes_removal_master(tok->data);
+		tok = tok->next;
+	}
+	return (tokens);
 }

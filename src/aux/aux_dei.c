@@ -12,7 +12,91 @@
 
 #include "minishell.h"
 
-void	print_tokens(t_token *lst)
+char	*ft_imp_strjoin(char const *s1, char const *s2)
+{
+	char	*rsv;
+	int		i;
+	int		i2;
+
+	i = 0;
+	i2 = 0;
+	rsv = malloc((sizeof(char)) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!rsv)
+		exit(1);
+	while (s1[i])
+	{
+		rsv[i] = s1[i];
+		i++;
+	}
+	while (s2[i2])
+	{
+		rsv[i] = s2[i2];
+		i++;
+		i2++;
+	}
+	rsv[i] = '\0';
+	free((void *)s1);
+	free((void *)s2);
+	return ((char *)rsv);
+}
+
+char	*char2str(char c)
+{
+	char	*str;
+
+	str = malloc(sizeof(char) * 2);
+	if (!str)
+		exit(1);
+	str[0] = c;
+	str[1] = '\0';
+	return (str);
+}
+
+int	stock_of(t_shell *sh, int type)
+{
+	t_token	*tok;
+	int		stock;
+
+	stock = 0;
+	tok = sh->tokens;
+	while (tok)
+	{
+		if (tok->type == type)
+			stock++;
+		tok = tok->next;
+	}
+	return (stock);
+}
+
+int	char_is_inside(char const *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+char	**get_envivar(char *var, char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], var, 5) == 0)
+			return (ft_split(env[i], ':'));
+		i++;
+	}
+	return (NULL);
+}
+
+/*void	print_tokens(t_token *lst)
 {
 	t_token	*tmp;
 
@@ -92,88 +176,4 @@ void	print_redir(t_redir *lst)
 		ft_dprintf(1, NC "\n");
 		tmp = tmp->next;
 	}
-}
-
-char	*ft_imp_strjoin(char const *s1, char const *s2)
-{
-	char	*rsv;
-	int		i;
-	int		i2;
-
-	i = 0;
-	i2 = 0;
-	rsv = malloc((sizeof(char)) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!rsv)
-		exit(1);
-	while (s1[i])
-	{
-		rsv[i] = s1[i];
-		i++;
-	}
-	while (s2[i2])
-	{
-		rsv[i] = s2[i2];
-		i++;
-		i2++;
-	}
-	rsv[i] = '\0';
-	free((void *)s1);
-	free((void *)s2);
-	return ((char *)rsv);
-}
-
-char	*char2str(char c)
-{
-	char	*str;
-
-	str = malloc(sizeof(char) * 2);
-	if (!str)
-		exit(1);
-	str[0] = c;
-	str[1] = '\0';
-	return (str);
-}
-
-int	stock_of(t_shell *sh, int type)
-{
-	t_token	*tok;
-	int		stock;
-
-	stock = 0;
-	tok = sh->tokens;
-	while (tok)
-	{
-		if (tok->type == type)
-			stock++;
-		tok = tok->next;
-	}
-	return (stock);
-}
-
-int	char_is_inside(char const *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-char **get_envivar(char *var, char **env)
-{
-	int i;
-
-	i = 0;
-	while(env[i])
-	{
-		if (ft_strncmp(env[i], var, 5) == 0)
-			return (ft_split(env[i], ':'));
-		i++;
-	}
-	return (NULL);
-}
+}*/

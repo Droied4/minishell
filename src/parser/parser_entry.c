@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:46:50 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/25 16:53:44 by droied           ###   ########.fr       */
+/*   Updated: 2024/06/10 14:49:46 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void	incomplete_entry(t_shell *sh)
 	char	*last_input;
 
 	new_input = readline(GREEN "\n> " NC);
+	if (!new_input)
+		return ;
 	last_input = add_space(new_input);
 	free(new_input);
 	sh->line = ft_imp_strjoin(sh->line, last_input);

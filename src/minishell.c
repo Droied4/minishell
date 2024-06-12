@@ -41,7 +41,9 @@ char	*prompt(int exit_status)
 {
 	static char	str[256];
 	char	entero[5];
-
+	
+	if (g_signals != 0)
+    	exit_status = g_signals;
 	ft_itos(exit_status, entero);
 	if (exit_status == 0)
 		ft_strlcpy(str, "\001\033[0;32m✔ \033[0m 🏓 PongShell \002",sizeof(str));
@@ -67,7 +69,22 @@ static void	init_sh(t_shell *sh, char **env)
 		exit (EXIT_FAILURE);
 	}
 	sh->env = create_lst_env(env);
+  sh->matriz_env = NULL;
 }
+
+static void forwarding_process(t_shell *sh, char **env)
+{
+	sh->tokens = generate_tokens(sh->line);
+	if (parse_all(sh) != -1 && ft_strlen(sh->line) > 0)
+	{
+		sh->matriz_env = convert_env_dchar(sh->env, env);
+		restore_terminal_settings();
+		executor(sh);
+		free_matrix(sh->matriz_env);
+	}
+	soft_exit(sh);
+}
+
 /*echo $USER""'hello*/
 int	main(int ac, char **av, char **env)
 {
@@ -82,27 +99,17 @@ int	main(int ac, char **av, char **env)
 		{
 			prompt_str = prompt(sh.exit_status);
 			ft_dprintf(2, "\001%s\002\n", prompt_str);
-			ft_signals(&sh, INTERACTIVE);
+			ft_signals(INTERACTIVE);
 			disable_control_chars_echo();
 			sh.line = readline("");
 			if (!sh.line)
 				execute_exit(&sh); // <- call the exit builtin with no params
 			add_history(sh.line);
-			sh.tokens = generate_tokens(sh.line);
-			if (parse_all(&sh) != -1 && ft_strlen(sh.line) > 0)
-			{
-				sh.matriz_env = convert_env_dchar(sh.env, env);
-				restore_terminal_settings();
-				executor(&sh);
-			}
-			soft_exit(&sh);
+			forwarding_process(&sh, env);
 		}
 	}
 	else 
-	{
-		ft_dprintf(2, WRONG_ARG);
-		ft_dprintf(2, WRONG_ARG_1);
-	}
+		ft_dprintf(2, WRONG_ARG, WRONG_ARG_1);
 	return (0);
 }
 

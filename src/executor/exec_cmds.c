@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/26 11:53:19 by marvin           ###   ########.fr       */
+/*   Updated: 2024/06/02 19:26:22 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	child_process(t_shell *sh)
 {
 	t_words	*word;
-	ft_signals(sh, NON_INTERACTIVE);
+
 	word = sh->pro.w;
 	if (word->in != STD_IN)
 	{
@@ -72,41 +72,44 @@ char	*ft_check_path(char **paths, char **cmd)
 		new_cmd = ft_strjoin(new_path, cmd[0]);
 		new_cmd = ft_aux_check(new_path, new_cmd);
 		if (new_cmd)
-		{
-			free(new_path);
-			return (new_cmd);
-		}
+			return (free(new_path), new_cmd);
 		j++;
 	}
 	return (NULL);
 }
 
-int	process_word(t_shell *sh)
+static void	closing_in_out(t_words *word)
+{
+	if (word->in != STD_IN)
+		close(word->in);
+	if (word->out != STD_OUT)
+		close(word->out);
+}
+
+int	process_word(t_shell *sh, int wstatus, int exit_status)
 {
 	pid_t	pid;
-	int		wstatus;
 	t_words	*word;
-	int		exit_status;
+	char	**envivar;
 
 	word = sh->pro.w;
 	if (char_is_inside(word->cmd[0], '/') < 0)
-		word->path = ft_check_path(get_envivar("PATH=", sh->matriz_env), word->cmd);
+	{
+		envivar = get_envivar("PATH=", sh->matriz_env);
+		word->path = ft_check_path(envivar, word->cmd);
+	}
 	else
 		word->path = ft_strdup(word->cmd[0]);
-	exit_status = 0;
-	
 	pid = fork();
+	ft_signals(NON_INTERACTIVE);
 	if (pid == -1)
 		exit(1);
 	if (pid > 0)
 		waitpid(0, &wstatus, 0);
 	else
 		child_process(sh);
-	if (word->in != STD_IN)
-		close(word->in);
-	if (word->out != STD_OUT)
-		close(word->out);
+	closing_in_out(word);
 	if (WIFEXITED(wstatus))
 		exit_status = WEXITSTATUS(wstatus);
-	return (exit_status);
+	return (free_matrix(envivar), exit_status);
 }
