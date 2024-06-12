@@ -196,10 +196,11 @@ int								syntax_error(t_token *tok);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-int								input_unclosed(t_shell *sh);
 void							unclosed_entry(t_shell *sh);
 int								input_incomplete(t_shell *sh);
 void							incomplete_entry(t_shell *sh);
+int								input_unclosed(t_shell *sh, int dquotes,
+									int squotes);
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
 		MANAGE  - 4
