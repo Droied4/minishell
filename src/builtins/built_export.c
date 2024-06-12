@@ -32,11 +32,11 @@ t_env	*found_var(char *cmd_line, t_env *lst)
 		else
 			len = ft_strlen(tmp->var_name);
 		if (ft_strncmp(line[0], tmp->var_name, len) == 0)
-			return (free_matrix(line), tmp);
+			return (free_matrix(&line), tmp);
 		tmp = tmp->next;
 	}
 	if (line)
-		free_matrix(line);
+		free_matrix(&line);
 	return (NULL);
 }
 

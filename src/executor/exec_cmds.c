@@ -111,5 +111,5 @@ int	process_word(t_shell *sh, int wstatus, int exit_status)
 	closing_in_out(word);
 	if (WIFEXITED(wstatus))
 		exit_status = WEXITSTATUS(wstatus);
-	return (free_matrix(envivar), exit_status);
+	return (free_matrix(&envivar), exit_status);
 }

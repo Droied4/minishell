@@ -307,7 +307,7 @@ t_env							*exporting_var(t_shell sh, t_env **lst_env,
 */
 
 int								execute_pwd(void);
-void							free_matrix(char **sh);
+void							free_matrix(char ***sh);
 void							printlst(t_token *lst);
 int								ft_del_env(t_env **lst);
 int								execute_exit(t_shell *sh);

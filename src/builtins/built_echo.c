@@ -98,5 +98,5 @@ void	execute_echo(t_shell *sh)
 	}
 	if (!flags)
 		ft_dprintf(STDOUT_FILENO, "\n");
-	free_matrix(matrix);
+	free_matrix(&matrix);
 }

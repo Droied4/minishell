@@ -63,13 +63,14 @@ static void	init_sh(t_shell *sh, char **env)
 	sh->cmds = NULL;
 	sh->pro.w = NULL;
 	sh->pro.r = NULL;
+	sh->tokens = NULL;
 	if (!*env)
 	{
 		ft_dprintf(2, SHELL_ERROR);
 		exit (EXIT_FAILURE);
 	}
 	sh->env = create_lst_env(env);
-  sh->matriz_env = NULL;
+	sh->matriz_env = NULL;
 }
 
 static void forwarding_process(t_shell *sh, char **env)
@@ -80,7 +81,7 @@ static void forwarding_process(t_shell *sh, char **env)
 		sh->matriz_env = convert_env_dchar(sh->env, env);
 		restore_terminal_settings();
 		executor(sh);
-		free_matrix(sh->matriz_env);
+		free_matrix(&sh->matriz_env);
 	}
 	soft_exit(sh);
 }

@@ -37,7 +37,7 @@ char	*expansion_final(t_shell *sh, char *str)
 		i++;
 	}
 	tmp = join_split(env_split);
-	free_matrix(env_split);
+	free_matrix(&env_split);
 	return (tmp);
 }
 
@@ -87,7 +87,7 @@ char	**split_quotes(char *str)
 	{
 		smart_split[i] = ft_get_cpy(str + position, &position);
 		if (!smart_split[i])
-			return(free_matrix(smart_split), NULL);
+			return(free_matrix(&smart_split), NULL);
 		//str = &str[position];
 		i++;
 	}
@@ -109,13 +109,13 @@ char	*expand_data(t_shell *sh, char *str)
 	{
 		tmp = expand_string(sh, smart_split[i]);
 		if (!tmp)
-			return (free_matrix(smart_split), NULL);
+			return (free_matrix(&smart_split), NULL);
 		free(smart_split[i]);
 		smart_split[i] = tmp;
 		i++;
 	}
 	tmp = join_split(smart_split);
-	free_matrix(smart_split);
+	free_matrix(&smart_split);
 	return (tmp);
 }
 

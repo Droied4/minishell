@@ -57,7 +57,7 @@ char	**convert_env_dchar(t_env *lst_env, char **env)
 		if (!new[i])
 		{
 			ft_del_env(&lst_env);
-			return (free_matrix(new), NULL);
+			return (free_matrix(&new), NULL);
 		}
 		i++;
 		tmp = tmp->next;
@@ -91,7 +91,7 @@ char	*quotes_removal_master(char *cmd_line)
 	}
 	free(cmd_line);
 	cmd_line = join_split(smart_split);
-	free_matrix(smart_split);
+	free_matrix(&smart_split);
 	return (cmd_line);
 }
 

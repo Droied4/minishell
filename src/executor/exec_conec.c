@@ -57,7 +57,7 @@ static void	child_process(t_shell *sh, t_process *pro)
 		}
 		else
 			pro->w->path = ft_strdup(pro->w->cmd[0]);
-		free_matrix(envivar);
+		free_matrix(&envivar);
 	}
 	kill_child(sh, pro);
 }
