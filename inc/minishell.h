@@ -260,7 +260,8 @@ int								ft_lstenv_size(t_env *lst);
 int								is_correct_name(char *name);
 void							print_lst_env(t_env *lst, int i);
 t_token							*quotes_removal(t_token *tokens);
-char							*quotes_removal_master(char *cmd_line);
+char							*quotes_removal_master(char *cmd_line, int i,
+									int j);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
@@ -297,7 +298,8 @@ int								is_builtin(char *data);
 int								ft_del_env(t_env **lst);
 t_env							*create_envnode(char *envp);
 t_env							*create_lst_env(char **envp);
-char							**convert_env_dchar(t_env *lst_env, char **env);
+char							**convert_env_dchar(t_env *lst_env, char **env,
+									int i);
 t_env							*exporting_var(t_shell sh, t_env **lst_env,
 									t_env *new);
 
