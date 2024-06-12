@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/27 12:02:06 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/12 18:48:01 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ char	*prompt(int exit_status)
 	static char	str[256];
 	char	entero[5];
 	
+	if (exit_status != 130)
+		g_signals = 0;
+
 	if (g_signals != 0)
     	exit_status = g_signals;
 	ft_itos(exit_status, entero);

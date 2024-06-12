@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/12 17:44:55 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:54:52 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,19 @@ static void	after_fork(t_process *pro)
 	pro->w = pro->w->next;
 }
 
+static void fork_child(t_shell *sh, t_process *pro)
+{
+		pro->pid = fork();
+		if (pro->pid == -1)
+			exit(1);
+		if (pro->pid == 0)
+		{
+			if (pro->p[0] != pro->w->in)
+				close(pro->p[0]);
+			child_process(sh, pro);
+		}
+}
+
 int	process_connector(t_shell *sh, int process)
 {
 	t_process	pro;
@@ -107,15 +120,7 @@ int	process_connector(t_shell *sh, int process)
 	while (++process <= sh->pipes)
 	{
 		before_fork(process, &pro, sh);
-		pro.pid = fork();
-		if (pro.pid == -1)
-			exit(1);
-		if (pro.pid == 0)
-		{
-			if (pro.p[0] != pro.w->in)
-				close(pro.p[0]);
-			child_process(sh, &pro);
-		}
+		fork_child(sh, &pro);
 		after_fork(&pro);
 	}
 	close(pro.p[0]);
