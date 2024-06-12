@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/27 20:40:34 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:45:14 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	do_builtin(t_shell *sh)
 {
-	int status;
+	int		status;
 	t_words	*word;
 
 	status = 0;
@@ -63,7 +63,7 @@ static int	connector(t_shell *sh)
 	int	final;
 
 	final = EXIT_SUCCESS;
-	process = sh->pipes;
+	process = -1;
 	final = process_connector(sh, process);
 	return (final);
 }

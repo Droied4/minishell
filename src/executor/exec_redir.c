@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/11 20:09:04 by droied           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:34:00 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,47 +22,6 @@ static int	less_case(t_redir *redir, int last_in)
 		printf("Error: %s: %s\n", strerror(errno), redir->file);
 		return (-1);
 	}
-	return (last_in);
-}
-
-static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
-{
-	char	*doc;
-	int		p[2];
-	int		len;
-	int		fd;
-
-	(void)sh;
-	if (last_in != 0)
-		close(last_in);
-	if (pipe(p) < 0)
-		exit(1);
-	doc = "/tmp/shell.txt";
-	fd = dup(0);
-	ft_signals(HEREDOC);
-	while (42)
-	{
-		doc = readline("> ");
-		if (doc == NULL || g_signals != 0) {
-			dup2(fd, 0);
-			break ;
-		}
-		last_in = p[0];
-		if (ft_strlen(doc) > ft_strlen(redir->file))
-			len = ft_strlen(doc);
-		else
-			len = ft_strlen(redir->file);
-		if (!doc || !redir->file || ft_strncmp(doc, redir->file, len) == 0)
-			break ;
-		doc = expand_string(sh, doc);
-		ft_putstr_fd(doc, p[1]);
-		ft_putstr_fd("\n", p[1]);
-		free(doc);
-	}		
-	close(p[1]);
-	close(fd);
-	ft_putstr_fd("\n\0", p[1]);
-	free(doc);
 	return (last_in);
 }
 
