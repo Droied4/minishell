@@ -39,9 +39,9 @@
 
 extern volatile sig_atomic_t	g_signals;
 
+void							ft_signals(t_signal mode);
 void							restore_terminal_settings(void);
 void							disable_control_chars_echo(void);
-void							ft_signals(t_shell *sh, t_signal mode);
 
 int								ft_deltoken(t_token **lst);
 t_token							*generate_tokens(char *line);
