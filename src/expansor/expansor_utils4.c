@@ -68,13 +68,13 @@ char	*small_part(char *str, int *pos)
 
 	len = len_part(str);
 	*pos = len;
-	part = malloc(sizeof(char) * len + 1);
+	part = malloc(sizeof(char) * (len + 1));
 	if (!part)
 		return (NULL);
 	i = -1;
 	while (++i < len)
 		part[i] = str[i];
-	part[i] = '\0';
+	part[len] = '\0';
 	return (part);
 }
 
@@ -86,7 +86,7 @@ char	**split_dollar_interog(char *str)
 	int		num_dol_int;
 
 	num_dol_int = dol_count_words(str, 0, 0, 0);
-	result = malloc(sizeof(char) * (num_dol_int + 1));
+	result = (char **)malloc(sizeof(char *) * (num_dol_int + 1));
 	if (!result)
 		return (NULL);
 	i = 0;
@@ -94,10 +94,12 @@ char	**split_dollar_interog(char *str)
 	while (i < num_dol_int)
 	{
 		result[i] = small_part(str, &pos);
-		str += pos;
+		if (!result[i])
+			return (free_matrix(result), NULL);
+		str = &str[pos];
 		i++;
 	}
-	result[i++] = NULL;
+	result[num_dol_int] = NULL;
 	return (result);
 }
 
@@ -108,6 +110,7 @@ char	*special_cases(char *special, int exit_status)
 	char	**split_exit;
 
 	i = 0;
+	printf("sig sp  %d\n", g_signals);
 	if (g_signals != 0)
 	{
 		exit_status = g_signals;

@@ -32,6 +32,8 @@ void	free_matrix(char **allsplit)
 	int	i;
 
 	i = 0;
+	if (!allsplit)
+		return ;
 	while (allsplit[i])
 	{
 		free(allsplit[i]);

@@ -85,8 +85,8 @@ char	**split_quotes(char *str)
 	position = 0;
 	while (i < words)
 	{
-		smart_split[i] = ft_get_cpy(str, &position);
-		str = &str[position];
+		smart_split[i] = ft_get_cpy(str + position, &position);
+		//str = &str[position];
 		i++;
 	}
 	smart_split[i] = NULL;

@@ -84,7 +84,7 @@ char	*ft_get_cpy(char *str, int *pos)
 		cpy[i] = str[i];
 		i++;
 	}
-	cpy[i] = '\0';
+	cpy[len] = '\0';
 	return (cpy);
 }
 

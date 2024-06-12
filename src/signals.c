@@ -28,8 +28,9 @@ static void	heredoc_sig_handler(int sign)
 {
 	if (sign == CTRL_C)
 	{
-		g_signals = 130;
 		close(0);
+		g_signals = 128 + CTRL_C;
+		rl_replace_line("", 1);
 		ft_dprintf(1, "\n");
 		rl_on_new_line();
 	}

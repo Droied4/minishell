@@ -44,6 +44,7 @@ char	**convert_env_dchar(t_env *lst_env, char **env)
 
 	if (!lst_env)
 		lst_env = create_lst_env(env);
+	print_lst_env(lst_env, 0);
 	size = ft_lstenv_size(lst_env);
 	new = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!new)
@@ -75,6 +76,8 @@ char	*quotes_removal_master(char *cmd_line)
 	if (!cmd_line)
 		return (NULL);
 	smart_split = split_quotes(cmd_line);
+	if (!smart_split)
+		return (NULL);
 	while (smart_split[i])
 	{
 		if (smart_split[i][j])
