@@ -32,7 +32,6 @@ static int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 	int		len;
 	int		fd;
 
-	(void)sh;
 	if (last_in != 0)
 		close(last_in);
 	if (pipe(p) < 0)

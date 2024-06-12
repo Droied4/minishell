@@ -14,7 +14,7 @@
 
 static int	do_builtin(t_shell *sh)
 {
-	int status;
+	int		status;
 	t_words	*word;
 
 	status = 0;

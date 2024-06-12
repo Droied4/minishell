@@ -35,9 +35,8 @@ int	is_correct_name(char *name)
 	return (0);
 }
 
-char	**convert_env_dchar(t_env *lst_env, char **env)
+char	**convert_env_dchar(t_env *lst_env, char **env, int i)
 {
-	int		i;
 	char	**new;
 	t_env	*tmp;
 	int		size;
@@ -50,7 +49,6 @@ char	**convert_env_dchar(t_env *lst_env, char **env)
 	if (!new)
 		return (NULL);
 	tmp = lst_env;
-	i = 0;
 	while (tmp->next)
 	{
 		new[i] = ft_strdup(tmp->line);
@@ -65,14 +63,10 @@ char	**convert_env_dchar(t_env *lst_env, char **env)
 	return (new[i] = NULL, new);
 }
 
-char	*quotes_removal_master(char *cmd_line)
+char	*quotes_removal_master(char *cmd_line, int i, int j)
 {
-	int		i;
-	int		j;
 	char	**smart_split;
 
-	i = 0;
-	j = 0;
 	if (!cmd_line)
 		return (NULL);
 	smart_split = split_quotes(cmd_line);
@@ -102,7 +96,7 @@ t_token	*quotes_removal(t_token *tokens)
 	tok = tokens;
 	while (tok)
 	{
-		tok->data = quotes_removal_master(tok->data);
+		tok->data = quotes_removal_master(tok->data, 0, 0);
 		tok = tok->next;
 	}
 	return (tokens);
