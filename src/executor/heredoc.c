@@ -6,43 +6,27 @@
 /*   By: deordone <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:38:35 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/12 17:38:33 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/12 18:48:23 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-static int final(int fd, int *p, char *doc, int last_in)
-{
-	close(p[1]);
-	close(fd);
-	ft_putstr_fd("\n\0", p[1]);
-	free(doc);
-	return (last_in);
-}
-
-static int *init_doc(t_shell *sh, int last_in, int *fd, char **doc) 
-{
-	(void)sh;
-	if (last_in != 0)
-		close(last_in);
-	*doc = "/tmp/shell.txt";
-	fd = dup(0);
-	ft_signals(HEREDOC);
-	return (0);
-}
-
 int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 {
 	char	*doc;
+
 	int		len;
 	int		p[2];
 	int		fd;
-
+	
+	(void)sh;
+	if (last_in != 0)
+		close(last_in);
+	fd = dup(0);
+	ft_signals(HEREDOC);
 	if (pipe(p) < 0)
 		exit(1);
-	init_doc(sh, last_in, fd, &doc);
 	while (42)
 	{
 		doc = readline("> ");
@@ -52,9 +36,9 @@ int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 			break ;
 		}
 		last_in = p[0];
-		//if (ft_strlen(doc) > ft_strlen(redir->file))
-	//		len = ft_strlen(doc);
-	//	else
+		if (ft_strlen(doc) > ft_strlen(redir->file))
+			len = ft_strlen(doc);
+		else
 			len = ft_strlen(redir->file);
 		if (!doc || !redir->file || ft_strncmp(doc, redir->file, len) == 0)
 			break ;
@@ -63,7 +47,11 @@ int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 		ft_putstr_fd("\n", p[1]);
 		free(doc);
 	}
-	return (final(fd, p, doc, last_in));
+	close(p[1]);
+	close(fd);
+	ft_putstr_fd("\n\0", p[1]);
+	free(doc);
+	return (last_in);
 }
 
 
