@@ -46,6 +46,8 @@ static void	before_fork(int process, t_process *pro, t_shell *sh)
 	process_redir(sh, pro);
 	if (pro->w->out != pro->p[1])
 		close(pro->p[1]);
+	if (pro->w->in != pro->p[0])
+		close(pro->p[0]);
 	if (pro->w->next)
 	{
 		pro->w->next->in = pro->w->in;
