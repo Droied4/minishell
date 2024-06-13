@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:44:17 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/31 19:30:10 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/13 20:36:09 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define GREEN "\001\033[0;32m\002"
 # define WHITE "\001\033[0;97m\002"
 # define YELLOW "\001\033[0;33m\002"
-
+/*
 # define BUG                                            \
 	{                                                  \
 		dprintf(2, "Ha entrado en -> %s\n", __FILE__); \
@@ -31,7 +31,7 @@
 		dprintf(2, "En la linea -> %d\n", __LINE__);   \
 		perror("Error : ");                            \
 	}
-
+*/
 # define SQUOT '\''
 # define DQUOT '\"'
 # define STD_IN 0
@@ -41,34 +41,6 @@
 # define CTRL_C SIGINT
 # define EXIT_STATUS "127"
 # define CTRL_BSLASH SIGQUIT
-
-/*#define PIPE 1
-#define GREAT 2
-#define LESS 3
-#define DGREAT 4
-#define DLESS 5
-#define SQUOTE 6
-#define DQUOTE 7
-#define EXP 8
-
-// Declare a static constant array
-static const int redir[] = {PIPE, GREAT, LESS, DGREAT, DLESS};
-static const int meta[] = {PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE, EXP};
-
-// Macro to refer to the array
-#define REDIR redir
-#define METACHAR meta
-*/
-# define REDIR                            \
-	{                                    \
-		PIPE, GREAT, LESS, DGREAT, DLESS \
-	}
-
-# define METACHAR                                              \
-	{                                                         \
-		PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE, EXP \
-	}
-
 # define STR_META "|><\'\"$"
 # define STR_BUILTINS "echo cd pwd export unset env exit"
 # define NUM_ARG_REQ "numeric argument required\n"
