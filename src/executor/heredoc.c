@@ -29,7 +29,7 @@ static void write_in_pipe(t_shell *sh, char **doc, int p[2])
 	ft_putstr_fd(expanded_doc, p[1]);
 	ft_putstr_fd("\n", p[1]);
 	free(expanded_doc);
-	free(*doc);
+  free(*doc);
 }
 static void init_doc_fd(int *fd, char **doc, int last_in, int p[2])
 {
@@ -37,7 +37,7 @@ static void init_doc_fd(int *fd, char **doc, int last_in, int p[2])
 		exit(1);
 	if (last_in != 0)
 		close(last_in);
-	*doc = "/tmp/shell.txt";
+	*doc = ft_strdup("/tmp/shell.txt");
 	*fd = dup(0);
 }
 
