@@ -6,7 +6,7 @@
 /*   By: deordone <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:38:35 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/12 18:48:23 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/13 15:32:42 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
 		if (doc == NULL || g_signals != 0)
 		{
 			dup2(fd, 0);
-			break ;
+			return (-2);
 		}
 		last_in = p[0];
 		if (ft_strlen(doc) > ft_strlen(redir->file))

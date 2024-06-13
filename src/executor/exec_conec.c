@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/12 17:54:52 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/13 15:30:41 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ int	process_connector(t_shell *sh, int process)
 	while (++process <= sh->pipes)
 	{
 		before_fork(process, &pro, sh);
+		if (pro.w->in == -2)
+			return (1);
 		fork_child(sh, &pro);
 		after_fork(&pro);
 	}
