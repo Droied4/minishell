@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/13 19:27:58 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/13 20:14:38 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	child_process(t_shell *sh)
 {
 	t_words	*word;
-	
+
 	word = sh->pro.w;
 	if (word->in != STD_IN)
 	{
@@ -78,12 +78,21 @@ char	*ft_check_path(char **paths, char **cmd)
 	return (NULL);
 }
 
-static void	closing_in_out(t_words *word)
+static int	closing_in_out(t_words *word, int wstatus, int exit_status)
 {
 	if (word->in != STD_IN)
 		close(word->in);
 	if (word->out != STD_OUT)
 		close(word->out);
+	if (WIFEXITED(wstatus))
+		exit_status = WEXITSTATUS(wstatus);
+	else if (WIFSIGNALED(wstatus))
+	{
+		if (WTERMSIG(wstatus) == SIGQUIT)
+			printf("Quit 3\n");
+		exit_status = 128 + WTERMSIG(wstatus);
+	}
+	return (exit_status);
 }
 
 int	process_word(t_shell *sh, int wstatus, int exit_status)
@@ -109,14 +118,6 @@ int	process_word(t_shell *sh, int wstatus, int exit_status)
 		waitpid(0, &wstatus, 0);
 	else
 		child_process(sh);
-	closing_in_out(word);
-	if (WIFEXITED(wstatus))
-		exit_status = WEXITSTATUS(wstatus);
-	else if (WIFSIGNALED(wstatus))
-	{
-		if (WTERMSIG(wstatus) == SIGQUIT)
-			printf("Quit 3\n");
-		exit_status = 128 + WTERMSIG(wstatus);
-	}
+	exit_status = closing_in_out(word, wstatus, exit_status);
 	return (free_matrix(&envivar), exit_status);
 }
