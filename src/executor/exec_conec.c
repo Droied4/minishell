@@ -39,16 +39,13 @@ static void	before_fork(int process, t_process *pro, t_shell *sh)
 		pro->w->in = pro->p[0];
 		if (pipe(pro->p) < 0)
 			exit(EXIT_FAILURE);
-		process_redir(sh, pro);
-		if (pro->w->out != 1)
-			close(pro->w->out);
 		pro->w->out = pro->p[1];
 	}
 	if (process == sh->pipes)
-	{
 		pro->w->out = 1;
-		process_redir(sh, pro);
-	}
+	process_redir(sh, pro);
+	if (pro->w->out != pro->p[1])
+		close(pro->p[1]);
 	if (pro->w->next)
 	{
 		pro->w->next->in = pro->w->in;
