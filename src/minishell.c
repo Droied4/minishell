@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/13 18:03:01 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/13 20:08:43 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	main(int ac, char **av, char **env)
 			ft_dprintf(2, "\001%s\002\n", prompt_str);
 			ft_signals(INTERACTIVE);
 			disable_control_chars_echo();
-			sh.line = readline("");
+			sh.line = readline("↳ ");
 			if (!sh.line)
 				execute_exit(&sh);
 			add_history(sh.line);
