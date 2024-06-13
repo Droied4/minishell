@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/13 20:15:30 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/13 20:43:14 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int	main(int ac, char **av, char **env)
 	char	*prompt_str;
 
 	(void)av;
+	ft_isalpha(0);
 	if (ac == 1)
 	{
 		init_sh(&sh, env);

@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/06/12 17:34:37 by deordone         ###   ########.fr        #
+#    Updated: 2024/06/13 20:46:03 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,13 +84,13 @@ BLUE=\033[0;34m
 NC=\033[0m # No color
 
 # Rules
-all: header $(NAME) author
+all: header make_libs $(NAME) author
 
 make_libs:
 	@make -C $(LIBFT_PATH) > /dev/null
-	@printf "$(CYAN)Compiling $(LIBFT_PATH)$(NC)\n";
+#	@printf "$(CYAN)Compiling $(LIBFT_PATH)$(NC)\n";
 	@make -C $(DPRINTF_PATH) > /dev/null
-	@printf "$(CYAN)Compiling $(DPRINTF_PATH)$(NC)\n";
+#	@printf "$(CYAN)Compiling $(DPRINTF_PATH)$(NC)\n";
 
 -include $(DEPS)
 
