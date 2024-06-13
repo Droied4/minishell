@@ -35,9 +35,8 @@ int	is_correct_name(char *name)
 	return (0);
 }
 
-char	**convert_env_dchar(t_env *lst_env, char **env)
+char	**convert_env_dchar(t_env *lst_env, char **env, int i)
 {
-	int		i;
 	char	**new;
 	t_env	*tmp;
 	int		size;
@@ -50,14 +49,13 @@ char	**convert_env_dchar(t_env *lst_env, char **env)
 	if (!new)
 		return (NULL);
 	tmp = lst_env;
-	i = 0;
 	while (tmp->next)
 	{
 		new[i] = ft_strdup(tmp->line);
 		if (!new[i])
 		{
 			ft_del_env(&lst_env);
-			return (free_matrix(new), NULL);
+			return (free_matrix(&new), NULL);
 		}
 		i++;
 		tmp = tmp->next;
@@ -91,8 +89,7 @@ char	*quotes_removal_master(char *cmd_line)
 	}
 	free(cmd_line);
 	cmd_line = join_split(smart_split);
-	free_matrix(smart_split);
-	return (cmd_line);
+	return (free_matrix(&smart_split), cmd_line);
 }
 
 t_token	*quotes_removal(t_token *tokens)

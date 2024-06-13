@@ -95,7 +95,7 @@ char	**split_dollar_interog(char *str)
 	{
 		result[i] = small_part(str, &pos);
 		if (!result[i])
-			return (free_matrix(result), NULL);
+			return (free_matrix(&result), NULL);
 		str = &str[pos];
 		i++;
 	}
@@ -128,6 +128,6 @@ char	*special_cases(char *special, int exit_status)
 	}
 	free(str_exit);
 	str_exit = join_split(split_exit);
-	free_matrix(split_exit);
+	free_matrix(&split_exit);
 	return (str_exit);
 }

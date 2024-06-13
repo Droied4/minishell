@@ -13,36 +13,9 @@
 #include "../../inc/minishell.h"
 #include "../../inc/struct.h"
 
-static void	kill_child(t_shell *sh, t_process *pro)
-{
-	if (pro->w->in != STD_IN)
-	{
-		if (dup2(pro->w->in, STD_IN) == -1)
-			exit(1);
-		close(pro->w->in);
-	}
-	else
-		close(pro->p[0]);
-	if (pro->w->out != STD_OUT)
-	{
-		if (dup2(pro->w->out, STD_OUT) == -1)
-			exit(1);
-		close(pro->w->out);
-	}
-	else
-		close(pro->p[1]);
-	if (pro->w->cmd)
-	{
-		if (is_builtin(pro->w->cmd[0]) > 0)
-			exit(execute_builtins(sh, sh->matriz_env));
-		execve(pro->w->path, pro->w->cmd, sh->matriz_env);
-	}
-	exit(after_exec(pro->w));
-}
-
 static void	child_process(t_shell *sh, t_process *pro)
 {
-	char **envivar;
+	char	**envivar;
 
 	envivar = NULL;
 	if (pro->w && pro->w->cmd)
@@ -54,7 +27,7 @@ static void	child_process(t_shell *sh, t_process *pro)
 		}
 		else
 			pro->w->path = ft_strdup(pro->w->cmd[0]);
-		free_matrix(envivar);
+		free_matrix(&envivar);
 	}
 	kill_child(sh, pro);
 }
@@ -67,6 +40,8 @@ static void	before_fork(int process, t_process *pro, t_shell *sh)
 		if (pipe(pro->p) < 0)
 			exit(EXIT_FAILURE);
 		process_redir(sh, pro);
+		if (pro->w->out != 1)
+			close(pro->w->out);
 		pro->w->out = pro->p[1];
 	}
 	if (process == sh->pipes)
@@ -96,17 +71,17 @@ static void	after_fork(t_process *pro)
 	pro->w = pro->w->next;
 }
 
-static void fork_child(t_shell *sh, t_process *pro)
+static void	fork_child(t_shell *sh, t_process *pro)
 {
-		pro->pid = fork();
-		if (pro->pid == -1)
-			exit(1);
-		if (pro->pid == 0)
-		{
-			if (pro->p[0] != pro->w->in)
-				close(pro->p[0]);
-			child_process(sh, pro);
-		}
+	pro->pid = fork();
+	if (pro->pid == -1)
+		exit(1);
+	if (pro->pid == 0)
+	{
+		if (pro->p[0] != pro->w->in)
+			close(pro->p[0]);
+		child_process(sh, pro);
+	}
 }
 
 int	process_connector(t_shell *sh, int process)

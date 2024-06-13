@@ -12,6 +12,33 @@
 
 #include "minishell.h"
 
+void	kill_child(t_shell *sh, t_process *pro)
+{
+	if (pro->w->in != STD_IN)
+	{
+		if (dup2(pro->w->in, STD_IN) == -1)
+			exit(1);
+		close(pro->w->in);
+	}
+	else
+		close(pro->p[0]);
+	if (pro->w->out != STD_OUT)
+	{
+		if (dup2(pro->w->out, STD_OUT) == -1)
+			exit(1);
+		close(pro->w->out);
+	}
+	else
+		close(pro->p[1]);
+	if (pro->w->cmd)
+	{
+		if (is_builtin(pro->w->cmd[0]) > 0)
+			exit(execute_builtins(sh, sh->matriz_env));
+		execve(pro->w->path, pro->w->cmd, sh->matriz_env);
+	}
+	exit(after_exec(pro->w));
+}
+
 static int	do_builtin(t_shell *sh)
 {
 	int		status;

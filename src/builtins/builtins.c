@@ -37,6 +37,7 @@ int	token_size(t_token *tokens)
 
 void	normal_exit(t_shell *sh, int error_code)
 {
+	free_matrix(&sh->matriz_env);
 	ft_deltoken(&sh->tokens);
 	ft_del_redirs(&sh->pro.r);
 	ft_del_words(&sh->pro.w);

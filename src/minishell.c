@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-sig_atomic_t volatile g_signals = 0;
+sig_atomic_t volatile	g_signals = 0;
 
 void	ft_itos(int entero, char *new_level)
 {
@@ -40,24 +40,25 @@ void	ft_itos(int entero, char *new_level)
 char	*prompt(int exit_status)
 {
 	static char	str[256];
-	char	entero[5];
-	
+	char		entero[5];
+
 	if (exit_status != 130)
 		g_signals = 0;
-
 	if (g_signals != 0)
-    	exit_status = g_signals;
+		exit_status = g_signals;
 	ft_itos(exit_status, entero);
 	if (exit_status == 0)
-		ft_strlcpy(str, "\001\033[0;32m✔ \033[0m 🏓 PongShell \002",sizeof(str));
+		ft_strlcpy(str, "\001\033[0;32m✔ \033[0m 🏓 PongShell \002",
+			sizeof(str));
 	else
 	{
-			ft_strlcpy(str, "\001\033[0;31m", sizeof(str));
-			ft_strlcat(str, entero, sizeof(str));
-			ft_strlcat(str, "\033[0m 🏓 PongShell \002", sizeof(str));
+		ft_strlcpy(str, "\001\033[0;31m", sizeof(str));
+		ft_strlcat(str, entero, sizeof(str));
+		ft_strlcat(str, "\033[0m 🏓 PongShell \002", sizeof(str));
 	}
 	return (str);
 }
+
 /*env = simulate_mini_env(sh);*/
 static void	init_sh(t_shell *sh, char **env)
 {
@@ -69,21 +70,21 @@ static void	init_sh(t_shell *sh, char **env)
 	if (!*env)
 	{
 		ft_dprintf(2, SHELL_ERROR);
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	sh->env = create_lst_env(env);
-  sh->matriz_env = NULL;
+	sh->matriz_env = NULL;
 }
 
-static void forwarding_process(t_shell *sh, char **env)
+static void	forwarding_process(t_shell *sh, char **env)
 {
 	sh->tokens = generate_tokens(sh->line);
 	if (parse_all(sh) != -1 && ft_strlen(sh->line) > 0)
 	{
-		sh->matriz_env = convert_env_dchar(sh->env, env);
+		sh->matriz_env = convert_env_dchar(sh->env, env, 0);
 		restore_terminal_settings();
 		executor(sh);
-		free_matrix(sh->matriz_env);
+		free_matrix(&sh->matriz_env);
 	}
 	soft_exit(sh);
 }
@@ -106,12 +107,12 @@ int	main(int ac, char **av, char **env)
 			disable_control_chars_echo();
 			sh.line = readline("");
 			if (!sh.line)
-				execute_exit(&sh); // <- call the exit builtin with no params
+				execute_exit(&sh);
 			add_history(sh.line);
 			forwarding_process(&sh, env);
 		}
 	}
-	else 
+	else
 		ft_dprintf(2, WRONG_ARG, WRONG_ARG_1);
 	return (0);
 }
@@ -119,8 +120,10 @@ int	main(int ac, char **av, char **env)
 /*
 	- ./minishell in the minishell change the SHLVL++
 	- arreglar exit status
-	- '<  te mete en un lugar extraño(que es lo correcto) pero al salir con ctr-d da segfault
-	- exit con muchos parametros no funciona correctamente (too many arguments) ($? = 1)
+	- '<  te mete en un lugar extraño(que es lo correcto)
+	 pero al salir con ctr-d da segfault
+	- exit con muchos parametros no funciona correctamente 
+	(too many arguments) ($? = 1)
 	- exit con primer parametro con letras (numeric argument required) ($? = 255)
 	- unset PATH -> NO DEBERIA FUNCIONAR, pero funciona :(
 	- comillas juntas hace que pete -> echo ""'✅

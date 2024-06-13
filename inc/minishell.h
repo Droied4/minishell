@@ -216,7 +216,7 @@ void							ft_free_array(char **res);
 		EXECUTOR - 5
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
-
+void							kill_child(t_shell *sh, t_process *pro);
 void							executor(t_shell *sh);
 char							*prompt(int exit_status);
 // void execute_cmd(t_block *block);
@@ -227,7 +227,8 @@ char							*prompt(int exit_status);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-int								heredoc_case(t_shell *sh, t_redir *redir, int last_in);
+int								heredoc_case(t_shell *sh, t_redir *redir,
+									int last_in, int len);
 void							process_redir(t_shell *sh, t_process *pro);
 
 /*
@@ -297,7 +298,7 @@ int								is_builtin(char *data);
 int								ft_del_env(t_env **lst);
 t_env							*create_envnode(char *envp);
 t_env							*create_lst_env(char **envp);
-char							**convert_env_dchar(t_env *lst_env, char **env);
+char							**convert_env_dchar(t_env *lst_env, char **env, int i);
 t_env							*exporting_var(t_shell sh, t_env **lst_env,
 									t_env *new);
 
@@ -308,7 +309,7 @@ t_env							*exporting_var(t_shell sh, t_env **lst_env,
 */
 
 int								execute_pwd(void);
-void							free_matrix(char **sh);
+void							free_matrix(char ***sh);
 void							printlst(t_token *lst);
 int								ft_del_env(t_env **lst);
 int								execute_exit(t_shell *sh);

@@ -66,7 +66,7 @@ void	process_redir(t_shell *sh, t_process *pro)
 		if (redir->type == LESS && last_in != -1 && last_out != -1)
 			last_in = less_case(redir, last_in);
 		else if (redir->type == DLESS && last_in != -1)
-			last_in = heredoc_case(sh, redir, last_in);
+			last_in = heredoc_case(sh, redir, last_in, 0);
 		else if (redir->type == GREAT && last_in != -1 && last_out != -1)
 			last_out = great_case(redir, last_out);
 		else if (redir->type == DGREAT && last_in != -1 && last_out != -1)

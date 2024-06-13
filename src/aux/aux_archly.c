@@ -27,20 +27,20 @@ int	ft_lstenv_size(t_env *lst)
 	return (count++);
 }
 
-void	free_matrix(char **allsplit)
+void	free_matrix(char ***allsplit)
 {
 	int	i;
 
 	i = 0;
-	if (!allsplit)
+	if (!(*allsplit))
 		return ;
-	while (allsplit[i])
+	while ((*allsplit)[i])
 	{
-		free(allsplit[i]);
+		free((*allsplit)[i]);
 		i++;
 	}
-	free(allsplit);
-	allsplit = NULL;
+	free(*allsplit);
+	*allsplit = NULL;
 }
 
 int	ft_del_env(t_env **lst)

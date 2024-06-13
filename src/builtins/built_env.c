@@ -50,7 +50,7 @@ t_env	*create_envnode(char *envp)
 		if (splitting[1])
 			new->var_content = ft_strdup(splitting[1]);
 	}
-	free_matrix(splitting);
+	free_matrix(&splitting);
 	return (new);
 }
 
