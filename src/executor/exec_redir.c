@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/11 20:09:04 by droied           ###   ########.fr       */
+/*   Updated: 2024/06/13 15:32:57 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	process_redir(t_shell *sh, t_process *pro)
 			last_out = append_case(redir, last_out);
 		redir = redir->next;
 	}
-	if (last_in > 0 || last_in == -1)
+	if (last_in > 0 || last_in < 0)
 		pro->w->in = last_in;
 	if (last_out > 1 || last_out == -1)
 		pro->w->out = last_out;

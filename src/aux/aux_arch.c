@@ -85,8 +85,7 @@ char	*quotes_removal_master(char *cmd_line, int i, int j)
 	}
 	free(cmd_line);
 	cmd_line = join_split(smart_split);
-	free_matrix(&smart_split);
-	return (cmd_line);
+	return (free_matrix(&smart_split), cmd_line);
 }
 
 t_token	*quotes_removal(t_token *tokens)

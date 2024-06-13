@@ -24,7 +24,6 @@ static void	interactive_sig_handler(int sign)
 	}
 }
 
-/*
 static void	heredoc_sig_handler(int sign)
 {
 	if (sign == CTRL_C)
@@ -35,7 +34,8 @@ static void	heredoc_sig_handler(int sign)
 		ft_dprintf(1, "\n");
 		rl_on_new_line();
 	}
-} */
+}
+
 static void	sigquit_handler(int sign)
 {
 	if (sign == CTRL_BSLASH)
@@ -64,7 +64,7 @@ void	ft_signals(t_signal mode)
 	}
 	else if (mode == HEREDOC)
 	{
-		signal(CTRL_C, SIG_IGN);
+		signal(CTRL_C, heredoc_sig_handler);
 		signal(CTRL_BSLASH, SIG_IGN);
 	}
 	else if (mode == NON_INTERACTIVE)

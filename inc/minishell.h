@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/31 17:02:19 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:35:09 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ void							ft_free_array(char **res);
 		EXECUTOR - 5
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
-
+void							kill_child(t_shell *sh, t_process *pro);
 void							executor(t_shell *sh);
 char							*prompt(int exit_status);
 // void execute_cmd(t_block *block);
@@ -228,6 +228,8 @@ char							*prompt(int exit_status);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
+int								heredoc_case(t_shell *sh, t_redir *redir,
+									int last_in, int len);
 int								heredoc_case(t_shell *sh, t_redir *redir,
 									int last_in, int len);
 void							process_redir(t_shell *sh, t_process *pro);

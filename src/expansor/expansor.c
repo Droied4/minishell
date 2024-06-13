@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/31 21:28:14 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:20:14 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,10 @@ char	**split_quotes(char *str)
 	position = 0;
 	while (i < words)
 	{
-		smart_split[i] = ft_get_cpy(str + position, &position);
+		smart_split[i] = ft_get_cpy(str, &position);
 		if (!smart_split[i])
 			return (free_matrix(&smart_split), NULL);
+		str = str + position;
 		i++;
 	}
 	smart_split[i] = NULL;

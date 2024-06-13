@@ -6,11 +6,38 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/27 20:40:34 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/13 15:43:17 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	kill_child(t_shell *sh, t_process *pro)
+{
+	if (pro->w->in != STD_IN)
+	{
+		if (dup2(pro->w->in, STD_IN) == -1)
+			exit(1);
+		close(pro->w->in);
+	}
+	else
+		close(pro->p[0]);
+	if (pro->w->out != STD_OUT)
+	{
+		if (dup2(pro->w->out, STD_OUT) == -1)
+			exit(1);
+		close(pro->w->out);
+	}
+	else
+		close(pro->p[1]);
+	if (pro->w->cmd)
+	{
+		if (is_builtin(pro->w->cmd[0]) > 0)
+			exit(execute_builtins(sh, sh->matriz_env));
+		execve(pro->w->path, pro->w->cmd, sh->matriz_env);
+	}
+	exit(after_exec(pro->w));
+}
 
 static int	do_builtin(t_shell *sh)
 {
@@ -43,6 +70,8 @@ static int	smpl_cmd(t_shell *sh)
 {
 	if (sh->pro.r)
 		process_redir(sh, &sh->pro);
+	if (sh->pro.w->in == -2)
+		return (130);
 	if (sh->pro.w)
 	{
 		if (sh->pro.w->in == -1 || sh->pro.w->out == -1)
@@ -63,7 +92,7 @@ static int	connector(t_shell *sh)
 	int	final;
 
 	final = EXIT_SUCCESS;
-	process = sh->pipes;
+	process = -1;
 	final = process_connector(sh, process);
 	return (final);
 }
