@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/06/10 21:57:14 by droied           ###   ########.fr       */
+/*   Updated: 2024/06/13 14:43:12 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	interactive_sig_handler(int sign)
 	}
 }
 
+/*
 static void	heredoc_sig_handler(int sign)
 {
 	if (sign == CTRL_C)
@@ -34,13 +35,14 @@ static void	heredoc_sig_handler(int sign)
 		ft_dprintf(1, "\n");
 		rl_on_new_line();
 	}
-}
-
+} */
 static void	sigquit_handler(int sign)
 {
-	(void)sign;
-	g_signals = 128 + CTRL_BSLASH;
-	ft_dprintf(2, "Quit: 3\n");
+	if (sign == CTRL_BSLASH)
+	{
+		g_signals = 128 + CTRL_BSLASH;
+		ft_dprintf(2, "Quit: 3\n");
+	}
 }
 
 static void	non_interac_sig_handler(int sign)
@@ -62,7 +64,7 @@ void	ft_signals(t_signal mode)
 	}
 	else if (mode == HEREDOC)
 	{
-		signal(CTRL_C, heredoc_sig_handler);
+		signal(CTRL_C, SIG_IGN);
 		signal(CTRL_BSLASH, SIG_IGN);
 	}
 	else if (mode == NON_INTERACTIVE)
