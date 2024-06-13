@@ -6,52 +6,11 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:56 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/21 19:57:10 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:56:55 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	num_tok(t_token *tok)
-{
-	int	i;
-
-	i = 0;
-	while (tok)
-	{
-		i++;
-		tok = tok->next;
-	}
-	return (i);
-}
-
-static char	**toks_to_dchar(t_token *tok, int x)
-{
-	char	**res;
-	int		num;
-
-	num = num_tok(tok);
-	res = NULL;
-	res = (char **)malloc(sizeof(char *) * num + 1);
-	if (!res)
-	{
-		while (res[x])
-		{
-			free(res[x]);
-			x++;
-		}
-		free(res);
-	}
-	x = 0;
-	while (x < num - 1)
-	{
-		tok = tok->next;
-		if (tok)
-			res[x] = ft_strdup(tok->data);
-		x++;
-	}
-	return (res[x] = NULL, res);
-}
 
 static int	is_flag(char *str)
 {
@@ -80,9 +39,9 @@ void	execute_echo(t_shell *sh)
 	int		flags;
 	char	**matrix;
 
-	i = 0;
+	i = 1;
 	flags = 0;
-	matrix = toks_to_dchar(sh->tokens, 0);
+	matrix = sh->pro.w->cmd;
 	while (is_flag(matrix[i]))
 	{
 		flags++;
@@ -91,12 +50,11 @@ void	execute_echo(t_shell *sh)
 	while (matrix[i])
 	{
 		if (matrix[i + 1])
-			ft_dprintf(STDOUT_FILENO, "%s ", matrix[i]);
+			printf("%s ", matrix[i]);
 		else
-			ft_dprintf(STDOUT_FILENO, "%s", matrix[i]);
+			printf("%s", matrix[i]);
 		i++;
 	}
 	if (!flags)
-		ft_dprintf(STDOUT_FILENO, "\n");
-	free_matrix(&matrix);
+		printf("\n");
 }

@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/12 18:48:01 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/13 20:43:14 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,6 @@ char	*prompt(int exit_status)
 	static char	str[256];
 	char		entero[5];
 
-	if (exit_status != 130)
-		g_signals = 0;
-	if (g_signals != 0)
-		exit_status = g_signals;
 	ft_itos(exit_status, entero);
 	if (exit_status == 0)
 		ft_strlcpy(str, "\001\033[0;32m✔ \033[0m 🏓 PongShell \002",
@@ -59,7 +55,6 @@ char	*prompt(int exit_status)
 	return (str);
 }
 
-/*env = simulate_mini_env(sh);*/
 static void	init_sh(t_shell *sh, char **env)
 {
 	sh->exit_status = 0;
@@ -67,6 +62,7 @@ static void	init_sh(t_shell *sh, char **env)
 	sh->cmds = NULL;
 	sh->pro.w = NULL;
 	sh->pro.r = NULL;
+	sh->tokens = NULL;
 	if (!*env)
 	{
 		ft_dprintf(2, SHELL_ERROR);
@@ -96,6 +92,7 @@ int	main(int ac, char **av, char **env)
 	char	*prompt_str;
 
 	(void)av;
+	ft_isalpha(0);
 	if (ac == 1)
 	{
 		init_sh(&sh, env);
@@ -105,7 +102,7 @@ int	main(int ac, char **av, char **env)
 			ft_dprintf(2, "\001%s\002\n", prompt_str);
 			ft_signals(INTERACTIVE);
 			disable_control_chars_echo();
-			sh.line = readline("");
+			sh.line = readline("↳ ");
 			if (!sh.line)
 				execute_exit(&sh);
 			add_history(sh.line);
@@ -116,15 +113,3 @@ int	main(int ac, char **av, char **env)
 		ft_dprintf(2, WRONG_ARG, WRONG_ARG_1);
 	return (0);
 }
-
-/*
-	- ./minishell in the minishell change the SHLVL++
-	- arreglar exit status
-	- '<  te mete en un lugar extraño(que es lo correcto)
-	 pero al salir con ctr-d da segfault
-	- exit con muchos parametros no funciona correctamente 
-	(too many arguments) ($? = 1)
-	- exit con primer parametro con letras (numeric argument required) ($? = 255)
-	- unset PATH -> NO DEBERIA FUNCIONAR, pero funciona :(
-	- comillas juntas hace que pete -> echo ""'✅
-*/

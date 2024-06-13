@@ -196,10 +196,11 @@ int								syntax_error(t_token *tok);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
-int								input_unclosed(t_shell *sh);
 void							unclosed_entry(t_shell *sh);
 int								input_incomplete(t_shell *sh);
 void							incomplete_entry(t_shell *sh);
+int								input_unclosed(t_shell *sh, int dquotes,
+									int squotes);
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
 		MANAGE  - 4
@@ -227,6 +228,8 @@ char							*prompt(int exit_status);
 ┗━━━━━━━━・▼ ・━━━━━━━━┛
 */
 
+int								heredoc_case(t_shell *sh, t_redir *redir,
+									int last_in, int len);
 int								heredoc_case(t_shell *sh, t_redir *redir,
 									int last_in, int len);
 void							process_redir(t_shell *sh, t_process *pro);
@@ -261,7 +264,8 @@ int								ft_lstenv_size(t_env *lst);
 int								is_correct_name(char *name);
 void							print_lst_env(t_env *lst, int i);
 t_token							*quotes_removal(t_token *tokens);
-char							*quotes_removal_master(char *cmd_line);
+char							*quotes_removal_master(char *cmd_line, int i,
+									int j);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
@@ -298,7 +302,8 @@ int								is_builtin(char *data);
 int								ft_del_env(t_env **lst);
 t_env							*create_envnode(char *envp);
 t_env							*create_lst_env(char **envp);
-char							**convert_env_dchar(t_env *lst_env, char **env, int i);
+char							**convert_env_dchar(t_env *lst_env, char **env,
+									int i);
 t_env							*exporting_var(t_shell sh, t_env **lst_env,
 									t_env *new);
 

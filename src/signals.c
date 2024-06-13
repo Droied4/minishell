@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/06/13 15:32:48 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/13 20:15:52 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static void	heredoc_sig_handler(int sign)
 
 static void	sigquit_handler(int sign)
 {
-	(void)sign;
-	g_signals = 128 + CTRL_BSLASH;
-	ft_dprintf(2, "Quit: 3\n");
+	if (sign == CTRL_BSLASH)
+	{
+	}
 }
 
 static void	non_interac_sig_handler(int sign)
@@ -48,8 +48,6 @@ static void	non_interac_sig_handler(int sign)
 	write(1, "\n", 1);
 	if (sign == SIGINT)
 	{
-		signal(SIGINT, SIG_IGN);
-		g_signals = 128 + CTRL_C;
 	}
 }
 

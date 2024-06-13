@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:18:48 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/13 15:30:41 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/13 20:32:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	before_fork(int process, t_process *pro, t_shell *sh)
 		pro->w->out = 1;
 	process_redir(sh, pro);
 	if (pro->w->out != pro->p[1])
-			close(pro->p[1]);
+		close(pro->p[1]);
 	if (pro->w->next)
 	{
 		pro->w->next->in = pro->w->in;

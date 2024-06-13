@@ -12,32 +12,9 @@
 
 #include "minishell.h"
 
-/* in other moment u can fix this the unique problem is the signals
- * int	parse_input(t_shell *sh)
-{
-	t_token	*tmp_tok;
-
-	tmp_tok = sh->tokens;
-	while (input_unclosed(sh) < 0)
-		unclosed_entry(sh);
-	tmp_tok = sh->tokens;
-	if (syntax_error(tmp_tok) < 0)
-		return (-1);
-	while (input_incomplete(sh) < 0)
-	{
-		incomplete_entry(sh);
-		while (input_unclosed(sh) < 0)
-			unclosed_entry(sh);
-		tmp_tok = sh->tokens;
-		if (syntax_error(tmp_tok) < 0)
-			return (-1);
-	}
-	return (0);
-}*/
-
 int	parse_input(t_shell *sh)
 {
-	if (input_unclosed(sh) < 0)
+	if (input_unclosed(sh, 0, 0) < 0)
 	{
 		ft_dprintf(2, "Unclosed Entry\n");
 		return (-1);
@@ -49,7 +26,6 @@ int	parse_input(t_shell *sh)
 	}
 	return (0);
 }
-
 
 int	parse_redirections(t_shell *sh)
 {
@@ -85,13 +61,13 @@ void	parse_words(t_shell *sh)
 	}
 }
 
-int	parse_all(t_shell *sh)	
+int	parse_all(t_shell *sh)
 {
 	if (syntax_error(sh->tokens) < 0)
 		return (-1);
 	if (parse_input(sh) < 0)
 		return (-1);
-	expansor(sh); 
+	expansor(sh);
 	sh->pipes = stock_of(sh, PIPE);
 	sh->pro.w = generate_words(sh->tokens);
 	parse_words(sh);
@@ -100,3 +76,26 @@ int	parse_all(t_shell *sh)
 		return (-1);
 	return (0);
 }
+
+/* in other moment u can fix this the unique problem is the signals
+ * int	parse_input(t_shell *sh)
+{
+	t_token	*tmp_tok;
+
+	tmp_tok = sh->tokens;
+	while (input_unclosed(sh, 0, 0) < 0)
+		unclosed_entry(sh);
+	tmp_tok = sh->tokens;
+	if (syntax_error(tmp_tok) < 0)
+		return (-1);
+	while (input_incomplete(sh) < 0)
+	{
+		incomplete_entry(sh);
+		while (input_unclosed(sh, 0, 0) < 0)
+			unclosed_entry(sh);
+		tmp_tok = sh->tokens;
+		if (syntax_error(tmp_tok) < 0)
+			return (-1);
+	}
+	return (0);
+}*/

@@ -37,35 +37,27 @@ static int	final_check(int squotes, int dquotes)
 	return (0);
 }
 
-int	input_unclosed(t_shell *sh)
+int	input_unclosed(t_shell *sh, int dquotes, int squotes)
 {
 	t_token	*tmp_tok;
-	int		squotes;
-	int		dquotes;
 	int		i;
 
 	tmp_tok = sh->tokens;
-	squotes = 0;
-	dquotes = 0;
 	while (tmp_tok)
 	{
 		i = -1;
 		if (tmp_tok->type == SQUOTE && (dquotes % 2) == 0)
 		{
 			while (tmp_tok->data[++i])
-			{
 				if (tmp_tok->data[i] == '\'')
 					squotes++;
-			}
 			i = -1;
 		}
 		if (tmp_tok->type == DQUOTE && (squotes % 2) == 0)
 		{
 			while (tmp_tok->data[++i])
-			{
 				if (tmp_tok->data[i] == '\"')
 					dquotes++;
-			}
 		}
 		tmp_tok = tmp_tok->next;
 	}

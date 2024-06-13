@@ -73,7 +73,7 @@ void	process_redir(t_shell *sh, t_process *pro)
 			last_out = append_case(redir, last_out);
 		redir = redir->next;
 	}
-	if (last_in > 0 || last_in < 0)
+	if (last_in > 0 || last_in == -2)
 		pro->w->in = last_in;
 	if (last_out > 1 || last_out == -1)
 		pro->w->out = last_out;

@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/06 22:34:39 by carmeno           #+#    #+#              #
-#    Updated: 2024/06/12 17:34:37 by deordone         ###   ########.fr        #
+#    Created: 2024/01/06 22:34:39 by deordone          #+#    #+#              #
+#    Updated: 2024/06/13 20:47:34 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ SOURCES = minishell.c  signals.c
 
 LEXER = lexer.c new_lexer1.c lexer_aux.c lexer_aux2.c 
 
-EXECUTOR = executor.c exec_redir.c exec_cmds.c exec_conec.c heredoc.c
+EXECUTOR = executor.c exec_redir.c exec_cmds.c exec_conec.c \
+	heredoc.c 
 
 PARSER = parser.c parser_input.c parser_entry.c word_lst.c \
 		parser_cmd.c redir_lst.c parser_redir.c
@@ -83,13 +84,13 @@ BLUE=\033[0;34m
 NC=\033[0m # No color
 
 # Rules
-all: header $(NAME) author
+all: header make_libs $(NAME) author
 
 make_libs:
 	@make -C $(LIBFT_PATH) > /dev/null
-	@printf "$(CYAN)Compiling $(LIBFT_PATH)$(NC)\n";
+#	@printf "$(CYAN)Compiling $(LIBFT_PATH)$(NC)\n";
 	@make -C $(DPRINTF_PATH) > /dev/null
-	@printf "$(CYAN)Compiling $(DPRINTF_PATH)$(NC)\n";
+#	@printf "$(CYAN)Compiling $(DPRINTF_PATH)$(NC)\n";
 
 -include $(DEPS)
 
@@ -135,7 +136,7 @@ fclean : clean
 re: fclean all 
 
 vg: all
-	valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --track-fds=yes --suppressions=.readline.supp ./$(NAME)
+	valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --track-fds=yes --child-silent-after-fork=yes --suppressions=.readline.supp ./$(NAME)
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                              MY RULES                                        #

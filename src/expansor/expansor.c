@@ -88,7 +88,7 @@ char	**split_quotes(char *str)
 		smart_split[i] = ft_get_cpy(str, &position);
 		if (!smart_split[i])
 			return (free_matrix(&smart_split), NULL);
-		str = &str[position];
+		str = str + position;
 		i++;
 	}
 	smart_split[i] = NULL;

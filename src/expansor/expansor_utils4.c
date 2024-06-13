@@ -96,7 +96,7 @@ char	**split_dollar_interog(char *str)
 		result[i] = small_part(str, &pos);
 		if (!result[i])
 			return (free_matrix(&result), NULL);
-		str = &str[pos];
+		str = str + pos;
 		i++;
 	}
 	result[num_dol_int] = NULL;
@@ -109,8 +109,7 @@ char	*special_cases(char *special, int exit_status)
 	char	*str_exit;
 	char	**split_exit;
 
-	i = 0;
-	printf("sig sp  %d\n", g_signals);
+	i = -1;
 	if (g_signals != 0)
 	{
 		exit_status = g_signals;
@@ -120,14 +119,15 @@ char	*special_cases(char *special, int exit_status)
 	split_exit = split_dollar_interog(special);
 	if (!split_exit)
 		return (NULL);
-	while (split_exit[i])
+	while (split_exit[++i])
 	{
 		if (!ft_strncmp("$?", split_exit[i], 3))
+		{
+			free(split_exit[i]);
 			split_exit[i] = ft_strdup(str_exit);
-		i++;
+		}
 	}
 	free(str_exit);
 	str_exit = join_split(split_exit);
-	free_matrix(&split_exit);
-	return (str_exit);
+	return (free_matrix(&split_exit), str_exit);
 }

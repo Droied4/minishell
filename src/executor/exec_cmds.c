@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/02 19:26:22 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/13 20:14:38 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,21 @@ char	*ft_check_path(char **paths, char **cmd)
 	return (NULL);
 }
 
-static void	closing_in_out(t_words *word)
+static int	closing_in_out(t_words *word, int wstatus, int exit_status)
 {
 	if (word->in != STD_IN)
 		close(word->in);
 	if (word->out != STD_OUT)
 		close(word->out);
+	if (WIFEXITED(wstatus))
+		exit_status = WEXITSTATUS(wstatus);
+	else if (WIFSIGNALED(wstatus))
+	{
+		if (WTERMSIG(wstatus) == SIGQUIT)
+			printf("Quit 3\n");
+		exit_status = 128 + WTERMSIG(wstatus);
+	}
+	return (exit_status);
 }
 
 int	process_word(t_shell *sh, int wstatus, int exit_status)
@@ -92,7 +101,9 @@ int	process_word(t_shell *sh, int wstatus, int exit_status)
 	t_words	*word;
 	char	**envivar;
 
+	envivar = NULL;
 	word = sh->pro.w;
+	ft_signals(NON_INTERACTIVE);
 	if (char_is_inside(word->cmd[0], '/') < 0)
 	{
 		envivar = get_envivar("PATH=", sh->matriz_env);
@@ -101,15 +112,12 @@ int	process_word(t_shell *sh, int wstatus, int exit_status)
 	else
 		word->path = ft_strdup(word->cmd[0]);
 	pid = fork();
-	ft_signals(NON_INTERACTIVE);
 	if (pid == -1)
 		exit(1);
 	if (pid > 0)
 		waitpid(0, &wstatus, 0);
 	else
 		child_process(sh);
-	closing_in_out(word);
-	if (WIFEXITED(wstatus))
-		exit_status = WEXITSTATUS(wstatus);
+	exit_status = closing_in_out(word, wstatus, exit_status);
 	return (free_matrix(&envivar), exit_status);
 }

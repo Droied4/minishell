@@ -31,9 +31,10 @@ static void	write_in_pipe(t_shell *sh, char **doc, int p[2])
 	free(*doc);
 }
 
-static void	init_doc_fd(int *fd, int last_in)
+static void	init_doc_fd(int *fd, int last_in, int p[2])
 {
-	
+	if (pipe(p) < 0)
+		exit(1);
 	if (last_in != 0)
 		close(last_in);
 	*fd = dup(0);
@@ -44,10 +45,8 @@ int	heredoc_case(t_shell *sh, t_redir *redir, int last_in, int len)
 	int		fd;
 	char	*doc;
 	int		p[2];
-	
-	if (pipe(p) < 0)
-		exit(1);
-	init_doc_fd(&fd, last_in);
+
+	init_doc_fd(&fd, last_in, p);
 	ft_signals(HEREDOC);
 	while (42)
 	{
@@ -56,8 +55,7 @@ int	heredoc_case(t_shell *sh, t_redir *redir, int last_in, int len)
 		{
 			dup2(fd, 0);
 			close_pipes(p, fd, doc);
-			close(*p);
-			return (-2);
+			return (close(*p), -2);
 		}
 		last_in = p[0];
 		if (ft_strlen(doc) > ft_strlen(redir->file))
