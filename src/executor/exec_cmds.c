@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:30:41 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/02 19:26:22 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:27:58 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	child_process(t_shell *sh)
 {
 	t_words	*word;
-
+	
 	word = sh->pro.w;
 	if (word->in != STD_IN)
 	{
@@ -92,7 +92,9 @@ int	process_word(t_shell *sh, int wstatus, int exit_status)
 	t_words	*word;
 	char	**envivar;
 
+	envivar = NULL;
 	word = sh->pro.w;
+	ft_signals(NON_INTERACTIVE);
 	if (char_is_inside(word->cmd[0], '/') < 0)
 	{
 		envivar = get_envivar("PATH=", sh->matriz_env);
@@ -101,7 +103,6 @@ int	process_word(t_shell *sh, int wstatus, int exit_status)
 	else
 		word->path = ft_strdup(word->cmd[0]);
 	pid = fork();
-	ft_signals(NON_INTERACTIVE);
 	if (pid == -1)
 		exit(1);
 	if (pid > 0)
@@ -111,5 +112,11 @@ int	process_word(t_shell *sh, int wstatus, int exit_status)
 	closing_in_out(word);
 	if (WIFEXITED(wstatus))
 		exit_status = WEXITSTATUS(wstatus);
+	else if (WIFSIGNALED(wstatus))
+	{
+		if (WTERMSIG(wstatus) == SIGQUIT)
+			printf("Quit 3\n");
+		exit_status = 128 + WTERMSIG(wstatus);
+	}
 	return (free_matrix(&envivar), exit_status);
 }

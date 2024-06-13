@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:08:18 by avolcy            #+#    #+#             */
-/*   Updated: 2024/06/13 14:43:12 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/13 18:14:24 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ static void	sigquit_handler(int sign)
 {
 	if (sign == CTRL_BSLASH)
 	{
-		g_signals = 128 + CTRL_BSLASH;
-		ft_dprintf(2, "Quit: 3\n");
+		// g_signals = 128 + CTRL_BSLASH;
+		// ft_dprintf(2, "Quit: 3\n");
 	}
 }
 
@@ -50,8 +50,8 @@ static void	non_interac_sig_handler(int sign)
 	write(1, "\n", 1);
 	if (sign == SIGINT)
 	{
-		signal(SIGINT, SIG_IGN);
-		g_signals = 128 + CTRL_C;
+		// g_signals = 128 + CTRL_C;
+		// signal(SIGINT, SIG_DFL);
 	}
 }
 

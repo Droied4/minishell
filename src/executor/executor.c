@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/13 15:43:17 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:51:11 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,17 @@ void	kill_child(t_shell *sh, t_process *pro)
 	exit(after_exec(pro->w));
 }
 
+
 static int	do_builtin(t_shell *sh)
 {
 	int		status;
+	int io[2];
 	t_words	*word;
 
 	status = 0;
 	word = sh->pro.w;
+	io[0] = dup(0);
+	io[1] = dup(1);
 	if (word->in != STD_IN)
 	{
 		if (dup2(word->in, STD_IN) == -1)
@@ -59,10 +63,12 @@ static int	do_builtin(t_shell *sh)
 		close(word->out);
 	}
 	status = execute_builtins(sh, sh->matriz_env);
-	if (dup2(0, STD_IN) == -1)
+	if (dup2(io[0], STD_IN) == -1)
 		exit(EXIT_FAILURE);
-	if (dup2(1, STD_OUT) == -1)
+	if (dup2(io[1], STD_OUT) == -1)
 		exit(EXIT_FAILURE);
+	close(io[0]);
+	close(io[1]);
 	return (status);
 }
 

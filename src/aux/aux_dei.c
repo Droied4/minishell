@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:59:29 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/26 11:52:50 by marvin           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:49:38 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	**get_envivar(char *var, char **env)
 		tmp = tmp->next;
 	}
 }
-
+*/
 void	print_words(t_words *lst)
 {
 	int		i;
@@ -144,7 +144,7 @@ void	print_words(t_words *lst)
 		tmp = tmp->next;
 	}
 }
-
+/*
 void	print_redir(t_redir *lst)
 {
 	t_redir	*tmp;
