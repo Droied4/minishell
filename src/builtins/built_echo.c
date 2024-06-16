@@ -58,3 +58,19 @@ void	execute_echo(t_shell *sh)
 	if (!flags)
 		printf("\n");
 }
+
+int found_equal(char *line, char ch)
+{
+  int i;
+
+  if (!line)
+    return (0);
+  i = 0;
+  while (line[i]) 
+  {
+    if (line[i] == ch)
+      return (1);
+    i++;
+  }
+  return (0);
+}

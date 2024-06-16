@@ -313,6 +313,7 @@ t_env							*exporting_var(t_shell sh, t_env **lst_env,
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
 
+int found_equal(char *line, char ch);
 int								execute_pwd(void);
 void							free_matrix(char ***sh);
 void							printlst(t_token *lst);
