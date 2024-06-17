@@ -67,6 +67,7 @@ char	**convert_env_dchar(t_env *lst_env, char **env, int i)
 
 char	*quotes_removal_master(char *cmd_line, int i, int j)
 {
+	char	*tmp;
 	char	**smart_split;
 
 	if (!cmd_line)
@@ -76,12 +77,14 @@ char	*quotes_removal_master(char *cmd_line, int i, int j)
 		return (NULL);
 	while (smart_split[i])
 	{
-		if (smart_split[i][j])
+		tmp = smart_split[i];
+		if (smart_split[i][j] == SQUOT || smart_split[i][j] == DQUOT)
 		{
 			if (smart_split[i][j] == SQUOT)
-				smart_split[i] = (ft_strtrim(smart_split[i], "\'"));
-			else if (smart_split[i][j] == DQUOT)
+				smart_split[i] = ft_strtrim(smart_split[i], "\'");
+			else
 				smart_split[i] = ft_strtrim(smart_split[i], "\"");
+			free(tmp);
 		}
 		i++;
 	}

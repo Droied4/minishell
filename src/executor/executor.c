@@ -33,7 +33,7 @@ void	kill_child(t_shell *sh, t_process *pro)
 	if (pro->w->cmd)
 	{
 		if (is_builtin(pro->w->cmd[0]) > 0)
-			exit(execute_builtins(sh, sh->matriz_env));
+			exit(execute_builtins(sh, sh->matriz_env, NULL));
 		execve(pro->w->path, pro->w->cmd, sh->matriz_env);
 	}
 	exit(after_exec(pro->w));
@@ -59,7 +59,7 @@ static int	do_builtin(t_shell *sh, int status)
 			exit(EXIT_FAILURE);
 		close(word->out);
 	}
-	status = execute_builtins(sh, sh->matriz_env);
+	status = execute_builtins(sh, sh->matriz_env, io);
 	if (dup2(io[0], STD_IN) == -1)
 		exit(EXIT_FAILURE);
 	if (dup2(io[1], STD_OUT) == -1)

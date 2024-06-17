@@ -104,7 +104,7 @@ int	main(int ac, char **av, char **env)
 			disable_control_chars_echo();
 			sh.line = readline("↳ ");
 			if (!sh.line)
-				execute_exit(&sh);
+				execute_exit(&sh, NULL);
 			add_history(sh.line);
 			forwarding_process(&sh, env);
 		}

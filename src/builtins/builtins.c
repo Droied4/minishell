@@ -70,7 +70,7 @@ int	all_chars_digit(char *data)
 	4 - "exit 42 42"; doesn't exit ($? = 1) $? ✅
 		prints : too many arguments ✅
 */
-int	execute_exit(t_shell *sh)
+int	execute_exit(t_shell *sh, int io[2])
 {
 	int	size;
 	int	status;
@@ -79,10 +79,15 @@ int	execute_exit(t_shell *sh)
 	size = token_size(sh->tokens);
 	if (size > 2 && all_chars_digit(sh->tokens->next->data) == 1)
 	{
-		status = 1;
 		ft_dprintf(2, TOO_MANY_ARG);
+		return (1);
 	}
-	else if (size == 2 && all_chars_digit(sh->tokens->next->data) == 1)
+	if (io)
+	{
+		close(io[0]);
+		close(io[1]);
+	}
+	if (size == 2 && all_chars_digit(sh->tokens->next->data) == 1)
 		normal_exit(sh, ft_atoi(sh->tokens->next->data));
 	else if (size >= 2 && all_chars_digit(sh->tokens->next->data) == -1)
 	{
@@ -94,7 +99,7 @@ int	execute_exit(t_shell *sh)
 	return (status);
 }
 
-int	execute_builtins(t_shell *shell, char **env)
+int	execute_builtins(t_shell *shell, char **env, int io[2])
 {
 	int	status;
 
@@ -108,7 +113,7 @@ int	execute_builtins(t_shell *shell, char **env)
 		else if (!ft_strncmp(shell->tokens->data, "env", 4))
 			execute_env(shell, env);
 		else if (!ft_strncmp(shell->tokens->data, "exit", 5))
-			status = execute_exit(shell);
+			status = execute_exit(shell, io);
 		else if (!ft_strncmp(shell->tokens->data, "export", 7))
 			execute_export(shell, env);
 		else if (!ft_strncmp(shell->tokens->data, "pwd", 4))

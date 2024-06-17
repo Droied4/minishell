@@ -317,7 +317,7 @@ int								execute_pwd(void);
 void							printlst(t_token *lst);
 int								ft_del_env(t_env **lst);
 void							free_matrix(char ***sh);
-int								execute_exit(t_shell *sh);
+int								execute_exit(t_shell *sh, int io[2]);
 int								token_size(t_token *tokens);
 void							execute_echo(t_shell *shell);
 int								check_exp_variable(t_env *tok);
@@ -326,7 +326,7 @@ void							print_lst_env(t_env *lst, int i);
 t_env							*found_var(char *var, t_env *lst);
 void							execute_env(t_shell *sh, char **env);
 void							execute_export(t_shell *sh, char **env);
-int								execute_builtins(t_shell *looking, char **env);
+int								execute_builtins(t_shell *looking, char **env, int io[2]);
 int								execute_cd(t_shell *sh, char *path, char **env);
 void							execute_unset(t_shell **sh, t_env *node,
 									char **env);
