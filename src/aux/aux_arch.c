@@ -29,7 +29,7 @@ int	is_correct_name(char *name)
 	{
 		if (name[i] == '+' && name[i + 1] && name[i + 1] == '=')
 			break ;
-		if (ft_isalnum(name[i]) || name[i] == '_')//|| name[i] == '+')
+		if (ft_isalnum(name[i]) || name[i] == '_')
 			i++;
 		else
 			return (error_name_variable(name));
