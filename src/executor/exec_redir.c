@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:14:03 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/13 15:32:57 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/17 15:29:37 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ void	process_redir(t_shell *sh, t_process *pro)
 	redir = pro->r;
 	while (redir && redir->type != PIPE)
 	{
-		if (redir->type == LESS && last_in != -1 && last_out != -1)
+		if (redir->type == LESS && last_in > -1 && last_out != -1)
 			last_in = less_case(redir, last_in);
-		else if (redir->type == DLESS && last_in != -1)
+		else if (redir->type == DLESS && last_in > -1)
 			last_in = heredoc_case(sh, redir, last_in, 0);
 		else if (redir->type == GREAT && last_in != -1 && last_out != -1)
 			last_out = great_case(redir, last_out);
@@ -73,7 +73,7 @@ void	process_redir(t_shell *sh, t_process *pro)
 			last_out = append_case(redir, last_out);
 		redir = redir->next;
 	}
-	if (last_in > 0 || last_in == -2)
+	if (last_in > 0 || last_in < 0)
 		pro->w->in = last_in;
 	if (last_out > 1 || last_out == -1)
 		pro->w->out = last_out;
