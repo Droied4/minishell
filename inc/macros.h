@@ -43,21 +43,22 @@
 # define CTRL_BSLASH SIGQUIT
 
 /*#define PIPE 1
-#define GREAT 2
-#define LESS 3
-#define DGREAT 4
-#define DLESS 5
-#define SQUOTE 6
-#define DQUOTE 7
-#define EXP 8
+# define GREAT 2
+# define LESS 3
+# define DGREAT 4
+# define DLESS 5
+# define SQUOTE 6
+# define DQUOTE 7
+# define EXP 8
 
 // Declare a static constant array
-static const int redir[] = {PIPE, GREAT, LESS, DGREAT, DLESS};
-static const int meta[] = {PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE, EXP};
+static const int	redir[] = {PIPE, GREAT, LESS, DGREAT, DLESS};
+static const int	meta[] = {PIPE, GREAT, LESS, DGREAT, DLESS, SQUOTE, DQUOTE,
+		EXP};
 
 // Macro to refer to the array
-#define REDIR redir
-#define METACHAR meta
+# define REDIR redir
+# define METACHAR meta
 */
 # define REDIR                            \
 	{                                    \
