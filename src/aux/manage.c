@@ -50,6 +50,7 @@ void	ft_free_array(char **res)
 
 void	soft_exit(t_shell *sh)
 {
+	g_signals = 0;
 	ft_deltoken(&sh->tokens);
 	ft_del_redirs(&sh->pro.r);
 	ft_del_words(&sh->pro.w);

@@ -54,14 +54,14 @@ int	heredoc_case(t_shell *sh, t_redir *redir, int last_in, int len)
 		if (doc == NULL || g_signals != 0)
 		{
 			dup2(fd, 0);
-			close_pipes(p, fd, doc);
-			return (close(*p), -2);
+			if (!g_signals)
+				break ;
+			return (close_pipes(p, fd, doc), close(*p), -2);
 		}
 		last_in = p[0];
+		len = ft_strlen(redir->file);
 		if (ft_strlen(doc) > ft_strlen(redir->file))
 			len = ft_strlen(doc);
-		else
-			len = ft_strlen(redir->file);
 		if (!doc || !redir->file || ft_strncmp(doc, redir->file, len) == 0)
 			break ;
 		write_in_pipe(sh, &doc, p);
@@ -69,44 +69,3 @@ int	heredoc_case(t_shell *sh, t_redir *redir, int last_in, int len)
 	return (close_pipes(p, fd, doc), last_in);
 }
 
-// int	heredoc_case(t_shell *sh, t_redir *redir, int last_in)
-// {
-// 	char	*doc;
-
-// 	int		len;
-// 	int		p[2];
-// 	int		fd;
-
-// 	(void)sh;
-// 	if (last_in != 0)
-// 		close(last_in);
-// 	fd = dup(0);
-// 	ft_signals(HEREDOC);
-// 	if (pipe(p) < 0)
-// 		exit(1);
-// 	while (42)
-// 	{
-// 		doc = readline("> ");
-// 		if (doc == NULL || g_signals != 0)
-// 		{
-// 			dup2(fd, 0);
-// 			return (-2);
-// 		}
-// 		last_in = p[0];
-// 		if (ft_strlen(doc) > ft_strlen(redir->file))
-// 			len = ft_strlen(doc);
-// 		else
-// 			len = ft_strlen(redir->file);
-// 		if (!doc || !redir->file || ft_strncmp(doc, redir->file, len) == 0)
-// 			break ;
-// 		doc = expand_string(sh, doc);
-// 		ft_putstr_fd(doc, p[1]);
-// 		ft_putstr_fd("\n", p[1]);
-// 		free(doc);
-// 	}
-// 	close(p[1]);
-// 	close(fd);
-// 	ft_putstr_fd("\n\0", p[1]);
-// 	free(doc);
-// 	return (last_in);
-// }
