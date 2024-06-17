@@ -68,4 +68,3 @@ int	heredoc_case(t_shell *sh, t_redir *redir, int last_in, int len)
 	}
 	return (close_pipes(p, fd, doc), last_in);
 }
-

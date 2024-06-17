@@ -67,12 +67,13 @@ void	print_lst_env_export(t_env *lst)
 {
 	while (lst)
 	{
-    if(found_equal(lst->line, '=') && lst->var_content)
-		  ft_dprintf(STDOUT_FILENO, "declare -x %s=\"%s\"\n", lst->var_name, lst->var_content);
-    else if (found_equal(lst->line, '=') && !lst->var_content) 
-		  ft_dprintf(STDOUT_FILENO, "declare -x %s=\"\"\n", lst->var_name);
-    else 
-		  ft_dprintf(STDOUT_FILENO, "declare -x %s\n", lst->var_name);
+		if (found_equal(lst->line, '=') && lst->var_content)
+			ft_dprintf(STDOUT_FILENO, "declare -x %s=\"%s\"\n", lst->var_name,
+				lst->var_content);
+		else if (found_equal(lst->line, '=') && !lst->var_content)
+			ft_dprintf(STDOUT_FILENO, "declare -x %s=\"\"\n", lst->var_name);
+		else
+			ft_dprintf(STDOUT_FILENO, "declare -x %s\n", lst->var_name);
 		lst = lst->next;
 	}
 }
