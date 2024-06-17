@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/13 16:55:45 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/14 00:04:37 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,6 @@ char	*prompt(int exit_status)
 	static char	str[256];
 	char		entero[5];
 
-	if (exit_status != 130)
-		g_signals = 0;
-	if (g_signals != 0)
-		exit_status = g_signals;
 	ft_itos(exit_status, entero);
 	if (exit_status == 0)
 		ft_strlcpy(str, "\001\033[0;32m✔ \033[0m 🏓 PongShell \002",
@@ -59,7 +55,6 @@ char	*prompt(int exit_status)
 	return (str);
 }
 
-/*env = simulate_mini_env(sh);*/
 static void	init_sh(t_shell *sh, char **env)
 {
 	sh->exit_status = 0;
@@ -97,6 +92,7 @@ int	main(int ac, char **av, char **env)
 	char	*prompt_str;
 
 	(void)av;
+	ft_isalpha(0);
 	if (ac == 1)
 	{
 		init_sh(&sh, env);
@@ -106,7 +102,7 @@ int	main(int ac, char **av, char **env)
 			ft_dprintf(2, "\001%s\002\n", prompt_str);
 			ft_signals(INTERACTIVE);
 			disable_control_chars_echo();
-			sh.line = readline("");
+			sh.line = readline("↳ ");
 			if (!sh.line)
 				execute_exit(&sh);
 			add_history(sh.line);
