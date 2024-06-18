@@ -45,7 +45,10 @@ t_env	*create_envnode(char *envp)
 	if (splitting)
 	{
 		if (splitting[0][ft_strlen(splitting[0]) - 1] == '+')
-			splitting[0] = trimmer_quotes(splitting[0], (int) '+');
+    {
+      char *tmp = trimmer_quotes(splitting[0], (int) '+');
+      free(splitting[0]);
+			splitting[0] = tmp;    }
 		new->var_name = ft_strdup(splitting[0]);
 		if (splitting[1])
 			new->var_content = ft_strdup(splitting[1]);
