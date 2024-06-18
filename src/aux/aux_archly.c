@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:17:12 by deordone          #+#    #+#             */
-/*   Updated: 2024/05/21 17:26:33 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/18 12:42:20 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	ft_del_env(t_env **lst)
 		temp = (*lst)->next;
 		free((*lst)->line);
 		free((*lst)->var_name);
-		free((*lst)->var_content);
+		if ((*lst)->var_content)
+			free((*lst)->var_content);
 		free(*lst);
 		*lst = temp;
 	}

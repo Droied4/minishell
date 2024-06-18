@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:07 by avolcy            #+#    #+#             */
-/*   Updated: 2024/06/12 00:08:51 by droied           ###   ########.fr       */
+/*   Updated: 2024/06/18 12:12:29 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,19 @@ void	create_envlst(t_env **lst, t_env *new)
 	new->prev = last;
 }
 
+/* static void init_node(t_env **node, envp)
+{
+	new = (t_env *)malloc(sizeof(t_env));
+	if (!new)
+		return (NULL);
+	new->var_name = NULL;
+	new->var_content = NULL;
+	new->line = ft_strdup(envp);
+	new->next = NULL;
+	new->prev = NULL;
+	sp
+}
+*/
 t_env	*create_envnode(char *envp)
 {
 	t_env	*new;
