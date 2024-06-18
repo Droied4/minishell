@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:07 by avolcy            #+#    #+#             */
-/*   Updated: 2024/06/18 12:12:29 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/18 16:38:29 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,23 @@ void	create_envlst(t_env **lst, t_env *new)
 
 /* static void init_node(t_env **node, envp)
 {
-	new = (t_env *)malloc(sizeof(t_env));
-	if (!new)
+	*nodei = (t_env *)malloc(sizeof(t_env));
+	if (!*(node))
 		return (NULL);
-	new->var_name = NULL;
-	new->var_content = NULL;
-	new->line = ft_strdup(envp);
-	new->next = NULL;
-	new->prev = NULL;
-	sp
-}
-*/
+	*node->var_name = NULL;
+	*node->var_content = NULL;
+	*node->line = ft_strdup(envp);
+	*node->next = NULL;
+	*node->prev = NULL;
+} */
+
 t_env	*create_envnode(char *envp)
 {
 	t_env	*new;
 	char	**splitting;
+	char	*tmp;
 
+	init_node(&newi, envp);
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
@@ -58,10 +59,11 @@ t_env	*create_envnode(char *envp)
 	if (splitting)
 	{
 		if (splitting[0][ft_strlen(splitting[0]) - 1] == '+')
-    {
-      char *tmp = trimmer_quotes(splitting[0], (int) '+');
-      free(splitting[0]);
-			splitting[0] = tmp;    }
+		{
+			tmp = trimmer_quotes(splitting[0], (int)'+');
+			free(splitting[0]);
+			splitting[0] = tmp;
+		}
 		new->var_name = ft_strdup(splitting[0]);
 		if (splitting[1])
 			new->var_content = ft_strdup(splitting[1]);

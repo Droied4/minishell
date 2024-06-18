@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/06/18 12:56:17 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/18 16:31:20 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,16 @@ t_env	*found_var(char *cmd_line, t_env *lst)
 	line = ft_split(cmd_line, '=');
 	if (line[0][ft_strlen(line[0]) - 1] == '+')
 	{
-		tmpt = trimmer_quotes(line[0], (int)'+');
+		tmpt = trimmer_quotes(line[0], (int) '+');
 		free(line[0]);
 		line[0] = tmpt;
 	}
 	tmp = lst;
 	while (tmp)
 	{
+		len = ft_strlen(tmp->var_name);
 		if (ft_strlen(line[0]) > ft_strlen(tmp->var_name))
 			len = ft_strlen(line[0]);
-		else
-			len = ft_strlen(tmp->var_name);
 		if (ft_strncmp(line[0], tmp->var_name, len) == 0)
 			return (free_matrix(&line), tmp);
 		tmp = tmp->next;
