@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/10 14:55:43 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/18 12:05:42 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	parse_input(t_shell *sh)
 {
-	if (input_unclosed(sh, 0, 0) < 0)
+	if (input_unclosed(sh) < 0)
 	{
 		ft_dprintf(2, "Unclosed Entry\n");
 		return (-1);

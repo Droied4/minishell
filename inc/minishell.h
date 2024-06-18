@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:22:28 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/17 15:33:16 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/18 12:05:21 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,8 +199,7 @@ int								syntax_error(t_token *tok);
 void							unclosed_entry(t_shell *sh);
 int								input_incomplete(t_shell *sh);
 void							incomplete_entry(t_shell *sh);
-int								input_unclosed(t_shell *sh, int dquotes,
-									int squotes);
+int								input_unclosed(t_shell *sh);
 /*
 ┏━━━━━━━━・▼ ・━━━━━━━━┓
 		MANAGE  - 4
@@ -272,6 +271,8 @@ char							*quotes_removal_master(char *cmd_line, int i,
 	AUX DEI - 5
 ┗━━━━━━━━・▼・━━━━━━━━┛
 */
+
+int								next_quote(char *data, int i);
 char							*char2str(char c);
 void							print_words(t_words *lst);
 void							print_redir(t_redir *lst);
