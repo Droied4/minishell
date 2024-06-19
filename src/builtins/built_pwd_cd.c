@@ -21,6 +21,7 @@ int	execute_pwd(void)
 		ft_dprintf(STDOUT_FILENO, "%s\n", s);
 		return (EXIT_SUCCESS);
 	}
+	ft_dprintf(STDERR_FILENO, "%s\n", PWD_ERR_MSG);
 	return (EXIT_FAILURE);
 }
 
