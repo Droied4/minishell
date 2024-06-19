@@ -115,7 +115,7 @@ void							expansor(t_shell *sh);
 char							**split_quotes(char *str);
 char							*expand_data(t_shell *sh, char *str);
 char							*expand_string(t_shell *sh, char *str);
-char							*expansion_final(t_shell *sh, char *str);
+char							*expansion_final(t_shell *sh, char *str, int i);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓

@@ -28,7 +28,7 @@ void	create_envlst(t_env **lst, t_env *new)
 	new->prev = last;
 }
 
-static int	init_node(t_env **node, char **envp)
+static int	init_node(t_env **node, char *envp)
 {
 	*node = (t_env *)malloc(sizeof(t_env));
 	if (!*(node))
@@ -47,7 +47,7 @@ t_env	*create_envnode(char *envp)
 	char	**splitting;
 	char	*tmp;
 
-	if (init_node(&newi, envp) == -1)
+	if (init_node(&new, envp) == -1)
 		return (NULL);
 	splitting = ft_split(new->line, '=');
 	if (splitting)

@@ -12,22 +12,21 @@
 
 #include "../../inc/minishell.h"
 
-char	*expansion_final(t_shell *sh, char *str)
+char	*expansion_final(t_shell *sh, char *str, int i)
 {
-	int		i;
-	char	**env_split;
-	t_env	*var_node;
 	char	*tmp;
+	t_env	*var_node;
+	char	**env_split;
 
 	env_split = split_env_var(str);
 	if (!env_split)
 		return (NULL);
-	i = 0;
 	while (env_split[i])
 	{
 		var_node = NULL;
 		if (env_split[i][0] == '$')
-			var_node = found_var(&env_split[i][1], sh->env);
+			var_node = found_var(&env_split[i][1], sh->env,
+					ft_strlen(&env_split[i][1]), NULL);
 		if (var_node)
 		{
 			tmp = ft_strdup(var_node->var_content);
@@ -37,8 +36,7 @@ char	*expansion_final(t_shell *sh, char *str)
 		i++;
 	}
 	tmp = join_split(env_split);
-	free_matrix(&env_split);
-	return (tmp);
+	return (free_matrix(&env_split), tmp);
 }
 
 char	*expand_string(t_shell *sh, char *str)
@@ -55,10 +53,10 @@ char	*expand_string(t_shell *sh, char *str)
 			expanded = special_cases(str, sh->exit_status);
 		}
 		else
-			expanded = expansion_final(sh, str);
+			expanded = expansion_final(sh, str, 0);
 		if (expanded && found_char(expanded, '$'))
 		{
-			tmp = expansion_final(sh, expanded);
+			tmp = expansion_final(sh, expanded, 0);
 			free(expanded);
 			expanded = tmp;
 		}

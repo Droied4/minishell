@@ -47,7 +47,6 @@ static void	update_var(char *s, t_env *var_node)
 	char	*tmp;
 
 	free(var_node->line);
-	printf("var node: %p, s: %p\n", var_node->line, s);
 	var_node->line = ft_strdup(s);
 	split = ft_split(var_node->line, '=');
 	if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)
