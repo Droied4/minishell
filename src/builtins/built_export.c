@@ -12,22 +12,19 @@
 
 #include "minishell.h"
 
-t_env	*found_var(char *cmd_line, t_env *lst)
+t_env	*found_var(char *cmd_line, t_env *lst, size_t len, char *tmp_l)
 {
-	size_t	len;
 	t_env	*tmp;
 	char	**line;
-	char	*tmpt;
 
-	len = ft_strlen(cmd_line);
 	if (len == 0)
 		return (NULL);
 	line = ft_split(cmd_line, '=');
 	if (line[0][ft_strlen(line[0]) - 1] == '+')
 	{
-		tmpt = trimmer_quotes(line[0], (int) '+');
+		tmp_l = trimmer_quotes(line[0], (int) '+');
 		free(line[0]);
-		line[0] = tmpt;
+		line[0] = tmp_l;
 	}
 	tmp = lst;
 	while (tmp)
@@ -86,7 +83,8 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 		sh.tokens = sh.tokens->next;
 		if (sh.tokens && !is_correct_name(sh.tokens->data))
 		{
-			new = found_var(sh.tokens->data, *lst_env);
+			new = found_var(sh.tokens->data, *lst_env,
+					ft_strlen(sh.tokens->data), NULL);
 			if (!new)
 			{
 				new = create_envnode(sh.tokens->data);

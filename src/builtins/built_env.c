@@ -28,17 +28,18 @@ void	create_envlst(t_env **lst, t_env *new)
 	new->prev = last;
 }
 
-/* static void init_node(t_env **node, envp)
+static int	init_node(t_env **node, char **envp)
 {
-	*nodei = (t_env *)malloc(sizeof(t_env));
+	*node = (t_env *)malloc(sizeof(t_env));
 	if (!*(node))
-		return (NULL);
-	*node->var_name = NULL;
-	*node->var_content = NULL;
-	*node->line = ft_strdup(envp);
-	*node->next = NULL;
-	*node->prev = NULL;
-} */
+		return (-1);
+	(*node)->prev = NULL;
+	(*node)->next = NULL;
+	(*node)->var_name = NULL;
+	(*node)->var_content = NULL;
+	(*node)->line = ft_strdup(envp);
+	return (0);
+}
 
 t_env	*create_envnode(char *envp)
 {
@@ -46,21 +47,14 @@ t_env	*create_envnode(char *envp)
 	char	**splitting;
 	char	*tmp;
 
-	init_node(&newi, envp);
-	new = (t_env *)malloc(sizeof(t_env));
-	if (!new)
+	if (init_node(&newi, envp) == -1)
 		return (NULL);
-	new->var_name = NULL;
-	new->var_content = NULL;
-	new->line = ft_strdup(envp);
-	new->next = NULL;
-	new->prev = NULL;
 	splitting = ft_split(new->line, '=');
 	if (splitting)
 	{
 		if (splitting[0][ft_strlen(splitting[0]) - 1] == '+')
 		{
-			tmp = trimmer_quotes(splitting[0], (int)'+');
+			tmp = trimmer_quotes(splitting[0], (int) '+');
 			free(splitting[0]);
 			splitting[0] = tmp;
 		}
