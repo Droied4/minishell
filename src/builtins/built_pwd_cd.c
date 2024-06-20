@@ -21,6 +21,7 @@ int	execute_pwd(void)
 		ft_dprintf(STDOUT_FILENO, "%s\n", s);
 		return (EXIT_SUCCESS);
 	}
+	ft_dprintf(STDERR_FILENO, "%s\n", PWD_ERR_MSG);
 	return (EXIT_FAILURE);
 }
 
@@ -31,7 +32,7 @@ static void	update_currentpwd_cd(t_env *lst)
 
 	path[0] = '\0';
 	getcwd(path, sizeof(path));
-	var_node = found_var("PWD", lst);
+	var_node = found_var("PWD", lst, ft_strlen("PWD"), NULL);
 	if (!var_node)
 		return ;
 	free(var_node->var_content);
@@ -42,7 +43,7 @@ static void	update_oldpwd_cd(t_env *lst, char *old)
 {
 	t_env	*var_node;
 
-	var_node = found_var("OLDPWD", lst);
+	var_node = found_var("OLDPWD", lst, ft_strlen("OLDPWD"), NULL);
 	if (!var_node)
 		return ;
 	free(var_node->var_content);
@@ -58,7 +59,7 @@ int	execute_cd(t_shell *sh, char *path, char **env)
 		sh->env = create_lst_env(env);
 	if (sh->tokens->next == NULL)
 	{
-		home = found_var("HOME", sh->env);
+		home = found_var("HOME", sh->env, ft_strlen("HOME"), NULL);
 		path = home->var_content;
 	}
 	else

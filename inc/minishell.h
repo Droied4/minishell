@@ -115,7 +115,7 @@ void							expansor(t_shell *sh);
 char							**split_quotes(char *str);
 char							*expand_data(t_shell *sh, char *str);
 char							*expand_string(t_shell *sh, char *str);
-char							*expansion_final(t_shell *sh, char *str);
+char							*expansion_final(t_shell *sh, char *str, int i);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
@@ -318,18 +318,20 @@ int								execute_pwd(void);
 void							printlst(t_token *lst);
 int								ft_del_env(t_env **lst);
 void							free_matrix(char ***sh);
-int								execute_exit(t_shell *sh, int io[2]);
 int								token_size(t_token *tokens);
 void							execute_echo(t_shell *shell);
 int								check_exp_variable(t_env *tok);
 int								found_equal(char *line, char ch);
 void							print_lst_env(t_env *lst, int i);
-t_env							*found_var(char *var, t_env *lst);
+int								execute_exit(t_shell *sh, int io[2]);
 void							execute_env(t_shell *sh, char **env);
 void							execute_export(t_shell *sh, char **env);
-int								execute_builtins(t_shell *looking, char **env, int io[2]);
 int								execute_cd(t_shell *sh, char *path, char **env);
 void							execute_unset(t_shell **sh, t_env *node,
 									char **env);
+int								execute_builtins(t_shell *looking, char **env,
+									int io[2]);
+t_env							*found_var(char *var, t_env *lst, size_t len,
+									char *tmp_l);
 
 #endif

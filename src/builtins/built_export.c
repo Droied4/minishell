@@ -6,35 +6,32 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/05/30 20:04:57 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/18 16:31:20 by avolcy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*found_var(char *cmd_line, t_env *lst)
+t_env	*found_var(char *cmd_line, t_env *lst, size_t len, char *tmp_l)
 {
-	size_t	len;
 	t_env	*tmp;
 	char	**line;
 
-	len = ft_strlen(cmd_line);
 	if (len == 0)
 		return (NULL);
 	line = ft_split(cmd_line, '=');
 	if (line[0][ft_strlen(line[0]) - 1] == '+')
-  {
-    char *tmp = trimmer_quotes(line[0], (int) '+');
-    free (line[0]);
-		line[0] = tmp;
-  }
+	{
+		tmp_l = trimmer_quotes(line[0], (int) '+');
+		free(line[0]);
+		line[0] = tmp_l;
+	}
 	tmp = lst;
 	while (tmp)
 	{
+		len = ft_strlen(tmp->var_name);
 		if (ft_strlen(line[0]) > ft_strlen(tmp->var_name))
 			len = ft_strlen(line[0]);
-		else
-			len = ft_strlen(tmp->var_name);
 		if (ft_strncmp(line[0], tmp->var_name, len) == 0)
 			return (free_matrix(&line), tmp);
 		tmp = tmp->next;
@@ -47,24 +44,23 @@ t_env	*found_var(char *cmd_line, t_env *lst)
 static void	update_var(char *s, t_env *var_node)
 {
 	char	**split;
+	char	*tmp;
 
+	free(var_node->line);
 	var_node->line = ft_strdup(s);
 	split = ft_split(var_node->line, '=');
 	if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)
 	{
 		if (split[1][0] == SQUOT || split[1][0] == DQUOT)
-    {
-      char *tmp = trimmer_quotes(split[1], split[1][0]);
-      free(split[1]);
+		{
+			tmp = trimmer_quotes(split[1], split[1][0]);
+			free(split[1]);
 			split[1] = tmp;
-    }
+		}
 		var_node->var_content = ft_strjoin2(var_node->var_content, split[1]);
 	}
 	else
-	{
-		var_node->var_name = split[0];
 		var_node->var_content = split[1];
-	}
 	free_matrix(&split);
 }
 
@@ -86,12 +82,13 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 		sh.tokens = sh.tokens->next;
 		if (sh.tokens && !is_correct_name(sh.tokens->data))
 		{
-			new = found_var(sh.tokens->data, *lst_env);
+			new = found_var(sh.tokens->data, *lst_env,
+					ft_strlen(sh.tokens->data), NULL);
 			if (!new)
 			{
 				new = create_envnode(sh.tokens->data);
 				if (!new)
-					return (free(new), NULL);
+					return (NULL);
 				add_node_to_lstenv(lst_env, &new);
 			}
 			else

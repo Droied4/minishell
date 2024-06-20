@@ -12,14 +12,24 @@
 
 #include "minishell.h"
 
+static void	free_node(t_env **node)
+{
+	free((*node)->line);
+	free((*node)->var_name);
+	free((*node)->var_content);
+	free(*node);
+}
+
 void	execute_unset(t_shell **sh, t_env *node, char **env)
 {
+	char	*data;
 	t_env	*left;
 	t_env	*right;
 
 	if ((*sh)->env == NULL)
 		(*sh)->env = create_lst_env(env);
-	node = found_var((*sh)->tokens->next->data, (*sh)->env);
+	data = (*sh)->tokens->next->data;
+	node = found_var(data, (*sh)->env, ft_strlen(data), NULL);
 	if (!node)
 		return ;
 	left = node->prev;
@@ -35,8 +45,5 @@ void	execute_unset(t_shell **sh, t_env *node, char **env)
 		if (right)
 			right->prev = left;
 	}
-	free(node->line);
-	free(node->var_name);
-	free(node->var_content);
-	free(node);
+	free_node(&node);
 }

@@ -32,21 +32,22 @@
 		perror("Error : ");                            \
 	}
 */
-# define SQUOT '\''
-# define DQUOT '\"'
 # define STD_IN 0
 # define STD_OUT 1
+# define SQUOT '\''
+# define DQUOT '\"'
 # define DASH_N "-n"
-# define STR_REDIR "|s><"
 # define CTRL_C SIGINT
+# define STR_REDIR "|s><"
 # define EXIT_STATUS "127"
 # define CTRL_BSLASH SIGQUIT
 # define STR_META "|><\'\"$"
-# define STR_BUILTINS "echo cd pwd export unset env exit"
 # define NUM_ARG_REQ "numeric argument required\n"
-# define TOO_MANY_ARG "Pongshell: exit: too many arguments\n"
-# define WRONG_ARG "Dear evaluator\nWe should not consider this case\n"
+# define STR_BUILTINS "echo cd pwd export unset env exit"
+# define TOO_MANY_ARG "🏓Pongshell: exit: too many arguments\n"
 # define WRONG_ARG_1 "With love...🤓🤓\n🏓PongShell ✌🏼✌🏾\n"
 # define SHELL_ERROR "🏓PongShell ERROR !\nTry with a non NULL env\n"
+# define WRONG_ARG "Dear evaluator\nWe should not consider this case\n"
+# define PWD_ERR_MSG "🏓Pongshell: pwd: can't get executed on Invalid Path !"
 
 #endif
