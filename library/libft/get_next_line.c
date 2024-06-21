@@ -96,7 +96,7 @@ char	*ft_read(int fd, char *storage)
 		if (bytes_read > 0)
 		{
 			buffer[bytes_read] = '\0';
-			storage = ft_strjoin2(storage, buffer);
+			storage = ft_strjoin2(&storage, buffer);
 		}
 	}
 	free(buffer);

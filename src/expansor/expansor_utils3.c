@@ -98,7 +98,7 @@ char	*join_split(char **split)
 	join = NULL;
 	while (split[i])
 	{
-		tmp = ft_strjoin2(join, split[i]);
+		tmp = ft_strjoin2(&join, split[i]);
 		if (!tmp)
 			return (free(join), NULL);
 		join = tmp;

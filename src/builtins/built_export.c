@@ -45,9 +45,10 @@ static void	update_var(char *s, t_env *var_node)
 {
 	char	**split;
 	char	*tmp;
+  char  *new_cont;
 
 	free(var_node->line);
-	var_node->line = ft_strdup(s);
+  var_node->line = ft_strdup(s);
 	split = ft_split(var_node->line, '=');
 	if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)
 	{
@@ -57,10 +58,13 @@ static void	update_var(char *s, t_env *var_node)
 			free(split[1]);
 			split[1] = tmp;
 		}
-		var_node->var_content = ft_strjoin2(var_node->var_content, split[1]);
+		new_cont = ft_strjoin2(&var_node->var_content, split[1]);
 	}
 	else
-		var_node->var_content = split[1];
+		new_cont = ft_strdup(split[1]);
+  if (var_node->var_content)
+    free(var_node->var_content);
+  var_node->var_content = new_cont;
 	free_matrix(&split);
 }
 

@@ -45,7 +45,6 @@ char	**convert_env_dchar(t_env *lst_env, char **env, int i)
 
 	if (!lst_env)
 		lst_env = create_lst_env(env);
-	print_lst_env(lst_env, 0);
 	size = ft_lstenv_size(lst_env);
 	new = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!new)

@@ -55,31 +55,31 @@ char	*ft_strchr(const char *string, int c)
 */
 /*=================FT_STRJOIN=====================*/
 
-char	*ft_strjoin2(char *storage, char *buffer)
+char	*ft_strjoin2(char **storage, char *buffer)
 {
 	int		i;
 	int		j;
 	size_t	len;
 	char	*new_storage;
 
-	if (storage == NULL)
+	if (*storage == NULL)
 	{
-		storage = malloc(sizeof(char) * 1);
-		if (!storage)
+		*storage = malloc(sizeof(char) * 1);
+		if (!*storage)
 			return (NULL);
-		storage[0] = '\0';
+		(*storage)[0] = '\0';
 	}
-	len = ft_strlen(storage);
+	len = ft_strlen(*storage);
 	new_storage = malloc(sizeof(char) * (ft_strlen(buffer) + len + 1));
 	if (!new_storage)
-		return (ft_clean_up(&storage));
+		return (ft_clean_up(storage));
 	i = -1;
-	while (storage[++i])
-		new_storage[i] = storage[i];
+	while ((*storage)[++i])
+		new_storage[i] = (*storage)[i];
 	j = 0;
 	while (buffer[j])
 		new_storage[i++] = buffer[j++];
 	new_storage[i] = '\0';
-	ft_clean_up(&storage);
+	ft_clean_up(storage);
 	return (new_storage);
 }
