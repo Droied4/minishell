@@ -32,7 +32,7 @@ t_env	*found_var(char *cmd_line, t_env *lst, size_t len, char *tmp_l)
 		len = ft_strlen(tmp->var_name);
 		if (ft_strlen(line[0]) > ft_strlen(tmp->var_name))
 			len = ft_strlen(line[0]);
-		if (ft_strncmp(line[0], tmp->var_name, len) == 0)
+		if (ft_strncmp(line[0], tmp->var_name, len + 1) == 0)
 			return (free_matrix(&line), tmp);
 		tmp = tmp->next;
 	}
@@ -49,8 +49,10 @@ static void	update_var(char *s, t_env *var_node)
 
 	free(var_node->line);
   var_node->line = ft_strdup(s);
+  if (!found_char(var_node->line, '='))
+    return ;
 	split = ft_split(var_node->line, '=');
-	if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)
+  if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)
 	{
 		if (split[1][0] == SQUOT || split[1][0] == DQUOT)
 		{
@@ -60,7 +62,9 @@ static void	update_var(char *s, t_env *var_node)
 		}
 		new_cont = ft_strjoin2(&var_node->var_content, split[1]);
 	}
-	else
+	else if (!split[1])
+		new_cont = ft_strdup("");
+  else
 		new_cont = ft_strdup(split[1]);
   if (var_node->var_content)
     free(var_node->var_content);

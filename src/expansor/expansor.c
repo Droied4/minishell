@@ -27,9 +27,16 @@ char	*expansion_final(t_shell *sh, char *str, int i)
 		if (env_split[i][0] == '$')
 			var_node = found_var(&env_split[i][1], sh->env,
 					ft_strlen(&env_split[i][1]), NULL);
+    if (!var_node && env_split[i][0] == '$')
+    {
+      tmp = ft_strdup("");
+      free(env_split[i]);
+      env_split[i] = tmp;
+    }
 		if (var_node)
 		{
 			tmp = ft_strdup(var_node->var_content);
+      env_split[i] = ft_strdup("");
 			free(env_split[i]);
 			env_split[i] = tmp;
 		}
@@ -129,7 +136,7 @@ void	expansor(t_shell *sh)
 	else if (found_char(sh->line, '$'))
 	{
 		tmp = expand_data(sh, sh->line);
-		if (tmp[0] != '\0')
+		if (tmp[0] != '\0' || ft_strlen(tmp) == 0)
 		{
 			free(sh->line);
 			sh->line = tmp;

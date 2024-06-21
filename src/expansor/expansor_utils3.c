@@ -60,8 +60,10 @@ int	found_char(char *data, char c)
 		return (0);
 	while (data[i])
 	{
-		if (data[i] == c && data[i + 1])
+		if (data[i] == '$' && data[i + 1])
 			return (1);
+    else if (data[i] == c && c != '$')
+      return (1);
 		i++;
 	}
 	return (0);
