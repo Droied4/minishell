@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:36:20 by avolcy            #+#    #+#             */
-/*   Updated: 2024/06/14 16:55:20 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:20:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ char	*expand_string(t_shell *sh, char *str)
 			expanded = tmp;
 		}
 		if (!ft_strncmp(expanded, str, ft_strlen(str)))
+		{
+			free(expanded);
 			expanded = ft_strdup("");
+		}
 	}
 	else
 		expanded = ft_strdup(str);
