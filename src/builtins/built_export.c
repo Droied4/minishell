@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:51:22 by avolcy            #+#    #+#             */
-/*   Updated: 2024/06/18 16:31:20 by avolcy           ###   ########.fr       */
+/*   Updated: 2024/06/21 11:54:55 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,15 @@ static void	update_var(char *s, t_env *var_node)
 		var_node->var_content = ft_strjoin2(var_node->var_content, split[1]);
 	}
 	else
-		var_node->var_content = split[1];
+	{
+		if (var_node->var_content)
+		{
+			free(var_node->var_content);
+			var_node->var_content = NULL;
+		}
+		if (split[1])
+			var_node->var_content = ft_strdup(split[1]);
+	}
 	free_matrix(&split);
 }
 
