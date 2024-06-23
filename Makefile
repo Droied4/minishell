@@ -17,7 +17,7 @@
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g -fsanitize=address
 
 # Paths
 SOURCES_PATH    = ./src

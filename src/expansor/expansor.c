@@ -15,12 +15,13 @@
 char	*expansion_final(t_shell *sh, char *str, int i)
 {
 	char	*tmp;
+	char	*tmp2;
 	t_env	*var_node;
 	char	**env_split;
 
 	env_split = split_env_var(str);
 	if (!env_split)
-		return (NULL);
+		return (free_matrix(&env_split), NULL);
 	while (env_split[i])
 	{
 		var_node = NULL;
@@ -36,14 +37,13 @@ char	*expansion_final(t_shell *sh, char *str, int i)
 		if (var_node)
 		{
 			tmp = ft_strdup(var_node->var_content);
-      env_split[i] = ft_strdup("");
 			free(env_split[i]);
 			env_split[i] = tmp;
 		}
 		i++;
 	}
-	tmp = join_split(env_split);
-	return (free_matrix(&env_split), tmp);
+	tmp2 = join_split(env_split);
+	return (free_matrix(&env_split), tmp2);
 }
 
 char	*expand_string(t_shell *sh, char *str)
@@ -108,6 +108,7 @@ char	*expand_data(t_shell *sh, char *str)
 	int		i;
 	char	**smart_split;
 	char	*tmp;
+	char	*tmp2;
 
 	smart_split = split_quotes(str);
 	if (!smart_split)
@@ -122,9 +123,9 @@ char	*expand_data(t_shell *sh, char *str)
 		smart_split[i] = tmp;
 		i++;
 	}
-	tmp = join_split(smart_split);
+	tmp2 = join_split(smart_split);
 	free_matrix(&smart_split);
-	return (tmp);
+	return (tmp2);
 }
 
 void	expansor(t_shell *sh)

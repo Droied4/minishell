@@ -1,0 +1,133 @@
+[1mdiff --git a/Makefile b/Makefile[m
+[1mindex 5061d85..49ba6b7 100644[m
+[1m--- a/Makefile[m
+[1m+++ b/Makefile[m
+[36m@@ -17,7 +17,7 @@[m
+ NAME        = minishell[m
+ OS = $(shell uname)[m
+ CC = cc[m
+[31m-CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g #-fsanitize=address[m
+[32m+[m[32mCFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g -fsanitize=address[m
+ [m
+ # Paths[m
+ SOURCES_PATH    = ./src[m
+[1mdiff --git a/src/builtins/built_export.c b/src/builtins/built_export.c[m
+[1mindex 48a3573..993517f 100644[m
+[1m--- a/src/builtins/built_export.c[m
+[1m+++ b/src/builtins/built_export.c[m
+[36m@@ -47,10 +47,10 @@[m [mstatic void	update_var(char *s, t_env *var_node)[m
+ 	char	*tmp;[m
+   char  *new_cont;[m
+ [m
+[32m+[m[32m  if (!found_char(s, '='))[m
+[32m+[m[32m    return ;[m
+ 	free(var_node->line);[m
+   var_node->line = ft_strdup(s);[m
+[31m-  if (!found_char(var_node->line, '='))[m
+[31m-    return ;[m
+ 	split = ft_split(var_node->line, '=');[m
+   if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)[m
+ 	{[m
+[1mdiff --git a/src/expansor/expansor.c b/src/expansor/expansor.c[m
+[1mindex 70db5ea..6519525 100644[m
+[1m--- a/src/expansor/expansor.c[m
+[1m+++ b/src/expansor/expansor.c[m
+[36m@@ -15,12 +15,13 @@[m
+ char	*expansion_final(t_shell *sh, char *str, int i)[m
+ {[m
+ 	char	*tmp;[m
+[32m+[m	[32mchar	*tmp2;[m
+ 	t_env	*var_node;[m
+ 	char	**env_split;[m
+ [m
+ 	env_split = split_env_var(str);[m
+ 	if (!env_split)[m
+[31m-		return (NULL);[m
+[32m+[m		[32mreturn (free_matrix(&env_split), NULL);[m
+ 	while (env_split[i])[m
+ 	{[m
+ 		var_node = NULL;[m
+[36m@@ -36,14 +37,13 @@[m [mchar	*expansion_final(t_shell *sh, char *str, int i)[m
+ 		if (var_node)[m
+ 		{[m
+ 			tmp = ft_strdup(var_node->var_content);[m
+[31m-      env_split[i] = ft_strdup("");[m
+ 			free(env_split[i]);[m
+ 			env_split[i] = tmp;[m
+ 		}[m
+ 		i++;[m
+ 	}[m
+[31m-	tmp = join_split(env_split);[m
+[31m-	return (free_matrix(&env_split), tmp);[m
+[32m+[m	[32mtmp2 = join_split(env_split);[m
+[32m+[m	[32mreturn (free_matrix(&env_split), tmp2);[m
+ }[m
+ [m
+ char	*expand_string(t_shell *sh, char *str)[m
+[36m@@ -108,6 +108,7 @@[m [mchar	*expand_data(t_shell *sh, char *str)[m
+ 	int		i;[m
+ 	char	**smart_split;[m
+ 	char	*tmp;[m
+[32m+[m	[32mchar	*tmp2;[m
+ [m
+ 	smart_split = split_quotes(str);[m
+ 	if (!smart_split)[m
+[36m@@ -122,9 +123,9 @@[m [mchar	*expand_data(t_shell *sh, char *str)[m
+ 		smart_split[i] = tmp;[m
+ 		i++;[m
+ 	}[m
+[31m-	tmp = join_split(smart_split);[m
+[32m+[m	[32mtmp2 = join_split(smart_split);[m
+ 	free_matrix(&smart_split);[m
+[31m-	return (tmp);[m
+[32m+[m	[32mreturn (tmp2);[m
+ }[m
+ [m
+ void	expansor(t_shell *sh)[m
+[1mdiff --git a/src/expansor/expansor_utils1.c b/src/expansor/expansor_utils1.c[m
+[1mindex e03e339..861969b 100644[m
+[1m--- a/src/expansor/expansor_utils1.c[m
+[1m+++ b/src/expansor/expansor_utils1.c[m
+[36m@@ -38,15 +38,20 @@[m [mchar	**split_env_var(char *str)[m
+ 	char	**splitted;[m
+ [m
+ 	len = count_len(str);[m
+[31m-	splitted = malloc(sizeof(char *) * (len + 1));[m
+[32m+[m	[32msplitted = (char **)malloc(sizeof(char *) * (len + 1));[m
+[32m+[m[32m  if (!splitted)[m
+[32m+[m[32m    return (NULL);[m
+ 	i = 0;[m
+[32m+[m[32m  position = 0;[m
+ 	while (i < len)[m
+ 	{[m
+ 		splitted[i] = find_env_part(str, &position);[m
+[31m-		str = &str[position];[m
+[32m+[m		[32mif (!splitted[i])[m
+[32m+[m[32m      return (free_matrix(&splitted), NULL);[m
+[32m+[m[32m    str = str + position;[m
+ 		i++;[m
+ 	}[m
+[31m-	splitted[i] = NULL;[m
+[32m+[m	[32msplitted[len] = NULL;[m
+ 	return (splitted);[m
+ }[m
+ [m
+[36m@@ -58,14 +63,16 @@[m [mchar	*find_env_part(char *str, int *pos)[m
+ [m
+ 	len = count_len_env_part(str);[m
+ 	*pos = len;[m
+[31m-	part = malloc(sizeof(char) * (len + 1));[m
+[32m+[m	[32mpart = (char *)malloc(sizeof(char) * (len + 1));[m
+[32m+[m[32m  if (!part)[m
+[32m+[m[32m    return (NULL);[m
+ 	i = 0;[m
+ 	while (i < len)[m
+ 	{[m
+ 		part[i] = str[i];[m
+ 		i++;[m
+ 	}[m
+[31m-	part[i] = '\0';[m
+[32m+[m	[32mpart[len] = '\0';[m
+ 	return (part);[m
+ }[m
+ [m

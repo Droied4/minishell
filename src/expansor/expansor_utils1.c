@@ -38,15 +38,20 @@ char	**split_env_var(char *str)
 	char	**splitted;
 
 	len = count_len(str);
-	splitted = malloc(sizeof(char *) * (len + 1));
+	splitted = (char **)malloc(sizeof(char *) * (len + 1));
+  if (!splitted)
+    return (NULL);
 	i = 0;
+  position = 0;
 	while (i < len)
 	{
 		splitted[i] = find_env_part(str, &position);
-		str = &str[position];
+		if (!splitted[i])
+      return (free_matrix(&splitted), NULL);
+    str = str + position;
 		i++;
 	}
-	splitted[i] = NULL;
+	splitted[len] = NULL;
 	return (splitted);
 }
 
@@ -58,14 +63,16 @@ char	*find_env_part(char *str, int *pos)
 
 	len = count_len_env_part(str);
 	*pos = len;
-	part = malloc(sizeof(char) * (len + 1));
+	part = (char *)malloc(sizeof(char) * (len + 1));
+  if (!part)
+    return (NULL);
 	i = 0;
 	while (i < len)
 	{
 		part[i] = str[i];
 		i++;
 	}
-	part[i] = '\0';
+	part[len] = '\0';
 	return (part);
 }
 

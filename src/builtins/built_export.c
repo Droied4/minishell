@@ -47,10 +47,10 @@ static void	update_var(char *s, t_env *var_node)
 	char	*tmp;
   char  *new_cont;
 
+  if (!found_char(s, '='))
+    return ;
 	free(var_node->line);
   var_node->line = ft_strdup(s);
-  if (!found_char(var_node->line, '='))
-    return ;
 	split = ft_split(var_node->line, '=');
   if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)
 	{
