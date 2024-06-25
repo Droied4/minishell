@@ -24,7 +24,7 @@ static void	write_in_pipe(t_shell *sh, char **doc, int p[2])
 {
 	char	*expanded_doc;
 
-	expanded_doc = expand_string(sh, *doc);
+	expanded_doc = expand_string(sh, *doc, NULL, NULL);
 	ft_putstr_fd(expanded_doc, p[1]);
 	ft_putstr_fd("\n", p[1]);
 	free(expanded_doc);

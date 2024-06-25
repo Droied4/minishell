@@ -41,18 +41,16 @@ t_env	*found_var(char *cmd_line, t_env *lst, size_t len, char *tmp_l)
 	return (NULL);
 }
 
-static void	update_var(char *s, t_env *var_node)
+static void	update_var(char *s, t_env *var_node, char *tmp, char *new_cont)
 {
 	char	**split;
-	char	*tmp;
-  char  *new_cont;
 
-  if (!found_char(s, '='))
-    return ;
+	if (!found_char(s, '='))
+		return ;
 	free(var_node->line);
-  var_node->line = ft_strdup(s);
+	var_node->line = ft_strdup(s);
 	split = ft_split(var_node->line, '=');
-  if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)
+	if (split[0][ft_strlen(split[0]) - 1] == '+' && split[1] != NULL)
 	{
 		if (split[1][0] == SQUOT || split[1][0] == DQUOT)
 		{
@@ -64,11 +62,11 @@ static void	update_var(char *s, t_env *var_node)
 	}
 	else if (!split[1])
 		new_cont = ft_strdup("");
-  else
+	else
 		new_cont = ft_strdup(split[1]);
-  if (var_node->var_content)
-    free(var_node->var_content);
-  var_node->var_content = new_cont;
+	if (var_node->var_content)
+		free(var_node->var_content);
+	var_node->var_content = new_cont;
 	free_matrix(&split);
 }
 
@@ -100,7 +98,7 @@ t_env	*exporting_var(t_shell sh, t_env **lst_env, t_env *new)
 				add_node_to_lstenv(lst_env, &new);
 			}
 			else
-				update_var(sh.tokens->data, new);
+				update_var(sh.tokens->data, new, NULL, NULL);
 		}
 	}
 	return (*lst_env);

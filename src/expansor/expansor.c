@@ -12,47 +12,37 @@
 
 #include "../../inc/minishell.h"
 
-char	*expansion_final(t_shell *sh, char *str, int i)
+char	*expansion_final(t_shell *sh, char **env_split, int i, char	*tmp)
 {
-	char	*tmp;
 	char	*tmp2;
 	t_env	*var_node;
-	char	**env_split;
 
-	env_split = split_env_var(str);
 	if (!env_split)
 		return (free_matrix(&env_split), NULL);
-	while (env_split[i])
+	while (env_split[++i])
 	{
 		var_node = NULL;
 		if (env_split[i][0] == '$')
 			var_node = found_var(&env_split[i][1], sh->env,
 					ft_strlen(&env_split[i][1]), NULL);
-    if (!var_node && env_split[i][0] == '$')
-    {
-      tmp = ft_strdup("");
-      free(env_split[i]);
-      env_split[i] = tmp;
-    }
+		if (!var_node && env_split[i][0] == '$')
+		{
+			tmp = ft_strdup("");
+			free(env_split[i]);
+			env_split[i] = tmp;
+		}
 		if (var_node)
 		{
 			tmp = ft_strdup(var_node->var_content);
 			free(env_split[i]);
 			env_split[i] = tmp;
 		}
-		i++;
 	}
-	tmp2 = join_split(env_split);
-	return (free_matrix(&env_split), tmp2);
+	return (tmp2 = join_split(env_split), free_matrix(&env_split), tmp2);
 }
 
-char	*expand_string(t_shell *sh, char *str)
+char	*expand_string(t_shell *sh, char *str, char *tmp, char *expanded)
 {
-	char	*tmp;
-	char	*expanded;
-
-	tmp = NULL;
-	expanded = NULL;
 	if (found_char(str, '$') && str[0] != SQUOT)
 	{
 		if (is_special_cases(str) != 0)
@@ -60,10 +50,10 @@ char	*expand_string(t_shell *sh, char *str)
 			expanded = special_cases(str, sh->exit_status);
 		}
 		else
-			expanded = expansion_final(sh, str, 0);
+			expanded = expansion_final(sh, split_env_var(str), -1, NULL);
 		if (expanded && found_char(expanded, '$'))
 		{
-			tmp = expansion_final(sh, expanded, 0);
+			tmp = expansion_final(sh, split_env_var(expanded), -1, NULL);
 			free(expanded);
 			expanded = tmp;
 		}
@@ -116,7 +106,7 @@ char	*expand_data(t_shell *sh, char *str)
 	i = 0;
 	while (smart_split[i])
 	{
-		tmp = expand_string(sh, smart_split[i]);
+		tmp = expand_string(sh, smart_split[i], NULL, NULL);
 		if (!tmp)
 			return (free_matrix(&smart_split), NULL);
 		free(smart_split[i]);

@@ -20,21 +20,21 @@ static void	free_node(t_env **node)
 	free(*node);
 }
 
-static int check_data(char *str)
+static int	check_data(char *str)
 {
-  int i;
-  int flag; 
+	int	i;
+	int	flag;
 
-  i = 0;
-  flag = 1;
-  if (!ft_isalpha(str[0]))
-    return (-1);
-  else 
-    while (ft_isalnum(str[i]) || str[i] == '_')
-      i++;
-  if (str[i])
-    return (-1);
-  return (flag);
+	i = 0;
+	flag = 1;
+	if (!ft_isalpha(str[0]))
+		return (-1);
+	else
+		while (ft_isalnum(str[i]) || str[i] == '_')
+			i++;
+	if (str[i])
+		return (-1);
+	return (flag);
 }
 
 void	execute_unset(t_shell **sh, t_env *node, char **env)
@@ -46,8 +46,8 @@ void	execute_unset(t_shell **sh, t_env *node, char **env)
 	if ((*sh)->env == NULL)
 		(*sh)->env = create_lst_env(env);
 	data = (*sh)->tokens->next->data;
-  if(check_data(data) == 1)
-	  node = found_var(data, (*sh)->env, ft_strlen(data), NULL);
+	if (check_data(data) == 1)
+		node = found_var(data, (*sh)->env, ft_strlen(data), NULL);
 	if (!node)
 		return ;
 	left = node->prev;

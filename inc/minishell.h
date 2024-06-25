@@ -114,8 +114,10 @@ t_redir							*generate_redirs(t_token *tokens);
 void							expansor(t_shell *sh);
 char							**split_quotes(char *str);
 char							*expand_data(t_shell *sh, char *str);
-char							*expand_string(t_shell *sh, char *str);
-char							*expansion_final(t_shell *sh, char *str, int i);
+char							*expansion_final(t_shell *sh, char **str, int i,
+									char *tmp);
+char							*expand_string(t_shell *sh, char *str,
+									char *tmp, char *expanded);
 
 /*
 ┏━━━━━━━━・▼・━━━━━━━━┓
