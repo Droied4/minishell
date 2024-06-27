@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:20:59 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/18 12:05:42 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:14:55 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	parse_redirections(t_shell *sh)
 	montage_redirections(tmp_tok, tmp_redir);
 	if (stock_of(sh, DLESS) > 16)
 	{
-		ft_dprintf(2, "Error : maximum here-document count exceeded");
+		ft_dprintf(2, "Error : maximum here-document count exceeded\n");
 		return (-1);
 	}
 	return (0);

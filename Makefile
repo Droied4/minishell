@@ -6,7 +6,7 @@
 #    By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 22:34:39 by deordone          #+#    #+#              #
-#    Updated: 2024/06/25 18:37:24 by avolcy           ###   ########.fr        #
+#    Updated: 2024/06/27 11:13:33 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@
 NAME        = minishell
 OS = $(shell uname)
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) #-g -fsanitize=leak
 
 # Paths
 SOURCES_PATH    = ./src
