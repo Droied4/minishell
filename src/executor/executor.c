@@ -6,7 +6,7 @@
 /*   By: avolcy <avolcy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 05:40:25 by deordone          #+#    #+#             */
-/*   Updated: 2024/06/13 23:53:53 by deordone         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:44:44 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,12 @@ void	executor(t_shell *sh)
 		sh->exit_status = smpl_cmd(sh);
 	else
 		sh->exit_status = connector(sh);
+	if (!sh->pro.w->cmd)
+	{
+			if (sh->pro.w->in != STD_IN)
+				close(sh->pro.w->in);
+			if (sh->pro.w->out != STD_OUT)
+				close(sh->pro.w->out);
+
+	}
 }
